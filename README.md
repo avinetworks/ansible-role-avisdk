@@ -20,7 +20,7 @@ Install docker to your machine.
       roles:
          - role: avinetworks.avisdk
       tasks:
-        avi_module:
+        avi_<module>:
           ......
 
 
