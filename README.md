@@ -6,7 +6,7 @@ Using this role, you will be able to use the latest version, and version specifi
 Requirements
 ------------
 
-This role requires Ansible 1.9.3 or higher. Requirements are listed in the metadata file.
+This role requires Ansible 2.0 or higher. Requirements are listed in the metadata file.
 
 
 Example Playbook
@@ -27,7 +27,7 @@ Install docker to your machine.
 License
 -------
 
-MIT
+BSD
 
 Author Information
 ------------------

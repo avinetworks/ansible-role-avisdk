@@ -10,4 +10,7 @@
   when: ansible_os_family == 'RedHat'
 
 - name: Install avisdk package
-  pip: name=avisdk state=latest
+  pip:
+      name: avisdk
+      state: "{{ (version == 'latest') | ternary(version, omit) }}"
+      version: "{{ (version == 'latest') | ternary(omit, version) }}"
