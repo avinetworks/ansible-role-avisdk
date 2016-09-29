@@ -1,3 +1,0 @@
-[submodule "library"]
-	path = library
-	url = git@github.com:avinetworks/avi_ansible_modules.git
