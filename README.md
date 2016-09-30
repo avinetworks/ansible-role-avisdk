@@ -10,12 +10,13 @@ This role requires Ansible 2.0 or higher. Requirements are listed in the metadat
 
 Available variables listed below, for default values (see `defaults/main.yml`)
 
-    version: 16.3b5
+    version: 16.3b5 # default is 'latest'
 
 
 ## Example Playbook
 
-Install docker to your machine.
+The following example is generic, applies to any module.
+
 ```
     ---
     - hosts: localhost
@@ -30,10 +31,15 @@ Install docker to your machine.
           ......
 ```
 
+This example shows usage of the avi_healthmonitor module included in this role.
+
 ```
     ---
     - hosts: localhost
       connection: local
+      roles:
+         - role: avinetworks.avisdk
+           version: {{ avisdk_version }}
       tasks:
       - avi_healthmonitor:
           controller: 10.10.27.90
@@ -52,7 +58,7 @@ Install docker to your machine.
           name: MyWebsite-HTTPS
 ```
 
-There are many more examples located at [https://github.com/avinetworks/avi-ansible-samples](https://github.com/avinetworks/avi-ansible-samples)
+There are many more examples located at [https://github.com/avinetworks/avi-ansible-samples](https://github.com/avinetworks/avi-ansible-samples) and also available in the "EXAMPLES" within each module.
 
 ## License
 
