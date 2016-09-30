@@ -4,37 +4,37 @@ galaxy_info:
   company: Avi Networks
   issue_tracker_url: https://github.com/avinetworks/ansible-role-avisdk/issues
   license: BSD
-  min_ansible_version: 1.9.3
+  min_ansible_version: 2.0.0
   github_branch: master
   platforms:
   - name: EL
     versions:
     - 6
     - 7
-  # - name: CentOS
-  #   versions:
-  #   - 6
-  #   - 7
-  # - name: OracleLinux
-  #   versions:
-  #   - 6
-  #   - 7
-  # - name: Fedora
-  #   versions:
-  #   - 22
-  #   - 23
-  #   - 24
-  # - name: Ubuntu
-  #   versions:
-  #   - precise
-  #   - trusty
-  #   - wily
-  #   - xenial
-  # - name: Debian
-  #   versions:
-  #   - jessie
-  #   - stretch
-  #   - wheezy
+  - name: CentOS
+    versions:
+    - 6
+    - 7
+  - name: OracleLinux
+    versions:
+    - 6
+    - 7
+  - name: Fedora
+    versions:
+    - 22
+    - 23
+    - 24
+  - name: Ubuntu
+    versions:
+    - precise
+    - trusty
+    - wily
+    - xenial
+  - name: Debian
+    versions:
+    - jessie
+    - stretch
+    - wheezy
   galaxy_tags:
   - avi
   - controller
