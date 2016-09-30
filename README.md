@@ -16,7 +16,7 @@ Available variables listed below, for default values (see `defaults/main.yml`)
 ## Example Playbook
 
 Install docker to your machine.
-
+```
     ---
     - hosts: localhost
       connection: local
@@ -28,9 +28,9 @@ Install docker to your machine.
       tasks:
         avi_<module>:
           ......
+```
 
-
-
+```
     ---
     - hosts: localhost
       connection: local
@@ -50,8 +50,9 @@ Install docker to your machine.
           successful_checks: 3
           type: HEALTH_MONITOR_HTTPS
           name: MyWebsite-HTTPS
+```
 
-There are many more examples located at [https://github.com/avinetworks/avi-ansible-samples] (https://github.com/avinetworks/avi-ansible-samples)
+There are many more examples located at [https://github.com/avinetworks/avi-ansible-samples](https://github.com/avinetworks/avi-ansible-samples)
 
 ## License
 
