@@ -11,14 +11,6 @@ galaxy_info:
     versions:
     - 6
     - 7
-  - name: CentOS
-    versions:
-    - 6
-    - 7
-  - name: OracleLinux
-    versions:
-    - 6
-    - 7
   - name: Fedora
     versions:
     - 22
