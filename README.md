@@ -1,4 +1,5 @@
 # avinetworks.avisdk
+[![Build Status](https://travis-ci.org/avinetworks/ansible-role-avisdk.svg?branch=master)](https://travis-ci.org/avinetworks/ansible-role-avisdk)
 
 Using this role, you will be able to use the latest version, and version specific Avi Ansible Modules.
 
@@ -67,3 +68,4 @@ BSD
 ## Author Information
 
 Eric Anderson
+[Avi Networks](http://avinetworks.com)
