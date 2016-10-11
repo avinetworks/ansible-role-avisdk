@@ -22,11 +22,9 @@ The following example is generic, applies to any module.
     ---
     - hosts: localhost
       connection: local
-      vars:
-        avisdk_version: 16.3b5
       roles:
         - role: avinetworks.avisdk
-          version: {{ avisdk_version }}
+          version: 16.3b5
       tasks:
         - avi_<module_name>:
           controller: 10.10.27.90
@@ -43,7 +41,6 @@ This example shows usage of the avi_healthmonitor module included in this role.
       connection: local
       roles:
         - role: avinetworks.avisdk
-          version: {{ avisdk_version }}
       tasks:
         - avi_healthmonitor:
             controller: 10.10.27.90
