@@ -22,7 +22,6 @@ Available variables listed below, for default values (see `defaults/main.yml`)
 
     version: 16.3b5 # default is 'latest'
 
-
 ## Example Playbook
 
 The following example is generic, applies to any module.
