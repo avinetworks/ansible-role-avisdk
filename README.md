@@ -10,7 +10,9 @@ This role requires Ansible 2.0 or higher. Requirements are listed in the metadat
 ## Installation
 
 To install the AviSDK Ansible Module, please issue the command on the machine you will run Ansible from.
-  ansible-galaxy install avinetworks.avisdk
+```
+ansible-galaxy install avinetworks.avisdk
+```
 
 For more information please visit http://docs.ansible.com/ansible/galaxy.html
 
