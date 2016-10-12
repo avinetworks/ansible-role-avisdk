@@ -1,0 +1,3 @@
+---
+- name: Install python-setuptools | APT
+  apt: name=python-setuptools

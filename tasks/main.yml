@@ -1,19 +1,16 @@
 ---
 # tasks file for avinetworks.avisdk
-
-- name: Install python-setuptools | Debian
-  apt: name=python-setuptools
-  when: ansible_os_family == 'Debian'
-
-- name: Install python-setuptools | RedHat
-  yum: name=python-setuptools
-  when: ansible_os_family == 'RedHat'
+- name: Install python-setuptools
+  include: "{{ ansible_pkg_mgr }}.yml"
+  when: install_sdk
 
 - name: Install pip
   easy_install: name=pip
+  when: install_sdk
 
 - name: Install avisdk package
   pip:
       name: avisdk
       state: "{{ (version == 'latest') | ternary(version, omit) }}"
       version: "{{ (version == 'latest') | ternary(omit, version) }}"
+  when: install_sdk
