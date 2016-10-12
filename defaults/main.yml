@@ -1,2 +1,2 @@
 version: latest
-install_sdk: false
+install_sdk: true
