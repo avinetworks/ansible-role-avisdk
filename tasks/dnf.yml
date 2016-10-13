@@ -1,4 +1,4 @@
 ---
 - name: Install python-setuptools | dnf
-  yum: name=python-setuptools
+  dnf: name=python-setuptools
   delegate_to: localhost
