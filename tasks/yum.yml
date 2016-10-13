@@ -1,3 +1,4 @@
 ---
 - name: Install python-setuptools | yum
   yum: name=python-setuptools
+  delegate_to: localhost
