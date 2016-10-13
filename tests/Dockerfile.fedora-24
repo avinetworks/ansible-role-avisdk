@@ -2,7 +2,7 @@ FROM fedora:24
 
 # Install Ansible
 RUN dnf -y update; dnf clean all;
-RUN dnf -y install epel-release
+# RUN dnf -y install epel-release
 RUN dnf -y install python-dnf git ansible sudo
 RUN dnf clean all
 
