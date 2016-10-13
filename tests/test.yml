@@ -9,7 +9,17 @@
         - unzip
         - sudo
         - which
-      when: ansible_os_family == 'RedHat'
+      when: ansible_os_family == 'RedHat' and not ansible_distribution == 'Fedora'
+
+    - name: Ensure build dependencies are installed (Fedora).
+      dnf: 'name="{{ item }}" state=present'
+      with_items:
+        - "@Development tools"
+        - tar
+        - unzip
+        - sudo
+        - which
+      when: ansible_distribution == 'Fedora'
 
     - name: Ensure build dependencies are installed (Debian).
       apt: 'name="{{ item }}" state=installed'
