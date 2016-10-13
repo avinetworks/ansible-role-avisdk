@@ -3,10 +3,12 @@
 - name: Install python-setuptools
   include: "{{ ansible_pkg_mgr }}.yml"
   when: install_sdk
+  delegate_to: localhost
 
 - name: Install pip
   easy_install: name=pip
   when: install_sdk
+  delegate_to: localhost
 
 - name: Install avisdk package
   pip:
@@ -14,3 +16,4 @@
       state: "{{ (version == 'latest') | ternary(version, omit) }}"
       version: "{{ (version == 'latest') | ternary(omit, version) }}"
   when: install_sdk
+  delegate_to: localhost

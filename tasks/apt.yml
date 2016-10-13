@@ -1,3 +1,4 @@
 ---
-- name: Install python-setuptools | APT
+- name: Install python-setuptools | apt
   apt: name=python-setuptools
+  delegate_to: localhost
