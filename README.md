@@ -32,7 +32,8 @@ The following example is generic, applies to any module.
       connection: local
       roles:
         - role: avinetworks.avisdk
-          version: 16.3b5
+          avisdk_version: 16.3b5
+          avisdk_install: true
       tasks:
         - avi_<module_name>:
           controller: 10.10.27.90
