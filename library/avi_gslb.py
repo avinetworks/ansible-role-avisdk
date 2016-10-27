@@ -23,10 +23,8 @@
 #
 
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
 EXAMPLES = """
 - code: 'avi_gslb controller=10.10.25.42 username=admin '
@@ -80,12 +78,11 @@ options:
         type: integer
     dns_configs:
         description:
-            - Dns configuration for this GSLB. GslbService FQDNmust be a member of this rule-set 
+            - Sub domain configuration for this Gslb. GslbService FQDN must be a match one of these subdomains. 
         type: DNSConfig
-    gslb_leader_cluster_uuid:
+    leader_cluster_uuid:
         description:
-            - Mark this Site Controller Cluster as leader of GSLB configuration. This is the one among the site-controller-sites
-        required: true
+            - Mark this Site as leader of Gslb configuration.  This is the one among the sites.
         type: string
     name:
         description:
@@ -97,10 +94,10 @@ options:
             - Frequency with which group members communicate.
         default: 15
         type: integer
-    site_controller_clusters:
+    sites:
         description:
-            - Select Site Controller Cluster belonging to this GSLB
-        type: SiteControllerCluster
+            - Select Site belonging to this Gslb.
+        type: GslbSite
     tenant_ref:
         description:
             - Not present. object ref Tenant.
@@ -146,7 +143,7 @@ def main():
                 dns_configs=dict(
                     type='list',
                     ),
-                gslb_leader_cluster_uuid=dict(
+                leader_cluster_uuid=dict(
                     type='str',
                     ),
                 name=dict(
@@ -155,7 +152,7 @@ def main():
                 send_interval=dict(
                     type='int',
                     ),
-                site_controller_clusters=dict(
+                sites=dict(
                     type='list',
                     ),
                 tenant_ref=dict(
@@ -172,61 +169,8 @@ def main():
                     ),
                 ),
         )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
-
-        state = module.params['state']
-        name = module.params['name']
-        sensitive_fields = set([])
-
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
-
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'gslb', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
-                'gslb', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'gslb/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('gslb', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
+        return avi_ansible_api(module, 'gslb',
+                               set([]))
     except:
         raise
 

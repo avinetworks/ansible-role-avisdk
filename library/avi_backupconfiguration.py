@@ -23,10 +23,8 @@
 #
 
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
 EXAMPLES = """
 - code: 'avi_backupconfiguration controller=10.10.25.42 username=admin '
@@ -73,6 +71,10 @@ options:
         required: false
         default: present
         choices: ["absent","present"]
+    backup_passphrase:
+        description:
+            - Passphrase of backup configuration
+        type: string
     maximum_backups_stored:
         description:
             - Rotate the backup files based on this count.
@@ -85,7 +87,7 @@ options:
         type: string
     remote_directory:
         description:
-            - Remote Directory.
+            - Directory at remote destination with write permission for ssh user.
         type: string
     remote_hostname:
         description:
@@ -137,6 +139,9 @@ def main():
                 tenant_uuid=dict(default=''),
                 state=dict(default='present',
                            choices=['absent', 'present']),
+                backup_passphrase=dict(
+                    type='str',
+                    ),
                 maximum_backups_stored=dict(
                     type='int',
                     ),
@@ -169,61 +174,8 @@ def main():
                     ),
                 ),
         )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
-
-        state = module.params['state']
-        name = module.params['name']
-        sensitive_fields = set([])
-
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
-
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'backupconfiguration', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
-                'backupconfiguration', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'backupconfiguration/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('backupconfiguration', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
+        return avi_ansible_api(module, 'backupconfiguration',
+                               set(['backup_passphrase']))
     except:
         raise
 
