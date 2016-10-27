@@ -1,5 +1,8 @@
 # avinetworks.avisdk
+
 [![Build Status](https://travis-ci.org/avinetworks/ansible-role-avisdk.svg?branch=master)](https://travis-ci.org/avinetworks/ansible-role-avisdk)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-avinetworks.avisdk-blue.svg)](https://galaxy.ansible.com/avinetworks/avisdk/)
+
 
 Using this role, you will be able to use the latest version, and version specific Avi Ansible Modules.
 
@@ -79,7 +82,7 @@ There are many more examples located at [https://github.com/avinetworks/avi-ansi
 
 ## License
 
-BSD
+MIT
 
 ## Author Information
 
