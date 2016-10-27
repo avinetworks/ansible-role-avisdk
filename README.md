@@ -5,6 +5,9 @@ Using this role, you will be able to use the latest version, and version specifi
 
 ## Requirements
 
+ - python >= 2.6
+ - avisdk
+
 This role requires Ansible 2.0 or higher. Requirements are listed in the metadata file.
 
 ## Installation
@@ -22,8 +25,8 @@ Available variables listed below, for default values (see `defaults/main.yml`)
 
 ```
 
+avisdk_install: true    # default is false allows auto-installation of avisdk python package to localhost
 avisdk_version: 16.3b5  # default is 'latest'
-avisdk_install: true    # default is false
 ```
 
 ## Example Playbook
