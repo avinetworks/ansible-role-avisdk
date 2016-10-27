@@ -79,7 +79,7 @@ There are many more examples located at [https://github.com/avinetworks/avi-ansi
 
 ## License
 
-BSD
+MIT
 
 ## Author Information
 
