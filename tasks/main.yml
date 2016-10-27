@@ -3,10 +3,12 @@
 - name: Install python-setuptools
   package: name="python-setuptools"
   when: avisdk_install
+  delagate_to: localhost
 
 - name: Install pip
   easy_install: name=pip
   when: avisdk_install
+  delagate_to: localhost
 
 - name: Install avisdk package
   pip:
@@ -14,3 +16,4 @@
       state: "{{ (avisdk_version == 'latest') | ternary(avisdk_version, omit) }}"
       version: "{{ (avisdk_version == 'latest') | ternary(omit, avisdk_version) }}"
   when: avisdk_install
+  delagate_to: localhost

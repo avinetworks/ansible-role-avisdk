@@ -20,7 +20,11 @@ For more information please visit http://docs.ansible.com/ansible/galaxy.html
 
 Available variables listed below, for default values (see `defaults/main.yml`)
 
-    version: 16.3b5 # default is 'latest'
+```
+
+avisdk_version: 16.3b5  # default is 'latest'
+avisdk_install: true    # default is false
+```
 
 ## Example Playbook
 
