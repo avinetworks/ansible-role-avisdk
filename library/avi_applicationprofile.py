@@ -23,59 +23,69 @@
 #
 
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
 
 EXAMPLES = '''
-- avi_applicationprofile:
-    http_profile:
-      max_rps_uri: 0
-      keepalive_header: false
-      max_rps_cip_uri: 0
-      x_forwarded_proto_enabled: false
-      connection_multiplexing_enabled: true
-      websockets_enabled: true
-      hsts_enabled: false
-      xff_enabled: true
-      keepalive_timeout: 30000
-      ssl_client_certificate_mode: SSL_CLIENT_CERTIFICATE_NONE
-      http_to_https: false
-      spdy_enabled: false
-      client_body_timeout: 0
-      httponly_enabled: false
-      hsts_max_age: 365
-      max_bad_rps_cip: 0
-      server_side_redirect_to_https: false
-      client_max_header_size: 12
-      client_max_request_size: 48
-      max_rps_unknown_uri: 0
-      ssl_everywhere_enabled: false
-      spdy_fwd_proxy_mode: false
-      post_accept_timeout: 30000
-      client_header_timeout: 10000
-      secure_cookie_enabled: false
-      xff_alternate_name: X-Forwarded-For
-      max_rps_cip: 0
-      client_max_body_size: 0
-      max_rps_unknown_cip: 0
-      max_bad_rps_cip_uri: 0
-      max_bad_rps_uri: 0
-    dos_rl_profile:
-      rl_profile:
-        client_ip_connections_rate_limit:
-          count: 0
-          explicit_tracking: false
-          period: 1
-          action:
-            status_code: HTTP_LOCAL_RESPONSE_STATUS_CODE_429
-            type: RL_ACTION_NONE
-          burst_sz: 0
-          fine_grain: false
-    type: APPLICATION_PROFILE_TYPE_HTTP
-    name: MyAppProfile
+  - avi_applicationprofile:
+      controller: ''
+      username: ''
+      password: ''
+      http_profile:
+        cache_config:
+          age_header: true
+          aggressive: false
+          date_header: true
+          default_expire: 600
+          enabled: false
+          heuristic_expire: false
+          max_cache_size: 0
+          max_object_size: 4194304
+          mime_types_group_refs:
+          - admin:System-Cacheable-Resource-Types
+          min_object_size: 100
+          query_cacheable: false
+          xcache_header: true
+        client_body_timeout: 0
+        client_header_timeout: 10000
+        client_max_body_size: 0
+        client_max_header_size: 12
+        client_max_request_size: 48
+        compression_profile:
+          compressible_content_ref: admin:System-Compressible-Content-Types
+          compression: false
+          remove_accept_encoding_header: true
+          type: AUTO_COMPRESSION
+        connection_multiplexing_enabled: true
+        hsts_enabled: false
+        hsts_max_age: 365
+        http_to_https: false
+        httponly_enabled: false
+        keepalive_header: false
+        keepalive_timeout: 30000
+        max_bad_rps_cip: 0
+        max_bad_rps_cip_uri: 0
+        max_bad_rps_uri: 0
+        max_rps_cip: 0
+        max_rps_cip_uri: 0
+        max_rps_unknown_cip: 0
+        max_rps_unknown_uri: 0
+        max_rps_uri: 0
+        post_accept_timeout: 30000
+        secure_cookie_enabled: false
+        server_side_redirect_to_https: false
+        spdy_enabled: false
+        spdy_fwd_proxy_mode: false
+        ssl_client_certificate_mode: SSL_CLIENT_CERTIFICATE_NONE
+        ssl_everywhere_enabled: false
+        websockets_enabled: true
+        x_forwarded_proto_enabled: false
+        xff_alternate_name: X-Forwarded-For
+        xff_enabled: true
+      name: System-HTTP
+      tenant_ref: admin
+      type: APPLICATION_PROFILE_TYPE_HTTP
 '''
 DOCUMENTATION = '''
 ---
@@ -219,61 +229,8 @@ def main():
                     ),
                 ),
         )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
-
-        state = module.params['state']
-        name = module.params['name']
-        sensitive_fields = set([])
-
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
-
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'applicationprofile', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
-                'applicationprofile', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'applicationprofile/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('applicationprofile', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
+        return avi_ansible_api(module, 'applicationprofile',
+                               set([]))
     except:
         raise
 

@@ -23,18 +23,69 @@
 #
 
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
-EXAMPLES = """
-- code: 'avi_analyticsprofile controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_analyticsprofile'
-description: "Adds/Deletes AnalyticsProfile configuration from Avi Controller."
-"""
 
+EXAMPLES = '''
+  - avi_analyticsprofile:
+      controller: ''
+      username: ''
+      password: ''
+      apdex_response_threshold: 500
+      apdex_response_tolerated_factor: 4.0
+      apdex_rtt_threshold: 250
+      apdex_rtt_tolerated_factor: 4.0
+      apdex_rum_threshold: 5000
+      apdex_rum_tolerated_factor: 4.0
+      apdex_server_response_threshold: 400
+      apdex_server_response_tolerated_factor: 4.0
+      apdex_server_rtt_threshold: 125
+      apdex_server_rtt_tolerated_factor: 4.0
+      conn_lossy_ooo_threshold: 50
+      conn_lossy_timeo_rexmt_threshold: 20
+      conn_lossy_total_rexmt_threshold: 50
+      conn_lossy_zero_win_size_event_threshold: 2
+      conn_server_lossy_ooo_threshold: 50
+      conn_server_lossy_timeo_rexmt_threshold: 20
+      conn_server_lossy_total_rexmt_threshold: 50
+      conn_server_lossy_zero_win_size_event_threshold: 2
+      disable_se_analytics: false
+      disable_server_analytics: false
+      exclude_client_close_before_request_as_error: false
+      exclude_persistence_change_as_error: false
+      exclude_server_tcp_reset_as_error: false
+      exclude_syn_retransmit_as_error: false
+      exclude_tcp_reset_as_error: false
+      hs_event_throttle_window: 1209600
+      hs_max_anomaly_penalty: 10
+      hs_max_resources_penalty: 25
+      hs_max_security_penalty: 100
+      hs_min_dos_rate: 1000
+      hs_performance_boost: 20
+      hs_pscore_traffic_threshold_l4_client: 10.0
+      hs_pscore_traffic_threshold_l4_server: 10.0
+      hs_security_certscore_expired: 0.0
+      hs_security_certscore_gt30d: 5.0
+      hs_security_certscore_le07d: 2.0
+      hs_security_certscore_le30d: 4.0
+      hs_security_chain_invalidity_penalty: 1.0
+      hs_security_cipherscore_eq000b: 0.0
+      hs_security_cipherscore_ge128b: 5.0
+      hs_security_cipherscore_lt128b: 3.5
+      hs_security_encalgo_score_none: 0.0
+      hs_security_encalgo_score_rc4: 2.5
+      hs_security_hsts_penalty: 0.0
+      hs_security_nonpfs_penalty: 1.0
+      hs_security_selfsignedcert_penalty: 1.0
+      hs_security_ssl30_score: 3.5
+      hs_security_tls10_score: 5.0
+      hs_security_tls11_score: 5.0
+      hs_security_tls12_score: 5.0
+      hs_security_weak_signature_algo_penalty: 1.0
+      name: jason-analytics-profile
+      tenant_ref: Demo
+'''
 DOCUMENTATION = '''
 ---
 module: avi_analyticsprofile
@@ -81,7 +132,7 @@ options:
     apdex_response_tolerated_factor:
         description:
             - Client tolerated response latency factor. Clientmust receive a response within this factor times the satisfactory threshold (apdex_response_threshold) to be considered tolerated
-        default: 4
+        default: 4.0
         type: float
     apdex_rtt_threshold:
         description:
@@ -91,7 +142,7 @@ options:
     apdex_rtt_tolerated_factor:
         description:
             - Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor.
-        default: 4
+        default: 4.0
         type: float
     apdex_rum_threshold:
         description:
@@ -101,7 +152,7 @@ options:
     apdex_rum_tolerated_factor:
         description:
             - Virtual service threshold factor for tolerated Page Load Time (PLT) as multiple of apdex_rum_threshold.
-        default: 4
+        default: 4.0
         type: float
     apdex_server_response_threshold:
         description:
@@ -111,7 +162,7 @@ options:
     apdex_server_response_tolerated_factor:
         description:
             - Server tolerated response latency factor. Servermust response within this factor times the satisfactory threshold (apdex_server_response_threshold) to be considered tolerated
-        default: 4
+        default: 4.0
         type: float
     apdex_server_rtt_threshold:
         description:
@@ -121,7 +172,7 @@ options:
     apdex_server_rtt_tolerated_factor:
         description:
             - Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor.
-        default: 4
+        default: 4.0
         type: float
     client_log_config:
         description:
@@ -268,47 +319,47 @@ options:
     hs_pscore_traffic_threshold_l4_client:
         description:
             - Threshold number of connections in 5min, below which apdexr, apdexc, rum_apdex, and other network quality metrics are not computed.
-        default: 10
+        default: 10.0
         type: float
     hs_pscore_traffic_threshold_l4_server:
         description:
             - Threshold number of connections in 5min, below which apdexr, apdexc, rum_apdex, and other network quality metrics are not computed.
-        default: 10
+        default: 10.0
         type: float
     hs_security_certscore_expired:
         description:
             - Score assigned when the certificate has expired
-        default: 0
+        default: 0.0
         type: float
     hs_security_certscore_gt30d:
         description:
             - Score assigned when the certificate expires in more than 30 days
-        default: 5
+        default: 5.0
         type: float
     hs_security_certscore_le07d:
         description:
             - Score assigned when the certificate expires in less than or equal to 7 days
-        default: 2
+        default: 2.0
         type: float
     hs_security_certscore_le30d:
         description:
             - Score assigned when the certificate expires in less than or equal to 30 days
-        default: 4
+        default: 4.0
         type: float
     hs_security_chain_invalidity_penalty:
         description:
             - Penalty for allowing certificates with invalid chain.
-        default: 1
+        default: 1.0
         type: float
     hs_security_cipherscore_eq000b:
         description:
             - Score assigned when the minimum cipher strength is 0 bits
-        default: 0
+        default: 0.0
         type: float
     hs_security_cipherscore_ge128b:
         description:
             - Score assigned when the minimum cipher strength is greater than equal to 128 bits
-        default: 5
+        default: 5.0
         type: float
     hs_security_cipherscore_lt128b:
         description:
@@ -318,7 +369,7 @@ options:
     hs_security_encalgo_score_none:
         description:
             - Score assigned when no algorithm is used for encryption.
-        default: 0
+        default: 0.0
         type: float
     hs_security_encalgo_score_rc4:
         description:
@@ -328,17 +379,17 @@ options:
     hs_security_hsts_penalty:
         description:
             - Penalty for not enabling HSTS.
-        default: 1
+        default: 1.0
         type: float
     hs_security_nonpfs_penalty:
         description:
             - Penalty for allowing non-PFS handshakes.
-        default: 1
+        default: 1.0
         type: float
     hs_security_selfsignedcert_penalty:
         description:
             - Deprecated
-        default: 1
+        default: 1.0
         type: float
     hs_security_ssl30_score:
         description:
@@ -348,22 +399,22 @@ options:
     hs_security_tls10_score:
         description:
             - Score assigned when supporting TLS1.0 encryption protocol
-        default: 5
+        default: 5.0
         type: float
     hs_security_tls11_score:
         description:
             - Score assigned when supporting TLS1.1 encryption protocol
-        default: 5
+        default: 5.0
         type: float
     hs_security_tls12_score:
         description:
             - Score assigned when supporting TLS1.2 encryption protocol
-        default: 5
+        default: 5.0
         type: float
     hs_security_weak_signature_algo_penalty:
         description:
             - Penalty for allowing weak signature algorithm(s).
-        default: 1
+        default: 1.0
         type: float
     name:
         description:
@@ -595,61 +646,8 @@ def main():
                     ),
                 ),
         )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
-
-        state = module.params['state']
-        name = module.params['name']
-        sensitive_fields = set([])
-
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
-
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'analyticsprofile', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
-                'analyticsprofile', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'analyticsprofile/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('analyticsprofile', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
+        return avi_ansible_api(module, 'analyticsprofile',
+                               set([]))
     except:
         raise
 

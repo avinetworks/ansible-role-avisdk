@@ -23,18 +23,31 @@
 #
 
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
-EXAMPLES = """
-- code: 'avi_applicationpersistenceprofile controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_applicationpersistenceprofile'
-description: "Adds/Deletes ApplicationPersistenceProfile configuration from Avi Controller."
-"""
 
+EXAMPLES = '''
+  - avi_applicationpersistenceprofile:
+      controller: ''
+      username: ''
+      password: ''
+      http_cookie_persistence_profile:
+        always_send_cookie: false
+        cookie_name: My-HTTP
+        key:
+        - aes_key: ShYGZdMks8j6Bpvm2sCvaXWzvXms2Z9ob+TTjRy46lQ=
+          name: c1276819-550c-4adf-912d-59efa5fd7269
+        - aes_key: OGsyVk84VCtyMENFOW0rMnRXVnNrb0RzdG5mT29oamJRb0dlbHZVSjR1az0=
+          name: a080de57-77c3-4580-a3ea-e7a6493c14fd
+        - aes_key: UVN0cU9HWmFUM2xOUzBVcmVXaHFXbnBLVUUxMU1VSktSVU5HWjJOWmVFMTBUMUV4UmxsNk4xQmFZejA9
+          name: 60478846-33c6-484d-868d-bbc324fce4a5
+        timeout: 15
+      name: My-HTTP-Cookie
+      persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
+      server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
+      tenant_ref: Demo
+'''
 DOCUMENTATION = '''
 ---
 module: avi_applicationpersistenceprofile
@@ -177,61 +190,8 @@ def main():
                     ),
                 ),
         )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
-
-        state = module.params['state']
-        name = module.params['name']
-        sensitive_fields = set([])
-
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
-
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'applicationpersistenceprofile', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
-                'applicationpersistenceprofile', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'applicationpersistenceprofile/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('applicationpersistenceprofile', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
+        return avi_ansible_api(module, 'applicationpersistenceprofile',
+                               set([]))
     except:
         raise
 

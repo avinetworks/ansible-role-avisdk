@@ -23,10 +23,8 @@
 #
 
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
 
 EXAMPLES = '''
@@ -181,7 +179,7 @@ options:
         type: IpAddrPrefix
     dns_info:
         description:
-            - Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. 'fqdn' field will be ignored if valid records are provided here.
+            - Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. [Note] Only one of 'fqdn' and 'dns_info' configuration is allowed.
         type: DnsInfo
     east_west_placement:
         description:
@@ -226,7 +224,7 @@ options:
         type: string
     fqdn:
         description:
-            - DNS resolvable, fully qualified domain name of the virtualservice. If this field is set, 'dns_info' field is ignored.
+            - DNS resolvable, fully qualified domain name of the virtualservice. [Note] Only one of 'fqdn' and 'dns_info' configuration is allowed.
         type: string
     host_name_xlate:
         description:
@@ -308,12 +306,12 @@ options:
         type: RateProfile
     scaleout_ecmp:
         description:
-            - Not present.
+            - Disable re-distribution of flows across service engines for a virtual service. Enable if the network itself performs flow hashing with ECMP in environments such as GCP
         default: False
         type: bool
     se_group_ref:
         description:
-            - The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connection for this VS. object ref ServiceEngineGroup.
+            - The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connections for this VS. object ref ServiceEngineGroup.
         type: string
     server_network_profile_ref:
         description:
@@ -636,61 +634,8 @@ def main():
                     ),
                 ),
         )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
-
-        state = module.params['state']
-        name = module.params['name']
-        sensitive_fields = set([])
-
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
-
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'virtualservice', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
-                'virtualservice', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'virtualservice/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('virtualservice', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
+        return avi_ansible_api(module, 'virtualservice',
+                               set([]))
     except:
         raise
 

@@ -23,10 +23,8 @@
 #
 
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
 EXAMPLES = """
 - code: 'avi_serviceenginegroup controller=10.10.25.42 username=admin '
@@ -164,7 +162,7 @@ options:
     extra_config_multiplier:
         description:
             - Multiplier for extra config to support large VS/Pool config.
-        default: 0
+        default: 0.0
         type: float
     floating_intf_ip:
         description:
@@ -174,21 +172,6 @@ options:
         description:
             - This field is applicable only if the ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, with manual load distribution among the Active Standby ServiceEngines enabled. Floating IP's provided here will be advertised only by the Active ServiceEngine hosting all the VirtualServices tagged with Active Standby SE 2 Tag.
         type: IpAddr
-    gateway_monitor_fail_threshold:
-        description:
-            - The number of consecutive failed gateway health checks before a gateway is marked down.
-        default: 10
-        type: integer
-    gateway_monitor_interval:
-        description:
-            - The interval between two ping requests sent by the gateway monitor.  If a value is not specified, requests are sent every second (1000 milliseconds).
-        default: 1000
-        type: integer
-    gateway_monitor_success_threshold:
-        description:
-            - The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up.
-        default: 15
-        type: integer
     ha_mode:
         description:
             - High Availability mode for all the Virtual Services using this Service Engine group.
@@ -485,15 +468,6 @@ def main():
                 floating_intf_ip_se_2=dict(
                     type='list',
                     ),
-                gateway_monitor_fail_threshold=dict(
-                    type='int',
-                    ),
-                gateway_monitor_interval=dict(
-                    type='int',
-                    ),
-                gateway_monitor_success_threshold=dict(
-                    type='int',
-                    ),
                 ha_mode=dict(
                     type='str',
                     ),
@@ -634,61 +608,8 @@ def main():
                     ),
                 ),
         )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
-
-        state = module.params['state']
-        name = module.params['name']
-        sensitive_fields = set([])
-
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
-
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'serviceenginegroup', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
-                'serviceenginegroup', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'serviceenginegroup/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('serviceenginegroup', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
+        return avi_ansible_api(module, 'serviceenginegroup',
+                               set([]))
     except:
         raise
 
