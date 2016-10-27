@@ -1,4 +1,0 @@
----
-- name: Install python-setuptools | dnf
-  dnf: name=python-setuptools
-  delegate_to: localhost

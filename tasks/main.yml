@@ -1,19 +1,19 @@
 ---
 # tasks file for avinetworks.avisdk
 - name: Install python-setuptools
-  include: "{{ ansible_pkg_mgr }}.yml"
-  when: install_sdk
-  delegate_to: localhost
+  package: name="python-setuptools"
+  when: avisdk_install
+  delagate_to: localhost
 
 - name: Install pip
   easy_install: name=pip
-  when: install_sdk
-  delegate_to: localhost
+  when: avisdk_install
+  delagate_to: localhost
 
 - name: Install avisdk package
   pip:
       name: avisdk
-      state: "{{ (version == 'latest') | ternary(version, omit) }}"
-      version: "{{ (version == 'latest') | ternary(omit, version) }}"
-  when: install_sdk
-  delegate_to: localhost
+      state: "{{ (avisdk_version == 'latest') | ternary(avisdk_version, omit) }}"
+      version: "{{ (avisdk_version == 'latest') | ternary(omit, avisdk_version) }}"
+  when: avisdk_install
+  delagate_to: localhost
