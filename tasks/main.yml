@@ -15,5 +15,6 @@
       name: avisdk
       state: "{{ (avisdk_version == 'latest') | ternary(avisdk_version, omit) }}"
       version: "{{ (avisdk_version == 'latest') | ternary(omit, avisdk_version) }}"
+      extra_args: "--upgrade"
   when: avisdk_install
   delegate_to: localhost

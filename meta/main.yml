@@ -32,6 +32,10 @@ galaxy_info:
   - controller
   - avicontroller
   - avisdk
+  - avinetworks
+  - networks
+  - load
+  - balancer
   - sdk
   - ubuntu
   - centos
