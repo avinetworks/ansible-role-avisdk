@@ -24,7 +24,9 @@
 #
 
 import os
-from ansible.module_utils.basic import AnsibleModule
+# Comment: import * is to make the modules work in ansible 2.0 environments
+# from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import *
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
@@ -70,10 +72,18 @@ options:
         required: false
         default: present
         choices: ["absent","present"]
+    cloud_config_cksum:
+        description:
+            - Checksum of cloud configuration for PoolGroup. Internally set by cloud connector
+        type: string
     cloud_ref:
         description:
             - Not present. object ref Cloud.
         default: Default-Cloud
+        type: string
+    created_by:
+        description:
+            - Creator name
         type: string
     deployment_policy_ref:
         description:
@@ -138,7 +148,13 @@ def main():
                 tenant_uuid=dict(default=''),
                 state=dict(default='present',
                            choices=['absent', 'present']),
+                cloud_config_cksum=dict(
+                    type='str',
+                    ),
                 cloud_ref=dict(
+                    type='str',
+                    ),
+                created_by=dict(
                     type='str',
                     ),
                 deployment_policy_ref=dict(

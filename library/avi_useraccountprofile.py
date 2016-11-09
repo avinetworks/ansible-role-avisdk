@@ -24,7 +24,9 @@
 #
 
 import os
-from ansible.module_utils.basic import AnsibleModule
+# Comment: import * is to make the modules work in ansible 2.0 environments
+# from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import *
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
@@ -77,13 +79,13 @@ options:
         type: integer
     credentials_timeout_threshold:
         description:
-            - The time period after which credentials expire. Default is 60 days.
-        default: 60
+            - The time period after which credentials expire. Default is 180 days.
+        default: 180
         type: integer
     max_concurrent_sessions:
         description:
-            - Maximum number of concurrent sessions allowed. Default is 5 sessions.
-        default: 5
+            - Maximum number of concurrent sessions allowed. There are unlimited sessions by default.
+        default: 0
         type: integer
     max_login_failure_count:
         description:
@@ -92,8 +94,8 @@ options:
         type: integer
     max_password_history_count:
         description:
-            - Maximum number of passwords to be maintained in the password history. Default is 5 passwords.
-        default: 5
+            - Maximum number of passwords to be maintained in the password history. Default is 4 passwords.
+        default: 4
         type: integer
     name:
         description:

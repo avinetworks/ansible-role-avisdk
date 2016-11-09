@@ -24,7 +24,9 @@
 #
 
 import os
-from ansible.module_utils.basic import AnsibleModule
+# Comment: import * is to make the modules work in ansible 2.0 environments
+# from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import *
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 

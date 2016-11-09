@@ -24,7 +24,9 @@
 #
 
 import os
-from ansible.module_utils.basic import AnsibleModule
+# Comment: import * is to make the modules work in ansible 2.0 environments
+# from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import *
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
@@ -306,7 +308,7 @@ options:
         type: MetricsRealTimeUpdate
     se_deprovision_delay:
         description:
-            - Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this Service Engine would still be available to be utilized again rather than creating a new Service Engine.
+            - Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this Service Engine would still be available to be utilized again rather than creating a new Service Engine. If this value is set to 0, Controller will never delete any Service Engines, administrator has to manually cleanup unused Service Engines.
         default: 120
         type: integer
     se_dos_profile:
