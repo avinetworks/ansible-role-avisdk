@@ -4,6 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: not supported
+# Avi Version: 16.3
 #
 #
 # This file is part of Ansible
@@ -22,6 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 from ansible.module_utils.basic import AnsibleModule
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
@@ -96,20 +98,17 @@ description:
     - This module is used to configure AnalyticsProfile object
     - more examples at <https://github.com/avinetworks/avi-ansible-samples>
 requirements: [ avisdk ]
-version_added: 2.1.2
+version_added: 2.3
 options:
     controller:
         description:
-            - location of the controller
-        required: true
+            - location of the controller. Environment variable AVI_CONTROLLER is default
     username:
         description:
-            - username to access the Avi
-        required: true
+            - username to access the Avi. Environment variable AVI_USERNAME is default
     password:
         description:
-            - password of the Avi user
-        required: true
+            - password of the Avi user. Environment variable AVI_PASSWORD is default
     tenant:
         description:
             - tenant for the operations
@@ -239,7 +238,7 @@ options:
         type: bool
     exclude_gs_down_as_error:
         description:
-            - Exclude 'global service down' from the list of errors.
+            - Exclude queries to GSLB services that are operationally down from the list of errors.
         default: False
         type: bool
     exclude_http_error_codes:
@@ -248,27 +247,32 @@ options:
         type: integer
     exclude_invalid_dns_domain_as_error:
         description:
-            - Exclude 'invalid dns domain' from the list of errors.
+            - Exclude dns queries to domains outside the domains configured in the DNS application profile from the list of errors.
         default: False
         type: bool
     exclude_invalid_dns_query_as_error:
         description:
-            - Exclude 'invalid dns query' from the list of errors.
+            - Exclude invalid dns queries from the list of errors.
         default: False
         type: bool
     exclude_no_dns_record_as_error:
         description:
-            - Exclude 'no dns record' from the list of errors.
+            - Exclude queries to domains that did not have configured services/records from the list of errors.
         default: False
         type: bool
     exclude_no_valid_gs_member_as_error:
         description:
-            - Exclude 'no valid global service member' from the list of errors.
+            - Exclude queries to GSLB services that have no available members from the list of errors.
         default: False
         type: bool
     exclude_persistence_change_as_error:
         description:
             - Exclude persistence server changed while load balancing' from the list of errors.
+        default: False
+        type: bool
+    exclude_server_dns_error_as_error:
+        description:
+            - Exclude server dns error response from the list of errors.
         default: False
         type: bool
     exclude_server_tcp_reset_as_error:
@@ -284,6 +288,11 @@ options:
     exclude_tcp_reset_as_error:
         description:
             - Exclude TCP resets by client from the list of potential errors.
+        default: False
+        type: bool
+    exclude_unsupported_dns_query_as_error:
+        description:
+            - Exclude unsupported dns queries from the list of errors.
         default: False
         type: bool
     hs_event_throttle_window:
@@ -421,6 +430,14 @@ options:
             - The name of the analytics profile.
         required: true
         type: string
+    ranges:
+        description:
+            - List of HTTP status code ranges to be excluded from being classified as an error.
+        type: HTTPStatusRange
+    resp_code_block:
+        description:
+            - Block of HTTP response codes to be excluded from being classified as an error.
+        type: string
     tenant_ref:
         description:
             - Not present. object ref Tenant.
@@ -443,14 +460,13 @@ obj:
     type: dict
 '''
 
-
 def main():
     try:
         module = AnsibleModule(
             argument_spec=dict(
-                controller=dict(required=True),
-                username=dict(required=True),
-                password=dict(required=True),
+                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
+                username=dict(default=os.environ.get('AVI_USERNAME', '')),
+                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
                 tenant=dict(default='admin'),
                 tenant_uuid=dict(default=''),
                 state=dict(default='present',
@@ -545,6 +561,9 @@ def main():
                 exclude_persistence_change_as_error=dict(
                     type='bool',
                     ),
+                exclude_server_dns_error_as_error=dict(
+                    type='bool',
+                    ),
                 exclude_server_tcp_reset_as_error=dict(
                     type='bool',
                     ),
@@ -552,6 +571,9 @@ def main():
                     type='bool',
                     ),
                 exclude_tcp_reset_as_error=dict(
+                    type='bool',
+                    ),
+                exclude_unsupported_dns_query_as_error=dict(
                     type='bool',
                     ),
                 hs_event_throttle_window=dict(
@@ -634,6 +656,12 @@ def main():
                     ),
                 name=dict(
                     type='str',
+                    ),
+                ranges=dict(
+                    type='list',
+                    ),
+                resp_code_block=dict(
+                    type='list',
                     ),
                 tenant_ref=dict(
                     type='str',

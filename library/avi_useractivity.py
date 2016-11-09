@@ -29,20 +29,20 @@ from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
 EXAMPLES = """
-- code: 'avi_debugcontroller controller=10.10.25.42 username=admin '
+- code: 'avi_useractivity controller=10.10.25.42 username=admin '
             ' password=something'
-            ' state=present name=sample_debugcontroller'
-description: "Adds/Deletes DebugController configuration from Avi Controller."
+            ' state=present name=sample_useractivity'
+description: "Adds/Deletes UserActivity configuration from Avi Controller."
 """
 
 DOCUMENTATION = '''
 ---
-module: avi_debugcontroller
+module: avi_useractivity
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: DebugController Configuration
+short_description: UserActivity Configuration
 description:
-    - This module is used to configure DebugController object
+    - This module is used to configure UserActivity object
     - more examples at <https://github.com/avinetworks/avi-ansible-samples>
 requirements: [ avisdk ]
 version_added: 2.3
@@ -70,33 +70,39 @@ options:
         required: false
         default: present
         choices: ["absent","present"]
-    filters:
+    concurrent_sessions:
         description:
-            - Not present.
-        type: DebugFilterUnion
-    log_level:
+            - Number of concurrent user sessions open.
+        default: 0
+        type: integer
+    failed_login_attempts:
         description:
-            - Not present.
-        required: true
+            - Number of failed login attempts before a successful login.
+        default: 0
+        type: integer
+    last_login_ip:
+        description:
+            - IP of the machine the user was last logged in from.
         type: string
+    last_login_timestamp:
+        description:
+            - Timestamp of last login.
+        type: string
+    last_password_update:
+        description:
+            - Timestamp of last password update.
+        type: string
+    logged_in:
+        description:
+            - Indicates whether the user is logged in or not.
+        type: bool
     name:
         description:
-            - Not present.
-        required: true
+            - Name of the user this object refers to.
         type: string
-    sub_module:
+    previous_password:
         description:
-            - Not present.
-        required: true
-        type: string
-    tenant_ref:
-        description:
-            - Not present. object ref Tenant.
-        type: string
-    trace_level:
-        description:
-            - Not present.
-        required: true
+            - Stores the previous n passwords  where n is ControllerProperties.max_password_history_count. 
         type: string
     url:
         description:
@@ -111,7 +117,7 @@ options:
 
 RETURN = '''
 obj:
-    description: DebugController (api/debugcontroller) object
+    description: UserActivity (api/useractivity) object
     returned: success, changed
     type: dict
 '''
@@ -127,23 +133,29 @@ def main():
                 tenant_uuid=dict(default=''),
                 state=dict(default='present',
                            choices=['absent', 'present']),
-                filters=dict(
-                    type='dict',
+                concurrent_sessions=dict(
+                    type='int',
                     ),
-                log_level=dict(
+                failed_login_attempts=dict(
+                    type='int',
+                    ),
+                last_login_ip=dict(
                     type='str',
+                    ),
+                last_login_timestamp=dict(
+                    type='str',
+                    ),
+                last_password_update=dict(
+                    type='str',
+                    ),
+                logged_in=dict(
+                    type='bool',
                     ),
                 name=dict(
                     type='str',
                     ),
-                sub_module=dict(
-                    type='str',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                trace_level=dict(
-                    type='str',
+                previous_password=dict(
+                    type='list',
                     ),
                 url=dict(
                     type='str',
@@ -153,7 +165,7 @@ def main():
                     ),
                 ),
         )
-        return avi_ansible_api(module, 'debugcontroller',
+        return avi_ansible_api(module, 'useractivity',
                                set([]))
     except:
         raise

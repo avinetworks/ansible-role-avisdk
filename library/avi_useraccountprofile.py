@@ -29,20 +29,20 @@ from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
 
 EXAMPLES = """
-- code: 'avi_debugcontroller controller=10.10.25.42 username=admin '
+- code: 'avi_useraccountprofile controller=10.10.25.42 username=admin '
             ' password=something'
-            ' state=present name=sample_debugcontroller'
-description: "Adds/Deletes DebugController configuration from Avi Controller."
+            ' state=present name=sample_useraccountprofile'
+description: "Adds/Deletes UserAccountProfile configuration from Avi Controller."
 """
 
 DOCUMENTATION = '''
 ---
-module: avi_debugcontroller
+module: avi_useraccountprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: DebugController Configuration
+short_description: UserAccountProfile Configuration
 description:
-    - This module is used to configure DebugController object
+    - This module is used to configure UserAccountProfile object
     - more examples at <https://github.com/avinetworks/avi-ansible-samples>
 requirements: [ avisdk ]
 version_added: 2.3
@@ -70,30 +70,32 @@ options:
         required: false
         default: present
         choices: ["absent","present"]
-    filters:
+    account_lock_timeout:
         description:
-            - Not present.
-        type: DebugFilterUnion
-    log_level:
+            - Lock timeout period (in minutes). Default is 30 minutes.
+        default: 30
+        type: integer
+    credentials_timeout_threshold:
         description:
-            - Not present.
-        required: true
-        type: string
+            - The time period after which credentials expire. Default is 60 days.
+        default: 60
+        type: integer
+    max_concurrent_sessions:
+        description:
+            - Maximum number of concurrent sessions allowed. Default is 5 sessions.
+        default: 5
+        type: integer
+    max_login_failure_count:
+        description:
+            - Number of login attempts before lockout. Default is 3 attempts.
+        default: 3
+        type: integer
+    max_password_history_count:
+        description:
+            - Maximum number of passwords to be maintained in the password history. Default is 5 passwords.
+        default: 5
+        type: integer
     name:
-        description:
-            - Not present.
-        required: true
-        type: string
-    sub_module:
-        description:
-            - Not present.
-        required: true
-        type: string
-    tenant_ref:
-        description:
-            - Not present. object ref Tenant.
-        type: string
-    trace_level:
         description:
             - Not present.
         required: true
@@ -111,7 +113,7 @@ options:
 
 RETURN = '''
 obj:
-    description: DebugController (api/debugcontroller) object
+    description: UserAccountProfile (api/useraccountprofile) object
     returned: success, changed
     type: dict
 '''
@@ -127,22 +129,22 @@ def main():
                 tenant_uuid=dict(default=''),
                 state=dict(default='present',
                            choices=['absent', 'present']),
-                filters=dict(
-                    type='dict',
+                account_lock_timeout=dict(
+                    type='int',
                     ),
-                log_level=dict(
-                    type='str',
+                credentials_timeout_threshold=dict(
+                    type='int',
+                    ),
+                max_concurrent_sessions=dict(
+                    type='int',
+                    ),
+                max_login_failure_count=dict(
+                    type='int',
+                    ),
+                max_password_history_count=dict(
+                    type='int',
                     ),
                 name=dict(
-                    type='str',
-                    ),
-                sub_module=dict(
-                    type='str',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                trace_level=dict(
                     type='str',
                     ),
                 url=dict(
@@ -153,7 +155,7 @@ def main():
                     ),
                 ),
         )
-        return avi_ansible_api(module, 'debugcontroller',
+        return avi_ansible_api(module, 'useraccountprofile',
                                set([]))
     except:
         raise

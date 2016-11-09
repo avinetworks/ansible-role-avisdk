@@ -30,6 +30,7 @@ from avi.sdk.utils.ansible_utils import (ansible_return,
                                          avi_obj_cmp, cleanup_absent_fields)
 import json
 import time
+import os
 
 DOCUMENTATION = '''
 ---
@@ -44,16 +45,13 @@ requirements: [ avisdk ]
 options:
     controller:
         description:
-            - location of the controller
-        required: true
+            - location of the controller. Environment variable AVI_CONTROLLER is default
     username:
         description:
-            - username to access the Avi
-        required: true
+            - username to access the Avi. Environment variable AVI_USERNAME is default
     password:
         description:
-            - password of the Avi user
-        required: true
+            - password of the Avi user. Environment variable AVI_PASSWORD is default
     tenant:
         description:
             - password of the Avi user
@@ -118,9 +116,9 @@ def main():
     try:
         module = AnsibleModule(
             argument_spec=dict(
-                controller=dict(required=True),
-                username=dict(required=True),
-                password=dict(required=True),
+                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
+                username=dict(default=os.environ.get('AVI_USERNAME', '')),
+                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
                 tenant=dict(default='admin'),
                 http_method=dict(required=True,
                                  choices=['get', 'put', 'post', 'patch',
@@ -187,7 +185,7 @@ def main():
                           params=gparams)
             new_obj = rsp.json()
             changed = not avi_obj_cmp(new_obj, existing_obj)
-        return ansible_return(module, rsp, changed)
+        return ansible_return(module, rsp, changed, req=data)
     except:
         raise
 

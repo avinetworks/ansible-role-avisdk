@@ -4,6 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: not supported
+# Avi Version: 16.3
 #
 #
 # This file is part of Ansible
@@ -22,6 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 from ansible.module_utils.basic import AnsibleModule
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
     avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
@@ -43,20 +45,17 @@ description:
     - This module is used to configure GslbService object
     - more examples at <https://github.com/avinetworks/avi-ansible-samples>
 requirements: [ avisdk ]
-version_added: 2.1.2
+version_added: 2.3
 options:
     controller:
         description:
-            - location of the controller
-        required: true
+            - location of the controller. Environment variable AVI_CONTROLLER is default
     username:
         description:
-            - username to access the Avi
-        required: true
+            - username to access the Avi. Environment variable AVI_USERNAME is default
     password:
         description:
-            - password of the Avi user
-        required: true
+            - password of the Avi user. Environment variable AVI_PASSWORD is default
     tenant:
         description:
             - tenant for the operations
@@ -76,6 +75,10 @@ options:
             - GS member's overall health status is derived based on a combination of controller and datapath health-status inputs. Datapath status is determined by the association of health monitor profiles, while the controller provided status is determined through this configuration. 
         default: True
         type: bool
+    description:
+        description:
+            - Not present.
+        type: string
     domain_names:
         description:
             - Fully qualified domain name of the Gslb Service.
@@ -117,7 +120,7 @@ options:
         type: string
     ttl:
         description:
-            - TTL value in seconds for A records for this Gslb Service served by the DNS Service.
+            - TTL value (in seconds) for records served for this Gslb Service by the DNS Service.
         type: integer
     url:
         description:
@@ -137,20 +140,22 @@ obj:
     type: dict
 '''
 
-
 def main():
     try:
         module = AnsibleModule(
             argument_spec=dict(
-                controller=dict(required=True),
-                username=dict(required=True),
-                password=dict(required=True),
+                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
+                username=dict(default=os.environ.get('AVI_USERNAME', '')),
+                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
                 tenant=dict(default='admin'),
                 tenant_uuid=dict(default=''),
                 state=dict(default='present',
                            choices=['absent', 'present']),
                 controller_health_status_enabled=dict(
                     type='bool',
+                    ),
+                description=dict(
+                    type='str',
                     ),
                 domain_names=dict(
                     type='list',
