@@ -22,7 +22,10 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
-from ansible.module_utils.basic import AnsibleModule
+
+# Comment: import * is to make the modules work in ansible 2.0 environments
+# from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import *
 from copy import deepcopy
 
 from avi.sdk.avi_api import ApiSession, ObjectNotFound
