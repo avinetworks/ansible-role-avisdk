@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,117 +23,110 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_gslbservice controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_gslbservice'
-description: "Adds/Deletes GslbService configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_gslbservice
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: GslbService Configuration
+short_description: Module for setup of GslbService Avi RESTful Object
 description:
     - This module is used to configure GslbService object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
     controller_health_status_enabled:
         description:
-            - GS member's overall health status is derived based on a combination of controller and datapath health-status inputs. Datapath status is determined by the association of health monitor profiles, while the controller provided status is determined through this configuration. 
-        default: True
-        type: bool
+            - Gs member's overall health status is derived based on a combination of controller and datapath health-status inputs.
+            - Note that the datapath status is determined by the association of health monitor profiles.
+            - Only the controller provided status is determined through this configuration.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     description:
         description:
-            - Not present.
-        type: string
+            - User defined description for the object.
     domain_names:
         description:
-            - Fully qualified domain name of the Gslb Service.
-        type: string
+            - Fully qualified domain name of the gslb service.
     down_response:
         description:
-            - Response to the client query when the Gslb Service is DOWN.
-        type: GslbServiceDownResponse
+            - Response to the client query when the gslb service is down.
     enabled:
         description:
-            - Enable or disable the Gslb Service. If the Gslb Service is enabled, then the VIPs are sent in the DNS responses based on reachability and configured algorithm. If the Gslb Service is disabled, then the VIPs are no longer available in the DNS response.
-        default: True
-        type: bool
+            - Enable or disable the gslb service.
+            - If the gslb service is enabled, then the vips are sent in the dns responses based on reachability and configured algorithm.
+            - If the gslb service is disabled, then the vips are no longer available in the dns response.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     groups:
         description:
-            - Select list of pools belonging to this Gslb Service.
-        type: GslbPool
+            - Select list of pools belonging to this gslb service.
     health_monitor_refs:
         description:
-            - Verify VS health by applying one or more health monitors.  Active monitors generate synthetic traffic from DNS Service Engine and to mark a VS up or down based on the response.  object ref GslbHealthMonitor.
-        type: string
+            - Verify vs health by applying one or more health monitors.
+            - Active monitors generate synthetic traffic from dns service engine and to mark a vs up or down based on the response.
+            - It is a reference to an object of type gslbhealthmonitor.
     health_monitor_scope:
         description:
-            - Health monitor probe can be executed for all the members or it can be executed only for Non-Avi members. This operational mode is useful to reduce the number of health monitor probes in case of a hybrid scenario where Avi members can have controller derived status while Non-Avi members can be probed by via health monitor probes in dataplane.
-        default: 1
-        type: string
+            - Health monitor probe can be executed for all the members or it can be executed only for third-party members.
+            - This operational mode is useful to reduce the number of health monitor probes in case of a hybrid scenario.
+            - In such a case, avi members can have controller derived status while non-avi members can be probed by via health monitor probes in dataplane.
+            - Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS.
+            - Default value when not specified in API or module is interpreted by Avi Controller as GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS.
     name:
         description:
-            - Name for the Gslb Service.
+            - Name for the gslb service.
         required: true
-        type: string
     num_dns_ip:
         description:
-            - Number of IP addresses of this Gslb Service to be returned by the DNS Service. Enter 0 to return all IP addresses.
-        type: integer
+            - Number of ip addresses of this gslb service to be returned by the dns service.
+            - Enter 0 to return all ip addresses.
+            - Allowed values are 1-20.
+            - Special values are 0- 'return all ip addresses'.
     tenant_ref:
         description:
-            - Not present. object ref Tenant.
-        type: string
+            - It is a reference to an object of type tenant.
     ttl:
         description:
-            - TTL value (in seconds) for records served for this Gslb Service by the DNS Service.
-        type: integer
+            - Ttl value (in seconds) for records served for this gslb service by the dns service.
+            - Allowed values are 1-86400.
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
+    use_edns_client_subnet:
+        description:
+            - Use the client ip subnet from the edns option as source ipaddress for client geo-location and consistent hash algorithm.
+            - Default is true.
+            - Field introduced in 17.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     uuid:
         description:
-            - UUID of the Gslb Service.
-        type: string
+            - Uuid of the gslb service.
+    wildcard_match:
+        description:
+            - Enable wild-card match of fqdn  if an exact match is not found in the dns table, the longest match is chosen by wild-carding the fqdn in the dns
+            - request.
+            - Default is false.
+            - Field introduced in 17.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create GslbService object
+  avi_gslbservice:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_gslbservice
+"""
 
 RETURN = '''
 obj:
@@ -142,66 +135,53 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                controller_health_status_enabled=dict(
-                    type='bool',
-                    ),
-                description=dict(
-                    type='str',
-                    ),
-                domain_names=dict(
-                    type='list',
-                    ),
-                down_response=dict(
-                    type='dict',
-                    ),
-                enabled=dict(
-                    type='bool',
-                    ),
-                groups=dict(
-                    type='list',
-                    ),
-                health_monitor_refs=dict(
-                    type='list',
-                    ),
-                health_monitor_scope=dict(
-                    type='str',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                num_dns_ip=dict(
-                    type='int',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                ttl=dict(
-                    type='int',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'gslbservice',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        controller_health_status_enabled=dict(type='bool',),
+        description=dict(type='str',),
+        domain_names=dict(type='list',),
+        down_response=dict(type='dict',),
+        enabled=dict(type='bool',),
+        groups=dict(type='list',),
+        health_monitor_refs=dict(type='list',),
+        health_monitor_scope=dict(type='str',),
+        name=dict(type='str', required=True),
+        num_dns_ip=dict(type='int',),
+        tenant_ref=dict(type='str',),
+        ttl=dict(type='int',),
+        url=dict(type='str',),
+        use_edns_client_subnet=dict(type='bool',),
+        uuid=dict(type='str',),
+        wildcard_match=dict(type='bool',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'gslbservice',set([]))
 
 if __name__ == '__main__':
     main()

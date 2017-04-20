@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,142 +23,147 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_alertconfig controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_alertconfig'
-description: "Adds/Deletes AlertConfig configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_alertconfig
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: AlertConfig Configuration
+short_description: Module for setup of AlertConfig Avi RESTful Object
 description:
     - This module is used to configure AlertConfig object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
     action_group_ref:
         description:
-            - The alert config will trigger the selected alert action, which send send notifications or execute custom scripts. object ref ActionGroupConfig.
-        type: string
+            - The alert config will trigger the selected alert action, which can send notifications and execute a controlscript.
+            - It is a reference to an object of type actiongroupconfig.
     alert_rule:
         description:
-            - list of filters matching on events or client logs used for triggering alerts.
+            - List of filters matching on events or client logs used for triggering alerts.
         required: true
-        type: AlertRule
     autoscale_alert:
         description:
-            - This alert config applies to auto scale alerts
-        type: bool
+            - This alert config applies to auto scale alerts.
     category:
         description:
-            - Determines whether an alert is raised as soon as the event occurs (Realtime) or the Controller should wait until the specified number of events has occured in the rolling window's time interval.
+            - Determines whether an alert is raised immediately when event occurs (realtime) or after specified number of events occurs within rolling time
+            - window.
+            - Enum options - REALTIME, ROLLINGWINDOW, WATERMARK.
+            - Default value when not specified in API or module is interpreted by Avi Controller as REALTIME.
         required: true
-        type: string
     description:
         description:
             - A custom description field.
-        type: string
     enabled:
         description:
             - Enable or disable this alert config from generating new alerts.
-        default: True
-        type: bool
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     expiry_time:
         description:
-            - An alert is expired and deleted after the expiry time has elapsed.  The original event triggering the alert remains in the event's log.
-        default: 86400
-        type: integer
+            - An alert is expired and deleted after the expiry time has elapsed.
+            - The original event triggering the alert remains in the event's log.
+            - Allowed values are 1-31536000.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 86400.
     name:
         description:
-            - Name of the alert configuration
+            - Name of the alert configuration.
         required: true
-        type: string
     obj_uuid:
         description:
-            - UUID of the resource for which alert was raised
-        type: string
+            - Uuid of the resource for which alert was raised.
     object_type:
         description:
-            - The object type to which the Alert Config is associated with. Valid object types are - Virtual Service, Pool, Service Engine
-        type: string
+            - The object type to which the alert config is associated with.
+            - Valid object types are - virtual service, pool, service engine.
+            - Enum options - VIRTUALSERVICE, POOL, HEALTHMONITOR, NETWORKPROFILE, APPLICATIONPROFILE, HTTPPOLICYSET, DNSPOLICY, IPADDRGROUP, STRINGGROUP,
+            - SSLPROFILE, SSLKEYANDCERTIFICATE, NETWORKSECURITYPOLICY, APPLICATIONPERSISTENCEPROFILE, ANALYTICSPROFILE, VSDATASCRIPTSET, TENANT, PKIPROFILE,
+            - AUTHPROFILE, CLOUD, SERVERAUTOSCALEPOLICY, AUTOSCALELAUNCHCONFIG, MICROSERVICEGROUP, IPAMPROFILE, HARDWARESECURITYMODULEGROUP, POOLGROUP,
+            - PRIORITYLABELS, POOLGROUPDEPLOYMENTPOLICY, GSLBSERVICE, GSLBHEALTHMONITOR, GSLBSERVICERUNTIME, SCHEDULER, GSLBGEODBPROFILE,
+            - GSLBAPPLICATIONPERSISTENCEPROFILE, TRAFFICCLONEPROFILE, SERVICEENGINE, DEBUGSERVICEENGINE, DEBUGCONTROLLER, DEBUGVIRTUALSERVICE,
+            - SERVICEENGINEGROUP, SEPROPERTIES, NETWORK, CONTROLLERNODE, CONTROLLERPROPERTIES, SYSTEMCONFIGURATION, VRFCONTEXT, USER, ALERTCONFIG,
+            - ALERTSYSLOGCONFIG, ALERTEMAILCONFIG, ALERTTYPECONFIG, APPLICATION, ROLE, CLOUDPROPERTIES, SNMPTRAPPROFILE, ACTIONGROUPPROFILE, MICROSERVICE,
+            - ALERTPARAMS, ACTIONGROUPCONFIG, CLOUDCONNECTORUSER, GSLB, GSLBDNSUPDATE, GSLBSITEOPS, GLBMGRWARMSTART, IPAMDNSRECORD, GSLBDNSGSSTATUS,
+            - GSLBDNSGEOFILEOPS, GSLBDNSGEOUPDATE, GSLBDNSGEOCLUSTEROPS, GSLBDNSCLEANUP, TCPSTATRUNTIME, UDPSTATRUNTIME, IPSTATRUNTIME, ARPSTATRUNTIME,
+            - MBSTATRUNTIME, IPSTKQSTATSRUNTIME, MALLOCSTATRUNTIME, SHMALLOCSTATRUNTIME, CPUUSAGERUNTIME, L7GLOBALSTATSRUNTIME, L7VIRTUALSERVICESTATSRUNTIME,
+            - SEAGENTVNICDBRUNTIME, SEAGENTGRAPHDBRUNTIME, SEAGENTSTATERUNTIME, INTERFACERUNTIME, ARPTABLERUNTIME, DISPATCHERSTATRUNTIME,
+            - DISPATCHERSTATCLEARRUNTIME, DISPATCHERTABLEDUMPRUNTIME, DISPATCHERREMOTETIMERLISTDUMPRUNTIME, METRICSAGENTMESSAGE, HEALTHMONITORSTATRUNTIME,
+            - METRICSENTITYRUNTIME, PERSISTENCEINTERNAL, HTTPPOLICYSETINTERNAL, DNSPOLICYINTERNAL, CONNECTIONDUMPRUNTIME, SHAREDDBSTATS, SHAREDDBSTATSCLEAR,
+            - ICMPSTATRUNTIME, ROUTETABLERUNTIME, VIRTUALMACHINE, POOLSERVER, SEVSLIST, MEMINFORUNTIME, RTERINGSTATRUNTIME, ALGOSTATRUNTIME,
+            - HEALTHMONITORRUNTIME, CPUSTATRUNTIME, SEVM, HOST, PORTGROUP, CLUSTER, DATACENTER, VCENTER, HTTPPOLICYSETSTATS, DNSPOLICYSTATS, METRICSSESTATS,
+            - RATELIMITERSTATRUNTIME, NETWORKSECURITYPOLICYSTATS, TCPCONNRUNTIME, POOLSTATS, CONNPOOLINTERNAL, CONNPOOLSTATS, VSHASHSHOWRUNTIME,
+            - SELOGSTATSRUNTIME, NETWORKSECURITYPOLICYDETAIL, LICENSERUNTIME, SERVERRUNTIME, METRICSRUNTIMESUMMARY, METRICSRUNTIMEDETAIL,
+            - DISPATCHERSEHMPROBETEMPDISABLERUNTIME, POOLDEBUG, VSLOGMGRMAP, SERUMINSERTIONSTATS, HTTPCACHE, HTTPCACHESTATS, SEDOSSTATRUNTIME, VSDOSSTATRUNTIME,
+            - SERVERUPDATEREQ, VSSCALEOUTLIST, SEMEMDISTRUNTIME, TCPCONNRUNTIMEDETAIL, SEUPGRADESTATUS, SEUPGRADEPREVIEW, SEFAULTINJECTEXHAUSTM,
+            - SEFAULTINJECTEXHAUSTMCL, SEFAULTINJECTEXHAUSTMCLSMALL, SEFAULTINJECTEXHAUSTCONN, SEHEADLESSONLINEREQ, SEUPGRADE, SEUPGRADESTATUSDETAIL,
+            - SERESERVEDVS, SERESERVEDVSCLEAR, VSCANDIDATESEHOSTLIST, SEGROUPUPGRADE, REBALANCE, SEGROUPREBALANCE, SEAUTHSTATSRUNTIME, AUTOSCALESTATE,
+            - VIRTUALSERVICEAUTHSTATS, NETWORKSECURITYPOLICYDOS, KEYVALINTERNAL, KEYVALSUMMARYINTERNAL, SERVERSTATEUPDATEINFO, CLTRACKINTERNAL,
+            - CLTRACKSUMMARYINTERNAL, MICROSERVICERUNTIME, SEMICROSERVICE, VIRTUALSERVICEANALYSIS, CLIENTINTERNAL, CLIENTSUMMARYINTERNAL,
+            - MICROSERVICEGROUPRUNTIME, BGPRUNTIME, REQUESTQUEUERUNTIME, MIGRATEALL, MIGRATEALLSTATUSSUMMARY, MIGRATEALLSTATUSDETAIL, INTERFACESUMMARYRUNTIME,
+            - INTERFACELACPRUNTIME, DNSTABLE, GSLBSERVICEDETAIL, GSLBSERVICEINTERNAL, GSLBSERVICEHMONSTAT, SETROLESREQUEST, TRAFFICCLONERUNTIME,
+            - GEOLOCATIONINFO, SEVSHBSTATRUNTIME, GEODBINTERNAL, GSLBSITEINTERNAL, SERESOURCEPROTO, SECONSUMERPROTO, SECREATEPENDINGPROTO, PLACEMENTSTATS,
+            - SEVIPPROTO, RMVRFPROTO, VCENTERMAP, VIMGRVCENTERRUNTIME, INTERESTEDVMS, INTERESTEDHOSTS, VCENTERSUPPORTEDCOUNTERS, ENTITYCOUNTERS,
+            - TRANSACTIONSTATS, SEVMCREATEPROGRESS, PLACEMENTSTATUS, VISUBFOLDERS, VIDATASTORE, VIHOSTRESOURCES, CLOUDCONNECTOR, VINETWORKSUBNETVMS,
+            - VIDATASTORECONTENTS, VIMGRVCENTERCLOUDRUNTIME, VIVCENTERPORTGROUPS, VIVCENTERDATACENTERS, VIMGRHOSTRUNTIME, PLACEMENTGLOBALS, APICCONFIGURATION,
+            - CIFTABLE, APICTRANSACTION, VIRTUALSERVICESTATEDBCACHESUMMARY, POOLSTATEDBCACHESUMMARY, SERVERSTATEDBCACHESUMMARY, APICAGENTINTERNAL,
+            - APICTRANSACTIONFLAP, APICGRAPHINSTANCES, APICEPGS, APICEPGEPS, APICDEVICEPKGVER, APICTENANTS, APICVMMDOMAINS, NSXCONFIGURATION, NSXSGTABLE,
+            - NSXAGENTINTERNAL, NSXSGINFO, NSXSGIPS, NSXAGENTINTERNALCLI, MAXOBJECTS.
     recommendation:
         description:
-            - Not present
-        type: string
+            - Recommendation of alertconfig.
     rolling_window:
         description:
-            - Only if the Number of Events is reached or exceeded within the Time Window will an alert be generated.
-        default: 300
-        type: integer
+            - Only if the number of events is reached or exceeded within the time window will an alert be generated.
+            - Allowed values are 1-31536000.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     source:
         description:
-            - Signifies system events or the type of client logsused in this alert configuration
+            - Signifies system events or the type of client logsused in this alert configuration.
+            - Enum options - CONN_LOGS, APP_LOGS, EVENT_LOGS, METRICS.
         required: true
-        type: string
     summary:
         description:
-            - Summary of reason why alert is generated
-        type: string
+            - Summary of reason why alert is generated.
     tenant_ref:
         description:
-            - Not present. object ref Tenant.
-        type: string
+            - It is a reference to an object of type tenant.
     threshold:
         description:
             - An alert is created only when the number of events meets or exceeds this number within the chosen time frame.
-        default: 1
-        type: integer
+            - Allowed values are 1-65536.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     throttle:
         description:
             - Alerts are suppressed (throttled) for this duration of time since the last alert was raised for this alert config.
-        default: 600
-        type: integer
+            - Allowed values are 0-31536000.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 600.
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
     uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of the object.
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create AlertConfig object
+  avi_alertconfig:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_alertconfig
+"""
 
 RETURN = '''
 obj:
@@ -167,81 +172,56 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                action_group_ref=dict(
-                    type='str',
-                    ),
-                alert_rule=dict(
-                    type='dict',
-                    ),
-                autoscale_alert=dict(
-                    type='bool',
-                    ),
-                category=dict(
-                    type='str',
-                    ),
-                description=dict(
-                    type='str',
-                    ),
-                enabled=dict(
-                    type='bool',
-                    ),
-                expiry_time=dict(
-                    type='int',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                obj_uuid=dict(
-                    type='str',
-                    ),
-                object_type=dict(
-                    type='str',
-                    ),
-                recommendation=dict(
-                    type='str',
-                    ),
-                rolling_window=dict(
-                    type='int',
-                    ),
-                source=dict(
-                    type='str',
-                    ),
-                summary=dict(
-                    type='str',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                threshold=dict(
-                    type='int',
-                    ),
-                throttle=dict(
-                    type='int',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'alertconfig',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        action_group_ref=dict(type='str',),
+        alert_rule=dict(type='dict', required=True),
+        autoscale_alert=dict(type='bool',),
+        category=dict(type='str', required=True),
+        description=dict(type='str',),
+        enabled=dict(type='bool',),
+        expiry_time=dict(type='int',),
+        name=dict(type='str', required=True),
+        obj_uuid=dict(type='str',),
+        object_type=dict(type='str',),
+        recommendation=dict(type='str',),
+        rolling_window=dict(type='int',),
+        source=dict(type='str', required=True),
+        summary=dict(type='str',),
+        tenant_ref=dict(type='str',),
+        threshold=dict(type='int',),
+        throttle=dict(type='int',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'alertconfig',set([]))
 
 if __name__ == '__main__':
     main()

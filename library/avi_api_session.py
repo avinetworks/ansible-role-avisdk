@@ -23,78 +23,63 @@
 #
 """
 
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from copy import deepcopy
-
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
-from avi.sdk.utils.ansible_utils import (ansible_return,
-                                         avi_obj_cmp, cleanup_absent_fields)
-import json
-import time
-import os
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_api
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: API Module for invoking any Avi API.
+short_description: Avi API Module
 description:
-    - This module is used to configure Pool object
-version_added: 2.1.2
+    - This module can be used for calling any resources defined in Avi REST API. U(https://avinetworks.com/)
+    - This module is useful for invoking HTTP Patch methods and accessing resources that do not have an REST object associated with them.
+version_added: 2.3
 requirements: [ avisdk ]
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - password of the Avi user
-        default: admin
     http_method:
         description:
-            - get, put, post, delete
+            - Allowed HTTP methods for RESTful services and are supported by Avi Controller.
+        choices: ["get", "put", "post", "patch", "delete"]
         required: true
     data:
         description:
-            - HTTP body
-    data_json:
-        description:
-            - HTTP body in json
+            - HTTP body in YAML or JSON format.
     params:
         description:
-            - parameters to the request
-
+            - Query parameters passed to the HTTP API.
+    path:
+        description:
+            - 'Path for Avi API resource. For example, C(path: virtualservice) will translate to C(api/virtualserivce).'
+    timeout:
+        description:
+            - Timeout (in seconds) for Avi API calls.
+extends_documentation_fragment:
+    - avi
 '''
 
 EXAMPLES = '''
-# Get Pool Information using avi api session
-- avi_api_session:
-    # get pool information
-    controller: "{{ controller }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    http_method: get
-    path: pool
-    params:
-      name: "{{ pool_name }}"
-  register: pool_results
 
-# Patch Pool with list of servers
-  - avi_api_session:
+  - name: Get Pool Information using avi_api_session
+    avi_api_session:
+      controller: "{{ controller }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      http_method: get
+      path: pool
+      params:
+        name: "{{ pool_name }}"
+      api_version: 16.4
+    register: pool_results
+
+  - name: Patch Pool with list of servers
+    avi_api_session:
       controller: "{{ controller }}"
       username: "{{ username }}"
       password: "{{ password }}"
       http_method: patch
       path: "{{ pool_path }}"
+      api_version: 16.4
       data:
         add:
           servers:
@@ -104,6 +89,23 @@ EXAMPLES = '''
             - ip:
                 addr: 20.20.20.20
                 type: V4
+    register: updated_pool
+
+  - name: Fetch Pool metrics bandwidth and connections rate
+    avi_api_session:
+      controller: "{{ controller }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      http_method: get
+      path: analytics/metrics/pool
+      api_version: 16.4
+      params:
+        name: "{{ pool_name }}"
+        metric_id: l4_server.avg_bandwidth,l4_server.avg_complete_conns
+        step: 300
+        limit: 10
+    register: pool_metrics
+
 '''
 
 
@@ -114,83 +116,131 @@ obj:
     type: dict
 '''
 
+import json
+import time
+from ansible.module_utils.basic import AnsibleModule
+from copy import deepcopy
+
+HAS_AVI = True
+try:
+    from avi.sdk.avi_api import ApiSession
+    from avi.sdk.utils.ansible_utils import (
+        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
+        ansible_return)
+except ImportError:
+    HAS_AVI = False
+
 
 def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                http_method=dict(required=True,
-                                 choices=['get', 'put', 'post', 'patch',
-                                          'delete']),
-                path=dict(required=True),
-                params=dict(type='dict'),
-                data=dict(type='dict'),
-                data_json=dict(type='str'),
-                timeout=dict(default=60)
-            )
-        )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
+    argument_specs = dict(
+        http_method=dict(required=True,
+                         choices=['get', 'put', 'post', 'patch',
+                                  'delete']),
+        path=dict(type='str', required=True),
+        params=dict(type='dict'),
+        data=dict(type='jsonarg'),
+        timeout=dict(type='int', default=60)
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(argument_spec=argument_specs)
 
-        tenant = module.params.get('tenant', '')
-        tenant_uuid = module.params.get('tenant_uuid', '')
-        timeout = int(module.params.get('timeout', 60))
-        path = module.params.get('path', '')
-        params = module.params.get('params', None)
-        data = module.params.get('data', None)
-        if ((data is None) and
-                (module.params.get('data_json', None) is not None)):
-            data = json.loads(module.params.get('data_json', None))
-        method = module.params['http_method']
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    tenant_uuid = module.params.get('tenant_uuid', None)
+    api = ApiSession.get_session(
+        module.params['controller'], module.params['username'],
+        module.params['password'], tenant=module.params['tenant'],
+        tenant_uuid=tenant_uuid)
 
-        existing_obj = None
-        changed = method != 'get'
-        if method == 'put':
-            gparams = deepcopy(params) if params else {}
-            gparams.update({'include_refs': '', 'include_name': ''})
+    tenant = module.params.get('tenant', '')
+    timeout = int(module.params.get('timeout'))
+    # path is a required argument
+    path = module.params.get('path', '')
+    params = module.params.get('params', None)
+    data = module.params.get('data', None)
+    # Get the api_version from module.
+    api_version = module.params.get('api_version', '16.4')
+    if data is not None:
+        data = json.loads(data)
+    method = module.params['http_method']
+
+    existing_obj = None
+    changed = method != 'get'
+    gparams = deepcopy(params) if params else {}
+    gparams.update({'include_refs': '', 'include_name': ''})
+
+    if method == 'post':
+        # need to check if object already exists. In that case
+        # change the method to be put
+        gparams['name'] = data['name']
+        rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
+                      params=gparams, api_version=api_version)
+        try:
+            existing_obj = rsp.json()['results'][0]
+        except IndexError:
+            # object is not found
+            pass
+        else:
+            # object is present
+            method = 'put'
+            path += '/' + existing_obj['uuid']
+
+    if method == 'put':
+        # put can happen with when full path is specified or it is put + post
+        if existing_obj is None:
+            using_collection = False
+            if (len(path.split('/')) == 1) and ('name' in data):
+                gparams['name'] = data['name']
+                using_collection = True
             rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
-                          params=gparams)
-            if rsp.status_code == 404:
-                method = 'post'
+                          params=gparams, api_version=api_version)
+            rsp_data = rsp.json()
+            if using_collection:
+                if rsp_data['results']:
+                    existing_obj = rsp_data['results'][0]
+                    path += '/' + existing_obj['uuid']
+                else:
+                    method = 'post'
             else:
-                existing_obj = rsp.json()
-                changed = not avi_obj_cmp(data, existing_obj)
-                cleanup_absent_fields(data)
-        if method == 'patch':
-            gparams = deepcopy(params) if params else {}
-            gparams.update({'include_refs': '', 'include_name': ''})
-            rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
-                          params=gparams)
-            existing_obj = rsp.json()
+                if rsp.status_code == 404:
+                    method = 'post'
+                else:
+                    existing_obj = rsp_data
+        if existing_obj:
+            changed = not avi_obj_cmp(data, existing_obj)
+            cleanup_absent_fields(data)
+    if method == 'patch':
+        rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
+                      params=gparams, api_version=api_version)
+        existing_obj = rsp.json()
+
+    if (method == 'put' and changed) or (method != 'put'):
         fn = getattr(api, method)
         rsp = fn(path, tenant=tenant, tenant_uuid=tenant, timeout=timeout,
-                 params=params, data=data)
-        if method == 'delete' and rsp.status_code == 404:
-            changed = False
-            rsp.status_code = 200
-        if method == 'patch' and existing_obj and rsp.status_code < 299:
-            # Ideally the comparison should happen with the return values
-            # from the patch api call. However, currently Avi APIs are
-            # returning different hostname when GET is used vs Patch.
-            # tracked as AV-12561
-            if path.startswith('pool'):
-                time.sleep(1)
-            gparams = deepcopy(params) if params else {}
-            gparams.update({'include_refs': '', 'include_name': ''})
-            rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
-                          params=gparams)
-            new_obj = rsp.json()
-            changed = not avi_obj_cmp(new_obj, existing_obj)
-        return ansible_return(module, rsp, changed, req=data)
-    except:
-        raise
+                 params=params, data=data, api_version=api_version)
+    else:
+        rsp = None
+    if method == 'delete' and rsp.status_code == 404:
+        changed = False
+        rsp.status_code = 200
+    if method == 'patch' and existing_obj and rsp.status_code < 299:
+        # Ideally the comparison should happen with the return values
+        # from the patch API call. However, currently Avi API are
+        # returning different hostname when GET is used vs Patch.
+        # tracked as AV-12561
+        if path.startswith('pool'):
+            time.sleep(1)
+        gparams = deepcopy(params) if params else {}
+        gparams.update({'include_refs': '', 'include_name': ''})
+        rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
+                      params=gparams, api_version=api_version)
+        new_obj = rsp.json()
+        changed = not avi_obj_cmp(new_obj, existing_obj)
+    if rsp is None:
+        return module.exit_json(changed=changed, obj=existing_obj)
+    return ansible_return(module, rsp, changed, req=data)
 
 
 if __name__ == '__main__':

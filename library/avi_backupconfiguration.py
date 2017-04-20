@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,103 +23,79 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_backupconfiguration controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_backupconfiguration'
-description: "Adds/Deletes BackupConfiguration configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_backupconfiguration
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: BackupConfiguration Configuration
+short_description: Module for setup of BackupConfiguration Avi RESTful Object
 description:
     - This module is used to configure BackupConfiguration object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
+    backup_file_prefix:
+        description:
+            - Prefix of the exported configuration file.
+            - Field introduced in 17.1.
     backup_passphrase:
         description:
-            - Passphrase of backup configuration
-        type: string
+            - Passphrase of backup configuration.
     maximum_backups_stored:
         description:
             - Rotate the backup files based on this count.
-        default: 4
-        type: integer
+            - Allowed values are 1-20.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
     name:
         description:
             - Name of backup configuration.
         required: true
-        type: string
     remote_directory:
         description:
             - Directory at remote destination with write permission for ssh user.
-        type: string
     remote_hostname:
         description:
-            - Remote Destination.
-        type: string
+            - Remote destination.
     save_local:
         description:
-            - Local Backup
-        type: bool
+            - Local backup.
     ssh_user_ref:
         description:
-            - Access Credentials for remote destination. object ref CloudConnectorUser.
-        type: string
+            - Access credentials for remote destination.
+            - It is a reference to an object of type cloudconnectoruser.
     tenant_ref:
         description:
-            - Not present. object ref Tenant.
-        type: string
+            - It is a reference to an object of type tenant.
     upload_to_remote_host:
         description:
-            - Remote Backup
-        type: bool
+            - Remote backup.
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
     uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of the object.
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create BackupConfiguration object
+  avi_backupconfiguration:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_backupconfiguration
+"""
 
 RETURN = '''
 obj:
@@ -128,57 +104,49 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                backup_passphrase=dict(
-                    type='str',
-                    ),
-                maximum_backups_stored=dict(
-                    type='int',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                remote_directory=dict(
-                    type='str',
-                    ),
-                remote_hostname=dict(
-                    type='str',
-                    ),
-                save_local=dict(
-                    type='bool',
-                    ),
-                ssh_user_ref=dict(
-                    type='str',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                upload_to_remote_host=dict(
-                    type='bool',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'backupconfiguration',
-                               set(['backup_passphrase']))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        backup_file_prefix=dict(type='str',),
+        backup_passphrase=dict(type='str',),
+        maximum_backups_stored=dict(type='int',),
+        name=dict(type='str', required=True),
+        remote_directory=dict(type='str',),
+        remote_hostname=dict(type='str',),
+        save_local=dict(type='bool',),
+        ssh_user_ref=dict(type='str',),
+        tenant_ref=dict(type='str',),
+        upload_to_remote_host=dict(type='bool',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'backupconfiguration',set(['backup_passphrase']))
 
 if __name__ == '__main__':
     main()

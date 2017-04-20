@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,134 +23,108 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_serverautoscalepolicy controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_serverautoscalepolicy'
-description: "Adds/Deletes ServerAutoScalePolicy configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_serverautoscalepolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: ServerAutoScalePolicy Configuration
+short_description: Module for setup of ServerAutoScalePolicy Avi RESTful Object
 description:
     - This module is used to configure ServerAutoScalePolicy object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
     description:
         description:
-            - Not present.
-        type: string
+            - User defined description for the object.
     intelligent_autoscale:
         description:
-            - Use Avi intelligent autoscale algorithm where autoscale is performed by comparing load on the pool against estimated capacity of all the servers.
-        default: False
-        type: bool
+            - Use avi intelligent autoscale algorithm where autoscale is performed by comparing load on the pool against estimated capacity of all the servers.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     intelligent_scalein_margin:
         description:
-            - Maximum extra capacity as percentage of load used by the intelligent scheme. Scalein is triggered when available capacity is more than this margin
-        default: 40
-        type: integer
+            - Maximum extra capacity as percentage of load used by the intelligent scheme.
+            - Scalein is triggered when available capacity is more than this margin.
+            - Allowed values are 1-99.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 40.
     intelligent_scaleout_margin:
         description:
-            - Minimum extra capacity as percentage of load used by the intelligent scheme. Scaleout is triggered when available capacity is less than this margin.
-        default: 20
-        type: integer
+            - Minimum extra capacity as percentage of load used by the intelligent scheme.
+            - Scaleout is triggered when available capacity is less than this margin.
+            - Allowed values are 1-99.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
     max_scalein_adjustment_step:
         description:
-            - Maximum number of servers to scalein simultaneously. The actual number of servers to scalein is chosen such that target number of servers is always more than or equal to the min_size
-        default: 1
-        type: integer
+            - Maximum number of servers to scalein simultaneously.
+            - The actual number of servers to scalein is chosen such that target number of servers is always more than or equal to the min_size.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     max_scaleout_adjustment_step:
         description:
-            - Maximum number of servers to scaleout simultaneously. The actual number of servers to scaleout is chosen such that target number of servers is always less than or equal to the max_size
-        default: 1
-        type: integer
+            - Maximum number of servers to scaleout simultaneously.
+            - The actual number of servers to scaleout is chosen such that target number of servers is always less than or equal to the max_size.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     max_size:
         description:
-            - Maximum number of servers after scaleout
-        type: integer
+            - Maximum number of servers after scaleout.
+            - Allowed values are 0-400.
     min_size:
         description:
-            - No scale-in happens once number of operationally up servers reach min_servers
-        type: integer
+            - No scale-in happens once number of operationally up servers reach min_servers.
+            - Allowed values are 0-400.
     name:
         description:
-            - Not present.
+            - Name of the object.
         required: true
-        type: string
     scalein_alertconfig_refs:
         description:
-            - Trigger scalein when alerts due to any of these Alert configurations are raised object ref AlertConfig.
-        type: string
+            - Trigger scalein when alerts due to any of these alert configurations are raised.
+            - It is a reference to an object of type alertconfig.
     scalein_cooldown:
         description:
-            - Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete
-        default: 300
-        type: integer
+            - Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     scaleout_alertconfig_refs:
         description:
-            - Trigger scaleout when alerts due to any of these Alert configurations are raised object ref AlertConfig.
-        type: string
+            - Trigger scaleout when alerts due to any of these alert configurations are raised.
+            - It is a reference to an object of type alertconfig.
     scaleout_cooldown:
         description:
-            - Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete
-        default: 300
-        type: integer
+            - Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     tenant_ref:
         description:
-            - Not present. object ref Tenant.
-        type: string
+            - It is a reference to an object of type tenant.
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
     use_predicted_load:
         description:
-            - Use predicted load rather than current load
-        default: False
-        type: bool
+            - Use predicted load rather than current load.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of the object.
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create ServerAutoScalePolicy object
+  avi_serverautoscalepolicy:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_serverautoscalepolicy
+"""
 
 RETURN = '''
 obj:
@@ -159,75 +133,54 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                description=dict(
-                    type='str',
-                    ),
-                intelligent_autoscale=dict(
-                    type='bool',
-                    ),
-                intelligent_scalein_margin=dict(
-                    type='int',
-                    ),
-                intelligent_scaleout_margin=dict(
-                    type='int',
-                    ),
-                max_scalein_adjustment_step=dict(
-                    type='int',
-                    ),
-                max_scaleout_adjustment_step=dict(
-                    type='int',
-                    ),
-                max_size=dict(
-                    type='int',
-                    ),
-                min_size=dict(
-                    type='int',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                scalein_alertconfig_refs=dict(
-                    type='list',
-                    ),
-                scalein_cooldown=dict(
-                    type='int',
-                    ),
-                scaleout_alertconfig_refs=dict(
-                    type='list',
-                    ),
-                scaleout_cooldown=dict(
-                    type='int',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                use_predicted_load=dict(
-                    type='bool',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'serverautoscalepolicy',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        description=dict(type='str',),
+        intelligent_autoscale=dict(type='bool',),
+        intelligent_scalein_margin=dict(type='int',),
+        intelligent_scaleout_margin=dict(type='int',),
+        max_scalein_adjustment_step=dict(type='int',),
+        max_scaleout_adjustment_step=dict(type='int',),
+        max_size=dict(type='int',),
+        min_size=dict(type='int',),
+        name=dict(type='str', required=True),
+        scalein_alertconfig_refs=dict(type='list',),
+        scalein_cooldown=dict(type='int',),
+        scaleout_alertconfig_refs=dict(type='list',),
+        scaleout_cooldown=dict(type='int',),
+        tenant_ref=dict(type='str',),
+        url=dict(type='str',),
+        use_predicted_load=dict(type='bool',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'serverautoscalepolicy',set([]))
 
 if __name__ == '__main__':
     main()

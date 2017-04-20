@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,155 +23,111 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_vimgrnwruntime controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_vimgrnwruntime'
-description: "Adds/Deletes VIMgrNWRuntime configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_vimgrnwruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: VIMgrNWRuntime Configuration
+short_description: Module for setup of VIMgrNWRuntime Avi RESTful Object
 description:
     - This module is used to configure VIMgrNWRuntime object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
     apic_vrf_context:
         description:
-            - Not present.
-        type: string
+            - Apic_vrf_context of vimgrnwruntime.
     auto_expand:
         description:
-            - Not present.
-        type: bool
+            - Boolean flag to set auto_expand.
     availability_zone:
         description:
-            - Not present.
-        type: string
+            - Availability_zone of vimgrnwruntime.
     cloud_ref:
         description:
-            - Not present. object ref Cloud.
-        default: Default-Cloud
-        type: string
+            - It is a reference to an object of type cloud.
     datacenter_uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of datacenter.
     dvs:
         description:
-            - Not present.
-        type: bool
+            - Boolean flag to set dvs.
     host_refs:
         description:
-            - Not present. object ref VIMgrHostRuntime.
-        type: string
+            - It is a reference to an object of type vimgrhostruntime.
     interested_nw:
         description:
-            - Not present.
-        type: bool
+            - Boolean flag to set interested_nw.
     ip_subnet:
         description:
-            - Not present.
-        type: VIMgrIPSubnetRuntime
+            - List of vimgripsubnetruntime.
     managed_object_id:
         description:
-            - Not present.
+            - Managed_object_id of vimgrnwruntime.
         required: true
-        type: string
     MgmtNW:
         description:
-            - Not present.
-        type: bool
+            - Boolean flag to set mgmtnw.
     name:
         description:
-            - Not present.
+            - Name of the object.
         required: true
-        type: string
     num_ports:
         description:
-            - Not present.
-        type: integer
+            - Number of num_ports.
     switch_name:
         description:
-            - Not present.
-        type: string
+            - Switch_name of vimgrnwruntime.
     tenant_name:
         description:
-            - Not present.
-        type: string
+            - Tenant_name of vimgrnwruntime.
     tenant_ref:
         description:
-            - Not present. object ref Tenant.
-        default: admin
-        type: string
+            - It is a reference to an object of type tenant.
     type:
         description:
-            - Not present.
+            - Enum options - cloud_none, cloud_vcenter, cloud_openstack, cloud_aws, cloud_vca, cloud_apic, cloud_mesos, cloud_linuxserver, cloud_docker_ucp,
+            - cloud_rancher, cloud_oshift_k8s.
         required: true
-        type: string
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
     uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of the object.
     vlan:
         description:
-            - Not present.
-        type: integer
+            - Number of vlan.
     vlan_range:
         description:
-            - Not present.
-        type: VlanRange
+            - List of vlanrange.
     vm_refs:
         description:
-            - Not present. object ref VIMgrVMRuntime.
-        type: string
+            - It is a reference to an object of type vimgrvmruntime.
     vrf_context_ref:
         description:
-            - Not present. object ref VrfContext.
-        default: global
-        type: string
+            - It is a reference to an object of type vrfcontext.
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create VIMgrNWRuntime object
+  avi_vimgrnwruntime:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_vimgrnwruntime
+"""
 
 RETURN = '''
 obj:
@@ -180,93 +136,60 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                apic_vrf_context=dict(
-                    type='str',
-                    ),
-                auto_expand=dict(
-                    type='bool',
-                    ),
-                availability_zone=dict(
-                    type='str',
-                    ),
-                cloud_ref=dict(
-                    type='str',
-                    ),
-                datacenter_uuid=dict(
-                    type='str',
-                    ),
-                dvs=dict(
-                    type='bool',
-                    ),
-                host_refs=dict(
-                    type='list',
-                    ),
-                interested_nw=dict(
-                    type='bool',
-                    ),
-                ip_subnet=dict(
-                    type='list',
-                    ),
-                managed_object_id=dict(
-                    type='str',
-                    ),
-                MgmtNW=dict(
-                    type='bool',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                num_ports=dict(
-                    type='int',
-                    ),
-                switch_name=dict(
-                    type='str',
-                    ),
-                tenant_name=dict(
-                    type='str',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                type=dict(
-                    type='str',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                vlan=dict(
-                    type='int',
-                    ),
-                vlan_range=dict(
-                    type='list',
-                    ),
-                vm_refs=dict(
-                    type='list',
-                    ),
-                vrf_context_ref=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'vimgrnwruntime',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        apic_vrf_context=dict(type='str',),
+        auto_expand=dict(type='bool',),
+        availability_zone=dict(type='str',),
+        cloud_ref=dict(type='str',),
+        datacenter_uuid=dict(type='str',),
+        dvs=dict(type='bool',),
+        host_refs=dict(type='list',),
+        interested_nw=dict(type='bool',),
+        ip_subnet=dict(type='list',),
+        managed_object_id=dict(type='str', required=True),
+        MgmtNW=dict(type='bool',),
+        name=dict(type='str', required=True),
+        num_ports=dict(type='int',),
+        switch_name=dict(type='str',),
+        tenant_name=dict(type='str',),
+        tenant_ref=dict(type='str',),
+        type=dict(type='str', required=True),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+        vlan=dict(type='int',),
+        vlan_range=dict(type='list',),
+        vm_refs=dict(type='list',),
+        vrf_context_ref=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'vimgrnwruntime',set([]))
 
 if __name__ == '__main__':
     main()

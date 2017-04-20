@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,16 +23,72 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+
+DOCUMENTATION = '''
+---
+module: avi_applicationprofile
+author: Gaurav Rastogi (grastogi@avinetworks.com)
+
+short_description: Module for setup of ApplicationProfile Avi RESTful Object
+description:
+    - This module is used to configure ApplicationProfile object
+    - more examples at U(https://github.com/avinetworks/devops)
+requirements: [ avisdk ]
+version_added: "2.3"
+options:
+    state:
+        description:
+            - The state that should be applied on the entity.
+        default: present
+        choices: ["absent","present"]
+    description:
+        description:
+            - User defined description for the object.
+    dns_service_profile:
+        description:
+            - Specifies various dns service related controls for virtual service.
+    dos_rl_profile:
+        description:
+            - Specifies various security related controls for virtual service.
+    http_profile:
+        description:
+            - Specifies the http application proxy profile parameters.
+    name:
+        description:
+            - The name of the application profile.
+        required: true
+    preserve_client_ip:
+        description:
+            - Specifies if client ip needs to be preserved for backend connection.
+            - Not compatible with connection multiplexing.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    tcp_app_profile:
+        description:
+            - Specifies the tcp application proxy profile parameters.
+    tenant_ref:
+        description:
+            - It is a reference to an object of type tenant.
+    type:
+        description:
+            - Specifies which application layer proxy is enabled for the virtual service.
+            - Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS,
+            - APPLICATION_PROFILE_TYPE_SSL.
+        required: true
+    url:
+        description:
+            - Avi controller URL of the object.
+    uuid:
+        description:
+            - Uuid of the application profile.
+extends_documentation_fragment:
+    - avi
+'''
 
 
 EXAMPLES = '''
-  - avi_applicationprofile:
+  - name: Create an Application Profile for HTTP application enabled for SSL traffic
+    avi_applicationprofile:
       controller: ''
       username: ''
       password: ''
@@ -91,91 +147,6 @@ EXAMPLES = '''
       tenant_ref: admin
       type: APPLICATION_PROFILE_TYPE_HTTP
 '''
-DOCUMENTATION = '''
----
-module: avi_applicationprofile
-author: Gaurav Rastogi (grastogi@avinetworks.com)
-
-short_description: ApplicationProfile Configuration
-description:
-    - This module is used to configure ApplicationProfile object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
-requirements: [ avisdk ]
-version_added: 2.3
-options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
-    state:
-        description:
-            - The state that should be applied on the entity.
-        required: false
-        default: present
-        choices: ["absent","present"]
-    description:
-        description:
-            - Not present.
-        type: string
-    dns_service_profile:
-        description:
-            - Specifies various DNS service related controls for virtual service.
-        type: DnsServiceApplicationProfile
-    dos_rl_profile:
-        description:
-            - Specifies various security related controls for virtual service.
-        type: DosRateLimitProfile
-    http_profile:
-        description:
-            - Specifies the HTTP application proxy profile parameters.
-        type: HTTPApplicationProfile
-    name:
-        description:
-            - The name of the application profile.
-        required: true
-        type: string
-    preserve_client_ip:
-        description:
-            - Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing.
-        default: False
-        type: bool
-    tcp_app_profile:
-        description:
-            - Specifies the TCP application proxy profile parameters.
-        type: TCPApplicationProfile
-    tenant_ref:
-        description:
-            - Not present. object ref Tenant.
-        type: string
-    type:
-        description:
-            - Specifies which application layer proxy is enabled for the virtual service.
-        required: true
-        type: string
-    url:
-        description:
-            - url
-        required: true
-        type: string
-    uuid:
-        description:
-            - UUID of the application profile.
-        type: string
-'''
-
 RETURN = '''
 obj:
     description: ApplicationProfile (api/applicationprofile) object
@@ -183,57 +154,48 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                description=dict(
-                    type='str',
-                    ),
-                dns_service_profile=dict(
-                    type='dict',
-                    ),
-                dos_rl_profile=dict(
-                    type='dict',
-                    ),
-                http_profile=dict(
-                    type='dict',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                preserve_client_ip=dict(
-                    type='bool',
-                    ),
-                tcp_app_profile=dict(
-                    type='dict',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                type=dict(
-                    type='str',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'applicationprofile',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        description=dict(type='str',),
+        dns_service_profile=dict(type='dict',),
+        dos_rl_profile=dict(type='dict',),
+        http_profile=dict(type='dict',),
+        name=dict(type='str', required=True),
+        preserve_client_ip=dict(type='bool',),
+        tcp_app_profile=dict(type='dict',),
+        tenant_ref=dict(type='str',),
+        type=dict(type='str', required=True),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'applicationprofile',set([]))
 
 if __name__ == '__main__':
     main()

@@ -27,12 +27,12 @@ ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version
 
 DOCUMENTATION = '''
 ---
-module: avi_debugvirtualservice
+module: avi_nsxapplicationinfo
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of DebugVirtualService Avi RESTful Object
+short_description: Module for setup of NsxApplicationInfo Avi RESTful Object
 description:
-    - This module is used to configure DebugVirtualService object
+    - This module is used to configure NsxApplicationInfo object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -42,75 +42,64 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    capture:
+    applicationProtocol:
         description:
-            - Boolean flag to set capture.
-    capture_params:
-        description:
-            - Debugvirtualservicecapture settings for debugvirtualservice.
-    cloud_ref:
-        description:
-            - It is a reference to an object of type cloud.
-    debug_hm:
-        description:
-            - This option controls the capture of health monitor flows.
-            - Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.
-            - Default value when not specified in API or module is interpreted by Avi Controller as DEBUG_VS_HM_NONE.
-    debug_ip:
-        description:
-            - Debugipaddr settings for debugvirtualservice.
-    flags:
-        description:
-            - List of debugvsdataplane.
+            - Applicationprotocol of nsxapplicationinfo.
     name:
         description:
             - Name of the object.
         required: true
-    se_params:
+    nsx_object_id:
         description:
-            - Debugvirtualserviceseparams settings for debugvirtualservice.
-    tenant_ref:
+            - Nsx_object_id of nsxapplicationinfo.
+    obj_uuid:
         description:
-            - It is a reference to an object of type tenant.
+    typeName:
+        description:
+            - Typename of nsxapplicationinfo.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
             - Unique object identifier of the object.
+    value:
+        description:
+            - Value of nsxapplicationinfo.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create DebugVirtualService object
-  avi_debugvirtualservice:
+- name: Example to create NsxApplicationInfo object
+  avi_nsxapplicationinfo:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_debugvirtualservice
+    name: sample_nsxapplicationinfo
 """
 
 RETURN = '''
 obj:
-    description: DebugVirtualService (api/debugvirtualservice) object
+    description: NsxApplicationInfo (api/nsxapplicationinfo) object
     returned: success, changed
     type: dict
 '''
 
+from pkg_resources import parse_version
 from ansible.module_utils.basic import AnsibleModule
+from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+
+HAS_AVI = True
 try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+            (parse_version(sdk_version) < parse_version('16.3.5.post1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
 except ImportError:
     HAS_AVI = False
 
@@ -119,28 +108,25 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        capture=dict(type='bool',),
-        capture_params=dict(type='dict',),
-        cloud_ref=dict(type='str',),
-        debug_hm=dict(type='str',),
-        debug_ip=dict(type='dict',),
-        flags=dict(type='list',),
+        applicationProtocol=dict(type='str',),
         name=dict(type='str', required=True),
-        se_params=dict(type='dict',),
-        tenant_ref=dict(type='str',),
+        nsx_object_id=dict(type='str',),
+        obj_uuid=dict(type='str',),
+        typeName=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        value=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=16.3.5.post1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'debugvirtualservice',set([]))
+    return avi_ansible_api(module, 'nsxapplicationinfo',
+                           set([]))
+
 
 if __name__ == '__main__':
     main()

@@ -27,12 +27,12 @@ ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version
 
 DOCUMENTATION = '''
 ---
-module: avi_debugvirtualservice
+module: avi_dnspolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of DebugVirtualService Avi RESTful Object
+short_description: Module for setup of DnsPolicy Avi RESTful Object
 description:
-    - This module is used to configure DebugVirtualService object
+    - This module is used to configure DnsPolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -42,59 +42,49 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    capture:
+    created_by:
         description:
-            - Boolean flag to set capture.
-    capture_params:
+            - Creator name.
+            - Field introduced in 17.1.
+    description:
         description:
-            - Debugvirtualservicecapture settings for debugvirtualservice.
-    cloud_ref:
-        description:
-            - It is a reference to an object of type cloud.
-    debug_hm:
-        description:
-            - This option controls the capture of health monitor flows.
-            - Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.
-            - Default value when not specified in API or module is interpreted by Avi Controller as DEBUG_VS_HM_NONE.
-    debug_ip:
-        description:
-            - Debugipaddr settings for debugvirtualservice.
-    flags:
-        description:
-            - List of debugvsdataplane.
+            - Field introduced in 17.1.
     name:
         description:
-            - Name of the object.
-        required: true
-    se_params:
+            - Name of the dns policy.
+            - Field introduced in 17.1.
+    rule:
         description:
-            - Debugvirtualserviceseparams settings for debugvirtualservice.
+            - Dns rules.
+            - Field introduced in 17.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+            - Field introduced in 17.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid of the dns policy.
+            - Field introduced in 17.1.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create DebugVirtualService object
-  avi_debugvirtualservice:
+- name: Example to create DnsPolicy object
+  avi_dnspolicy:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_debugvirtualservice
+    name: sample_dnspolicy
 """
 
 RETURN = '''
 obj:
-    description: DebugVirtualService (api/debugvirtualservice) object
+    description: DnsPolicy (api/dnspolicy) object
     returned: success, changed
     type: dict
 '''
@@ -119,14 +109,10 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        capture=dict(type='bool',),
-        capture_params=dict(type='dict',),
-        cloud_ref=dict(type='str',),
-        debug_hm=dict(type='str',),
-        debug_ip=dict(type='dict',),
-        flags=dict(type='list',),
-        name=dict(type='str', required=True),
-        se_params=dict(type='dict',),
+        created_by=dict(type='str',),
+        description=dict(type='str',),
+        name=dict(type='str',),
+        rule=dict(type='list',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -140,7 +126,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     # Added api version field in ansible api.
     return avi_ansible_api(module,
-            'debugvirtualservice',set([]))
+            'dnspolicy',set([]))
 
 if __name__ == '__main__':
     main()

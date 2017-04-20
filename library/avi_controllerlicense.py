@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,119 +23,85 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_controllerlicense controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_controllerlicense'
-description: "Adds/Deletes ControllerLicense configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_controllerlicense
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: ControllerLicense Configuration
+short_description: Module for setup of ControllerLicense Avi RESTful Object
 description:
     - This module is used to configure ControllerLicense object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
     backend_servers:
         description:
-            - Not present.
-        type: integer
+            - Number of backend_servers.
     cores:
         description:
-            - Number of service engine cores in non-container clouds
-        type: integer
+            - Number of service engine cores in non-container clouds.
     customer_name:
         description:
-            - Not present.
+            - Customer_name of controllerlicense.
         required: true
-        type: string
     license_tier:
         description:
-            - Not present.
-        type: string
+            - License_tier of controllerlicense.
     licenses:
         description:
-            - Not present.
-        type: SingleLicense
+            - List of singlelicense.
     max_apps:
         description:
-            - Not present.
-        type: integer
+            - Number of max_apps.
     max_ses:
         description:
-            - Number of service engines hosts in container clouds
-        type: integer
+            - Number of service engines hosts in container clouds.
     max_vses:
         description:
-            - Deprecated
-        type: integer
+            - Deprecated.
     name:
         description:
-            - Not present.
-        type: string
+            - Name of the object.
     sockets:
         description:
-            - Number of physical cpu sockets across service engines in no access and linux server clouds
-        type: integer
+            - Number of physical cpu sockets across service engines in no access and linux server clouds.
     start_on:
         description:
-            - Not present.
-        type: string
+            - Start_on of controllerlicense.
     throughput:
         description:
-            - Not present.
-        type: integer
+            - Number of throughput.
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
     uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of the object.
     valid_until:
         description:
-            - Not present.
+            - Valid_until of controllerlicense.
         required: true
-        type: string
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create ControllerLicense object
+  avi_controllerlicense:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_controllerlicense
+"""
 
 RETURN = '''
 obj:
@@ -144,69 +110,52 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                backend_servers=dict(
-                    type='int',
-                    ),
-                cores=dict(
-                    type='int',
-                    ),
-                customer_name=dict(
-                    type='str',
-                    ),
-                license_tier=dict(
-                    type='list',
-                    ),
-                licenses=dict(
-                    type='list',
-                    ),
-                max_apps=dict(
-                    type='int',
-                    ),
-                max_ses=dict(
-                    type='int',
-                    ),
-                max_vses=dict(
-                    type='int',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                sockets=dict(
-                    type='int',
-                    ),
-                start_on=dict(
-                    type='str',
-                    ),
-                throughput=dict(
-                    type='int',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                valid_until=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'controllerlicense',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        backend_servers=dict(type='int',),
+        cores=dict(type='int',),
+        customer_name=dict(type='str', required=True),
+        license_tier=dict(type='list',),
+        licenses=dict(type='list',),
+        max_apps=dict(type='int',),
+        max_ses=dict(type='int',),
+        max_vses=dict(type='int',),
+        name=dict(type='str',),
+        sockets=dict(type='int',),
+        start_on=dict(type='str',),
+        throughput=dict(type='int',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+        valid_until=dict(type='str', required=True),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'controllerlicense',set([]))
 
 if __name__ == '__main__':
     main()
