@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,16 +23,75 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+
+DOCUMENTATION = '''
+---
+module: avi_ipaddrgroup
+author: Gaurav Rastogi (grastogi@avinetworks.com)
+
+short_description: Module for setup of IpAddrGroup Avi RESTful Object
+description:
+    - This module is used to configure IpAddrGroup object
+    - more examples at U(https://github.com/avinetworks/devops)
+requirements: [ avisdk ]
+version_added: "2.3"
+options:
+    state:
+        description:
+            - The state that should be applied on the entity.
+        default: present
+        choices: ["absent","present"]
+    addrs:
+        description:
+            - Configure ip address(es).
+    apic_epg_name:
+        description:
+            - Populate ip addresses from members of this cisco apic epg.
+    country_codes:
+        description:
+            - Populate the ip address ranges from the geo database for this country.
+    description:
+        description:
+            - User defined description for the object.
+    ip_ports:
+        description:
+            - Configure (ip address, port) tuple(s).
+    marathon_app_name:
+        description:
+            - Populate ip addresses from tasks of this marathon app.
+    marathon_service_port:
+        description:
+            - Task port associated with marathon service port.
+            - If marathon app has multiple service ports, this is required.
+            - Else, the first task port is used.
+    name:
+        description:
+            - Name of the ip address group.
+        required: true
+    prefixes:
+        description:
+            - Configure ip address prefix(es).
+    ranges:
+        description:
+            - Configure ip address range(s).
+    tenant_ref:
+        description:
+            - It is a reference to an object of type tenant.
+    url:
+        description:
+            - Avi controller URL of the object.
+    uuid:
+        description:
+            - Uuid of the ip address group.
+extends_documentation_fragment:
+    - avi
+'''
 
 
 EXAMPLES = '''
-  - avi_ipaddrgroup:
+  - name: Create an IP Address Group configuration
+    avi_ipaddrgroup:
       controller: ''
       username: ''
       password: ''
@@ -50,99 +109,7 @@ EXAMPLES = '''
           addr: 192.168.0.0
           type: V4
         mask: 16
-      tenant_ref: Demo
 '''
-DOCUMENTATION = '''
----
-module: avi_ipaddrgroup
-author: Gaurav Rastogi (grastogi@avinetworks.com)
-
-short_description: IpAddrGroup Configuration
-description:
-    - This module is used to configure IpAddrGroup object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
-requirements: [ avisdk ]
-version_added: 2.3
-options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
-    state:
-        description:
-            - The state that should be applied on the entity.
-        required: false
-        default: present
-        choices: ["absent","present"]
-    addrs:
-        description:
-            - Configure IP address(es)
-        type: IpAddr
-    apic_epg_name:
-        description:
-            - Populate IP addresses from members of this Cisco APIC EPG
-        type: string
-    country_codes:
-        description:
-            - Populate the IP address ranges from the geo database for this country
-        type: string
-    description:
-        description:
-            - Not present.
-        type: string
-    ip_ports:
-        description:
-            - Configure (IP address, port) tuple(s)
-        type: IpAddrPort
-    marathon_app_name:
-        description:
-            - Populate IP addresses from tasks of this Marathon app
-        type: string
-    marathon_service_port:
-        description:
-            - Task port associated with marathon service port. If Marathon app has multiple service ports, this is required. Else, the first task port is used
-        type: integer
-    name:
-        description:
-            - Name of the IP address group
-        required: true
-        type: string
-    prefixes:
-        description:
-            - Configure IP adress prefix(es)
-        type: IpAddrPrefix
-    ranges:
-        description:
-            - Configure IP adress range(s)
-        type: IpAddrRange
-    tenant_ref:
-        description:
-            - Not present. object ref Tenant.
-        type: string
-    url:
-        description:
-            - url
-        required: true
-        type: string
-    uuid:
-        description:
-            - UUID of the IP address group
-        type: string
-'''
-
 RETURN = '''
 obj:
     description: IpAddrGroup (api/ipaddrgroup) object
@@ -150,63 +117,50 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                addrs=dict(
-                    type='list',
-                    ),
-                apic_epg_name=dict(
-                    type='str',
-                    ),
-                country_codes=dict(
-                    type='list',
-                    ),
-                description=dict(
-                    type='str',
-                    ),
-                ip_ports=dict(
-                    type='list',
-                    ),
-                marathon_app_name=dict(
-                    type='str',
-                    ),
-                marathon_service_port=dict(
-                    type='int',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                prefixes=dict(
-                    type='list',
-                    ),
-                ranges=dict(
-                    type='list',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'ipaddrgroup',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        addrs=dict(type='list',),
+        apic_epg_name=dict(type='str',),
+        country_codes=dict(type='list',),
+        description=dict(type='str',),
+        ip_ports=dict(type='list',),
+        marathon_app_name=dict(type='str',),
+        marathon_service_port=dict(type='int',),
+        name=dict(type='str', required=True),
+        prefixes=dict(type='list',),
+        ranges=dict(type='list',),
+        tenant_ref=dict(type='str',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'ipaddrgroup',set([]))
 
 if __name__ == '__main__':
     main()

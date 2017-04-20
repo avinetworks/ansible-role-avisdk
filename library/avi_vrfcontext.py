@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,100 +23,74 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_vrfcontext controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_vrfcontext'
-description: "Adds/Deletes VrfContext configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_vrfcontext
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: VrfContext Configuration
+short_description: Module for setup of VrfContext Avi RESTful Object
 description:
     - This module is used to configure VrfContext object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
     bgp_profile:
         description:
-            - Bgp Local and Peer Info
-        type: BgpProfile
+            - Bgp local and peer info.
     cloud_ref:
         description:
-            - Not present. object ref Cloud.
-        default: Default-Cloud
-        type: string
+            - It is a reference to an object of type cloud.
     description:
         description:
-            - Not present.
-        type: string
+            - User defined description for the object.
     gateway_mon:
         description:
-            - Enable ping based heartbeat check to gateway on the Service Engines for this Virtual Routing Context
-        type: GatewayMonitor
+            - Configure ping based heartbeat check for gateway in service engines of vrf.
+    internal_gateway_monitor:
+        description:
+            - Configure ping based heartbeat check for all default gateways in service engines of vrf.
+            - Field introduced in 17.1.
     name:
         description:
-            - Not present.
+            - Name of the object.
         required: true
-        type: string
     static_routes:
         description:
-            - Not present.
-        type: StaticRoute
+            - List of staticroute.
     system_default:
         description:
-            - Not present.
-        default: False
-        type: bool
+            - Boolean flag to set system_default.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     tenant_ref:
         description:
-            - Not present. object ref Tenant.
-        type: string
+            - It is a reference to an object of type tenant.
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
     uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of the object.
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create VrfContext object
+  avi_vrfcontext:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_vrfcontext
+"""
 
 RETURN = '''
 obj:
@@ -125,54 +99,48 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                bgp_profile=dict(
-                    type='dict',
-                    ),
-                cloud_ref=dict(
-                    type='str',
-                    ),
-                description=dict(
-                    type='str',
-                    ),
-                gateway_mon=dict(
-                    type='list',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                static_routes=dict(
-                    type='list',
-                    ),
-                system_default=dict(
-                    type='bool',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'vrfcontext',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        bgp_profile=dict(type='dict',),
+        cloud_ref=dict(type='str',),
+        description=dict(type='str',),
+        gateway_mon=dict(type='list',),
+        internal_gateway_monitor=dict(type='dict',),
+        name=dict(type='str', required=True),
+        static_routes=dict(type='list',),
+        system_default=dict(type='bool',),
+        tenant_ref=dict(type='str',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'vrfcontext',set([]))
 
 if __name__ == '__main__':
     main()

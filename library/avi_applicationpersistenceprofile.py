@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,16 +23,73 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+
+DOCUMENTATION = '''
+---
+module: avi_applicationpersistenceprofile
+author: Gaurav Rastogi (grastogi@avinetworks.com)
+
+short_description: Module for setup of ApplicationPersistenceProfile Avi RESTful Object
+description:
+    - This module is used to configure ApplicationPersistenceProfile object
+    - more examples at U(https://github.com/avinetworks/devops)
+requirements: [ avisdk ]
+version_added: "2.3"
+options:
+    state:
+        description:
+            - The state that should be applied on the entity.
+        default: present
+        choices: ["absent","present"]
+    app_cookie_persistence_profile:
+        description:
+            - Specifies the application cookie persistence profile parameters.
+    description:
+        description:
+            - User defined description for the object.
+    hdr_persistence_profile:
+        description:
+            - Specifies the custom http header persistence profile parameters.
+    http_cookie_persistence_profile:
+        description:
+            - Specifies the http cookie persistence profile parameters.
+    ip_persistence_profile:
+        description:
+            - Specifies the client ip persistence profile parameters.
+    name:
+        description:
+            - A user-friendly name for the persistence profile.
+        required: true
+    persistence_type:
+        description:
+            - Method used to persist clients to the same server for a duration of time or a session.
+            - Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS, PERSISTENCE_TYPE_CLIENT_IPV6_ADDRESS,
+            - PERSISTENCE_TYPE_CUSTOM_HTTP_HEADER, PERSISTENCE_TYPE_APP_COOKIE, PERSISTENCE_TYPE_GSLB_SITE.
+            - Default value when not specified in API or module is interpreted by Avi Controller as PERSISTENCE_TYPE_CLIENT_IP_ADDRESS.
+        required: true
+    server_hm_down_recovery:
+        description:
+            - Specifies behavior when a persistent server has been marked down by a health monitor.
+            - Enum options - HM_DOWN_PICK_NEW_SERVER, HM_DOWN_ABORT_CONNECTION, HM_DOWN_CONTINUE_PERSISTENT_SERVER.
+            - Default value when not specified in API or module is interpreted by Avi Controller as HM_DOWN_PICK_NEW_SERVER.
+    tenant_ref:
+        description:
+            - It is a reference to an object of type tenant.
+    url:
+        description:
+            - Avi controller URL of the object.
+    uuid:
+        description:
+            - Uuid of the persistence profile.
+extends_documentation_fragment:
+    - avi
+'''
 
 
 EXAMPLES = '''
-  - avi_applicationpersistenceprofile:
+  - name: Create an Application Persistence setting using http cookie.
+    avi_applicationpersistenceprofile:
       controller: ''
       username: ''
       password: ''
@@ -52,91 +109,6 @@ EXAMPLES = '''
       server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
       tenant_ref: Demo
 '''
-DOCUMENTATION = '''
----
-module: avi_applicationpersistenceprofile
-author: Gaurav Rastogi (grastogi@avinetworks.com)
-
-short_description: ApplicationPersistenceProfile Configuration
-description:
-    - This module is used to configure ApplicationPersistenceProfile object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
-requirements: [ avisdk ]
-version_added: 2.3
-options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
-    state:
-        description:
-            - The state that should be applied on the entity.
-        required: false
-        default: present
-        choices: ["absent","present"]
-    app_cookie_persistence_profile:
-        description:
-            - Specifies the Application Cookie Persistence profile parameters.
-        type: AppCookiePersistenceProfile
-    description:
-        description:
-            - Not present.
-        type: string
-    hdr_persistence_profile:
-        description:
-            - Specifies the custom HTTP Header Persistence profile parameters.
-        type: HdrPersistenceProfile
-    http_cookie_persistence_profile:
-        description:
-            - Specifies the HTTP Cookie Persistence profile parameters.
-        type: HttpCookiePersistenceProfile
-    ip_persistence_profile:
-        description:
-            - Specifies the Client IP Persistence profile parameters.
-        type: IPPersistenceProfile
-    name:
-        description:
-            - A user-friendly name for the persistence profile.
-        required: true
-        type: string
-    persistence_type:
-        description:
-            - Method used to persist clients to the same server for a duration of time or a session.
-        required: true
-        type: string
-    server_hm_down_recovery:
-        description:
-            - Specifies behavior when a persistent server has been marked down by a health monitor.
-        default: 1
-        type: string
-    tenant_ref:
-        description:
-            - Not present. object ref Tenant.
-        type: string
-    url:
-        description:
-            - url
-        required: true
-        type: string
-    uuid:
-        description:
-            - UUID of the persistence profile.
-        type: string
-'''
-
 RETURN = '''
 obj:
     description: ApplicationPersistenceProfile (api/applicationpersistenceprofile) object
@@ -144,57 +116,48 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                app_cookie_persistence_profile=dict(
-                    type='dict',
-                    ),
-                description=dict(
-                    type='str',
-                    ),
-                hdr_persistence_profile=dict(
-                    type='dict',
-                    ),
-                http_cookie_persistence_profile=dict(
-                    type='dict',
-                    ),
-                ip_persistence_profile=dict(
-                    type='dict',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                persistence_type=dict(
-                    type='str',
-                    ),
-                server_hm_down_recovery=dict(
-                    type='str',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'applicationpersistenceprofile',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        app_cookie_persistence_profile=dict(type='dict',),
+        description=dict(type='str',),
+        hdr_persistence_profile=dict(type='dict',),
+        http_cookie_persistence_profile=dict(type='dict',),
+        ip_persistence_profile=dict(type='dict',),
+        name=dict(type='str', required=True),
+        persistence_type=dict(type='str', required=True),
+        server_hm_down_recovery=dict(type='str',),
+        tenant_ref=dict(type='str',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'applicationpersistenceprofile',set([]))
 
 if __name__ == '__main__':
     main()

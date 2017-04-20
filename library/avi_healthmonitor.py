@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,16 +23,101 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+
+DOCUMENTATION = '''
+---
+module: avi_healthmonitor
+author: Gaurav Rastogi (grastogi@avinetworks.com)
+
+short_description: Module for setup of HealthMonitor Avi RESTful Object
+description:
+    - This module is used to configure HealthMonitor object
+    - more examples at U(https://github.com/avinetworks/devops)
+requirements: [ avisdk ]
+version_added: "2.3"
+options:
+    state:
+        description:
+            - The state that should be applied on the entity.
+        default: present
+        choices: ["absent","present"]
+    description:
+        description:
+            - User defined description for the object.
+    dns_monitor:
+        description:
+            - Healthmonitordns settings for healthmonitor.
+    external_monitor:
+        description:
+            - Healthmonitorexternal settings for healthmonitor.
+    failed_checks:
+        description:
+            - Number of continuous failed health checks before the server is marked down.
+            - Allowed values are 1-50.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+    http_monitor:
+        description:
+            - Healthmonitorhttp settings for healthmonitor.
+    https_monitor:
+        description:
+            - Healthmonitorhttp settings for healthmonitor.
+    monitor_port:
+        description:
+            - Use this port instead of the port defined for the server in the pool.
+            - If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the pool.
+            - Allowed values are 1-65535.
+            - Special values are 0 - 'use server port'.
+    name:
+        description:
+            - A user friendly name for this health monitor.
+        required: true
+    receive_timeout:
+        description:
+            - A valid response from the server is expected within the receive timeout window.
+            - This timeout must be less than the send interval.
+            - If server status is regularly flapping up and down, consider increasing this value.
+            - Allowed values are 1-300.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
+    send_interval:
+        description:
+            - Frequency, in seconds, that monitors are sent to a server.
+            - Allowed values are 1-3600.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+    successful_checks:
+        description:
+            - Number of continuous successful health checks before server is marked up.
+            - Allowed values are 1-50.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+    tcp_monitor:
+        description:
+            - Healthmonitortcp settings for healthmonitor.
+    tenant_ref:
+        description:
+            - It is a reference to an object of type tenant.
+    type:
+        description:
+            - Type of the health monitor.
+            - Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP,
+            - HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB.
+        required: true
+    udp_monitor:
+        description:
+            - Healthmonitorudp settings for healthmonitor.
+    url:
+        description:
+            - Avi controller URL of the object.
+    uuid:
+        description:
+            - Uuid of the health monitor.
+extends_documentation_fragment:
+    - avi
+'''
 
 
 EXAMPLES = '''
-- avi_healthmonitor:
+- name: Create a HTTPS health monitor
+  avi_healthmonitor:
     controller: 10.10.27.90
     username: admin
     password: AviNetworks123!
@@ -48,118 +133,6 @@ EXAMPLES = '''
     type: HEALTH_MONITOR_HTTPS
     name: MyWebsite-HTTPS
 '''
-DOCUMENTATION = '''
----
-module: avi_healthmonitor
-author: Gaurav Rastogi (grastogi@avinetworks.com)
-
-short_description: HealthMonitor Configuration
-description:
-    - This module is used to configure HealthMonitor object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
-requirements: [ avisdk ]
-version_added: 2.3
-options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
-    state:
-        description:
-            - The state that should be applied on the entity.
-        required: false
-        default: present
-        choices: ["absent","present"]
-    description:
-        description:
-            - Not present.
-        type: string
-    dns_monitor:
-        description:
-            - Not present.
-        type: HealthMonitorDNS
-    external_monitor:
-        description:
-            - Not present.
-        type: HealthMonitorExternal
-    failed_checks:
-        description:
-            - Number of continuous failed health checks before the server is marked down.
-        default: 2
-        type: integer
-    http_monitor:
-        description:
-            - Not present.
-        type: HealthMonitorHttp
-    https_monitor:
-        description:
-            - Not present.
-        type: HealthMonitorHttp
-    monitor_port:
-        description:
-            - Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool.
-        type: integer
-    name:
-        description:
-            - A user friendly name for this health monitor.
-        required: true
-        type: string
-    receive_timeout:
-        description:
-            - A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value.
-        default: 4
-        type: integer
-    send_interval:
-        description:
-            - Frequency, in seconds, that monitors are sent to a server.
-        default: 10
-        type: integer
-    successful_checks:
-        description:
-            - Number of continuous successful health checks before server is marked up.
-        default: 2
-        type: integer
-    tcp_monitor:
-        description:
-            - Not present.
-        type: HealthMonitorTcp
-    tenant_ref:
-        description:
-            - Not present. object ref Tenant.
-        type: string
-    type:
-        description:
-            - Type of the health monitor.
-        required: true
-        type: string
-    udp_monitor:
-        description:
-            - Not present.
-        type: HealthMonitorUdp
-    url:
-        description:
-            - url
-        required: true
-        type: string
-    uuid:
-        description:
-            - UUID of the health monitor.
-        type: string
-'''
-
 RETURN = '''
 obj:
     description: HealthMonitor (api/healthmonitor) object
@@ -167,75 +140,54 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                description=dict(
-                    type='str',
-                    ),
-                dns_monitor=dict(
-                    type='dict',
-                    ),
-                external_monitor=dict(
-                    type='dict',
-                    ),
-                failed_checks=dict(
-                    type='int',
-                    ),
-                http_monitor=dict(
-                    type='dict',
-                    ),
-                https_monitor=dict(
-                    type='dict',
-                    ),
-                monitor_port=dict(
-                    type='int',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                receive_timeout=dict(
-                    type='int',
-                    ),
-                send_interval=dict(
-                    type='int',
-                    ),
-                successful_checks=dict(
-                    type='int',
-                    ),
-                tcp_monitor=dict(
-                    type='dict',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                type=dict(
-                    type='str',
-                    ),
-                udp_monitor=dict(
-                    type='dict',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'healthmonitor',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        description=dict(type='str',),
+        dns_monitor=dict(type='dict',),
+        external_monitor=dict(type='dict',),
+        failed_checks=dict(type='int',),
+        http_monitor=dict(type='dict',),
+        https_monitor=dict(type='dict',),
+        monitor_port=dict(type='int',),
+        name=dict(type='str', required=True),
+        receive_timeout=dict(type='int',),
+        send_interval=dict(type='int',),
+        successful_checks=dict(type='int',),
+        tcp_monitor=dict(type='dict',),
+        tenant_ref=dict(type='str',),
+        type=dict(type='str', required=True),
+        udp_monitor=dict(type='dict',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'healthmonitor',set([]))
 
 if __name__ == '__main__':
     main()

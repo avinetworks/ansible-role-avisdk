@@ -27,12 +27,12 @@ ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version
 
 DOCUMENTATION = '''
 ---
-module: avi_debugvirtualservice
+module: avi_vsvip
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of DebugVirtualService Avi RESTful Object
+short_description: Module for setup of VsVip Avi RESTful Object
 description:
-    - This module is used to configure DebugVirtualService object
+    - This module is used to configure VsVip object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -42,59 +42,62 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    capture:
-        description:
-            - Boolean flag to set capture.
-    capture_params:
-        description:
-            - Debugvirtualservicecapture settings for debugvirtualservice.
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
-    debug_hm:
+            - Field introduced in 17.1.
+    dns_info:
         description:
-            - This option controls the capture of health monitor flows.
-            - Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.
-            - Default value when not specified in API or module is interpreted by Avi Controller as DEBUG_VS_HM_NONE.
-    debug_ip:
+            - Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
+            - Field introduced in 17.1.
+    east_west_placement:
         description:
-            - Debugipaddr settings for debugvirtualservice.
-    flags:
-        description:
-            - List of debugvsdataplane.
+            - Force placement on all service engines in the service engine group (container clouds only).
+            - Field introduced in 17.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     name:
         description:
-            - Name of the object.
+            - Name for the vsvip object.
+            - Field introduced in 17.1.
         required: true
-    se_params:
-        description:
-            - Debugvirtualserviceseparams settings for debugvirtualservice.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+            - Field introduced in 17.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid of the vsvip object.
+            - Field introduced in 17.1.
+    vip:
+        description:
+            - List of virtual service ips and other shareable entities.
+            - Field introduced in 17.1.
+    vrf_context_ref:
+        description:
+            - Virtual routing context that the virtual service is bound to.
+            - This is used to provide the isolation of the set of networks the application is attached to.
+            - It is a reference to an object of type vrfcontext.
+            - Field introduced in 17.1.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create DebugVirtualService object
-  avi_debugvirtualservice:
+- name: Example to create VsVip object
+  avi_vsvip:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_debugvirtualservice
+    name: sample_vsvip
 """
 
 RETURN = '''
 obj:
-    description: DebugVirtualService (api/debugvirtualservice) object
+    description: VsVip (api/vsvip) object
     returned: success, changed
     type: dict
 '''
@@ -119,17 +122,15 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        capture=dict(type='bool',),
-        capture_params=dict(type='dict',),
         cloud_ref=dict(type='str',),
-        debug_hm=dict(type='str',),
-        debug_ip=dict(type='dict',),
-        flags=dict(type='list',),
+        dns_info=dict(type='list',),
+        east_west_placement=dict(type='bool',),
         name=dict(type='str', required=True),
-        se_params=dict(type='dict',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        vip=dict(type='list',),
+        vrf_context_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -140,7 +141,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     # Added api version field in ansible api.
     return avi_ansible_api(module,
-            'debugvirtualservice',set([]))
+            'vsvip',set([]))
 
 if __name__ == '__main__':
     main()

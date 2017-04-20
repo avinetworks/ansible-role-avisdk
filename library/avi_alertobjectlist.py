@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,16 +23,84 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+
+DOCUMENTATION = '''
+---
+module: avi_alertobjectlist
+author: Gaurav Rastogi (grastogi@avinetworks.com)
+
+short_description: Module for setup of AlertObjectList Avi RESTful Object
+description:
+    - This module is used to configure AlertObjectList object
+    - more examples at U(https://github.com/avinetworks/devops)
+requirements: [ avisdk ]
+version_added: "2.3"
+options:
+    state:
+        description:
+            - The state that should be applied on the entity.
+        default: present
+        choices: ["absent","present"]
+    name:
+        description:
+            - Name of the object.
+        required: true
+    objects:
+        description:
+            - Enum options - virtualservice, pool, healthmonitor, networkprofile, applicationprofile, httppolicyset, dnspolicy, ipaddrgroup, stringgroup,
+            - sslprofile, sslkeyandcertificate, networksecuritypolicy, applicationpersistenceprofile, analyticsprofile, vsdatascriptset, tenant, pkiprofile,
+            - authprofile, cloud, serverautoscalepolicy, autoscalelaunchconfig, microservicegroup, ipamprofile, hardwaresecuritymodulegroup, poolgroup,
+            - prioritylabels, poolgroupdeploymentpolicy, gslbservice, gslbhealthmonitor, gslbserviceruntime, scheduler, gslbgeodbprofile,
+            - gslbapplicationpersistenceprofile, trafficcloneprofile, serviceengine, debugserviceengine, debugcontroller, debugvirtualservice,
+            - serviceenginegroup, seproperties, network, controllernode, controllerproperties, systemconfiguration, vrfcontext, user, alertconfig,
+            - alertsyslogconfig, alertemailconfig, alerttypeconfig, application, role, cloudproperties, snmptrapprofile, actiongroupprofile, microservice,
+            - alertparams, actiongroupconfig, cloudconnectoruser, gslb, gslbdnsupdate, gslbsiteops, glbmgrwarmstart, ipamdnsrecord, gslbdnsgsstatus,
+            - gslbdnsgeofileops, gslbdnsgeoupdate, gslbdnsgeoclusterops, gslbdnscleanup, tcpstatruntime, udpstatruntime, ipstatruntime, arpstatruntime,
+            - mbstatruntime, ipstkqstatsruntime, mallocstatruntime, shmallocstatruntime, cpuusageruntime, l7globalstatsruntime, l7virtualservicestatsruntime,
+            - seagentvnicdbruntime, seagentgraphdbruntime, seagentstateruntime, interfaceruntime, arptableruntime, dispatcherstatruntime,
+            - dispatcherstatclearruntime, dispatchertabledumpruntime, dispatcherremotetimerlistdumpruntime, metricsagentmessage, healthmonitorstatruntime,
+            - metricsentityruntime, persistenceinternal, httppolicysetinternal, dnspolicyinternal, connectiondumpruntime, shareddbstats, shareddbstatsclear,
+            - icmpstatruntime, routetableruntime, virtualmachine, poolserver, sevslist, meminforuntime, rteringstatruntime, algostatruntime,
+            - healthmonitorruntime, cpustatruntime, sevm, host, portgroup, cluster, datacenter, vcenter, httppolicysetstats, dnspolicystats, metricssestats,
+            - ratelimiterstatruntime, networksecuritypolicystats, tcpconnruntime, poolstats, connpoolinternal, connpoolstats, vshashshowruntime,
+            - selogstatsruntime, networksecuritypolicydetail, licenseruntime, serverruntime, metricsruntimesummary, metricsruntimedetail,
+            - dispatchersehmprobetempdisableruntime, pooldebug, vslogmgrmap, seruminsertionstats, httpcache, httpcachestats, sedosstatruntime, vsdosstatruntime,
+            - serverupdatereq, vsscaleoutlist, sememdistruntime, tcpconnruntimedetail, seupgradestatus, seupgradepreview, sefaultinjectexhaustm,
+            - sefaultinjectexhaustmcl, sefaultinjectexhaustmclsmall, sefaultinjectexhaustconn, seheadlessonlinereq, seupgrade, seupgradestatusdetail,
+            - sereservedvs, sereservedvsclear, vscandidatesehostlist, segroupupgrade, rebalance, segrouprebalance, seauthstatsruntime, autoscalestate,
+            - virtualserviceauthstats, networksecuritypolicydos, keyvalinternal, keyvalsummaryinternal, serverstateupdateinfo, cltrackinternal,
+            - cltracksummaryinternal, microserviceruntime, semicroservice, virtualserviceanalysis, clientinternal, clientsummaryinternal,
+            - microservicegroupruntime, bgpruntime, requestqueueruntime, migrateall, migrateallstatussummary, migrateallstatusdetail, interfacesummaryruntime,
+            - interfacelacpruntime, dnstable, gslbservicedetail, gslbserviceinternal, gslbservicehmonstat, setrolesrequest, trafficcloneruntime,
+            - geolocationinfo, sevshbstatruntime, geodbinternal, gslbsiteinternal, seresourceproto, seconsumerproto, secreatependingproto, placementstats,
+            - sevipproto, rmvrfproto, vcentermap, vimgrvcenterruntime, interestedvms, interestedhosts, vcentersupportedcounters, entitycounters,
+            - transactionstats, sevmcreateprogress, placementstatus, visubfolders, vidatastore, vihostresources, cloudconnector, vinetworksubnetvms,
+            - vidatastorecontents, vimgrvcentercloudruntime, vivcenterportgroups, vivcenterdatacenters, vimgrhostruntime, placementglobals, apicconfiguration,
+            - ciftable, apictransaction, virtualservicestatedbcachesummary, poolstatedbcachesummary, serverstatedbcachesummary, apicagentinternal,
+            - apictransactionflap, apicgraphinstances, apicepgs, apicepgeps, apicdevicepkgver, apictenants, apicvmmdomains, nsxconfiguration, nsxsgtable,
+            - nsxagentinternal, nsxsginfo, nsxsgips, nsxagentinternalcli, maxobjects.
+    source:
+        description:
+            - Enum options - conn_logs, app_logs, event_logs, metrics.
+        required: true
+    tenant_ref:
+        description:
+            - It is a reference to an object of type tenant.
+    url:
+        description:
+            - Avi controller URL of the object.
+    uuid:
+        description:
+            - Unique object identifier of the object.
+extends_documentation_fragment:
+    - avi
+'''
 
 
 EXAMPLES = '''
-  - avi_alertobjectlist:
+  - name: Avi Alert object list
+    avi_alertobjectlist:
       controller: ''
       username: ''
       password: ''
@@ -45,70 +113,6 @@ EXAMPLES = '''
       source: EVENT_LOGS
       tenant_ref: admin
 '''
-DOCUMENTATION = '''
----
-module: avi_alertobjectlist
-author: Gaurav Rastogi (grastogi@avinetworks.com)
-
-short_description: AlertObjectList Configuration
-description:
-    - This module is used to configure AlertObjectList object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
-requirements: [ avisdk ]
-version_added: 2.3
-options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
-    state:
-        description:
-            - The state that should be applied on the entity.
-        required: false
-        default: present
-        choices: ["absent","present"]
-    name:
-        description:
-            - Not present.
-        required: true
-        type: string
-    objects:
-        description:
-            - Not present.
-        type: string
-    source:
-        description:
-            - Not present.
-        required: true
-        type: string
-    tenant_ref:
-        description:
-            - Not present. object ref Tenant.
-        type: string
-    url:
-        description:
-            - url
-        required: true
-        type: string
-    uuid:
-        description:
-            - Not present.
-        type: string
-'''
-
 RETURN = '''
 obj:
     description: AlertObjectList (api/alertobjectlist) object
@@ -116,42 +120,43 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                name=dict(
-                    type='str',
-                    ),
-                objects=dict(
-                    type='list',
-                    ),
-                source=dict(
-                    type='str',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'alertobjectlist',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        name=dict(type='str', required=True),
+        objects=dict(type='list',),
+        source=dict(type='str', required=True),
+        tenant_ref=dict(type='str',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'alertobjectlist',set([]))
 
 if __name__ == '__main__':
     main()

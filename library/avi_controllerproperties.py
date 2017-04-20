@@ -3,8 +3,8 @@
 # Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
-# module_check: not supported
-# Avi Version: 16.3
+# module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -23,253 +23,211 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-# Comment: import * is to make the modules work in ansible 2.0 environments
-# from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import *
-from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields, avi_ansible_api)
-
-EXAMPLES = """
-- code: 'avi_controllerproperties controller=10.10.25.42 username=admin '
-            ' password=something'
-            ' state=present name=sample_controllerproperties'
-description: "Adds/Deletes ControllerProperties configuration from Avi Controller."
-"""
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_controllerproperties
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: ControllerProperties Configuration
+short_description: Module for setup of ControllerProperties Avi RESTful Object
 description:
     - This module is used to configure ControllerProperties object
-    - more examples at <https://github.com/avinetworks/avi-ansible-samples>
+    - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: 2.3
+version_added: "2.3"
 options:
-    controller:
-        description:
-            - location of the controller. Environment variable AVI_CONTROLLER is default
-    username:
-        description:
-            - username to access the Avi. Environment variable AVI_USERNAME is default
-    password:
-        description:
-            - password of the Avi user. Environment variable AVI_PASSWORD is default
-    tenant:
-        description:
-            - tenant for the operations
-        default: admin
-    tenant_uuid:
-        description:
-            - tenant uuid for the operations
-        default: ''
     state:
         description:
             - The state that should be applied on the entity.
-        required: false
         default: present
         choices: ["absent","present"]
+    allow_ip_forwarding:
+        description:
+            - Field introduced in 17.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     allow_unauthenticated_apis:
         description:
-            - Allow unauthenticated access for special APIs
-        default: False
-        type: bool
+            - Allow unauthenticated access for special apis.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     allow_unauthenticated_nodes:
         description:
-            - Not present.
-        default: False
-        type: bool
+            - Boolean flag to set allow_unauthenticated_nodes.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     api_idle_timeout:
         description:
-            - Not present.
-        default: 15
-        type: integer
+            - Allowed values are 0-1440.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 15.
+    appviewx_compat_mode:
+        description:
+            - Export configuration in appviewx compatibility mode.
+            - Field introduced in 17.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     attach_ip_retry_interval:
         description:
-            - Not present.
-        default: 360
-        type: integer
+            - Number of attach_ip_retry_interval.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
     attach_ip_retry_limit:
         description:
-            - Not present.
-        default: 4
-        type: integer
+            - Number of attach_ip_retry_limit.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
     cluster_ip_gratuitous_arp_period:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Number of cluster_ip_gratuitous_arp_period.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     crashed_se_reboot:
         description:
-            - Not present.
-        default: 900
-        type: integer
+            - Number of crashed_se_reboot.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 900.
     dead_se_detection_timer:
         description:
-            - Not present.
-        default: 360
-        type: integer
+            - Number of dead_se_detection_timer.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
     dns_refresh_period:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Number of dns_refresh_period.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     dummy:
         description:
-            - Not present.
-        type: integer
+            - Number of dummy.
     fatal_error_lease_time:
         description:
-            - Not present.
-        default: 120
-        type: integer
+            - Number of fatal_error_lease_time.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 120.
     max_dead_se_in_grp:
         description:
-            - Not present.
-        default: 1
-        type: integer
+            - Number of max_dead_se_in_grp.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     max_pcap_per_tenant:
         description:
-            - Maximum number of pcap files stored per tenant
-        default: 4
-        type: integer
+            - Maximum number of pcap files stored per tenant.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
     max_seq_vnic_failures:
         description:
-            - Not present.
-        default: 3
-        type: integer
+            - Number of max_seq_vnic_failures.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3.
     persistence_key_rotate_period:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Allowed values are 1-1051200.
+            - Special values are 0 - 'disabled'.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     query_host_fail:
         description:
-            - Not present.
-        default: 180
-        type: integer
+            - Number of query_host_fail.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 180.
     se_create_timeout:
         description:
-            - Not present.
-        default: 900
-        type: integer
+            - Number of se_create_timeout.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 900.
     se_failover_attempt_interval:
         description:
-            - Interval between attempting failovers to an SE
-        default: 300
-        type: integer
+            - Interval between attempting failovers to an se.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     se_offline_del:
         description:
-            - Not present.
-        default: 172000
-        type: integer
+            - Number of se_offline_del.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 172000.
     se_vnic_cooldown:
         description:
-            - Not present.
-        default: 120
-        type: integer
+            - Number of se_vnic_cooldown.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 120.
     secure_channel_cleanup_timeout:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Number of secure_channel_cleanup_timeout.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     secure_channel_controller_token_timeout:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Number of secure_channel_controller_token_timeout.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     secure_channel_se_token_timeout:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Number of secure_channel_se_token_timeout.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     seupgrade_fabric_pool_size:
         description:
             - Pool size used for all fabric commands during se upgrade.
-        default: 20
-        type: integer
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
     seupgrade_segroup_min_dead_timeout:
         description:
             - Time to wait before marking segroup upgrade as stuck.
-        default: 360
-        type: integer
+            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
     ssl_certificate_expiry_warning_days:
         description:
-            - Number of days for SSL Certificate expiry warning
-        type: integer
+            - Number of days for ssl certificate expiry warning.
     unresponsive_se_reboot:
         description:
-            - Not present.
-        default: 300
-        type: integer
+            - Number of unresponsive_se_reboot.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
+    upgrade_dns_ttl:
+        description:
+            - Time to account for dns ttl during upgrade.
+            - This is in addition to vs_scalein_timeout_for_upgrade in se_group.
+            - Field introduced in 17.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 5.
     upgrade_lease_time:
         description:
-            - Not present.
-        default: 360
-        type: integer
+            - Number of upgrade_lease_time.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
     url:
         description:
-            - url
-        required: true
-        type: string
+            - Avi controller URL of the object.
     uuid:
         description:
-            - Not present.
-        type: string
+            - Unique object identifier of the object.
     vnic_op_fail_time:
         description:
-            - Not present.
-        default: 180
-        type: integer
+            - Number of vnic_op_fail_time.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 180.
     vs_apic_scaleout_timeout:
         description:
-            - Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only
-        default: 360
-        type: integer
+            - Time to wait for the scaled out se to become ready before marking the scaleout done, applies to apic configuration only.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
     vs_awaiting_se_timeout:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Number of vs_awaiting_se_timeout.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     vs_key_rotate_period:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Allowed values are 1-1051200.
+            - Special values are 0 - 'disabled'.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     vs_se_bootup_fail:
         description:
-            - Not present.
-        default: 300
-        type: integer
+            - Number of vs_se_bootup_fail.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     vs_se_create_fail:
         description:
-            - Not present.
-        default: 1500
-        type: integer
+            - Number of vs_se_create_fail.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1500.
     vs_se_ping_fail:
         description:
-            - Not present.
-        default: 60
-        type: integer
+            - Number of vs_se_ping_fail.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     vs_se_vnic_fail:
         description:
-            - Not present.
-        default: 300
-        type: integer
+            - Number of vs_se_vnic_fail.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     vs_se_vnic_ip_fail:
         description:
-            - Not present.
-        default: 120
-        type: integer
+            - Number of vs_se_vnic_ip_fail.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 120.
     warmstart_se_reconnect_wait_time:
         description:
-            - Not present.
-        default: 300
-        type: integer
+            - Number of warmstart_se_reconnect_wait_time.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
+extends_documentation_fragment:
+    - avi
 '''
+
+EXAMPLES = """
+- name: Example to create ControllerProperties object
+  avi_controllerproperties:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_controllerproperties
+"""
 
 RETURN = '''
 obj:
@@ -278,144 +236,80 @@ obj:
     type: dict
 '''
 
-def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-                username=dict(default=os.environ.get('AVI_USERNAME', '')),
-                password=dict(default=os.environ.get('AVI_PASSWORD', '')),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                allow_unauthenticated_apis=dict(
-                    type='bool',
-                    ),
-                allow_unauthenticated_nodes=dict(
-                    type='bool',
-                    ),
-                api_idle_timeout=dict(
-                    type='int',
-                    ),
-                attach_ip_retry_interval=dict(
-                    type='int',
-                    ),
-                attach_ip_retry_limit=dict(
-                    type='int',
-                    ),
-                cluster_ip_gratuitous_arp_period=dict(
-                    type='int',
-                    ),
-                crashed_se_reboot=dict(
-                    type='int',
-                    ),
-                dead_se_detection_timer=dict(
-                    type='int',
-                    ),
-                dns_refresh_period=dict(
-                    type='int',
-                    ),
-                dummy=dict(
-                    type='int',
-                    ),
-                fatal_error_lease_time=dict(
-                    type='int',
-                    ),
-                max_dead_se_in_grp=dict(
-                    type='int',
-                    ),
-                max_pcap_per_tenant=dict(
-                    type='int',
-                    ),
-                max_seq_vnic_failures=dict(
-                    type='int',
-                    ),
-                persistence_key_rotate_period=dict(
-                    type='int',
-                    ),
-                query_host_fail=dict(
-                    type='int',
-                    ),
-                se_create_timeout=dict(
-                    type='int',
-                    ),
-                se_failover_attempt_interval=dict(
-                    type='int',
-                    ),
-                se_offline_del=dict(
-                    type='int',
-                    ),
-                se_vnic_cooldown=dict(
-                    type='int',
-                    ),
-                secure_channel_cleanup_timeout=dict(
-                    type='int',
-                    ),
-                secure_channel_controller_token_timeout=dict(
-                    type='int',
-                    ),
-                secure_channel_se_token_timeout=dict(
-                    type='int',
-                    ),
-                seupgrade_fabric_pool_size=dict(
-                    type='int',
-                    ),
-                seupgrade_segroup_min_dead_timeout=dict(
-                    type='int',
-                    ),
-                ssl_certificate_expiry_warning_days=dict(
-                    type='list',
-                    ),
-                unresponsive_se_reboot=dict(
-                    type='int',
-                    ),
-                upgrade_lease_time=dict(
-                    type='int',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                vnic_op_fail_time=dict(
-                    type='int',
-                    ),
-                vs_apic_scaleout_timeout=dict(
-                    type='int',
-                    ),
-                vs_awaiting_se_timeout=dict(
-                    type='int',
-                    ),
-                vs_key_rotate_period=dict(
-                    type='int',
-                    ),
-                vs_se_bootup_fail=dict(
-                    type='int',
-                    ),
-                vs_se_create_fail=dict(
-                    type='int',
-                    ),
-                vs_se_ping_fail=dict(
-                    type='int',
-                    ),
-                vs_se_vnic_fail=dict(
-                    type='int',
-                    ),
-                vs_se_vnic_ip_fail=dict(
-                    type='int',
-                    ),
-                warmstart_se_reconnect_wait_time=dict(
-                    type='int',
-                    ),
-                ),
-        )
-        return avi_ansible_api(module, 'controllerproperties',
-                               set([]))
-    except:
-        raise
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or (sdk_version and
+            (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
 
+
+def main():
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        allow_ip_forwarding=dict(type='bool',),
+        allow_unauthenticated_apis=dict(type='bool',),
+        allow_unauthenticated_nodes=dict(type='bool',),
+        api_idle_timeout=dict(type='int',),
+        appviewx_compat_mode=dict(type='bool',),
+        attach_ip_retry_interval=dict(type='int',),
+        attach_ip_retry_limit=dict(type='int',),
+        cluster_ip_gratuitous_arp_period=dict(type='int',),
+        crashed_se_reboot=dict(type='int',),
+        dead_se_detection_timer=dict(type='int',),
+        dns_refresh_period=dict(type='int',),
+        dummy=dict(type='int',),
+        fatal_error_lease_time=dict(type='int',),
+        max_dead_se_in_grp=dict(type='int',),
+        max_pcap_per_tenant=dict(type='int',),
+        max_seq_vnic_failures=dict(type='int',),
+        persistence_key_rotate_period=dict(type='int',),
+        query_host_fail=dict(type='int',),
+        se_create_timeout=dict(type='int',),
+        se_failover_attempt_interval=dict(type='int',),
+        se_offline_del=dict(type='int',),
+        se_vnic_cooldown=dict(type='int',),
+        secure_channel_cleanup_timeout=dict(type='int',),
+        secure_channel_controller_token_timeout=dict(type='int',),
+        secure_channel_se_token_timeout=dict(type='int',),
+        seupgrade_fabric_pool_size=dict(type='int',),
+        seupgrade_segroup_min_dead_timeout=dict(type='int',),
+        ssl_certificate_expiry_warning_days=dict(type='list',),
+        unresponsive_se_reboot=dict(type='int',),
+        upgrade_dns_ttl=dict(type='int',),
+        upgrade_lease_time=dict(type='int',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+        vnic_op_fail_time=dict(type='int',),
+        vs_apic_scaleout_timeout=dict(type='int',),
+        vs_awaiting_se_timeout=dict(type='int',),
+        vs_key_rotate_period=dict(type='int',),
+        vs_se_bootup_fail=dict(type='int',),
+        vs_se_create_fail=dict(type='int',),
+        vs_se_ping_fail=dict(type='int',),
+        vs_se_vnic_fail=dict(type='int',),
+        vs_se_vnic_ip_fail=dict(type='int',),
+        warmstart_se_reconnect_wait_time=dict(type='int',),
+    )
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(
+        argument_spec=argument_specs, supports_check_mode=True)
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'controllerproperties',set([]))
 
 if __name__ == '__main__':
     main()
