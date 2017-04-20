@@ -64,6 +64,7 @@ This example shows usage of the avi_healthmonitor module included in this role.
         controller: 10.10.27.90
         username: admin
         password: AviNetworks123!
+        api_version: 17.1
         https_monitor:
           http_request: HEAD / HTTP/1.0
           http_response_code:
