@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -57,7 +59,7 @@ options:
     internal_gateway_monitor:
         description:
             - Configure ping based heartbeat check for all default gateways in service engines of vrf.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     name:
         description:
             - Name of the object.
@@ -138,9 +140,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'vrfcontext',set([]))
+    return avi_ansible_api(module, 'vrfcontext',
+                           set([]))
 
 if __name__ == '__main__':
     main()

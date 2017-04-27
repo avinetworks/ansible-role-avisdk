@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -45,29 +47,29 @@ options:
     created_by:
         description:
             - Creator name.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     description:
         description:
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     name:
         description:
             - Name of the dns policy.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     rule:
         description:
             - Dns rules.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
             - Uuid of the dns policy.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
 extends_documentation_fragment:
     - avi
 '''
@@ -124,9 +126,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'dnspolicy',set([]))
+    return avi_ansible_api(module, 'dnspolicy',
+                           set([]))
 
 if __name__ == '__main__':
     main()

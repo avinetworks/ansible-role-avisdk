@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -44,7 +46,7 @@ options:
         choices: ["absent","present"]
     allow_ip_forwarding:
         description:
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     allow_unauthenticated_apis:
         description:
@@ -61,7 +63,7 @@ options:
     appviewx_compat_mode:
         description:
             - Export configuration in appviewx compatibility mode.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     attach_ip_retry_interval:
         description:
@@ -162,7 +164,7 @@ options:
         description:
             - Time to account for dns ttl during upgrade.
             - This is in addition to vs_scalein_timeout_for_upgrade in se_group.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5.
     upgrade_lease_time:
         description:
@@ -307,9 +309,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'controllerproperties',set([]))
+    return avi_ansible_api(module, 'controllerproperties',
+                           set([]))
 
 if __name__ == '__main__':
     main()

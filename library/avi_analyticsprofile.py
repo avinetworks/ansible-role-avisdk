@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -105,7 +107,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.0.
     client_log_config:
         description:
-            - Clientlogconfiguration settings for analyticsprofile.
+            - Configure which logs are sent to the avi controller from ses and how they are processed.
+    client_log_syslog_config:
+        description:
+            - Configure to send logs to a remote syslog server.
+            - Field introduced in 17.1.1.
     conn_lossy_ooo_threshold:
         description:
             - A connection between client and avi is considered lossy when more than this percentage of out of order packets are received.
@@ -461,6 +467,7 @@ def main():
         apdex_server_rtt_threshold=dict(type='int',),
         apdex_server_rtt_tolerated_factor=dict(type='float',),
         client_log_config=dict(type='dict',),
+        client_log_syslog_config=dict(type='dict',),
         conn_lossy_ooo_threshold=dict(type='int',),
         conn_lossy_timeo_rexmt_threshold=dict(type='int',),
         conn_lossy_total_rexmt_threshold=dict(type='int',),
@@ -525,9 +532,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'analyticsprofile',set([]))
+    return avi_ansible_api(module, 'analyticsprofile',
+                           set([]))
 
 if __name__ == '__main__':
     main()

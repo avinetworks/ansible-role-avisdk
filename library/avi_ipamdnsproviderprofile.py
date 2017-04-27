@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -45,6 +47,10 @@ options:
     aws_profile:
         description:
             - Provider details if type is aws.
+    custom_profile:
+        description:
+            - Provider details if type is custom.
+            - Field introduced in 17.1.1.
     gcp_profile:
         description:
             - Provider details if type is google cloud.
@@ -63,15 +69,15 @@ options:
             - Provider details if type is openstack.
     proxy_configuration:
         description:
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
     type:
         description:
             - Provider type for the ipam/dns provider profile.
-            - Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INTERNAL,
-            - IPAMDNS_TYPE_INTERNAL_DNS.
+            - Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM,
+            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS.
         required: true
     url:
         description:
@@ -133,6 +139,7 @@ def main():
         state=dict(default='present',
                    choices=['absent', 'present']),
         aws_profile=dict(type='dict',),
+        custom_profile=dict(type='dict',),
         gcp_profile=dict(type='dict',),
         infoblox_profile=dict(type='dict',),
         internal_profile=dict(type='dict',),
@@ -151,9 +158,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'ipamdnsproviderprofile',set([]))
+    return avi_ansible_api(module, 'ipamdnsproviderprofile',
+                           set([]))
 
 if __name__ == '__main__':
     main()
