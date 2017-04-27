@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -66,26 +68,26 @@ options:
     auto_allocate_floating_ip:
         description:
             - Auto-allocate floating/elastic ip from the cloud infrastructure.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     auto_allocate_ip:
         description:
             - Auto-allocate vip from the provided subnet.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     availability_zone:
         description:
             - Availability-zone to place the virtual service.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     avi_allocated_fip:
         description:
             - (internal-use) fip allocated by avi in the cloud infrastructure.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     avi_allocated_vip:
         description:
             - (internal-use) vip allocated by avi in the cloud infrastructure.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     client_auth:
         description:
@@ -124,17 +126,17 @@ options:
             - (internal-use) discovered networks providing reachability for client facing virtual service ip.
             - This field is deprecated.
             - It is a reference to an object of type network.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     discovered_networks:
         description:
             - (internal-use) discovered networks providing reachability for client facing virtual service ip.
             - This field is used internally by avi, not editable by the user.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     discovered_subnet:
         description:
             - (internal-use) discovered subnets providing reachability for client facing virtual service ip.
             - This field is deprecated.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     dns_info:
         description:
             - Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
@@ -142,7 +144,7 @@ options:
     dns_policies:
         description:
             - Dns policies applied on the dns traffic of the virtual service.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     east_west_placement:
         description:
             - Force placement on all se's in service group (mesos mode only).
@@ -164,13 +166,13 @@ options:
     floating_ip:
         description:
             - Floating ip to associate with this virtual service.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     floating_subnet_uuid:
         description:
             - If auto_allocate_floating_ip is true and more than one floating-ip subnets exist, then the subnet for the floating ip address allocation.
             - This field is applicable only if the virtualservice belongs to an openstack or aws cloud.
             - In openstack or aws cloud it is required when auto_allocate_floating_ip is selected.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     flow_dist:
         description:
             - Criteria for flow distribution among ses.
@@ -199,7 +201,7 @@ options:
     ip_address:
         description:
             - Ip address of the virtual service.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     ipam_network_subnet:
         description:
             - Subnet and/or network for allocating virtualservice ip by ipam provider module.
@@ -229,7 +231,7 @@ options:
         description:
             - Manually override the network on which the virtual service is placed.
             - It is a reference to an object of type network.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     network_security_policy_ref:
         description:
             - Network security policies for the virtual service.
@@ -237,7 +239,7 @@ options:
     nsx_securitygroup:
         description:
             - A list of nsx service groups representing the clients which can access the virtual ip of the virtual service.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     performance_limits:
         description:
             - Optional settings that determine performance limits like max connections or bandwdith etc.
@@ -252,7 +254,7 @@ options:
     port_uuid:
         description:
             - (internal-use) network port assigned to the virtual service ip address.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     remove_listening_port_on_vs_down:
         description:
             - Remove listening port if virtualservice is down.
@@ -312,12 +314,12 @@ options:
     subnet:
         description:
             - Subnet providing reachability for client facing virtual service ip.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     subnet_uuid:
         description:
             - It represents subnet for the virtual service ip address allocation when auto_allocate_ip is true.it is only applicable in openstack or aws cloud.
             - This field is required if auto_allocate_ip is true.
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -325,7 +327,7 @@ options:
         description:
             - Server network or list of servers for cloning traffic.
             - It is a reference to an object of type trafficcloneprofile.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     type:
         description:
             - Specify if this is a normal virtual service, or if it is the parent or child of an sni-enabled virtual hosted virtual service.
@@ -352,7 +354,7 @@ options:
         description:
             - List of virtual service ips.
             - While creating a 'shared vs',please use vsvip_ref to point to the shared entities.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     vrf_context_ref:
         description:
             - Virtual routing context that the virtual service is bound to.
@@ -365,7 +367,7 @@ options:
         description:
             - Mostly used during the creation of shared vs, this fieldrefers to entities that can be shared across virtual services.
             - It is a reference to an object of type vsvip.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     weight:
         description:
             - The quality of service weight to assign to traffic transmitted from this virtual service.
@@ -513,9 +515,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'virtualservice',set([]))
+    return avi_ansible_api(module, 'virtualservice',
+                           set([]))
 
 if __name__ == '__main__':
     main()

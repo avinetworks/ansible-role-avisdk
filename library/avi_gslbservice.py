@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -102,7 +104,7 @@ options:
         description:
             - Use the client ip subnet from the edns option as source ipaddress for client geo-location and consistent hash algorithm.
             - Default is true.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
     uuid:
         description:
@@ -112,7 +114,7 @@ options:
             - Enable wild-card match of fqdn  if an exact match is not found in the dns table, the longest match is chosen by wild-carding the fqdn in the dns
             - request.
             - Default is false.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
 extends_documentation_fragment:
     - avi
@@ -179,9 +181,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'gslbservice',set([]))
+    return avi_ansible_api(module, 'gslbservice',
+                           set([]))
 
 if __name__ == '__main__':
     main()

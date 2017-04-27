@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,7 +23,9 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
@@ -122,7 +124,7 @@ options:
     enable_vip_on_all_interfaces:
         description:
             - Enable vip on all interfaces of se.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
     enable_vmac:
         description:
@@ -135,7 +137,7 @@ options:
     extra_shared_config_memory:
         description:
             - Extra config memory to support large geo db configuration.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     floating_intf_ip:
         description:
@@ -245,10 +247,10 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 8.
     openstack_availability_zone:
         description:
-            - Field deprecated in 17.1.
+            - Field deprecated in 17.1.1.
     openstack_availability_zones:
         description:
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     openstack_mgmt_network_name:
         description:
             - Avi management network name.
@@ -294,25 +296,27 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     se_tunnel_mode:
         description:
-            - Field introduced in 17.1.
+            - Determines if dsr from secondary se is active or not      0        automatically determine based on hypervisor type    1        disable dsr
+            - unconditionally    ~[0,1]   enable dsr unconditionally.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_vs_hb_max_pkts_in_batch:
         description:
             - Maximum number of aggregated vs heartbeat packets to send in a batch.
             - Allowed values are 1-256.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 8.
     se_vs_hb_max_vs_in_pkt:
         description:
             - Maximum number of virtualservices for which heartbeat messages are aggregated in one packet.
             - Allowed values are 1-1024.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 256.
     service_ip_subnets:
         description:
             - Subnets assigned to the se group.
             - Required for vs group placement.
-            - Field introduced in 17.1.
+            - Field introduced in 17.1.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -346,7 +350,7 @@ options:
     vcpus_per_se:
         description:
             - Number of vcpus for each of the service engine virtual machines.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     vs_host_redundancy:
         description:
             - Ensure primary and secondary service engines are deployed on different physical hosts.
@@ -488,9 +492,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    # Added api version field in ansible api.
-    return avi_ansible_api(module,
-            'serviceenginegroup',set([]))
+    return avi_ansible_api(module, 'serviceenginegroup',
+                           set([]))
 
 if __name__ == '__main__':
     main()
