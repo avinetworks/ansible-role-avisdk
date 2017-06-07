@@ -37,7 +37,7 @@ description:
     - This module is used to configure Gslb object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -50,6 +50,10 @@ options:
             - In fresh start all the configsare downloaded.
             - Allowed values are 1-1024.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
+    client_ip_addr_group:
+        description:
+            - Group to specify if the client ip addresses are public or private.
+            - Field introduced in 17.1.2.
     description:
         description:
             - User defined description for the object.
@@ -133,6 +137,7 @@ def main():
         state=dict(default='present',
                    choices=['absent', 'present']),
         clear_on_max_retries=dict(type='int',),
+        client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
         leader_cluster_uuid=dict(type='str',),

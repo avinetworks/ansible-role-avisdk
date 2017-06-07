@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -37,7 +36,7 @@ description:
     - This module is used to configure VIMgrSEVMRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -77,7 +76,6 @@ options:
     flavor:
         description:
             - Flavor of vimgrsevmruntime.
-            - Default value when not specified in API or module is interpreted by Avi Controller as .
     guest_nic:
         description:
             - List of vimgrguestnicruntime.

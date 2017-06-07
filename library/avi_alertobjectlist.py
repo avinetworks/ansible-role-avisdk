@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -37,7 +36,7 @@ description:
     - This module is used to configure AlertObjectList object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -54,7 +53,7 @@ options:
             - sslprofile, sslkeyandcertificate, networksecuritypolicy, applicationpersistenceprofile, analyticsprofile, vsdatascriptset, tenant, pkiprofile,
             - authprofile, cloud, serverautoscalepolicy, autoscalelaunchconfig, microservicegroup, ipamprofile, hardwaresecuritymodulegroup, poolgroup,
             - prioritylabels, poolgroupdeploymentpolicy, gslbservice, gslbhealthmonitor, gslbserviceruntime, scheduler, gslbgeodbprofile,
-            - gslbapplicationpersistenceprofile, trafficcloneprofile, serviceengine, debugserviceengine, debugcontroller, debugvirtualservice,
+            - gslbapplicationpersistenceprofile, trafficcloneprofile, vsvip, serviceengine, debugserviceengine, debugcontroller, debugvirtualservice,
             - serviceenginegroup, seproperties, network, controllernode, controllerproperties, systemconfiguration, vrfcontext, user, alertconfig,
             - alertsyslogconfig, alertemailconfig, alerttypeconfig, application, role, cloudproperties, snmptrapprofile, actiongroupprofile, microservice,
             - alertparams, actiongroupconfig, cloudconnectoruser, gslb, gslbdnsupdate, gslbsiteops, glbmgrwarmstart, ipamdnsrecord, gslbdnsgsstatus,
