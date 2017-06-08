@@ -37,7 +37,7 @@ description:
     - This module is used to configure Cloud object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -158,7 +158,7 @@ extends_documentation_fragment:
 
 
 EXAMPLES = '''
-  - name: Create a VMWare cloud with write access mode
+  - name: Create a VMware cloud with write access mode
     avi_cloud:
       username: ''
       controller: ''

@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
+# Avi Version: 17.1.2
 #
 #
 # This file is part of Ansible
@@ -37,7 +37,7 @@ description:
     - This module is used to configure ControllerProperties object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -113,6 +113,10 @@ options:
             - Allowed values are 1-1051200.
             - Special values are 0 - 'disabled'.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
+    portal_token:
+        description:
+            - Token used for uploading tech-support to portal.
+            - Field introduced in 17.1.2.
     query_host_fail:
         description:
             - Number of query_host_fail.
@@ -275,6 +279,7 @@ def main():
         max_pcap_per_tenant=dict(type='int',),
         max_seq_vnic_failures=dict(type='int',),
         persistence_key_rotate_period=dict(type='int',),
+        portal_token=dict(type='str', no_log=True,),
         query_host_fail=dict(type='int',),
         se_create_timeout=dict(type='int',),
         se_failover_attempt_interval=dict(type='int',),
@@ -310,7 +315,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'controllerproperties',
-                           set([]))
+                           set(['portal_token']))
 
 if __name__ == '__main__':
     main()

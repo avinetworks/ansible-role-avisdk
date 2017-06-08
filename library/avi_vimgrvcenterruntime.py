@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -37,7 +36,7 @@ description:
     - This module is used to configure VIMgrVcenterRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -73,7 +72,8 @@ options:
         description:
             - Enum options - vcenter_discovery_bad_credentials, vcenter_discovery_retrieving_dc, vcenter_discovery_waiting_dc, vcenter_discovery_retrieving_nw,
             - vcenter_discovery_ongoing, vcenter_discovery_resyncing, vcenter_discovery_complete, vcenter_discovery_deleting_vcenter, vcenter_discovery_failure,
-            - vcenter_discovery_complete_no_mgmt_nw, vcenter_discovery_complete_per_tenant_ip_route, vcenter_discovery_making_se_ova.
+            - vcenter_discovery_complete_no_mgmt_nw, vcenter_discovery_complete_per_tenant_ip_route, vcenter_discovery_making_se_ova,
+            - vcenter_discovery_resync_failed.
     management_network:
         description:
             - Management_network of vimgrvcenterruntime.

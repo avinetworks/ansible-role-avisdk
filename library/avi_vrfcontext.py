@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -37,7 +36,7 @@ description:
     - This module is used to configure VrfContext object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -50,6 +49,10 @@ options:
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
+    debugvrfcontext:
+        description:
+            - Configure debug flags for vrf.
+            - Field introduced in 17.1.1.
     description:
         description:
             - User defined description for the object.
@@ -123,6 +126,7 @@ def main():
                    choices=['absent', 'present']),
         bgp_profile=dict(type='dict',),
         cloud_ref=dict(type='str',),
+        debugvrfcontext=dict(type='dict',),
         description=dict(type='str',),
         gateway_mon=dict(type='list',),
         internal_gateway_monitor=dict(type='dict',),

@@ -37,7 +37,7 @@ description:
     - This module is used to configure CloudConnectorUser object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -109,7 +109,7 @@ def main():
         state=dict(default='present',
                    choices=['absent', 'present']),
         name=dict(type='str', required=True),
-        private_key=dict(type='str',),
+        private_key=dict(type='str', no_log=True,),
         public_key=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
