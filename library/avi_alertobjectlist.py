@@ -4,6 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -22,9 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
@@ -36,7 +35,7 @@ description:
     - This module is used to configure AlertObjectList object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.3"
 options:
     state:
         description:
@@ -53,7 +52,7 @@ options:
             - sslprofile, sslkeyandcertificate, networksecuritypolicy, applicationpersistenceprofile, analyticsprofile, vsdatascriptset, tenant, pkiprofile,
             - authprofile, cloud, serverautoscalepolicy, autoscalelaunchconfig, microservicegroup, ipamprofile, hardwaresecuritymodulegroup, poolgroup,
             - prioritylabels, poolgroupdeploymentpolicy, gslbservice, gslbhealthmonitor, gslbserviceruntime, scheduler, gslbgeodbprofile,
-            - gslbapplicationpersistenceprofile, trafficcloneprofile, vsvip, serviceengine, debugserviceengine, debugcontroller, debugvirtualservice,
+            - gslbapplicationpersistenceprofile, trafficcloneprofile, serviceengine, debugserviceengine, debugcontroller, debugvirtualservice,
             - serviceenginegroup, seproperties, network, controllernode, controllerproperties, systemconfiguration, vrfcontext, user, alertconfig,
             - alertsyslogconfig, alertemailconfig, alerttypeconfig, application, role, cloudproperties, snmptrapprofile, actiongroupprofile, microservice,
             - alertparams, actiongroupconfig, cloudconnectoruser, gslb, gslbdnsupdate, gslbsiteops, glbmgrwarmstart, ipamdnsrecord, gslbdnsgsstatus,
@@ -155,8 +154,9 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'alertobjectlist',
-                           set([]))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'alertobjectlist',set([]))
 
 if __name__ == '__main__':
     main()

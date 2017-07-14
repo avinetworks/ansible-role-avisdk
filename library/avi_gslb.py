@@ -61,6 +61,11 @@ options:
         description:
             - Sub domain configuration for the gslb.
             - Gslb service's fqdn must be a match one of these subdomains.
+    is_federated:
+        description:
+            - This field indicates that this object is replicated across gslb federation.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     leader_cluster_uuid:
         description:
             - Mark this site as leader of gslb configuration.
@@ -140,6 +145,7 @@ def main():
         client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
+        is_federated=dict(type='bool',),
         leader_cluster_uuid=dict(type='str',),
         name=dict(type='str', required=True),
         send_interval=dict(type='int',),

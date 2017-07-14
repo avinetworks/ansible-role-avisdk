@@ -4,6 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -71,13 +72,7 @@ EXAMPLES = '''
       username: ''
       controller: ''
       password: ''
-      action_script: "#!/usr/bin/python\nimport sys\nfrom avi.sdk.samples.autoscale.aws_samplescaleout\
-        \ import scaleout\naws_setting = {\n        'ec2_region': 'us-west-2',\n \
-        \       'tenant': 'Demo',\n        'aws_access_key_id': 'ASDAS123412341234',\n\
-        \        'aws_secret_access_key': '523lk45j234lk5j234;5klj',\n\
-        \        'image_id': 'ami-hs343234',\n        'security_group_ids': ['sg-1234567'],\n\
-        \        'subnet_id': 'subnet-91dfek3',\n        'tag': 'AviDemo',\n    \
-        \    'key_name': 'demo_oregon_key'\n}\nscaleout(aws_setting, *sys.argv)"
+      action_script: "echo Hello"
       name: AWS-Launch-Script
       tenant_ref: Demo
 '''

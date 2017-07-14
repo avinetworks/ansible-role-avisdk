@@ -4,6 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -22,9 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
@@ -36,7 +35,7 @@ description:
     - This module is used to configure SCPoolServerStateInfo object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.3"
 options:
     state:
         description:
@@ -45,28 +44,28 @@ options:
         choices: ["absent","present"]
     is_server:
         description:
-            - Field introduced in 17.1.1.
+            - Field introduced in 17.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     oper_status:
         description:
-            - Field introduced in 17.1.1.
+            - Field introduced in 17.1.
     pool_ref:
         description:
             - It is a reference to an object of type pool.
-            - Field introduced in 17.1.1.
+            - Field introduced in 17.1.
     server_states:
         description:
-            - Field introduced in 17.1.1.
+            - Field introduced in 17.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-            - Field introduced in 17.1.1.
+            - Field introduced in 17.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Field introduced in 17.1.1.
+            - Field introduced in 17.1.
 extends_documentation_fragment:
     - avi
 '''
@@ -123,8 +122,9 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'scpoolserverstateinfo',
-                           set([]))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'scpoolserverstateinfo',set([]))
 
 if __name__ == '__main__':
     main()
