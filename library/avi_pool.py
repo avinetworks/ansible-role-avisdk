@@ -128,7 +128,7 @@ options:
             - Field introduced in 17.1.2.
     fail_action:
         description:
-            - Enable an action - close connection, http redirect, local http response, or backup pool - when a pool failure happens.
+            - Enable an action - close connection, http redirect or local http response - when a pool failure happens.
             - By default, a connection will be closed, in case the pool experiences a failure.
     fewest_tasks_feedback_delay:
         description:
@@ -167,11 +167,18 @@ options:
         description:
             - The load balancing algorithm will pick a server within the pool's list of available servers.
             - Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH,
-            - LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER.
+            - LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER,
+            - LB_ALGORITHM_CORE_AFFINITY.
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_LEAST_CONNECTIONS.
     lb_algorithm_consistent_hash_hdr:
         description:
             - Http header name to be used for the hash key.
+    lb_algorithm_core_nonaffinity:
+        description:
+            - Degree of non-affinity for core afffinity based server selection.
+            - Allowed values are 1-65535.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
     lb_algorithm_hash:
         description:
             - Criteria used as a key for determining the hash between the client and  server.
@@ -363,6 +370,7 @@ def main():
         ipaddrgroup_ref=dict(type='str',),
         lb_algorithm=dict(type='str',),
         lb_algorithm_consistent_hash_hdr=dict(type='str',),
+        lb_algorithm_core_nonaffinity=dict(type='int',),
         lb_algorithm_hash=dict(type='str',),
         max_concurrent_connections_per_server=dict(type='int',),
         max_conn_rate_per_server=dict(type='dict',),

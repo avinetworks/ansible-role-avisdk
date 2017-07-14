@@ -4,6 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+# Avi Version: 17.1
 #
 #
 # This file is part of Ansible
@@ -22,9 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
@@ -36,7 +35,7 @@ description:
     - This module is used to configure VIMgrVcenterRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.3"
 options:
     state:
         description:
@@ -72,8 +71,7 @@ options:
         description:
             - Enum options - vcenter_discovery_bad_credentials, vcenter_discovery_retrieving_dc, vcenter_discovery_waiting_dc, vcenter_discovery_retrieving_nw,
             - vcenter_discovery_ongoing, vcenter_discovery_resyncing, vcenter_discovery_complete, vcenter_discovery_deleting_vcenter, vcenter_discovery_failure,
-            - vcenter_discovery_complete_no_mgmt_nw, vcenter_discovery_complete_per_tenant_ip_route, vcenter_discovery_making_se_ova,
-            - vcenter_discovery_resync_failed.
+            - vcenter_discovery_complete_no_mgmt_nw, vcenter_discovery_complete_per_tenant_ip_route, vcenter_discovery_making_se_ova.
     management_network:
         description:
             - Management_network of vimgrvcenterruntime.
@@ -209,8 +207,9 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrvcenterruntime',
-                           set([]))
+    # Added api version field in ansible api.
+    return avi_ansible_api(module,
+            'vimgrvcenterruntime',set([]))
 
 if __name__ == '__main__':
     main()
