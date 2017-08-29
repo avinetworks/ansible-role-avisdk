@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -37,7 +36,7 @@ description:
     - This module is used to configure IpamDnsProviderProfile object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -47,6 +46,10 @@ options:
     aws_profile:
         description:
             - Provider details if type is aws.
+    azure_profile:
+        description:
+            - Provider details if type is microsoft azure.
+            - Field introduced in 17.2.1.
     custom_profile:
         description:
             - Provider details if type is custom.
@@ -77,7 +80,7 @@ options:
         description:
             - Provider type for the ipam/dns provider profile.
             - Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM,
-            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS.
+            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
         required: true
     url:
         description:
@@ -139,6 +142,7 @@ def main():
         state=dict(default='present',
                    choices=['absent', 'present']),
         aws_profile=dict(type='dict',),
+        azure_profile=dict(type='dict',),
         custom_profile=dict(type='dict',),
         gcp_profile=dict(type='dict',),
         infoblox_profile=dict(type='dict',),

@@ -31,7 +31,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.0',
 
 DOCUMENTATION = '''
 ---
-module: avi_api
+module: avi_gslbservice_patch_member
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 short_description: Avi API Module
@@ -64,9 +64,9 @@ extends_documentation_fragment:
 EXAMPLES = '''
   - name: Patch GSLB Service to add a new member and group
     avi_gslbservice_patch_member:
-      controller: '{{ controller }}'
-      password: '{{ password }}'
-      username: '{{ username }}'
+      controller: "{{ controller }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
       name: gs-3
       data:
         group:
@@ -81,9 +81,9 @@ EXAMPLES = '''
       api_version: 16.4
   - name: Patch GSLB Service to delete an existing member
     avi_gslbservice_patch_member:
-      controller: '{{ controller }}'
-      password: '{{ password }}'
-      username: '{{ username }}'
+      controller: "{{ controller }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
       name: gs-3
       state: absent
       api_version: 16.4
@@ -93,7 +93,7 @@ EXAMPLES = '''
           members:
             - enabled: true
               ip:
-                addr:  10.30.10.68 #"{{ vs.obj.ip_address.addr }}"
+                addr:  10.30.10.68
                 type: V4
               ratio: 3
 '''
@@ -113,10 +113,19 @@ from copy import deepcopy
 
 HAS_AVI = True
 try:
-    from avi.sdk.avi_api import ApiSession, ObjectNotFound
+    from avi.sdk.avi_api import ApiSession
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return, AviCheckModeResponse)
+        ansible_return, avi_ansible_api)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+                 (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    HAS_AVI = True
 except ImportError:
     HAS_AVI = False
 
@@ -124,23 +133,41 @@ except ImportError:
 def delete_member(module, check_mode, api, tenant, tenant_uuid,
                   existing_obj, data, api_version):
     members = data.get('group', {}).get('members', [])
-    patched_member_ids = set([m['ip']['addr'] for m in members])
+    patched_member_ids = set([m['ip']['addr'] for m in members if 'fqdn' not in m])
+    patched_member_fqdns = set([m['fqdn'] for m in members if 'fqdn' in m])
+
     changed = False
     rsp = None
 
-    if existing_obj and patched_member_ids:
+    if existing_obj and (patched_member_ids or patched_member_fqdns):
         groups = [group for group in existing_obj.get('groups', [])
                   if group['name'] == data['group']['name']]
         if groups:
-            changed = any([(lambda g: g['ip']['addr'] in patched_member_ids)(m)
-                          for m in groups[0].get('members', [])])
+            changed = any(
+                [(lambda g: g['ip']['addr'] in patched_member_ids)(m)
+                    for m in groups[0].get('members', []) if 'fqdn' not in m])
+            changed = changed or any(
+                [(lambda g: g['fqdn'] in patched_member_fqdns)(m)
+                    for m in groups[0].get('members', []) if 'fqdn' in m])
     if check_mode or not changed:
         return changed, rsp
     # should not come here if not found
     group = groups[0]
-    new_members = [m for m in group.get('members', [])
-                   if m['ip']['addr'] not in patched_member_ids]
+    new_members = []
+    for m in group.get('members', []):
+        if 'fqdn' in m:
+            if m['fqdn'] not in patched_member_fqdns:
+                new_members.append(m)
+        elif 'ip' in m:
+            if m['ip']['addr'] not in patched_member_ids:
+                new_members.append(m)
     group['members'] = new_members
+    if not group['members']:
+        # Delete this group from the existing objects if it is empty.
+        # Controller also does not allow empty group.
+        existing_obj['groups'] = [
+            grp for grp in existing_obj.get('groups', []) if
+            grp['name'] != data['group']['name']]
     # remove the members that are part of the list
     # update the object
     # added api version for AVI api call.
@@ -187,7 +214,10 @@ def add_member(module, check_mode, api, tenant, tenant_uuid,
             for patch_member in data['group'].get('members', []):
                 found = False
                 for m in group['members']:
-                    if m['ip']['addr'] == patch_member['ip']['addr']:
+                    if 'fqdn' in patch_member and m.get('fqdn', '') == patch_member['fqdn']:
+                        found = True
+                        break
+                    elif m['ip']['addr'] == patch_member['ip']['addr']:
                         found = True
                         break
                 if not found:
@@ -213,7 +243,7 @@ def main():
         name=dict(type='str', required=True),
         state=dict(default='present',
                    choices=['absent', 'present'])
-        )
+    )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs)
 

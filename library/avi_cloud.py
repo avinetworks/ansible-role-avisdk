@@ -37,7 +37,7 @@ description:
     - This module is used to configure Cloud object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -54,9 +54,16 @@ options:
     aws_configuration:
         description:
             - Awsconfiguration settings for cloud.
+    azure_configuration:
+        description:
+            - Field introduced in 17.2.1.
     cloudstack_configuration:
         description:
             - Cloudstackconfiguration settings for cloud.
+    custom_tags:
+        description:
+            - Custom tags for all avi created resources in the cloud infrastructure.
+            - Field introduced in 17.1.5.
     dhcp_enabled:
         description:
             - Select the ip address management scheme.
@@ -149,7 +156,7 @@ options:
         description:
             - Cloud type.
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
-            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S.
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         required: true
 extends_documentation_fragment:
@@ -210,7 +217,9 @@ def main():
         apic_configuration=dict(type='dict',),
         apic_mode=dict(type='bool',),
         aws_configuration=dict(type='dict',),
+        azure_configuration=dict(type='dict',),
         cloudstack_configuration=dict(type='dict',),
+        custom_tags=dict(type='list',),
         dhcp_enabled=dict(type='bool',),
         dns_provider_ref=dict(type='str',),
         docker_configuration=dict(type='dict',),

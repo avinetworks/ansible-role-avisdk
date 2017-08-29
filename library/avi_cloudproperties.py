@@ -37,7 +37,7 @@ description:
     - This module is used to configure CloudProperties object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -51,7 +51,7 @@ options:
         description:
             - Cloud types supported by cloudconnector.
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
-            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S.
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
     hyp_props:
         description:
             - Hypervisor properties.

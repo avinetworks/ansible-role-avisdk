@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -37,7 +36,7 @@ description:
     - This module is used to configure ServiceEngine object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -71,12 +70,11 @@ options:
     enable_state:
         description:
             - Inorder to disable se set this field appropriately.
-            - Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED.
+            - Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED, SE_STATE_DISABLED_FORCE.
             - Default value when not specified in API or module is interpreted by Avi Controller as SE_STATE_ENABLED.
     flavor:
         description:
             - Flavor of serviceengine.
-            - Default value when not specified in API or module is interpreted by Avi Controller as .
     host_ref:
         description:
             - It is a reference to an object of type vimgrhostruntime.

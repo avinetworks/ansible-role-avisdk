@@ -108,9 +108,9 @@ options:
     client_log_config:
         description:
             - Configure which logs are sent to the avi controller from ses and how they are processed.
-    client_log_syslog_config:
+    client_log_streaming_config:
         description:
-            - Configure to send logs to a remote syslog server.
+            - Configure to stream logs to an external server.
             - Field introduced in 17.1.1.
     conn_lossy_ooo_threshold:
         description:
@@ -167,6 +167,11 @@ options:
     exclude_client_close_before_request_as_error:
         description:
             - Exclude client closed connection before an http request could be completed from being classified as an error.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    exclude_dns_policy_drop_as_significant:
+        description:
+            - Exclude dns policy drops from the list of errors.
+            - Field introduced in 17.2.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     exclude_gs_down_as_error:
         description:
@@ -467,7 +472,7 @@ def main():
         apdex_server_rtt_threshold=dict(type='int',),
         apdex_server_rtt_tolerated_factor=dict(type='float',),
         client_log_config=dict(type='dict',),
-        client_log_syslog_config=dict(type='dict',),
+        client_log_streaming_config=dict(type='dict',),
         conn_lossy_ooo_threshold=dict(type='int',),
         conn_lossy_timeo_rexmt_threshold=dict(type='int',),
         conn_lossy_total_rexmt_threshold=dict(type='int',),
@@ -480,6 +485,7 @@ def main():
         disable_se_analytics=dict(type='bool',),
         disable_server_analytics=dict(type='bool',),
         exclude_client_close_before_request_as_error=dict(type='bool',),
+        exclude_dns_policy_drop_as_significant=dict(type='bool',),
         exclude_gs_down_as_error=dict(type='bool',),
         exclude_http_error_codes=dict(type='list',),
         exclude_invalid_dns_domain_as_error=dict(type='bool',),

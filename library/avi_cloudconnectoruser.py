@@ -37,13 +37,19 @@ description:
     - This module is used to configure CloudConnectorUser object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
+    azure_serviceprincipal:
+        description:
+            - Field introduced in 17.2.1.
+    azure_userpass:
+        description:
+            - Field introduced in 17.2.1.
     name:
         description:
             - Name of the object.
@@ -108,8 +114,10 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        azure_serviceprincipal=dict(type='dict',),
+        azure_userpass=dict(type='dict',),
         name=dict(type='str', required=True),
-        private_key=dict(type='str',),
+        private_key=dict(type='str', no_log=True,),
         public_key=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

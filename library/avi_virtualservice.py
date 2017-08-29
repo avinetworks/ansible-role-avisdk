@@ -102,7 +102,7 @@ options:
     cloud_type:
         description:
             - Enum options - cloud_none, cloud_vcenter, cloud_openstack, cloud_aws, cloud_vca, cloud_apic, cloud_mesos, cloud_linuxserver, cloud_docker_ucp,
-            - cloud_rancher, cloud_oshift_k8s.
+            - cloud_rancher, cloud_oshift_k8s, cloud_azure.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
     connections_rate_limit:
         description:
@@ -255,6 +255,11 @@ options:
         description:
             - (internal-use) network port assigned to the virtual service ip address.
             - Field deprecated in 17.1.1.
+    proxy_pool_refs:
+        description:
+            - Proxy pools used in site persistence functionality.
+            - It is a reference to an object of type pool.
+            - Field introduced in 17.2.1.
     remove_listening_port_on_vs_down:
         description:
             - Remove listening port if virtualservice is down.
@@ -368,6 +373,11 @@ options:
             - Mostly used during the creation of shared vs, this fieldrefers to entities that can be shared across virtual services.
             - It is a reference to an object of type vsvip.
             - Field introduced in 17.1.1.
+    waf_policy_ref:
+        description:
+            - Waf policy for the virtual service.
+            - It is a reference to an object of type wafpolicy.
+            - Field introduced in 17.2.1.
     weight:
         description:
             - The quality of service weight to assign to traffic transmitted from this virtual service.
@@ -478,6 +488,7 @@ def main():
         pool_group_ref=dict(type='str',),
         pool_ref=dict(type='str',),
         port_uuid=dict(type='str',),
+        proxy_pool_refs=dict(type='list',),
         remove_listening_port_on_vs_down=dict(type='bool',),
         requests_rate_limit=dict(type='dict',),
         scaleout_ecmp=dict(type='bool',),
@@ -506,6 +517,7 @@ def main():
         vrf_context_ref=dict(type='str',),
         vs_datascripts=dict(type='list',),
         vsvip_ref=dict(type='str',),
+        waf_policy_ref=dict(type='str',),
         weight=dict(type='int',),
     )
     argument_specs.update(avi_common_argument_spec())

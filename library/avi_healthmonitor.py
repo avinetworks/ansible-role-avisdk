@@ -64,6 +64,13 @@ options:
     https_monitor:
         description:
             - Healthmonitorhttp settings for healthmonitor.
+    is_federated:
+        description:
+            - This field describes the object's replication scope.
+            - If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.
+            - If the field is set to true, then the object is replicated across the federation.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     monitor_port:
         description:
             - Use this port instead of the port defined for the server in the pool.
@@ -79,7 +86,7 @@ options:
             - A valid response from the server is expected within the receive timeout window.
             - This timeout must be less than the send interval.
             - If server status is regularly flapping up and down, consider increasing this value.
-            - Allowed values are 1-300.
+            - Allowed values are 1-2400.
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.
     send_interval:
         description:
@@ -168,6 +175,7 @@ def main():
         failed_checks=dict(type='int',),
         http_monitor=dict(type='dict',),
         https_monitor=dict(type='dict',),
+        is_federated=dict(type='bool',),
         monitor_port=dict(type='int',),
         name=dict(type='str', required=True),
         receive_timeout=dict(type='int',),

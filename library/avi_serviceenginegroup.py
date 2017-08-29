@@ -37,7 +37,7 @@ description:
     - This module is used to configure ServiceEngineGroup object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -61,6 +61,20 @@ options:
             - In compact placement, virtual services are placed on existing ses until max_vs_per_se limit is reached.
             - Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED.
             - Default value when not specified in API or module is interpreted by Avi Controller as PLACEMENT_ALGO_PACKED.
+    archive_shm_limit:
+        description:
+            - Amount of se memory in gb until which shared memory is collected in core archive.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 8.
+    async_ssl:
+        description:
+            - Ssl handshakes will be handled by dedicated ssl threads.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    async_ssl_threads:
+        description:
+            - Number of async ssl threads per se_dp.
+            - Allowed values are 1-4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     auto_rebalance:
         description:
             - If set, virtual services will be automatically migrated when load on an se is less than minimum or more than maximum thresholds.
@@ -97,6 +111,14 @@ options:
             - Allocate all the cpu cores for the service engine virtual machines  on the same cpu socket.
             - Applicable only for vcenter cloud.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    custom_securitygroups_data:
+        description:
+            - Custom security groups to be associated with data vnics for se instances in openstack and aws clouds.
+            - Field introduced in 17.1.3.
+    custom_securitygroups_mgmt:
+        description:
+            - Custom security groups to be associated with management vnic for se instances in openstack and aws clouds.
+            - Field introduced in 17.1.3.
     custom_tag:
         description:
             - Custom tag will be used to create the tags for se instance in aws.
@@ -163,18 +185,39 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
     host_attribute_key:
         description:
-            - Key of a (key, value) pair identifying a set of hosts.
-            - Currently used to separate north-south and east-west se sizing requirements.
-            - This is useful in container ecosystems where ses on east-west traffic nodes are typically smaller than those on north-south traffic nodes.
+            - Key of a (key, value) pair identifying a label for a set of nodes usually in container clouds.
+            - Needs to be specified together with host_attribute_value.
+            - Ses can be configured differently including ha modes across different se groups.
+            - May also be used for isolation between different classes of virtualservices.
+            - Virtualservices' se group may be specified via annotations/labels.
+            - A openshift/kubernetes namespace maybe annotated with a matching se group label as openshift.io/node-selector  apptype=prod.
+            - When multiple se groups are used in a cloud with host attributes specified,just a single se group can exist as a match-all se group without a
+            - host_attribute_key.
     host_attribute_value:
         description:
-            - Value of a (key, value) pair identifying a set of hosts.
-            - Currently used to separate north-south and east-west se sizing requirements.
-            - This is useful in container ecosystems where ses on east-west traffic nodes are typically smaller than those on north-south traffic nodes.
+            - Value of a (key, value) pair identifying a label for a set of nodes usually in container clouds.
+            - Needs to be specified together with host_attribute_key.
     hypervisor:
         description:
             - Override default hypervisor.
             - Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
+    ignore_rtt_threshold:
+        description:
+            - Ignore rtt samples if it is above threshold.
+            - Field introduced in 17.1.6,17.2.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 5000.
+    ingress_access_data:
+        description:
+            - Program se security group ingress rules to allow vip data access from remote cidr type.
+            - Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC.
+            - Field introduced in 17.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as SG_INGRESS_ACCESS_ALL.
+    ingress_access_mgmt:
+        description:
+            - Program se security group ingress rules to allow ssh/icmp management access from remote cidr type.
+            - Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC.
+            - Field introduced in 17.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as SG_INGRESS_ACCESS_ALL.
     instance_flavor:
         description:
             - Instance/flavor type for se instance.
@@ -209,6 +252,7 @@ options:
     max_vs_per_se:
         description:
             - Maximum number of virtual services that can be placed on a single service engine.
+            - East west virtual services are excluded from this limit.
             - Allowed values are 1-1000.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
     mem_reserve:
@@ -241,6 +285,13 @@ options:
         description:
             - Name of the object.
         required: true
+    non_significant_log_throttle:
+        description:
+            - This setting limits the number of non-significant logs generated per second per core on this se.
+            - Default is 100 logs per second.
+            - Set it to zero (0) to disable throttling.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
     num_flow_cores_sum_changes_to_ignore:
         description:
             - Number of changes in num flow cores sum to ignore.
@@ -285,10 +336,20 @@ options:
     se_dos_profile:
         description:
             - Dosthresholdprofile settings for serviceenginegroup.
+    se_ipc_udp_port:
+        description:
+            - Udp port for se_dp ipc in docker bridge mode.
+            - Field introduced in 17.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1500.
     se_name_prefix:
         description:
             - Prefix to use for virtual machine name of service engines.
             - Default value when not specified in API or module is interpreted by Avi Controller as Avi.
+    se_remote_punt_udp_port:
+        description:
+            - Udp port for punted packets in docker bridge mode.
+            - Field introduced in 17.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1501.
     se_thread_multiplier:
         description:
             - Multiplier for se threads based on vcpu.
@@ -299,6 +360,17 @@ options:
             - Determines if dsr from secondary se is active or not      0        automatically determine based on hypervisor type    1        disable dsr
             - unconditionally    ~[0,1]   enable dsr unconditionally.
             - Field introduced in 17.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    se_tunnel_udp_port:
+        description:
+            - Udp port for tunneled packets from secondary to primary se in docker bridge mode.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1550.
+    se_udp_encap_ipc:
+        description:
+            - Determines if se-se ipc messages are encapsulated in an udp header       0        automatically determine based on hypervisor type    1       
+            - use udp encap unconditionally    ~[0,1]   don't use udp encap.
+            - Field introduced in 17.1.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_vs_hb_max_pkts_in_batch:
         description:
@@ -317,9 +389,24 @@ options:
             - Subnets assigned to the se group.
             - Required for vs group placement.
             - Field introduced in 17.1.1.
+    significant_log_throttle:
+        description:
+            - This setting limits the number of significant logs generated per second per core on this se.
+            - Default is 100 logs per second.
+            - Set it to zero (0) to disable throttling.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+    udf_log_throttle:
+        description:
+            - This setting limits the number of udf logs generated per second per core on this se.
+            - Udf logs are generated due to the configured client log filters or the rules with logging enabled.
+            - Default is 100 logs per second.
+            - Set it to zero (0) to disable throttling.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
     url:
         description:
             - Avi controller URL of the object.
@@ -412,6 +499,9 @@ def main():
         advertise_backend_networks=dict(type='bool',),
         aggressive_failure_detection=dict(type='bool',),
         algo=dict(type='str',),
+        archive_shm_limit=dict(type='int',),
+        async_ssl=dict(type='bool',),
+        async_ssl_threads=dict(type='int',),
         auto_rebalance=dict(type='bool',),
         auto_rebalance_interval=dict(type='int',),
         auto_redistribute_active_standby_load=dict(type='bool',),
@@ -420,6 +510,8 @@ def main():
         connection_memory_percentage=dict(type='int',),
         cpu_reserve=dict(type='bool',),
         cpu_socket_affinity=dict(type='bool',),
+        custom_securitygroups_data=dict(type='list',),
+        custom_securitygroups_mgmt=dict(type='list',),
         custom_tag=dict(type='list',),
         dedicated_dispatcher_core=dict(type='bool',),
         description=dict(type='str',),
@@ -438,6 +530,9 @@ def main():
         host_attribute_key=dict(type='str',),
         host_attribute_value=dict(type='str',),
         hypervisor=dict(type='str',),
+        ignore_rtt_threshold=dict(type='int',),
+        ingress_access_data=dict(type='str',),
+        ingress_access_mgmt=dict(type='str',),
         instance_flavor=dict(type='str',),
         iptables=dict(type='list',),
         least_load_core_selection=dict(type='bool',),
@@ -453,6 +548,7 @@ def main():
         min_cpu_usage=dict(type='int',),
         min_scaleout_per_vs=dict(type='int',),
         name=dict(type='str', required=True),
+        non_significant_log_throttle=dict(type='int',),
         num_flow_cores_sum_changes_to_ignore=dict(type='int',),
         openstack_availability_zone=dict(type='str',),
         openstack_availability_zones=dict(type='list',),
@@ -464,13 +560,19 @@ def main():
         realtime_se_metrics=dict(type='dict',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
+        se_ipc_udp_port=dict(type='int',),
         se_name_prefix=dict(type='str',),
+        se_remote_punt_udp_port=dict(type='int',),
         se_thread_multiplier=dict(type='int',),
         se_tunnel_mode=dict(type='int',),
+        se_tunnel_udp_port=dict(type='int',),
+        se_udp_encap_ipc=dict(type='int',),
         se_vs_hb_max_pkts_in_batch=dict(type='int',),
         se_vs_hb_max_vs_in_pkt=dict(type='int',),
         service_ip_subnets=dict(type='list',),
+        significant_log_throttle=dict(type='int',),
         tenant_ref=dict(type='str',),
+        udf_log_throttle=dict(type='int',),
         url=dict(type='str',),
         uuid=dict(type='str',),
         vcenter_clusters=dict(type='dict',),

@@ -37,19 +37,28 @@ description:
     - This module is used to configure GslbService object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
+    application_persistence_profile_ref:
+        description:
+            - The federated application persistence associated with gslbservice site persistence functionality.
+            - It is a reference to an object of type applicationpersistenceprofile.
+            - Field introduced in 17.2.1.
     controller_health_status_enabled:
         description:
             - Gs member's overall health status is derived based on a combination of controller and datapath health-status inputs.
             - Note that the datapath status is determined by the association of health monitor profiles.
             - Only the controller provided status is determined through this configuration.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+    created_by:
+        description:
+            - Creator name.
+            - Field introduced in 17.1.2.
     description:
         description:
             - User defined description for the object.
@@ -72,7 +81,7 @@ options:
         description:
             - Verify vs health by applying one or more health monitors.
             - Active monitors generate synthetic traffic from dns service engine and to mark a vs up or down based on the response.
-            - It is a reference to an object of type gslbhealthmonitor.
+            - It is a reference to an object of type healthmonitor.
     health_monitor_scope:
         description:
             - Health monitor probe can be executed for all the members or it can be executed only for third-party members.
@@ -80,6 +89,11 @@ options:
             - In such a case, avi members can have controller derived status while non-avi members can be probed by via health monitor probes in dataplane.
             - Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS.
             - Default value when not specified in API or module is interpreted by Avi Controller as GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS.
+    is_federated:
+        description:
+            - This field indicates that this object is replicated across gslb federation.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     name:
         description:
             - Name for the gslb service.
@@ -90,6 +104,11 @@ options:
             - Enter 0 to return all ip addresses.
             - Allowed values are 1-20.
             - Special values are 0- 'return all ip addresses'.
+    site_persistence_enabled:
+        description:
+            - Enable site-persistence for the gslbservice.
+            - Field introduced in 17.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -157,7 +176,9 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        application_persistence_profile_ref=dict(type='str',),
         controller_health_status_enabled=dict(type='bool',),
+        created_by=dict(type='str',),
         description=dict(type='str',),
         domain_names=dict(type='list',),
         down_response=dict(type='dict',),
@@ -165,8 +186,10 @@ def main():
         groups=dict(type='list',),
         health_monitor_refs=dict(type='list',),
         health_monitor_scope=dict(type='str',),
+        is_federated=dict(type='bool',),
         name=dict(type='str', required=True),
         num_dns_ip=dict(type='int',),
+        site_persistence_enabled=dict(type='bool',),
         tenant_ref=dict(type='str',),
         ttl=dict(type='int',),
         url=dict(type='str',),

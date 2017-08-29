@@ -37,7 +37,7 @@ description:
     - This module is used to configure Gslb object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -46,10 +46,14 @@ options:
         choices: ["absent","present"]
     clear_on_max_retries:
         description:
-            - Max retries after which the remote site is treatedas a fresh start.
-            - In fresh start all the configsare downloaded.
+            - Max retries after which the remote site is treated as a fresh start.
+            - In fresh start all the configs are downloaded.
             - Allowed values are 1-1024.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
+    client_ip_addr_group:
+        description:
+            - Group to specify if the client ip addresses are public or private.
+            - Field introduced in 17.1.2.
     description:
         description:
             - User defined description for the object.
@@ -57,10 +61,24 @@ options:
         description:
             - Sub domain configuration for the gslb.
             - Gslb service's fqdn must be a match one of these subdomains.
+    is_federated:
+        description:
+            - This field indicates that this object is replicated across gslb federation.
+            - Field introduced in 17.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     leader_cluster_uuid:
         description:
             - Mark this site as leader of gslb configuration.
             - This site is the one among the avi sites.
+    maintenance_mode:
+        description:
+            - This field disables the configuration operations on the leader for all federated objects.
+            - Cud operations on gslb, gslbservice, gslbgeodbprofile and other federated objects will be rejected.
+            - The rest-api disabling helps in upgrade scenarios where we don't want configuration sync operations to the gslb member when the member is being
+            - upgraded.
+            - This configuration programmatically blocks the leader from accepting new gslb configuration when member sites are undergoing upgrade.
+            - Field introduced in 17.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     name:
         description:
             - Name for the gslb object.
@@ -88,8 +106,8 @@ options:
             - Uuid of the gslb object.
     view_id:
         description:
-            - The view-id is used in maintenance mode to differentiate partitioned groups while they havethe same gslb namespace.
-            - Each partitioned groupwill be able to operate independently by using theview-id.
+            - The view-id is used in change-leader mode to differentiate partitioned groups while they have the same gslb namespace.
+            - Each partitioned group will be able to operate independently by using the view-id.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
 extends_documentation_fragment:
     - avi
@@ -133,9 +151,12 @@ def main():
         state=dict(default='present',
                    choices=['absent', 'present']),
         clear_on_max_retries=dict(type='int',),
+        client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
+        is_federated=dict(type='bool',),
         leader_cluster_uuid=dict(type='str',),
+        maintenance_mode=dict(type='bool',),
         name=dict(type='str', required=True),
         send_interval=dict(type='int',),
         sites=dict(type='list',),
