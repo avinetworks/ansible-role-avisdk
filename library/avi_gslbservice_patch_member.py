@@ -68,6 +68,7 @@ EXAMPLES = '''
       username: "{{ username }}"
       password: "{{ password }}"
       name: gs-3
+      api_version: 17.2.1
       data:
         group:
           name: newfoo
@@ -86,7 +87,7 @@ EXAMPLES = '''
       password: "{{ password }}"
       name: gs-3
       state: absent
-      api_version: 16.4
+      api_version: 17.2.1
       data:
         group:
           name: newfoo
@@ -96,6 +97,18 @@ EXAMPLES = '''
                 addr:  10.30.10.68
                 type: V4
               ratio: 3
+  - name: Update priority of GSLB Service Pool
+    avi_gslbservice_patch_member:
+      controller: ""
+      username: ""
+      password: ""
+      name: gs-3
+      state: present
+      api_version: 17.2.1
+      data:
+        group:
+          name: newfoo
+          priority: 42
 '''
 
 
@@ -205,8 +218,8 @@ def add_member(module, check_mode, api, tenant, tenant_uuid,
         else:
             # just update the existing group with members
             group = groups[0]
-            group_info_wo_members = deepcopy(group)
-            del group_info_wo_members['members']
+            group_info_wo_members = deepcopy(data['group'])
+            group_info_wo_members.pop('members', None)
             group.update(group_info_wo_members)
             if 'members' not in group:
                 group['members'] = []
