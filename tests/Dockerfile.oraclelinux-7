@@ -17,6 +17,8 @@ RUN yum install -y wget
 RUN wget https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 RUN rpm -ivh epel-release-7-8.noarch.rpm
 RUN yum -y install git ansible sudo
+RUN yum -y install python-pip
+RUN pip install avisdk
 RUN yum clean all
 
 # Disable requiretty
