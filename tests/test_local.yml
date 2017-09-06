@@ -1,0 +1,5 @@
+# ansible-playbook se_with_autoregister_true.yml -i 10.70.160.54, --ask-pass --ask-become-pass -e "controller_ip=10.70.160.51 controller_username=admin controller_password=AviNetworks123!" -u root
+
+- hosts: localhost
+  roles:
+    - role: avinetworks.avisdk
