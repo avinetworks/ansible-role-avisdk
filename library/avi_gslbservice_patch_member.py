@@ -24,7 +24,7 @@
 #
 """
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
+ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
@@ -126,16 +126,16 @@ from copy import deepcopy
 
 HAS_AVI = True
 try:
-    from avi.sdk.avi_api import ApiSession
+    from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return, avi_ansible_api)
-    from pkg_resources import parse_version
+        ansible_return, avi_ansible_api, AviCheckModeResponse)
+    from distutils.version import LooseVersion
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-                 (parse_version(sdk_version) < parse_version('17.1')))):
+                 (LooseVersion(sdk_version) < LooseVersion('17.2.2b3')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     HAS_AVI = True
@@ -264,12 +264,16 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    tenant_uuid = module.params.get('tenant_uuid', None)
+    api_creds = AviCredentials()
+    api_creds.update_from_ansible_module(module)
     api = ApiSession.get_session(
-        module.params['controller'], module.params['username'],
-        module.params['password'], tenant=module.params['tenant'],
-        tenant_uuid=tenant_uuid)
-    tenant = module.params.get('tenant', '')
+        api_creds.controller, api_creds.username, password=api_creds.password,
+        timeout=api_creds.timeout, tenant=api_creds.tenant,
+        tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
+        port=api_creds.port)
+
+    tenant = api_creds.tenant
+    tenant_uuid = api_creds.tenant_uuid
     params = module.params.get('params', None)
     data = module.params.get('data', None)
     gparams = deepcopy(params) if params else {}
@@ -277,7 +281,7 @@ def main():
     name = module.params.get('name', '')
     state = module.params['state']
     # Get the api version from module.
-    api_version = module.params.get('api_version', '16.4')
+    api_version = api_creds.api_version
     """
     state: present
     1. Check if the GSLB service is present

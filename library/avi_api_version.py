@@ -23,7 +23,7 @@
 #
 """
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
+ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
@@ -68,14 +68,14 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from avi.sdk.avi_api import ApiSession
+    from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
+    from distutils.version import LooseVersion
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-             parse_version(sdk_version) < parse_version('17.1'))):
+             LooseVersion(sdk_version) < LooseVersion('17.2.2b5'))):
         raise ImportError
     HAS_AVI = True
 except ImportError:
@@ -89,9 +89,15 @@ def main():
             'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     try:
+        api_creds = AviCredentials()
+        api_creds.update_from_ansible_module(module)
         api = ApiSession.get_session(
-            module.params['controller'], module.params['username'],
-            module.params['password'], tenant=module.params['tenant'])
+            api_creds.controller, api_creds.username,
+            password=api_creds.password,
+            timeout=api_creds.timeout, tenant=api_creds.tenant,
+            tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
+            port=api_creds.port)
+
         remote_api_version = api.remote_api_version
         remote = {}
         for key in remote_api_version.keys():
