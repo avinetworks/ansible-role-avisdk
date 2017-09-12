@@ -23,7 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
+ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
@@ -255,11 +255,6 @@ options:
         description:
             - (internal-use) network port assigned to the virtual service ip address.
             - Field deprecated in 17.1.1.
-    proxy_pool_refs:
-        description:
-            - Proxy pools used in site persistence functionality.
-            - It is a reference to an object of type pool.
-            - Field introduced in 17.2.1.
     remove_listening_port_on_vs_down:
         description:
             - Remove listening port if virtualservice is down.
@@ -299,6 +294,11 @@ options:
     snat_ip:
         description:
             - Nat'ted floating source ip address(es) for upstream connection to servers.
+    sp_pool_refs:
+        description:
+            - Site persistence pools used for site persistence functionality.
+            - It is a reference to an object of type pool.
+            - Field introduced in 17.2.2.
     ssl_key_and_certificate_refs:
         description:
             - Select or create one or two certificates, ec and/or rsa, that will be presented to ssl/tls terminated connections.
@@ -421,11 +421,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
+    from distutils.version import LooseVersion
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -488,7 +488,6 @@ def main():
         pool_group_ref=dict(type='str',),
         pool_ref=dict(type='str',),
         port_uuid=dict(type='str',),
-        proxy_pool_refs=dict(type='list',),
         remove_listening_port_on_vs_down=dict(type='bool',),
         requests_rate_limit=dict(type='dict',),
         scaleout_ecmp=dict(type='bool',),
@@ -499,6 +498,7 @@ def main():
         services=dict(type='list',),
         sideband_profile=dict(type='dict',),
         snat_ip=dict(type='list',),
+        sp_pool_refs=dict(type='list',),
         ssl_key_and_certificate_refs=dict(type='list',),
         ssl_profile_ref=dict(type='str',),
         ssl_sess_cache_avg_size=dict(type='int',),

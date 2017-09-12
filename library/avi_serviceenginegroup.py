@@ -23,7 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
+ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
@@ -345,6 +345,11 @@ options:
         description:
             - Prefix to use for virtual machine name of service engines.
             - Default value when not specified in API or module is interpreted by Avi Controller as Avi.
+    se_probe_port:
+        description:
+            - Tcp port on se where echo service will be run.
+            - Field introduced in 17.2.2, 18.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 7.
     se_remote_punt_udp_port:
         description:
             - Udp port for punted packets in docker bridge mode.
@@ -478,11 +483,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
+    from distutils.version import LooseVersion
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -562,6 +567,7 @@ def main():
         se_dos_profile=dict(type='dict',),
         se_ipc_udp_port=dict(type='int',),
         se_name_prefix=dict(type='str',),
+        se_probe_port=dict(type='int',),
         se_remote_punt_udp_port=dict(type='int',),
         se_thread_multiplier=dict(type='int',),
         se_tunnel_mode=dict(type='int',),

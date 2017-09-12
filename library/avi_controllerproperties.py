@@ -23,7 +23,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
+ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
@@ -109,6 +109,11 @@ options:
         description:
             - Maximum number of pcap files stored per tenant.
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.
+    max_seq_attach_ip_failures:
+        description:
+            - Maximum number of consecutive attach ip failures that halts vs placement.
+            - Field introduced in 17.2.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3.
     max_seq_vnic_failures:
         description:
             - Number of max_seq_vnic_failures.
@@ -202,10 +207,15 @@ options:
             - Allowed values are 1-1051200.
             - Special values are 0 - 'disabled'.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
+    vs_se_attach_ip_fail:
+        description:
+            - Time to wait before marking attach ip operation on an se as failed.
+            - Field introduced in 17.2.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3600.
     vs_se_bootup_fail:
         description:
             - Number of vs_se_bootup_fail.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 480.
     vs_se_create_fail:
         description:
             - Number of vs_se_create_fail.
@@ -250,11 +260,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
+    from distutils.version import LooseVersion
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -283,6 +293,7 @@ def main():
         fatal_error_lease_time=dict(type='int',),
         max_dead_se_in_grp=dict(type='int',),
         max_pcap_per_tenant=dict(type='int',),
+        max_seq_attach_ip_failures=dict(type='int',),
         max_seq_vnic_failures=dict(type='int',),
         persistence_key_rotate_period=dict(type='int',),
         portal_token=dict(type='str', no_log=True,),
@@ -306,6 +317,7 @@ def main():
         vs_apic_scaleout_timeout=dict(type='int',),
         vs_awaiting_se_timeout=dict(type='int',),
         vs_key_rotate_period=dict(type='int',),
+        vs_se_attach_ip_fail=dict(type='int',),
         vs_se_bootup_fail=dict(type='int',),
         vs_se_create_fail=dict(type='int',),
         vs_se_ping_fail=dict(type='int',),
