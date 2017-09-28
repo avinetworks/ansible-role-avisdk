@@ -2,7 +2,4 @@
 # tasks file for avinetworks.avisdk
 
 - name: Checking if avisdk python library is present
-  command: /usr/bin/python -c 'from avi.sdk.avi_api import ApiSession'
-  delegate_to: localhost
-  changed_when: false
-  register: avisdk_present
+  debug: msg="Please make sure avisdk is installed via pip. 'pip install avisdk --upgrade'"
