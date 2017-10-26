@@ -70,12 +70,12 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from distutils.version import LooseVersion
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-             LooseVersion(sdk_version) < LooseVersion('17.2.2b5'))):
+             parse_version(sdk_version) < parse_version('17.2.2b3'))):
         raise ImportError
     HAS_AVI = True
 except ImportError:

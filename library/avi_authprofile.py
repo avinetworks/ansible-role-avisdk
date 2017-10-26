@@ -43,7 +43,17 @@ options:
         description:
             - The state that should be applied on the entity.
         default: present
-        choices: ["absent","present"]
+        choices: ["absent", "present"]
+    avi_api_update_method:
+        description:
+            - Default method for object update is HTTP PUT.
+            - Setting to patch will override that behavior to use HTTP PATCH.
+        default: put
+        choices: ["put", "patch"]
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete"]
     description:
         description:
             - User defined description for the object.
@@ -57,6 +67,10 @@ options:
         description:
             - Name of the auth profile.
         required: true
+    saml:
+        description:
+            - Saml settings.
+            - Field introduced in 17.2.3.
     tacacs_plus:
         description:
             - Tacacs+ settings.
@@ -66,7 +80,7 @@ options:
     type:
         description:
             - Type of the auth profile.
-            - Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS.
+            - Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML.
         required: true
     url:
         description:
@@ -121,11 +135,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from distutils.version import LooseVersion
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
+            (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -138,10 +152,14 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        avi_api_update_method=dict(default='put',
+                                   choices=['put', 'patch']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         http=dict(type='dict',),
         ldap=dict(type='dict',),
         name=dict(type='str', required=True),
+        saml=dict(type='dict',),
         tacacs_plus=dict(type='dict',),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),

@@ -43,7 +43,17 @@ options:
         description:
             - The state that should be applied on the entity.
         default: present
-        choices: ["absent","present"]
+        choices: ["absent", "present"]
+    avi_api_update_method:
+        description:
+            - Default method for object update is HTTP PUT.
+            - Setting to patch will override that behavior to use HTTP PATCH.
+        default: put
+        choices: ["put", "patch"]
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete"]
     cloud_config_cksum:
         description:
             - Checksum of cloud configuration for poolgroup.
@@ -65,6 +75,11 @@ options:
         description:
             - Enable an action - close connection, http redirect, or local http response - when a pool group failure happens.
             - By default, a connection will be closed, in case the pool group experiences a failure.
+    implicit_priority_labels:
+        description:
+            - Whether an implicit set of priority labels is generated.
+            - Field introduced in 17.1.9,17.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     members:
         description:
             - List of pool group members object of type poolgroupmember.
@@ -116,11 +131,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from distutils.version import LooseVersion
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
+            (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -133,12 +148,16 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        avi_api_update_method=dict(default='put',
+                                   choices=['put', 'patch']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         cloud_config_cksum=dict(type='str',),
         cloud_ref=dict(type='str',),
         created_by=dict(type='str',),
         deployment_policy_ref=dict(type='str',),
         description=dict(type='str',),
         fail_action=dict(type='dict',),
+        implicit_priority_labels=dict(type='bool',),
         members=dict(type='list',),
         min_servers=dict(type='int',),
         name=dict(type='str', required=True),

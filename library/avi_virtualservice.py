@@ -43,7 +43,17 @@ options:
         description:
             - The state that should be applied on the entity.
         default: present
-        choices: ["absent","present"]
+        choices: ["absent", "present"]
+    avi_api_update_method:
+        description:
+            - Default method for object update is HTTP PUT.
+            - Setting to patch will override that behavior to use HTTP PATCH.
+        default: put
+        choices: ["put", "patch"]
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete"]
     active_standby_se_tag:
         description:
             - This configuration only applies if the virtualservice is in legacy active standby ha mode and load distribution among active standby is enabled.
@@ -181,7 +191,7 @@ options:
     flow_label_type:
         description:
             - Criteria for flow labelling.
-            - Enum options - NO_LABEL, SERVICE_LABEL.
+            - Enum options - NO_LABEL, APPLICATION_LABEL, SERVICE_LABEL.
             - Default value when not specified in API or module is interpreted by Avi Controller as NO_LABEL.
     fqdn:
         description:
@@ -345,6 +355,13 @@ options:
         description:
             - Use bridge ip as vip on each host in mesos deployments.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    use_vip_as_snat:
+        description:
+            - Use the virtual ip as the snat ip for health monitoring and sending traffic to the backend servers instead of the service engine interface ip.
+            - The caveat of enabling this option is that the virtualservice cannot be configued in an active-active ha mode.
+            - Dns based multi vip solution has to be used for ha & non-disruptive upgrade purposes.
+            - Field introduced in 17.1.9,17.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     uuid:
         description:
             - Uuid of the virtualservice.
@@ -421,11 +438,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from distutils.version import LooseVersion
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
+            (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -438,6 +455,9 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        avi_api_update_method=dict(default='put',
+                                   choices=['put', 'patch']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         active_standby_se_tag=dict(type='str',),
         analytics_policy=dict(type='dict',),
         analytics_profile_ref=dict(type='str',),
@@ -510,6 +530,7 @@ def main():
         type=dict(type='str',),
         url=dict(type='str',),
         use_bridge_ip_as_vip=dict(type='bool',),
+        use_vip_as_snat=dict(type='bool',),
         uuid=dict(type='str',),
         vh_domain_name=dict(type='list',),
         vh_parent_vs_uuid=dict(type='str',),

@@ -42,10 +42,17 @@ options:
         description:
             - The state that should be applied on the entity.
         default: present
-        choices: ["absent","present"]
-    aws:
+        choices: ["absent", "present"]
+    avi_api_update_method:
         description:
-            - Autoscaleawssettings settings for autoscalelaunchconfig.
+            - Default method for object update is HTTP PUT.
+            - Setting to patch will override that behavior to use HTTP PATCH.
+        default: put
+        choices: ["put", "patch"]
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete"]
     description:
         description:
             - User defined description for the object.
@@ -68,6 +75,12 @@ options:
     url:
         description:
             - Avi controller URL of the object.
+    use_external_asg:
+        description:
+            - If set to true, serverautoscalepolicy will use the autoscaling group (external_autoscaling_groups) from pool to perform scale up and scale down.
+            - Pool should have single autoscaling group configured.
+            - Field introduced in 17.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     uuid:
         description:
             - Unique object identifier of the object.
@@ -96,11 +109,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from distutils.version import LooseVersion
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
+            (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -113,7 +126,9 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        aws=dict(type='dict',),
+        avi_api_update_method=dict(default='put',
+                                   choices=['put', 'patch']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         image_id=dict(type='str',),
         mesos=dict(type='dict',),
@@ -121,6 +136,7 @@ def main():
         openstack=dict(type='dict',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
+        use_external_asg=dict(type='bool',),
         uuid=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())

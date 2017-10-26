@@ -43,7 +43,17 @@ options:
         description:
             - The state that should be applied on the entity.
         default: present
-        choices: ["absent","present"]
+        choices: ["absent", "present"]
+    avi_api_update_method:
+        description:
+            - Default method for object update is HTTP PUT.
+            - Setting to patch will override that behavior to use HTTP PATCH.
+        default: put
+        choices: ["put", "patch"]
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete"]
     active_standby:
         description:
             - Service engines in active/standby mode for ha failover.
@@ -80,6 +90,11 @@ options:
             - If set, virtual services will be automatically migrated when load on an se is less than minimum or more than maximum thresholds.
             - Only alerts are generated when the auto_rebalance is not set.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    auto_rebalance_criteria:
+        description:
+            - Set of criteria for se auto rebalance.
+            - Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS.
+            - Field introduced in 17.2.3.
     auto_rebalance_interval:
         description:
             - Frequency of rebalance, if 'auto rebalance' is enabled.
@@ -348,13 +363,24 @@ options:
     se_probe_port:
         description:
             - Tcp port on se where echo service will be run.
-            - Field introduced in 17.2.2, 18.1.1.
+            - Field introduced in 17.2.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as 7.
     se_remote_punt_udp_port:
         description:
             - Udp port for punted packets in docker bridge mode.
             - Field introduced in 17.1.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1501.
+    se_sb_dedicated_core:
+        description:
+            - Sideband traffic will be handled by a dedicated core.
+            - Field introduced in 16.5.2, 17.1.9, 17.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    se_sb_threads:
+        description:
+            - Number of sideband threads per se.
+            - Allowed values are 1-128.
+            - Field introduced in 16.5.2, 17.1.9, 17.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     se_thread_multiplier:
         description:
             - Multiplier for se threads based on vcpu.
@@ -459,6 +485,16 @@ options:
         description:
             - Time to wait for the scaled out se to become ready before marking the scaleout done.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
+    waf_mempool:
+        description:
+            - Enable memory pool for waf.
+            - Field introduced in 17.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+    waf_mempool_size:
+        description:
+            - Memory pool size used for waf.
+            - Field introduced in 17.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 64.
 extends_documentation_fragment:
     - avi
 '''
@@ -483,11 +519,11 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from distutils.version import LooseVersion
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (LooseVersion(sdk_version) < LooseVersion('17.1')))):
+            (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -500,6 +536,9 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        avi_api_update_method=dict(default='put',
+                                   choices=['put', 'patch']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         active_standby=dict(type='bool',),
         advertise_backend_networks=dict(type='bool',),
         aggressive_failure_detection=dict(type='bool',),
@@ -508,6 +547,7 @@ def main():
         async_ssl=dict(type='bool',),
         async_ssl_threads=dict(type='int',),
         auto_rebalance=dict(type='bool',),
+        auto_rebalance_criteria=dict(type='list',),
         auto_rebalance_interval=dict(type='int',),
         auto_redistribute_active_standby_load=dict(type='bool',),
         buffer_se=dict(type='int',),
@@ -569,6 +609,8 @@ def main():
         se_name_prefix=dict(type='str',),
         se_probe_port=dict(type='int',),
         se_remote_punt_udp_port=dict(type='int',),
+        se_sb_dedicated_core=dict(type='bool',),
+        se_sb_threads=dict(type='int',),
         se_thread_multiplier=dict(type='int',),
         se_tunnel_mode=dict(type='int',),
         se_tunnel_udp_port=dict(type='int',),
@@ -592,6 +634,8 @@ def main():
         vs_scalein_timeout=dict(type='int',),
         vs_scalein_timeout_for_upgrade=dict(type='int',),
         vs_scaleout_timeout=dict(type='int',),
+        waf_mempool=dict(type='bool',),
+        waf_mempool_size=dict(type='int',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(

@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -29,15 +28,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_systemconfiguration
+module: avi_customipamdnsprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of SystemConfiguration Avi RESTful Object
+short_description: Module for setup of CustomIpamDnsProfile Avi RESTful Object
 description:
-    - This module is used to configure SystemConfiguration object
+    - This module is used to configure CustomIpamDnsProfile object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.3"
+version_added: "2.4"
 options:
     state:
         description:
@@ -54,79 +53,45 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         choices: ["add", "replace", "delete"]
-    admin_auth_configuration:
+    name:
         description:
-            - Adminauthconfiguration settings for systemconfiguration.
-    dns_configuration:
+            - Name of the custom ipam dns profile.
+            - Field introduced in 17.1.1.
+    script_params:
         description:
-            - Dnsconfiguration settings for systemconfiguration.
-    dns_virtualservice_refs:
+            - Parameters that are always passed to the ipam/dns script.
+            - Field introduced in 17.1.1.
+    script_uri:
         description:
-            - Dns virtualservices hosting fqdn records for applications across avi vantage.
-            - If no virtualservices are provided, avi vantage will provide dns services for configured applications.
-            - Switching back to avi vantage from dns virtualservices is not allowed.
-            - It is a reference to an object of type virtualservice.
-    docker_mode:
+            - Script uri of form controller //ipamdnsscripts/<file-name>.
+            - Field introduced in 17.1.1.
+    tenant_ref:
         description:
-            - Boolean flag to set docker_mode.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-    email_configuration:
-        description:
-            - Emailconfiguration settings for systemconfiguration.
-    global_tenant_config:
-        description:
-            - Tenantconfiguration settings for systemconfiguration.
-    linux_configuration:
-        description:
-            - Linuxconfiguration settings for systemconfiguration.
-    mgmt_ip_access_control:
-        description:
-            - Configure ip access control for controller to restrict open access.
-    ntp_configuration:
-        description:
-            - Ntpconfiguration settings for systemconfiguration.
-    portal_configuration:
-        description:
-            - Portalconfiguration settings for systemconfiguration.
-    proxy_configuration:
-        description:
-            - Proxyconfiguration settings for systemconfiguration.
-    snmp_configuration:
-        description:
-            - Snmpconfiguration settings for systemconfiguration.
-    ssh_ciphers:
-        description:
-            - Allowed ciphers list for ssh to the management interface on the controller and service engines.
-            - If this is not specified, all the default ciphers are allowed.
-            - Ssh -q cipher provides the list of default ciphers supported.
-    ssh_hmacs:
-        description:
-            - Allowed hmac list for ssh to the management interface on the controller and service engines.
-            - If this is not specified, all the default hmacs are allowed.
-            - Ssh -q mac provides the list of default hmacs supported.
+            - It is a reference to an object of type tenant.
+            - Field introduced in 17.1.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Field introduced in 17.1.1.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create SystemConfiguration object
-  avi_systemconfiguration:
+- name: Example to create CustomIpamDnsProfile object
+  avi_customipamdnsprofile:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_systemconfiguration
+    name: sample_customipamdnsprofile
 """
 
 RETURN = '''
 obj:
-    description: SystemConfiguration (api/systemconfiguration) object
+    description: CustomIpamDnsProfile (api/customipamdnsprofile) object
     returned: success, changed
     type: dict
 '''
@@ -154,20 +119,10 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        admin_auth_configuration=dict(type='dict',),
-        dns_configuration=dict(type='dict',),
-        dns_virtualservice_refs=dict(type='list',),
-        docker_mode=dict(type='bool',),
-        email_configuration=dict(type='dict',),
-        global_tenant_config=dict(type='dict',),
-        linux_configuration=dict(type='dict',),
-        mgmt_ip_access_control=dict(type='dict',),
-        ntp_configuration=dict(type='dict',),
-        portal_configuration=dict(type='dict',),
-        proxy_configuration=dict(type='dict',),
-        snmp_configuration=dict(type='dict',),
-        ssh_ciphers=dict(type='list',),
-        ssh_hmacs=dict(type='list',),
+        name=dict(type='str',),
+        script_params=dict(type='list',),
+        script_uri=dict(type='str',),
+        tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -178,7 +133,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'systemconfiguration',
+    return avi_ansible_api(module, 'customipamdnsprofile',
                            set([]))
 
 if __name__ == '__main__':

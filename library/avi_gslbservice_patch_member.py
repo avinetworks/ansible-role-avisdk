@@ -130,12 +130,12 @@ try:
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
         ansible_return, avi_ansible_api, AviCheckModeResponse)
-    from distutils.version import LooseVersion
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-                 (LooseVersion(sdk_version) < LooseVersion('17.2.2b3')))):
+                 (parse_version(sdk_version) < parse_version('17.2.2b3')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     HAS_AVI = True
