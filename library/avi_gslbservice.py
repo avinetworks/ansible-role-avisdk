@@ -104,6 +104,13 @@ options:
             - This field indicates that this object is replicated across gslb federation.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+    min_members:
+        description:
+            - The minimum number of members to distribute traffic to.
+            - Allowed values are 1-65535.
+            - Special values are 0 - 'disable'.
+            - Field introduced in 17.2.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     name:
         description:
             - Name for the gslb service.
@@ -206,6 +213,7 @@ def main():
         health_monitor_refs=dict(type='list',),
         health_monitor_scope=dict(type='str',),
         is_federated=dict(type='bool',),
+        min_members=dict(type='int',),
         name=dict(type='str', required=True),
         num_dns_ip=dict(type='int',),
         pool_algorithm=dict(type='str',),

@@ -4,7 +4,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -29,12 +28,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_vsdatascriptset
+module: avi_errorpageprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VSDataScriptSet Avi RESTful Object
+short_description: Module for setup of ErrorPageProfile Avi RESTful Object
 description:
-    - This module is used to configure VSDataScriptSet object
+    - This module is used to configure ErrorPageProfile object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.4"
@@ -54,62 +53,55 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         choices: ["add", "replace", "delete"]
-    created_by:
+    app_name:
         description:
-            - Creator name.
-            - Field introduced in 17.1.11,17.2.4.
-    datascript:
+            - Name of the virtual service which generated the error page.
+            - Field introduced in 17.2.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as VS Name.
+    company_name:
         description:
-            - Datascripts to execute.
-    description:
+            - Name of the company to show in error page.
+            - Field introduced in 17.2.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as Avi Networks.
+    error_pages:
         description:
-            - User defined description for the object.
-    ipgroup_refs:
+            - Defined error pages for http status codes.
+            - Field introduced in 17.2.4.
+    host_name:
         description:
-            - Uuid of ip groups that could be referred by vsdatascriptset objects.
-            - It is a reference to an object of type ipaddrgroup.
+            - Fully qualified domain name for which the error page is generated.
+            - Field introduced in 17.2.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as Host Header.
     name:
         description:
-            - Name for the virtual service datascript collection.
-        required: true
-    pool_group_refs:
-        description:
-            - Uuid of pool groups that could be referred by vsdatascriptset objects.
-            - It is a reference to an object of type poolgroup.
-    pool_refs:
-        description:
-            - Uuid of pools that could be referred by vsdatascriptset objects.
-            - It is a reference to an object of type pool.
-    string_group_refs:
-        description:
-            - Uuid of string groups that could be referred by vsdatascriptset objects.
-            - It is a reference to an object of type stringgroup.
+            - Field introduced in 17.2.4.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+            - Field introduced in 17.2.4.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Uuid of the virtual service datascript collection.
+            - Field introduced in 17.2.4.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VSDataScriptSet object
-  avi_vsdatascriptset:
+- name: Example to create ErrorPageProfile object
+  avi_errorpageprofile:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vsdatascriptset
+    name: sample_errorpageprofile
 """
 
 RETURN = '''
 obj:
-    description: VSDataScriptSet (api/vsdatascriptset) object
+    description: ErrorPageProfile (api/errorpageprofile) object
     returned: success, changed
     type: dict
 '''
@@ -137,14 +129,11 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        created_by=dict(type='str',),
-        datascript=dict(type='list',),
-        description=dict(type='str',),
-        ipgroup_refs=dict(type='list',),
-        name=dict(type='str', required=True),
-        pool_group_refs=dict(type='list',),
-        pool_refs=dict(type='list',),
-        string_group_refs=dict(type='list',),
+        app_name=dict(type='str',),
+        company_name=dict(type='str',),
+        error_pages=dict(type='list',),
+        host_name=dict(type='str',),
+        name=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -156,7 +145,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vsdatascriptset',
+    return avi_ansible_api(module, 'errorpageprofile',
                            set([]))
 
 if __name__ == '__main__':

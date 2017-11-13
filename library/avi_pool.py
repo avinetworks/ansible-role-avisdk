@@ -156,7 +156,6 @@ options:
         description:
             - Indicates if the pool is a site-persistence pool.
             - Field introduced in 17.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     health_monitor_refs:
         description:
             - Verify server health by applying one or more health monitors.
@@ -200,6 +199,11 @@ options:
             - Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT,
             - LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING.
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS.
+    lookup_server_by_name:
+        description:
+            - Allow server lookup by name.
+            - Field introduced in 17.1.11,17.2.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     max_concurrent_connections_per_server:
         description:
             - The maximum number of concurrent connections allowed to each server within the pool.
@@ -391,6 +395,7 @@ def main():
         lb_algorithm_consistent_hash_hdr=dict(type='str',),
         lb_algorithm_core_nonaffinity=dict(type='int',),
         lb_algorithm_hash=dict(type='str',),
+        lookup_server_by_name=dict(type='bool',),
         max_concurrent_connections_per_server=dict(type='int',),
         max_conn_rate_per_server=dict(type='dict',),
         name=dict(type='str', required=True),
