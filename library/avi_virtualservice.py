@@ -102,6 +102,11 @@ options:
     client_auth:
         description:
             - Http authentication configuration for protected resources.
+    close_client_conn_on_config_update:
+        description:
+            - Close client connection on vs config update.
+            - Field introduced in 17.2.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     cloud_config_cksum:
         description:
             - Checksum of cloud configuration for vs.
@@ -220,6 +225,7 @@ options:
     ipam_network_subnet:
         description:
             - Subnet and/or network for allocating virtualservice ip by ipam provider module.
+            - Field deprecated in 17.1.1.
     limit_doser:
         description:
             - Limit potential dos attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
@@ -410,6 +416,25 @@ extends_documentation_fragment:
 '''
 
 
+
+############################################################################
+ # 
+ # AVI CONFIDENTIAL
+ # __________________
+ # 
+ # [2013] - [2017] Avi Networks Incorporated
+ # All Rights Reserved.
+ # 
+ # NOTICE: All information contained herein is, and remains the property
+ # of Avi Networks Incorporated and its suppliers, if any. The intellectual
+ # and technical concepts contained herein are proprietary to Avi Networks
+ # Incorporated, and its suppliers and are covered by U.S. and Foreign
+ # Patents, patents in process, and are protected by trade secret or
+ # copyright law, and other laws. Dissemination of this information or
+ # reproduction of this material is strictly forbidden unless prior written
+ # permission is obtained from Avi Networks Incorporated.
+ ###
+
 EXAMPLES = '''
 - name: Create SSL Virtual Service using Pool testpool2
   avi_virtualservice:
@@ -473,6 +498,7 @@ def main():
         avi_allocated_fip=dict(type='bool',),
         avi_allocated_vip=dict(type='bool',),
         client_auth=dict(type='dict',),
+        close_client_conn_on_config_update=dict(type='bool',),
         cloud_config_cksum=dict(type='str',),
         cloud_ref=dict(type='str',),
         cloud_type=dict(type='str',),

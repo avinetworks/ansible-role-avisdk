@@ -53,6 +53,10 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         choices: ["add", "replace", "delete"]
+    created_by:
+        description:
+            - Creator name.
+            - Field introduced in 17.2.4.
     crs_groups:
         description:
             - Waf rules are categorized in to groups based on their characterization.
@@ -148,6 +152,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        created_by=dict(type='str',),
         crs_groups=dict(type='list',),
         description=dict(type='str',),
         mode=dict(type='str',),
