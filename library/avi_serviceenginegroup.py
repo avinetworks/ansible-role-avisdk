@@ -90,10 +90,14 @@ options:
             - If set, virtual services will be automatically migrated when load on an se is less than minimum or more than maximum thresholds.
             - Only alerts are generated when the auto_rebalance is not set.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    auto_rebalance_capacity_per_se:
+        description:
+            - Capacities of se for auto rebalance for each criteria.
+            - Field introduced in 17.2.4.
     auto_rebalance_criteria:
         description:
             - Set of criteria for se auto rebalance.
-            - Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS.
+            - Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS.
             - Field introduced in 17.2.3.
     auto_rebalance_interval:
         description:
@@ -212,6 +216,12 @@ options:
         description:
             - Value of a (key, value) pair identifying a label for a set of nodes usually in container clouds.
             - Needs to be specified together with host_attribute_key.
+    host_gateway_monitor:
+        description:
+            - Enable the host gateway monitor when service engine is deployed as docker container.
+            - Disabled by default.
+            - Field introduced in 17.2.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     hypervisor:
         description:
             - Override default hypervisor.
@@ -547,6 +557,7 @@ def main():
         async_ssl=dict(type='bool',),
         async_ssl_threads=dict(type='int',),
         auto_rebalance=dict(type='bool',),
+        auto_rebalance_capacity_per_se=dict(type='list',),
         auto_rebalance_criteria=dict(type='list',),
         auto_rebalance_interval=dict(type='int',),
         auto_redistribute_active_standby_load=dict(type='bool',),
@@ -574,6 +585,7 @@ def main():
         hm_on_standby=dict(type='bool',),
         host_attribute_key=dict(type='str',),
         host_attribute_value=dict(type='str',),
+        host_gateway_monitor=dict(type='bool',),
         hypervisor=dict(type='str',),
         ignore_rtt_threshold=dict(type='int',),
         ingress_access_data=dict(type='str',),

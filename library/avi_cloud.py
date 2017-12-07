@@ -147,6 +147,11 @@ options:
     rancher_configuration:
         description:
             - Rancherconfiguration settings for cloud.
+    state_based_dns_registration:
+        description:
+            - Dns records for vips are added/deleted based on the operational state of the vips.
+            - Field introduced in 17.1.12.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -173,6 +178,25 @@ extends_documentation_fragment:
     - avi
 '''
 
+
+
+############################################################################
+ # 
+ # AVI CONFIDENTIAL
+ # __________________
+ # 
+ # [2013] - [2017] Avi Networks Incorporated
+ # All Rights Reserved.
+ # 
+ # NOTICE: All information contained herein is, and remains the property
+ # of Avi Networks Incorporated and its suppliers, if any. The intellectual
+ # and technical concepts contained herein are proprietary to Avi Networks
+ # Incorporated, and its suppliers and are covered by U.S. and Foreign
+ # Patents, patents in process, and are protected by trade secret or
+ # copyright law, and other laws. Dissemination of this information or
+ # reproduction of this material is strictly forbidden unless prior written
+ # permission is obtained from Avi Networks Incorporated.
+ ###
 
 EXAMPLES = '''
   - name: Create a VMWare cloud with write access mode
@@ -252,6 +276,7 @@ def main():
         prefer_static_routes=dict(type='bool',),
         proxy_configuration=dict(type='dict',),
         rancher_configuration=dict(type='dict',),
+        state_based_dns_registration=dict(type='bool',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
