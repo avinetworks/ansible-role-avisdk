@@ -78,7 +78,7 @@ This example shows usage of the avi_healthmonitor module included in this role.
         name: MyWebsite-HTTPS
 ```
 
-There are many more examples located at [https://github.com/avinetworks/devops/ansible](https://github.com/avinetworks/devops/ansible) and also available in the "EXAMPLES" within each module.
+There are many more examples located at [https://github.com/avinetworks/devops/tree/master/ansible](https://github.com/avinetworks/devops/tree/master/ansible) and also available in the "EXAMPLES" within each module.
 
 ## License
 
