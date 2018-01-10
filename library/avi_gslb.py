@@ -1,26 +1,12 @@
 #!/usr/bin/python
 #
-# Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
 # Avi Version: 17.1.1
 #
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -48,11 +34,13 @@ options:
         description:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
+        version_added: "2.5"
         default: put
         choices: ["put", "patch"]
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
+        version_added: "2.5"
         choices: ["add", "replace", "delete"]
     clear_on_max_retries:
         description:
@@ -64,6 +52,7 @@ options:
         description:
             - Group to specify if the client ip addresses are public or private.
             - Field introduced in 17.1.2.
+        version_added: "2.4"
     description:
         description:
             - User defined description for the object.
@@ -76,10 +65,12 @@ options:
             - This field indicates that this object is replicated across gslb federation.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        version_added: "2.4"
     leader_cluster_uuid:
         description:
             - Mark this site as leader of gslb configuration.
             - This site is the one among the avi sites.
+        required: true
     maintenance_mode:
         description:
             - This field disables the configuration operations on the leader for all federated objects.
@@ -89,6 +80,7 @@ options:
             - This configuration programmatically blocks the leader from accepting new gslb configuration when member sites are undergoing upgrade.
             - Field introduced in 17.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        version_added: "2.5"
     name:
         description:
             - Name for the gslb object.
@@ -98,6 +90,7 @@ options:
             - Frequency with which group members communicate.
             - Allowed values are 1-3600.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
+            - Units(SEC).
     sites:
         description:
             - Select avi site member belonging to this gslb.
@@ -168,7 +161,7 @@ def main():
         description=dict(type='str',),
         dns_configs=dict(type='list',),
         is_federated=dict(type='bool',),
-        leader_cluster_uuid=dict(type='str',),
+        leader_cluster_uuid=dict(type='str', required=True),
         maintenance_mode=dict(type='bool',),
         name=dict(type='str', required=True),
         send_interval=dict(type='int',),

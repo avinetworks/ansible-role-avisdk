@@ -1,26 +1,12 @@
 #!/usr/bin/python
 #
-# Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
 # Avi Version: 17.1.1
 #
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -48,11 +34,13 @@ options:
         description:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
+        version_added: "2.5"
         default: put
         choices: ["put", "patch"]
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
+        version_added: "2.5"
         choices: ["add", "replace", "delete"]
     apic_configuration:
         description:
@@ -67,6 +55,7 @@ options:
     azure_configuration:
         description:
             - Field introduced in 17.2.1.
+        version_added: "2.5"
     cloudstack_configuration:
         description:
             - Cloudstackconfiguration settings for cloud.
@@ -74,6 +63,7 @@ options:
         description:
             - Custom tags for all avi created resources in the cloud infrastructure.
             - Field introduced in 17.1.5.
+        version_added: "2.5"
     dhcp_enabled:
         description:
             - Select the ip address management scheme.
@@ -104,11 +94,18 @@ options:
         description:
             - Ipam profile for the cloud.
             - It is a reference to an object of type ipamdnsproviderprofile.
+    license_tier:
+        description:
+            - Specifies the default license tier which would be used by new se groups.
+            - This field by default inherits the value from system configuration.
+            - Enum options - ENTERPRISE_16, ENTERPRISE_18.
+            - Field introduced in 17.2.5.
+        version_added: "2.5"
     license_type:
         description:
             - If no license type is specified then default license enforcement for the cloud type is chosen.
             - The default mappings are container cloud is max ses, openstack and vmware is cores and linux it is sockets.
-            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS.
+            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH.
     linuxserver_configuration:
         description:
             - Linuxserverconfiguration settings for cloud.
@@ -119,6 +116,7 @@ options:
         description:
             - Mtu setting for the cloud.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1500.
+            - Units(BYTES).
     name:
         description:
             - Name of the object.
@@ -152,6 +150,7 @@ options:
             - Dns records for vips are added/deleted based on the operational state of the vips.
             - Field introduced in 17.1.12.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        version_added: "2.5"
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -178,32 +177,12 @@ extends_documentation_fragment:
     - avi
 '''
 
-
-
-############################################################################
- # 
- # AVI CONFIDENTIAL
- # __________________
- # 
- # [2013] - [2017] Avi Networks Incorporated
- # All Rights Reserved.
- # 
- # NOTICE: All information contained herein is, and remains the property
- # of Avi Networks Incorporated and its suppliers, if any. The intellectual
- # and technical concepts contained herein are proprietary to Avi Networks
- # Incorporated, and its suppliers and are covered by U.S. and Foreign
- # Patents, patents in process, and are protected by trade secret or
- # copyright law, and other laws. Dissemination of this information or
- # reproduction of this material is strictly forbidden unless prior written
- # permission is obtained from Avi Networks Incorporated.
- ###
-
-EXAMPLES = '''
+EXAMPLES = """
   - name: Create a VMWare cloud with write access mode
     avi_cloud:
-      username: ''
-      controller: ''
-      password: ''
+      username: '{{ username }}'
+      controller: '{{ controller }}'
+      password: '{{ password }}'
       apic_mode: false
       dhcp_enabled: true
       enable_vip_static_routes: false
@@ -220,7 +199,8 @@ EXAMPLES = '''
         username: user
         vcenter_url: 10.10.20.100
       vtype: CLOUD_VCENTER
-'''
+"""
+
 RETURN = '''
 obj:
     description: Cloud (api/cloud) object
@@ -264,6 +244,7 @@ def main():
         east_west_ipam_provider_ref=dict(type='str',),
         enable_vip_static_routes=dict(type='bool',),
         ipam_provider_ref=dict(type='str',),
+        license_tier=dict(type='str',),
         license_type=dict(type='str',),
         linuxserver_configuration=dict(type='dict',),
         mesos_configuration=dict(type='dict',),

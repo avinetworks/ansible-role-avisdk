@@ -14,15 +14,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_ipamdnsproviderprofile
+module: avi_clusterclouddetails
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of IpamDnsProviderProfile Avi RESTful Object
+short_description: Module for setup of ClusterCloudDetails Avi RESTful Object
 description:
-    - This module is used to configure IpamDnsProviderProfile object
+    - This module is used to configure ClusterCloudDetails object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.5"
 options:
     state:
         description:
@@ -41,88 +41,41 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
-    allocate_ip_in_vrf:
+    azure_info:
         description:
-            - If this flag is set, only allocate ip from networks in the virtual service vrf.
-            - Applicable for avi vantage ipam only.
-            - Field introduced in 17.2.4.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.5"
-    aws_profile:
-        description:
-            - Provider details if type is aws.
-    azure_profile:
-        description:
-            - Provider details if type is microsoft azure.
-            - Field introduced in 17.2.1.
-        version_added: "2.5"
-    custom_profile:
-        description:
-            - Provider details if type is custom.
-            - Field introduced in 17.1.1.
-    gcp_profile:
-        description:
-            - Provider details if type is google cloud.
-    infoblox_profile:
-        description:
-            - Provider details if type is infoblox.
-    internal_profile:
-        description:
-            - Provider details if type is avi.
+            - Azure info to configure cluster_vip on the controller.
+            - Field introduced in 17.2.5.
     name:
         description:
-            - Name for the ipam/dns provider profile.
+            - Field introduced in 17.2.5.
         required: true
-    openstack_profile:
-        description:
-            - Provider details if type is openstack.
-    proxy_configuration:
-        description:
-            - Field introduced in 17.1.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-    type:
-        description:
-            - Provider type for the ipam/dns provider profile.
-            - Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM,
-            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
-        required: true
+            - Field introduced in 17.2.5.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Uuid of the ipam/dns provider profile.
+            - Field introduced in 17.2.5.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-  - name: Create IPAM DNS provider setting
-    avi_ipamdnsproviderprofile:
-      controller: '{{ controller }}'
-      username: '{{ username }}'
-      password: '{{ password }}'
-      internal_profile:
-        dns_service_domain:
-        - domain_name: ashish.local
-          num_dns_ip: 1
-          pass_through: true
-          record_ttl: 100
-        - domain_name: guru.local
-          num_dns_ip: 1
-          pass_through: true
-          record_ttl: 200
-        ttl: 300
-      name: Ashish-DNS
-      tenant_ref: Demo
-      type: IPAMDNS_TYPE_INTERNAL
+- name: Example to create ClusterCloudDetails object
+  avi_clusterclouddetails:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_clusterclouddetails
 """
 
 RETURN = '''
 obj:
-    description: IpamDnsProviderProfile (api/ipamdnsproviderprofile) object
+    description: ClusterCloudDetails (api/clusterclouddetails) object
     returned: success, changed
     type: dict
 '''
@@ -150,18 +103,9 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        allocate_ip_in_vrf=dict(type='bool',),
-        aws_profile=dict(type='dict',),
-        azure_profile=dict(type='dict',),
-        custom_profile=dict(type='dict',),
-        gcp_profile=dict(type='dict',),
-        infoblox_profile=dict(type='dict',),
-        internal_profile=dict(type='dict',),
+        azure_info=dict(type='dict',),
         name=dict(type='str', required=True),
-        openstack_profile=dict(type='dict',),
-        proxy_configuration=dict(type='dict',),
         tenant_ref=dict(type='str',),
-        type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -172,7 +116,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'ipamdnsproviderprofile',
+    return avi_ansible_api(module, 'clusterclouddetails',
                            set([]))
 
 if __name__ == '__main__':

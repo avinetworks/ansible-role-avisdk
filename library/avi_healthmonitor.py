@@ -1,26 +1,12 @@
 #!/usr/bin/python
 #
-# Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
 # Avi Version: 17.1.1
 #
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -48,11 +34,13 @@ options:
         description:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
+        version_added: "2.5"
         default: put
         choices: ["put", "patch"]
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
+        version_added: "2.5"
         choices: ["add", "replace", "delete"]
     description:
         description:
@@ -81,6 +69,7 @@ options:
             - If the field is set to true, then the object is replicated across the federation.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        version_added: "2.4"
     monitor_port:
         description:
             - Use this port instead of the port defined for the server in the pool.
@@ -98,11 +87,13 @@ options:
             - If server status is regularly flapping up and down, consider increasing this value.
             - Allowed values are 1-2400.
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.
+            - Units(SEC).
     send_interval:
         description:
             - Frequency, in seconds, that monitors are sent to a server.
             - Allowed values are 1-3600.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+            - Units(SEC).
     successful_checks:
         description:
             - Number of continuous successful health checks before server is marked up.
@@ -133,27 +124,7 @@ extends_documentation_fragment:
     - avi
 '''
 
-
-
-############################################################################
- # 
- # AVI CONFIDENTIAL
- # __________________
- # 
- # [2013] - [2017] Avi Networks Incorporated
- # All Rights Reserved.
- # 
- # NOTICE: All information contained herein is, and remains the property
- # of Avi Networks Incorporated and its suppliers, if any. The intellectual
- # and technical concepts contained herein are proprietary to Avi Networks
- # Incorporated, and its suppliers and are covered by U.S. and Foreign
- # Patents, patents in process, and are protected by trade secret or
- # copyright law, and other laws. Dissemination of this information or
- # reproduction of this material is strictly forbidden unless prior written
- # permission is obtained from Avi Networks Incorporated.
- ###
-
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create a HTTPS health monitor
   avi_healthmonitor:
     controller: 10.10.27.90
@@ -170,7 +141,8 @@ EXAMPLES = '''
     successful_checks: 3
     type: HEALTH_MONITOR_HTTPS
     name: MyWebsite-HTTPS
-'''
+"""
+
 RETURN = '''
 obj:
     description: HealthMonitor (api/healthmonitor) object

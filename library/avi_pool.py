@@ -1,26 +1,12 @@
 #!/usr/bin/python
 #
-# Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
 # Avi Version: 17.1.1
 #
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -48,11 +34,13 @@ options:
         description:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
+        version_added: "2.5"
         default: put
         choices: ["put", "patch"]
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
+        version_added: "2.5"
         choices: ["add", "replace", "delete"]
     a_pool:
         description:
@@ -93,6 +81,7 @@ options:
             - Allowed values are 1-5000.
             - Special values are 0 - 'automatic'.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+            - Units(MILLISECONDS).
     cloud_config_cksum:
         description:
             - Checksum of cloud configuration for pool.
@@ -107,6 +96,7 @@ options:
             - Allowed values are 1-300.
             - Special values are 0 - 'immediate'.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+            - Units(MIN).
     created_by:
         description:
             - Creator name.
@@ -134,7 +124,7 @@ options:
     external_autoscale_groups:
         description:
             - Names of external auto-scale groups for pool servers.
-            - Currently available only for aws.
+            - Currently available only for aws and azure.
             - Field introduced in 17.1.2.
     fail_action:
         description:
@@ -145,6 +135,7 @@ options:
             - Periodicity of feedback for fewest tasks server selection algorithm.
             - Allowed values are 1-300.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+            - Units(SEC).
     graceful_disable_timeout:
         description:
             - Used to gracefully disable a server.
@@ -152,10 +143,12 @@ options:
             - Allowed values are 1-7200.
             - Special values are 0 - 'immediate', -1 - 'infinite'.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
+            - Units(MIN).
     gslb_sp_enabled:
         description:
             - Indicates if the pool is a site-persistence pool.
             - Field introduced in 17.2.1.
+        version_added: "2.5"
     health_monitor_refs:
         description:
             - Verify server health by applying one or more health monitors.
@@ -193,6 +186,7 @@ options:
             - Allowed values are 1-65535.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+        version_added: "2.4"
     lb_algorithm_hash:
         description:
             - Criteria used as a key for determining the hash between the client and  server.
@@ -204,6 +198,7 @@ options:
             - Allow server lookup by name.
             - Field introduced in 17.1.11,17.2.4.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        version_added: "2.5"
     max_concurrent_connections_per_server:
         description:
             - The maximum number of concurrent connections allowed to each server within the pool.
@@ -313,27 +308,7 @@ extends_documentation_fragment:
     - avi
 '''
 
-
-
-############################################################################
- # 
- # AVI CONFIDENTIAL
- # __________________
- # 
- # [2013] - [2017] Avi Networks Incorporated
- # All Rights Reserved.
- # 
- # NOTICE: All information contained herein is, and remains the property
- # of Avi Networks Incorporated and its suppliers, if any. The intellectual
- # and technical concepts contained herein are proprietary to Avi Networks
- # Incorporated, and its suppliers and are covered by U.S. and Foreign
- # Patents, patents in process, and are protected by trade secret or
- # copyright law, and other laws. Dissemination of this information or
- # reproduction of this material is strictly forbidden unless prior written
- # permission is obtained from Avi Networks Incorporated.
- ###
-
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create a Pool with two servers and HTTP monitor
   avi_pool:
     controller: 10.10.1.20
@@ -351,7 +326,22 @@ EXAMPLES = '''
         - ip:
             addr: 10.10.2.21
             type: V4
-'''
+
+- name: Patch pool with a single server using patch op and avi_credentials
+  avi_pool:
+    avi_api_update_method: patch
+    avi_api_patch_op: delete
+    avi_credentials: "{{avi_credentials}}"
+    name: test-pool
+    servers:
+      - ip:
+        addr: 10.90.64.13
+        type: 'V4'
+  register: pool
+  when:
+    - state | default("present") == "present"
+"""
+
 RETURN = '''
 obj:
     description: Pool (api/pool) object
