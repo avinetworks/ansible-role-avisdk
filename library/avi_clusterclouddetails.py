@@ -14,14 +14,14 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_prioritylabels
+module: avi_clusterclouddetails
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-short_description: Module for setup of PriorityLabels Avi RESTful Object
+short_description: Module for setup of ClusterCloudDetails Avi RESTful Object
 description:
-    - This module is used to configure PriorityLabels object
+    - This module is used to configure ClusterCloudDetails object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.5"
 options:
     state:
         description:
@@ -40,45 +40,41 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
-    cloud_ref:
+    azure_info:
         description:
-            - It is a reference to an object of type cloud.
-    description:
-        description:
-            - A description of the priority labels.
-    equivalent_labels:
-        description:
-            - Equivalent priority labels in descending order.
+            - Azure info to configure cluster_vip on the controller.
+            - Field introduced in 17.2.5.
     name:
         description:
-            - The name of the priority labels.
+            - Field introduced in 17.2.5.
         required: true
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+            - Field introduced in 17.2.5.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Uuid of the priority labels.
+            - Field introduced in 17.2.5.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create PriorityLabels object
-  avi_prioritylabels:
+- name: Example to create ClusterCloudDetails object
+  avi_clusterclouddetails:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_prioritylabels
+    name: sample_clusterclouddetails
 """
 
 RETURN = '''
 obj:
-    description: PriorityLabels (api/prioritylabels) object
+    description: ClusterCloudDetails (api/clusterclouddetails) object
     returned: success, changed
     type: dict
 '''
@@ -106,9 +102,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        cloud_ref=dict(type='str',),
-        description=dict(type='str',),
-        equivalent_labels=dict(type='list',),
+        azure_info=dict(type='dict',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
@@ -121,7 +115,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'prioritylabels',
+    return avi_ansible_api(module, 'clusterclouddetails',
                            set([]))
 
 if __name__ == '__main__':

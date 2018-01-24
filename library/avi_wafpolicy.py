@@ -1,25 +1,11 @@
 #!/usr/bin/python
 #
-# Created on Aug 25, 2016
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
 #
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -30,13 +16,12 @@ DOCUMENTATION = '''
 ---
 module: avi_wafpolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of WafPolicy Avi RESTful Object
 description:
     - This module is used to configure WafPolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.5"
 options:
     state:
         description:
@@ -47,11 +32,13 @@ options:
         description:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
+        version_added: "2.5"
         default: put
         choices: ["put", "patch"]
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
+        version_added: "2.5"
         choices: ["add", "replace", "delete"]
     created_by:
         description:
@@ -72,6 +59,7 @@ options:
             - Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT.
             - Field introduced in 17.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_MODE_DETECTION_ONLY.
+        required: true
     name:
         description:
             - Field introduced in 17.2.1.
@@ -108,6 +96,7 @@ options:
             - Waf profile for waf policy.
             - It is a reference to an object of type wafprofile.
             - Field introduced in 17.2.1.
+        required: true
 extends_documentation_fragment:
     - avi
 '''
@@ -155,7 +144,7 @@ def main():
         created_by=dict(type='str',),
         crs_groups=dict(type='list',),
         description=dict(type='str',),
-        mode=dict(type='str',),
+        mode=dict(type='str', required=True),
         name=dict(type='str', required=True),
         paranoia_level=dict(type='str',),
         post_crs_groups=dict(type='list',),
@@ -163,7 +152,7 @@ def main():
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        waf_profile_ref=dict(type='str',),
+        waf_profile_ref=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
