@@ -94,7 +94,7 @@ options:
     auto_rebalance_criteria:
         description:
             - Set of criteria for se auto rebalance.
-            - Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS.
+            - Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS.
             - Field introduced in 17.2.3.
         version_added: "2.5"
     auto_rebalance_interval:
