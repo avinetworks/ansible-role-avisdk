@@ -87,6 +87,14 @@ options:
             - (internal-use) vip allocated by avi in the cloud infrastructure.
             - Field deprecated in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    bulk_sync_kvcache:
+        description:
+            - (this is a beta feature).
+            - Sync key-value cache to the new ses when vs is scaled out.
+            - For ex  ssl sessions are stored using vs's key-value cache.
+            - When the vs is scaled out, the ssl session information is synced to the new se, allowing existing ssl sessions to be reused on the new se.
+            - Field introduced in 17.2.7, 18.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     client_auth:
         description:
             - Http authentication configuration for protected resources.
@@ -217,6 +225,10 @@ options:
         description:
             - Subnet and/or network for allocating virtualservice ip by ipam provider module.
             - Field deprecated in 17.1.1.
+    l4_policies:
+        description:
+            - L4 policies applied to the data traffic of the virtual service.
+            - Field introduced in 17.2.7.
     limit_doser:
         description:
             - Limit potential dos attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
@@ -398,7 +410,7 @@ options:
             - Datascripts applied on the data traffic of the virtual service.
     vsvip_ref:
         description:
-            - Mostly used during the creation of shared vs, this fieldrefers to entities that can be shared across virtual services.
+            - Mostly used during the creation of shared vs, this field refers to entities that can be shared across virtual services.
             - It is a reference to an object of type vsvip.
             - Field introduced in 17.1.1.
         version_added: "2.4"
@@ -481,6 +493,7 @@ def main():
         availability_zone=dict(type='str',),
         avi_allocated_fip=dict(type='bool',),
         avi_allocated_vip=dict(type='bool',),
+        bulk_sync_kvcache=dict(type='bool',),
         client_auth=dict(type='dict',),
         close_client_conn_on_config_update=dict(type='bool',),
         cloud_config_cksum=dict(type='str',),
@@ -512,6 +525,7 @@ def main():
         ign_pool_net_reach=dict(type='bool',),
         ip_address=dict(type='dict',),
         ipam_network_subnet=dict(type='dict',),
+        l4_policies=dict(type='list',),
         limit_doser=dict(type='bool',),
         max_cps_per_client=dict(type='int',),
         microservice_ref=dict(type='str',),

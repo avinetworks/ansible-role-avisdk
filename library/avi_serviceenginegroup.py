@@ -78,7 +78,7 @@ options:
     async_ssl_threads:
         description:
             - Number of async ssl threads per se_dp.
-            - Allowed values are 1-4.
+            - Allowed values are 1-16.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         version_added: "2.4"
     auto_rebalance:
@@ -161,14 +161,14 @@ options:
             - Disable generic receive offload (gro) in dpdk poll-mode driver packet receive path.
             - Gro is on by default on nics that do not support lro (large receive offload) or do not gain performance boost from lro.
             - Field introduced in 17.2.5.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.5"
     disable_tso:
         description:
             - Disable tcp segmentation offload (tso) in dpdk poll-mode driver packet transmit path.
             - Tso is on by default on nics that support it.
             - Field introduced in 17.2.5.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.5"
     disk_per_se:
         description:
@@ -178,6 +178,13 @@ options:
     distribute_load_active_standby:
         description:
             - Use both the active and standby service engines for virtual service placement in the legacy active standby ha mode.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    enable_hsm_priming:
+        description:
+            - (this is a beta feature).
+            - Enable hsm key priming.
+            - If enabled, key handles on the hsm will be synced to se before processing client connections.
+            - Field introduced in 17.2.7.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
     enable_routing:
         description:
@@ -655,6 +662,7 @@ def main():
         disable_tso=dict(type='bool',),
         disk_per_se=dict(type='int',),
         distribute_load_active_standby=dict(type='bool',),
+        enable_hsm_priming=dict(type='bool',),
         enable_routing=dict(type='bool',),
         enable_vip_on_all_interfaces=dict(type='bool',),
         enable_vmac=dict(type='bool',),
