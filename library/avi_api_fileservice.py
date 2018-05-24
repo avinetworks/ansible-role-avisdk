@@ -158,10 +158,7 @@ def main():
                     changed=True, msg="File uploaded successfully")
 
     elif method == 'get':
-        if 'fileservice/seova' == path:
-            rsp = api.post(path, data=params, stream=True)
-        else:
-            rsp = api.get(path, params=params, stream=True)
+        rsp = api.get(path, params=params, stream=True)
         if rsp.status_code > 300:
             return module.fail_json(msg='Fail to download file: %s' % rsp.text)
         with open(file_path, 'wb') as f:
