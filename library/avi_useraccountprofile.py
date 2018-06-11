@@ -17,7 +17,6 @@ DOCUMENTATION = '''
 ---
 module: avi_useraccountprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of UserAccountProfile Avi RESTful Object
 description:
     - This module is used to configure UserAccountProfile object
@@ -47,13 +46,11 @@ options:
             - Lock timeout period (in minutes).
             - Default is 30 minutes.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
-            - Units(MIN).
     credentials_timeout_threshold:
         description:
             - The time period after which credentials expire.
             - Default is 180 days.
             - Default value when not specified in API or module is interpreted by Avi Controller as 180.
-            - Units(DAYS).
     max_concurrent_sessions:
         description:
             - Maximum number of concurrent sessions allowed.
@@ -106,8 +103,9 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api

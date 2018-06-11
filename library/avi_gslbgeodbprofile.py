@@ -17,7 +17,6 @@ DOCUMENTATION = '''
 ---
 module: avi_gslbgeodbprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of GslbGeoDbProfile Avi RESTful Object
 description:
     - This module is used to configure GslbGeoDbProfile object
@@ -55,6 +54,7 @@ options:
             - This field indicates that this object is replicated across gslb federation.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     name:
         description:
             - A user-friendly name for the geodb profile.
@@ -98,8 +98,9 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api

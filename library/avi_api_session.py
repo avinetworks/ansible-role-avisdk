@@ -45,6 +45,7 @@ options:
     timeout:
         description:
             - Timeout (in seconds) for Avi API calls.
+        default: 60
 extends_documentation_fragment:
     - avi
 '''
@@ -122,7 +123,7 @@ try:
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-                 (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     HAS_AVI = True

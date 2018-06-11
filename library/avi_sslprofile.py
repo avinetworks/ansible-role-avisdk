@@ -17,7 +17,6 @@ DOCUMENTATION = '''
 ---
 module: avi_sslprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of SSLProfile Avi RESTful Object
 description:
     - This module is used to configure SSLProfile object
@@ -68,6 +67,7 @@ options:
         description:
             - Enable ssl session re-use.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     name:
         description:
             - Name of the object.
@@ -76,10 +76,12 @@ options:
         description:
             - Prefer the ssl cipher ordering presented by the client during the ssl handshake over the one specified in the ssl profile.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     send_close_notify:
         description:
             - Send 'close notify' alert message for a clean shutdown of the ssl connection.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     ssl_rating:
         description:
             - Sslrating settings for sslprofile.
@@ -87,13 +89,19 @@ options:
         description:
             - The amount of time before an ssl session expires.
             - Default value when not specified in API or module is interpreted by Avi Controller as 86400.
-            - Units(SEC).
     tags:
         description:
             - List of tag.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+    type:
+        description:
+            - Ssl profile type.
+            - Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM.
+            - Field introduced in 17.2.8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as SSL_PROFILE_TYPE_APPLICATION.
+        version_added: "2.6"
     url:
         description:
             - Avi controller URL of the object.
@@ -162,8 +170,9 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -192,6 +201,7 @@ def main():
         ssl_session_timeout=dict(type='int',),
         tags=dict(type='list',),
         tenant_ref=dict(type='str',),
+        type=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )

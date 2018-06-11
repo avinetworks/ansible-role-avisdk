@@ -17,7 +17,6 @@ DOCUMENTATION = '''
 ---
 module: avi_applicationprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of ApplicationProfile Avi RESTful Object
 description:
     - This module is used to configure ApplicationProfile object
@@ -63,11 +62,18 @@ options:
             - Specifies if client ip needs to be preserved for backend connection.
             - Not compatible with connection multiplexing.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     preserve_client_port:
         description:
-            - Specifies if we need to preserve client port while preseving client ip for backend connections.
+            - Specifies if we need to preserve client port while preserving client ip for backend connections.
             - Field introduced in 17.2.7.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        version_added: "2.6"
+        type: bool
+    sip_service_profile:
+        description:
+            - Specifies various sip service related controls for virtual service.
+            - Field introduced in 17.2.8.
     tcp_app_profile:
         description:
             - Specifies the tcp application proxy profile parameters.
@@ -78,7 +84,7 @@ options:
         description:
             - Specifies which application layer proxy is enabled for the virtual service.
             - Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS,
-            - APPLICATION_PROFILE_TYPE_SSL.
+            - APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP.
         required: true
     url:
         description:
@@ -165,8 +171,9 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
@@ -189,6 +196,7 @@ def main():
         name=dict(type='str', required=True),
         preserve_client_ip=dict(type='bool',),
         preserve_client_port=dict(type='bool',),
+        sip_service_profile=dict(type='dict',),
         tcp_app_profile=dict(type='dict',),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),

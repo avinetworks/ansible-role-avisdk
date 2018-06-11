@@ -1,5 +1,33 @@
 #!/usr/bin/python
+############################################################################
+#
+# AVI CONFIDENTIAL
+# __________________
+#
+# [2013] - [2018] Avi Networks Incorporated
+# All Rights Reserved.
+#
+# NOTICE: All information contained herein is, and remains the property
+# of Avi Networks Incorporated and its suppliers, if any. The intellectual
+# and technical concepts contained herein are proprietary to Avi Networks
+# Incorporated, and its suppliers and are covered by U.S. and Foreign
+# Patents, patents in process, and are protected by trade secret or
+# copyright law, and other laws. Dissemination of this information or
+# reproduction of this material is strictly forbidden unless prior written
+# permission is obtained from Avi Networks Incorporated.
+###
 
+"""
+# Created on April 25, 2018
+#
+# @author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com) GitHub ID: chaitanyaavi
+#
+# module_check: not supported
+#
+# Copyright: (c) 2017 Chaitanya Deshpande, <chaitanya.deshpande@avinetworks.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+#
+"""
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -44,9 +72,9 @@ EXAMPLES = '''
 
   - name: Download se image from controller
     avi_api_fileservice:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      controller: ""
+      username: ""
+      password: ""
       http_method: get
       path: seova
       file_path: ./se.ova
@@ -54,9 +82,9 @@ EXAMPLES = '''
 
   - name: Upload HSM package to controller
     avi_api_fileservice:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      controller: ""
+      username: ""
+      password: ""
       http_method: post
       path: hsmpackages?hsmtype=safenet
       file_path: ./safenet.tar
@@ -73,8 +101,10 @@ obj:
 '''
 
 import json
+import time
 import os
 from ansible.module_utils.basic import AnsibleModule
+from copy import deepcopy
 from requests_toolbelt import MultipartEncoder
 
 try:
@@ -87,7 +117,7 @@ try:
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-                 (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     HAS_AVI = True

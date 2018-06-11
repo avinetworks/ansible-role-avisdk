@@ -16,7 +16,6 @@ DOCUMENTATION = '''
 ---
 module: avi_scheduler
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of Scheduler Avi RESTful Object
 description:
     - This module is used to configure Scheduler object
@@ -49,6 +48,7 @@ options:
         description:
             - Boolean flag to set enabled.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     end_date_time:
         description:
             - Scheduler end date and time.
@@ -117,8 +117,9 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api

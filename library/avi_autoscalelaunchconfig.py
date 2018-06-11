@@ -16,13 +16,12 @@ DOCUMENTATION = '''
 ---
 module: avi_autoscalelaunchconfig
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of AutoScaleLaunchConfig Avi RESTful Object
 description:
     - This module is used to configure AutoScaleLaunchConfig object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.5"
+version_added: "2.6"
 options:
     state:
         description:
@@ -69,6 +68,7 @@ options:
             - Pool should have single autoscaling group configured.
             - Field introduced in 17.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     uuid:
         description:
             - Unique object identifier of the object.
@@ -100,8 +100,9 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api

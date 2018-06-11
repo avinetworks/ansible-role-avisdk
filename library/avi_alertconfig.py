@@ -16,7 +16,6 @@ DOCUMENTATION = '''
 ---
 module: avi_alertconfig
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-
 short_description: Module for setup of AlertConfig Avi RESTful Object
 description:
     - This module is used to configure AlertConfig object
@@ -52,6 +51,7 @@ options:
     autoscale_alert:
         description:
             - This alert config applies to auto scale alerts.
+        type: bool
     category:
         description:
             - Determines whether an alert is raised immediately when event occurs (realtime) or after specified number of events occurs within rolling time
@@ -66,13 +66,13 @@ options:
         description:
             - Enable or disable this alert config from generating new alerts.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     expiry_time:
         description:
             - An alert is expired and deleted after the expiry time has elapsed.
             - The original event triggering the alert remains in the event's log.
             - Allowed values are 1-31536000.
             - Default value when not specified in API or module is interpreted by Avi Controller as 86400.
-            - Units(SEC).
     name:
         description:
             - Name of the alert configuration.
@@ -110,13 +110,14 @@ options:
             - CLIENTSUMMARYINTERNAL, MICROSERVICEGROUPRUNTIME, BGPRUNTIME, REQUESTQUEUERUNTIME, MIGRATEALL, MIGRATEALLSTATUSSUMMARY, MIGRATEALLSTATUSDETAIL,
             - INTERFACESUMMARYRUNTIME, INTERFACELACPRUNTIME, DNSTABLE, GSLBSERVICEDETAIL, GSLBSERVICEINTERNAL, GSLBSERVICEHMONSTAT, SETROLESREQUEST,
             - TRAFFICCLONERUNTIME, GEOLOCATIONINFO, SEVSHBSTATRUNTIME, GEODBINTERNAL, GSLBSITEINTERNAL, WAFSTATS, USERDEFINEDDATASCRIPTCOUNTERS, LLDPRUNTIME,
-            - VSESSHARINGPOOL, SEVSSPLACEMENT, L4POLICYSETSTATS, L4POLICYSETINTERNAL, SERESOURCEPROTO, SECONSUMERPROTO, SECREATEPENDINGPROTO, PLACEMENTSTATS,
-            - SEVIPPROTO, RMVRFPROTO, VCENTERMAP, VIMGRVCENTERRUNTIME, INTERESTEDVMS, INTERESTEDHOSTS, VCENTERSUPPORTEDCOUNTERS, ENTITYCOUNTERS,
-            - TRANSACTIONSTATS, SEVMCREATEPROGRESS, PLACEMENTSTATUS, VISUBFOLDERS, VIDATASTORE, VIHOSTRESOURCES, CLOUDCONNECTOR, VINETWORKSUBNETVMS,
-            - VIDATASTORECONTENTS, VIMGRVCENTERCLOUDRUNTIME, VIVCENTERPORTGROUPS, VIVCENTERDATACENTERS, VIMGRHOSTRUNTIME, PLACEMENTGLOBALS, APICCONFIGURATION,
-            - CIFTABLE, APICTRANSACTION, VIRTUALSERVICESTATEDBCACHESUMMARY, POOLSTATEDBCACHESUMMARY, SERVERSTATEDBCACHESUMMARY, APICAGENTINTERNAL,
-            - APICTRANSACTIONFLAP, APICGRAPHINSTANCES, APICEPGS, APICEPGEPS, APICDEVICEPKGVER, APICTENANTS, APICVMMDOMAINS, NSXCONFIGURATION, NSXSGTABLE,
-            - NSXAGENTINTERNAL, NSXSGINFO, NSXSGIPS, NSXAGENTINTERNALCLI, MAXOBJECTS.
+            - VSESSHARINGPOOL, NDTABLERUNTIME, IP6STATRUNTIME, ICMP6STATRUNTIME, SEVSSPLACEMENT, L4POLICYSETSTATS, L4POLICYSETINTERNAL, BGPDEBUGINFO, SHARD,
+            - CPUSTATRUNTIMEDETAIL, SERESOURCEPROTO, SECONSUMERPROTO, SECREATEPENDINGPROTO, PLACEMENTSTATS, SEVIPPROTO, RMVRFPROTO, VCENTERMAP,
+            - VIMGRVCENTERRUNTIME, INTERESTEDVMS, INTERESTEDHOSTS, VCENTERSUPPORTEDCOUNTERS, ENTITYCOUNTERS, TRANSACTIONSTATS, SEVMCREATEPROGRESS,
+            - PLACEMENTSTATUS, VISUBFOLDERS, VIDATASTORE, VIHOSTRESOURCES, CLOUDCONNECTOR, VINETWORKSUBNETVMS, VIDATASTORECONTENTS, VIMGRVCENTERCLOUDRUNTIME,
+            - VIVCENTERPORTGROUPS, VIVCENTERDATACENTERS, VIMGRHOSTRUNTIME, PLACEMENTGLOBALS, APICCONFIGURATION, CIFTABLE, APICTRANSACTION,
+            - VIRTUALSERVICESTATEDBCACHESUMMARY, POOLSTATEDBCACHESUMMARY, SERVERSTATEDBCACHESUMMARY, APICAGENTINTERNAL, APICTRANSACTIONFLAP, APICGRAPHINSTANCES,
+            - APICEPGS, APICEPGEPS, APICDEVICEPKGVER, APICTENANTS, APICVMMDOMAINS, NSXCONFIGURATION, NSXSGTABLE, NSXAGENTINTERNAL, NSXSGINFO, NSXSGIPS,
+            - NSXAGENTINTERNALCLI, MAXOBJECTS.
     recommendation:
         description:
             - Recommendation of alertconfig.
@@ -125,7 +126,6 @@ options:
             - Only if the number of events is reached or exceeded within the time window will an alert be generated.
             - Allowed values are 1-31536000.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
-            - Units(SEC).
     source:
         description:
             - Signifies system events or the type of client logsused in this alert configuration.
@@ -147,7 +147,6 @@ options:
             - Alerts are suppressed (throttled) for this duration of time since the last alert was raised for this alert config.
             - Allowed values are 0-31536000.
             - Default value when not specified in API or module is interpreted by Avi Controller as 600.
-            - Units(SEC).
     url:
         description:
             - Avi controller URL of the object.
@@ -181,8 +180,9 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('17.1')))):
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api

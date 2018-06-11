@@ -66,7 +66,6 @@ EXAMPLES = '''
                 addr:  10.30.10.66
                 type: V4
               ratio: 3
-      api_version: 16.4
   - name: Patch GSLB Service to delete an existing member
     avi_gslbservice_patch_member:
       controller: "{{ controller }}"
@@ -122,7 +121,7 @@ try:
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-                 (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     HAS_AVI = True
