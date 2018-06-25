@@ -1,21 +1,4 @@
 #!/usr/bin/python
-############################################################################
-#
-# AVI CONFIDENTIAL
-# __________________
-#
-# [2013] - [2018] Avi Networks Incorporated
-# All Rights Reserved.
-#
-# NOTICE: All information contained herein is, and remains the property
-# of Avi Networks Incorporated and its suppliers, if any. The intellectual
-# and technical concepts contained herein are proprietary to Avi Networks
-# Incorporated, and its suppliers and are covered by U.S. and Foreign
-# Patents, patents in process, and are protected by trade secret or
-# copyright law, and other laws. Dissemination of this information or
-# reproduction of this material is strictly forbidden unless prior written
-# permission is obtained from Avi Networks Incorporated.
-###
 
 """
 # Created on April 25, 2018
@@ -41,9 +24,9 @@ author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com)
 
 short_description: Avi API Module for fileservice
 description:
-    - This module can be used for calling fileservice resources to upload/download files 
-version_added: 2.6
-requirements: [ avisdk ]
+    - This module can be used for calling fileservice resources to upload/download files
+version_added: 2.7
+requirements: [ avisdk, requests_toolbelt ]
 options:
     http_method:
         description:
@@ -64,6 +47,7 @@ options:
     timeout:
         description:
             - Timeout (in seconds) for Avi API calls.
+        default: 60
 extends_documentation_fragment:
     - avi
 '''
@@ -101,11 +85,13 @@ obj:
 '''
 
 import json
-import time
 import os
 from ansible.module_utils.basic import AnsibleModule
-from copy import deepcopy
-from requests_toolbelt import MultipartEncoder
+try:
+    from requests_toolbelt import MultipartEncoder
+    HAS_LIB = True
+except ImportError:
+    HAS_LIB = False
 
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
@@ -141,6 +127,10 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
+
+    if not HAS_LIB:
+        return module.fail_json(
+            msg='avi_api_fileservice, requests_toolbelt is required for this module')
 
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
@@ -179,7 +169,7 @@ def main():
             m = MultipartEncoder(fields=f_data)
             headers = {'Content-Type': m.content_type}
             rsp = api.post(path, data=m, headers=headers,
-                         verify=False)
+                           verify=False)
             if rsp.status_code > 300:
                 return module.fail_json(msg='Fail to upload file: %s' %
                                         rsp.text)
@@ -195,7 +185,8 @@ def main():
             for chunk in rsp.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
-        return module.exit_json(msg='File downloaded successfully' ,changed=True)
+        return module.exit_json(msg='File downloaded successfully',
+                                changed=True)
 
 
 if __name__ == '__main__':

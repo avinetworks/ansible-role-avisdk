@@ -16,6 +16,7 @@ DOCUMENTATION = '''
 ---
 module: avi_microservicegroup
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of MicroServiceGroup Avi RESTful Object
 description:
     - This module is used to configure MicroServiceGroup object

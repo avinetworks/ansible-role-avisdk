@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_networksecuritypolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of NetworkSecurityPolicy Avi RESTful Object
 description:
     - This module is used to configure NetworkSecurityPolicy object

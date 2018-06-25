@@ -16,6 +16,7 @@ DOCUMENTATION = '''
 ---
 module: avi_snmptrapprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of SnmpTrapProfile Avi RESTful Object
 description:
     - This module is used to configure SnmpTrapProfile object

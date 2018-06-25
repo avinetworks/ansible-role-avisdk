@@ -16,6 +16,7 @@ DOCUMENTATION = '''
 ---
 module: avi_poolgroupdeploymentpolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of PoolGroupDeploymentPolicy Avi RESTful Object
 description:
     - This module is used to configure PoolGroupDeploymentPolicy object

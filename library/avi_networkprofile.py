@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_networkprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of NetworkProfile Avi RESTful Object
 description:
     - This module is used to configure NetworkProfile object

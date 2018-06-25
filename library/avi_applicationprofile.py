@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_applicationprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of ApplicationProfile Avi RESTful Object
 description:
     - This module is used to configure ApplicationProfile object
@@ -74,6 +75,7 @@ options:
         description:
             - Specifies various sip service related controls for virtual service.
             - Field introduced in 17.2.8.
+        version_added: "2.7"
     tcp_app_profile:
         description:
             - Specifies the tcp application proxy profile parameters.

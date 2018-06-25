@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_ipaddrgroup
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of IpAddrGroup Avi RESTful Object
 description:
     - This module is used to configure IpAddrGroup object

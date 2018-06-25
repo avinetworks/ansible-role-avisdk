@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_vsvip
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of VsVip Avi RESTful Object
 description:
     - This module is used to configure VsVip object
@@ -86,6 +87,7 @@ options:
             - Checksum of cloud configuration for vsvip.
             - Internally set by cloud connector.
             - Field introduced in 17.2.9, 18.1.2.
+        version_added: "2.7"
 extends_documentation_fragment:
     - avi
 '''

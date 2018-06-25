@@ -16,6 +16,7 @@ DOCUMENTATION = '''
 ---
 module: avi_backupconfiguration
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of BackupConfiguration Avi RESTful Object
 description:
     - This module is used to configure BackupConfiguration object

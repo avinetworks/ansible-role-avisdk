@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_network
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of Network Avi RESTful Object
 description:
     - This module is used to configure Network object
@@ -62,6 +63,7 @@ options:
             - Enable ipv6 auto configuration.
             - Field introduced in 18.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        version_added: "2.7"
         type: bool
     name:
         description:

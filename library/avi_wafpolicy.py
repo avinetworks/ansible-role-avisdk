@@ -16,6 +16,7 @@ DOCUMENTATION = '''
 ---
 module: avi_wafpolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of WafPolicy Avi RESTful Object
 description:
     - This module is used to configure WafPolicy object
@@ -59,10 +60,12 @@ options:
             - Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED.
             - Field introduced in 18.1.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_FAILURE_MODE_OPEN.
+        version_added: "2.7"
     learning:
         description:
             - Configure parameters for waf learning.
             - Field introduced in 18.1.2.
+        version_added: "2.7"
     mode:
         description:
             - Waf policy mode.
@@ -107,6 +110,7 @@ options:
             - Waf core ruleset used for the crs part of this policy.
             - It is a reference to an object of type wafcrs.
             - Field introduced in 18.1.1.
+        version_added: "2.7"
     waf_profile_ref:
         description:
             - Waf profile for waf policy.

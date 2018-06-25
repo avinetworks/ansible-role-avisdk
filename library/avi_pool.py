@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_pool
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
 short_description: Module for setup of Pool Avi RESTful Object
 description:
     - This module is used to configure Pool object
@@ -268,7 +269,8 @@ options:
         type: bool
     server_count:
         description:
-            - Field deprecated in 18.1.2.
+            - Number of server_count.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     server_name:
         description:
             - Fully qualified dns hostname which will be used in the tls sni extension in server connections if sni is enabled.
