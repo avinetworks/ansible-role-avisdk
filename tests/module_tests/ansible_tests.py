@@ -4,7 +4,7 @@ from ansible.compat.tests import unittest
 from ansible.compat.tests.mock import patch
 from ansible.module_utils._text import to_bytes
 from ansible.module_utils import basic
-from ansible_role_avisdk.library import avi_healthmonitor, \
+from library import avi_healthmonitor, \
     avi_virtualservice, avi_tenant, avi_pool, avi_vsvip, avi_wafpolicy, \
     avi_wafprofile, avi_useraccountprofile, avi_dnspolicy, \
     avi_applicationpersistenceprofile, avi_applicationprofile, avi_network,avi_networkprofile, \
