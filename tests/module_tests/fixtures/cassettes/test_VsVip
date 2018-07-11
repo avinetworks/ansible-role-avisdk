@@ -8,16 +8,16 @@ interactions:
     uri: https://10.10.28.132/login
   response:
     body: {string: !!python/unicode '{"user_initialized": true, "system_config": {"url":
-        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1531302244663654",
+        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1531304002723476",
         "email_configuration": {"from_email": "admin@avi.com", "mail_server_port":
         25, "smtp_type": "SMTP_LOCAL_HOST", "mail_server_name": "localhost"}, "global_tenant_config":
         {"se_in_provider_context": true, "tenant_access_to_provider_se": true, "tenant_vrf":
         false}, "dns_configuration": {"search_domain": "", "server_list": [{"type":
         "V4", "addr": "10.10.0.100"}]}, "default_license_tier": "ENTERPRISE_18", "docker_mode":
         false, "portal_configuration": {"use_uuid_from_input": false, "redirect_to_https":
-        true, "sslprofile_ref": "/api/sslprofile/sslprofile-4ed22b5d-7f0f-4924-a1ef-8c916b8bd980",
-        "sslkeyandcertificate_refs": ["/api/sslkeyandcertificate/sslkeyandcertificate-ac6d3e0b-ae0b-48fa-a95a-c38c006f20a3",
-        "/api/sslkeyandcertificate/sslkeyandcertificate-2bfdabad-4c9c-428e-a5ee-6ef3cec08851"],
+        true, "sslprofile_ref": "/api/sslprofile/sslprofile-117e3223-f36b-4749-82b2-7bb0969f2d0b",
+        "sslkeyandcertificate_refs": ["/api/sslkeyandcertificate/sslkeyandcertificate-22eac1bf-885d-4f08-bcb7-b5901b5a5a58",
+        "/api/sslkeyandcertificate/sslkeyandcertificate-e14b5e7d-229d-4fec-83ac-dcb9d2ad54c9"],
         "enable_clickjacking_protection": true, "enable_https": true, "disable_remote_cli_shell":
         false, "password_strength_check": false, "enable_http": false, "allow_basic_authentication":
         true}, "ntp_configuration": {"ntp_servers": [{"server": {"type": "DNS", "addr":
@@ -42,12 +42,12 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 09:44:20 GMT']
-      set-cookie: ['csrftoken=j80mwET3QtuwfRK8YVuauY44007SjQWC; expires=Wed, 10-Jul-2019
-          09:44:20 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z;
-          expires=Thu, 12-Jul-2018 09:44:20 GMT; httponly; Max-Age=86400; Path=/;
-          secure', 'avi-sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z; expires=Thu, 12-Jul-2018
-          09:44:20 GMT; httponly; Max-Age=86400; Path=/; secure']
+      date: ['Wed, 11 Jul 2018 10:13:36 GMT']
+      set-cookie: ['csrftoken=nEafYsz2clqPgSggpEg5Z4oVkwMi9VGO; expires=Wed, 10-Jul-2019
+          10:13:36 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5;
+          expires=Thu, 12-Jul-2018 10:13:36 GMT; httponly; Max-Age=86400; Path=/;
+          secure', 'avi-sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5; expires=Thu, 12-Jul-2018
+          10:13:36 GMT; httponly; Max-Age=86400; Path=/; secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
       x-content-type-options: [nosniff]
@@ -58,12 +58,12 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=j80mwET3QtuwfRK8YVuauY44007SjQWC for 10.10.28.132/>,
-          <Cookie sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z for 10.10.28.132/>]']
+      Cookie: ['[<Cookie csrftoken=nEafYsz2clqPgSggpEg5Z4oVkwMi9VGO for 10.10.28.132/>,
+          <Cookie sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5 for 10.10.28.132/>]']
       Referer: ['https://10.10.28.132']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.1.3]
-      X-CSRFToken: [j80mwET3QtuwfRK8YVuauY44007SjQWC]
+      X-CSRFToken: [nEafYsz2clqPgSggpEg5Z4oVkwMi9VGO]
       timeout: ['300']
     method: GET
     uri: https://10.10.28.132/api/vsvip?include_refs=&include_name=&name=vsvip-Test-vs-Default-Cloud
@@ -79,10 +79,10 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 09:44:20 GMT']
-      set-cookie: ['sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z; expires=Thu, 12-Jul-2018
-          09:44:20 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z;
-          expires=Thu, 12-Jul-2018 09:44:20 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Wed, 11 Jul 2018 10:13:37 GMT']
+      set-cookie: ['sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5; expires=Thu, 12-Jul-2018
+          10:13:37 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5;
+          expires=Thu, 12-Jul-2018 10:13:37 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
@@ -99,22 +99,22 @@ interactions:
     headers:
       Content-Length: ['370']
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=j80mwET3QtuwfRK8YVuauY44007SjQWC for 10.10.28.132/>,
-          <Cookie sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z for 10.10.28.132/>]']
+      Cookie: ['[<Cookie csrftoken=nEafYsz2clqPgSggpEg5Z4oVkwMi9VGO for 10.10.28.132/>,
+          <Cookie sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5 for 10.10.28.132/>]']
       Referer: ['https://10.10.28.132']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.1.3]
-      X-CSRFToken: [j80mwET3QtuwfRK8YVuauY44007SjQWC]
+      X-CSRFToken: [nEafYsz2clqPgSggpEg5Z4oVkwMi9VGO]
       timeout: ['300']
     method: POST
     uri: https://10.10.28.132/api/vsvip
   response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/vsvip/vsvip-6f2dcff4-27cb-4c08-884b-e9a17a9b5d13#vsvip-Test-vs-Default-Cloud",
-        "uuid": "vsvip-6f2dcff4-27cb-4c08-884b-e9a17a9b5d13", "name": "vsvip-Test-vs-Default-Cloud",
-        "vrf_context_ref": "https://10.10.28.132/api/vrfcontext/vrfcontext-4033a2d9-fa04-4d54-aca3-d8b289dea8bf#global",
+    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/vsvip/vsvip-89a9ad27-df64-40c4-b97a-e0b6f33333f7#vsvip-Test-vs-Default-Cloud",
+        "uuid": "vsvip-89a9ad27-df64-40c4-b97a-e0b6f33333f7", "name": "vsvip-Test-vs-Default-Cloud",
+        "vrf_context_ref": "https://10.10.28.132/api/vrfcontext/vrfcontext-cb5259ad-289e-4834-a5cd-a5b6792ecc79#global",
         "tenant_ref": "https://10.10.28.132/api/tenant/admin#admin", "cloud_ref":
-        "https://10.10.28.132/api/cloud/cloud-18ab9ba6-dd94-466a-95f6-2f504062e647#Default-Cloud",
-        "_last_modified": "1531302261066323", "east_west_placement": false, "vip":
+        "https://10.10.28.132/api/cloud/cloud-830114c2-6200-4d86-9815-e99d536ef3db#Default-Cloud",
+        "_last_modified": "1531304017628899", "east_west_placement": false, "vip":
         [{"vip_id": "1", "avi_allocated_fip": false, "auto_allocate_ip": false, "enabled":
         true, "auto_allocate_floating_ip": false, "avi_allocated_vip": false, "auto_allocate_ip_type":
         "V4_ONLY", "ip_address": {"type": "V4", "addr": "10.10.2.13"}}]}'}
@@ -128,11 +128,11 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 09:44:21 GMT']
-      location: ['https://10.10.28.132/api/vsvip/vsvip-6f2dcff4-27cb-4c08-884b-e9a17a9b5d13#vsvip-Test-vs-Default-Cloud']
-      set-cookie: ['sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z; expires=Thu, 12-Jul-2018
-          09:44:21 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=v9lnv6f3s0qgqu9idwggd67s7cnrq03z;
-          expires=Thu, 12-Jul-2018 09:44:21 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Wed, 11 Jul 2018 10:13:42 GMT']
+      location: ['https://10.10.28.132/api/vsvip/vsvip-89a9ad27-df64-40c4-b97a-e0b6f33333f7#vsvip-Test-vs-Default-Cloud']
+      set-cookie: ['sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5; expires=Thu, 12-Jul-2018
+          10:13:42 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=oz4q0hioy6gdoxy1721fx0j8g2b55qb5;
+          expires=Thu, 12-Jul-2018 10:13:42 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
