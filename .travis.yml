@@ -15,6 +15,7 @@ matrix:
       - export ANSIBLE_LIBRARY=$PWD/library/
       script:
       - cd ./tests/module_tests/
+      - echo $(pwd)
       - pytest ansible_tests.py -vvvv --color=yes
 
     - language: ruby
