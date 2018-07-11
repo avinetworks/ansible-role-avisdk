@@ -22,10 +22,6 @@ env:
     version: 14.04
     init: /sbin/init
     run_opts: ""
-  - AVI_CONTROLLER="10.10.28.132"
-    AVI_USERNAME="admin"
-    AVI_PASSWORD="avi123$%"
-    API_VERSION="18.1.3"
 
 services:
   - docker
@@ -36,10 +32,6 @@ before_install:
   - 'sudo docker pull ${distribution}:${version}'
   # Customize container
   - 'sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests'
-
-install:
-  - pip install vcrpy
-  - export ANSIBLE_LIBRARY=$PWD/library
 
 script:
   - container_id=$(mktemp)
@@ -61,7 +53,20 @@ script:
   # Clean up
   - 'sudo docker stop "$(cat ${container_id})"'
 
-  - pytest ./tests/module_tests/ansible_tests.py -vv-m travis --color=yes
-
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
+
+
+- language: python
+    python: "2.7"
+    env:
+      - AVI_CONTROLLER="10.10.28.132"
+      - AVI_USERNAME="admin"
+      - AVI_PASSWORD="avi123$%"
+      - API_VERSION="18.1.3"
+    install:
+    - pip install vcrpy
+    - export ANSIBLE_LIBRARY=$PWD/library
+    - echo $PYTHONPATH
+    script:
+    - pytest ./tests/module_tests/ansible_tests.py -vv-m travis --color=yes
