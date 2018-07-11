@@ -8,7 +8,7 @@ interactions:
     uri: https://10.10.28.132/login
   response:
     body: {string: !!python/unicode '{"user_initialized": true, "system_config": {"url":
-        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1531301517958249",
+        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1531303540561942",
         "email_configuration": {"from_email": "admin@avicontroller.net", "mail_server_port":
         25, "smtp_type": "SMTP_LOCAL_HOST", "mail_server_name": "localhost"}, "global_tenant_config":
         {"se_in_provider_context": true, "tenant_access_to_provider_se": true, "tenant_vrf":
@@ -17,9 +17,9 @@ interactions:
         "docker_mode": false, "snmp_configuration": {"version": "SNMP_VER2", "sys_contact":
         "support@avinetworks.com", "community": "<sensitive>"}, "portal_configuration":
         {"use_uuid_from_input": false, "redirect_to_https": true, "sslprofile_ref":
-        "/api/sslprofile/sslprofile-4ed22b5d-7f0f-4924-a1ef-8c916b8bd980", "sslkeyandcertificate_refs":
-        ["/api/sslkeyandcertificate/sslkeyandcertificate-ac6d3e0b-ae0b-48fa-a95a-c38c006f20a3",
-        "/api/sslkeyandcertificate/sslkeyandcertificate-2bfdabad-4c9c-428e-a5ee-6ef3cec08851"],
+        "/api/sslprofile/sslprofile-117e3223-f36b-4749-82b2-7bb0969f2d0b", "sslkeyandcertificate_refs":
+        ["/api/sslkeyandcertificate/sslkeyandcertificate-22eac1bf-885d-4f08-bcb7-b5901b5a5a58",
+        "/api/sslkeyandcertificate/sslkeyandcertificate-e14b5e7d-229d-4fec-83ac-dcb9d2ad54c9"],
         "enable_clickjacking_protection": true, "enable_https": true, "disable_remote_cli_shell":
         false, "password_strength_check": true, "enable_http": true, "allow_basic_authentication":
         false}, "ntp_configuration": {"ntp_servers": [{"server": {"type": "DNS", "addr":
@@ -45,12 +45,12 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 09:43:43 GMT']
-      set-cookie: ['csrftoken=edvHsTvqxLBkLKBTFvDJFtVQZrlKWj81; expires=Wed, 10-Jul-2019
-          09:43:43 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3;
-          expires=Thu, 12-Jul-2018 09:43:43 GMT; httponly; Max-Age=86400; Path=/;
-          secure', 'avi-sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3; expires=Thu, 12-Jul-2018
-          09:43:43 GMT; httponly; Max-Age=86400; Path=/; secure']
+      date: ['Wed, 11 Jul 2018 10:13:02 GMT']
+      set-cookie: ['csrftoken=K7JyCUHDUYxYqnrsMV5c0KoDlyo9CEZG; expires=Wed, 10-Jul-2019
+          10:13:02 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0;
+          expires=Thu, 12-Jul-2018 10:13:02 GMT; httponly; Max-Age=86400; Path=/;
+          secure', 'avi-sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0; expires=Thu, 12-Jul-2018
+          10:13:02 GMT; httponly; Max-Age=86400; Path=/; secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
       x-content-type-options: [nosniff]
@@ -61,21 +61,21 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=edvHsTvqxLBkLKBTFvDJFtVQZrlKWj81 for 10.10.28.132/>,
-          <Cookie sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3 for 10.10.28.132/>]']
+      Cookie: ['[<Cookie csrftoken=K7JyCUHDUYxYqnrsMV5c0KoDlyo9CEZG for 10.10.28.132/>,
+          <Cookie sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0 for 10.10.28.132/>]']
       Referer: ['https://10.10.28.132']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.1.3]
-      X-CSRFToken: [edvHsTvqxLBkLKBTFvDJFtVQZrlKWj81]
+      X-CSRFToken: [K7JyCUHDUYxYqnrsMV5c0KoDlyo9CEZG]
       timeout: ['300']
     method: GET
     uri: https://10.10.28.132/api/scheduler?include_refs=&include_name=&name=Default-Scheduler
   response:
-    body: {string: !!python/unicode '{"count": 1, "results": [{"url": "https://10.10.28.132/api/scheduler/scheduler-45039609-2867-4a37-ac09-0e55f1bc32b7#Default-Scheduler",
-        "uuid": "scheduler-45039609-2867-4a37-ac09-0e55f1bc32b7", "name": "Default-Scheduler",
+    body: {string: !!python/unicode '{"count": 1, "results": [{"url": "https://10.10.28.132/api/scheduler/scheduler-52fdbaa9-8707-408f-851a-49e8da8ccb15#Default-Scheduler",
+        "uuid": "scheduler-52fdbaa9-8707-408f-851a-49e8da8ccb15", "name": "Default-Scheduler",
         "enabled": true, "tenant_ref": "https://10.10.28.132/api/tenant/admin#admin",
-        "_last_modified": "1531301519325476", "start_date_time": "2018-07-11T09:31:59.314145",
-        "frequency_unit": "SCHEDULER_FREQUENCY_UNIT_DAY", "backup_config_ref": "https://10.10.28.132/api/backupconfiguration/backupconfiguration-b9d34d78-96b3-4161-82e4-87d84d5e9494#Backup-Configuration",
+        "_last_modified": "1531303541942675", "start_date_time": "2018-07-11T10:05:41.926804",
+        "frequency_unit": "SCHEDULER_FREQUENCY_UNIT_DAY", "backup_config_ref": "https://10.10.28.132/api/backupconfiguration/backupconfiguration-6e662461-1754-461b-84aa-db85c42fd777#Backup-Configuration",
         "frequency": 1, "scheduler_action": "SCHEDULER_ACTION_BACKUP", "run_mode":
         "RUN_MODE_PERIODIC"}]}'}
     headers:
@@ -88,10 +88,10 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 09:43:44 GMT']
-      set-cookie: ['sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3; expires=Thu, 12-Jul-2018
-          09:43:44 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3;
-          expires=Thu, 12-Jul-2018 09:43:44 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Wed, 11 Jul 2018 10:13:02 GMT']
+      set-cookie: ['sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0; expires=Thu, 12-Jul-2018
+          10:13:02 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0;
+          expires=Thu, 12-Jul-2018 10:13:02 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
@@ -106,21 +106,21 @@ interactions:
     headers:
       Content-Length: ['252']
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=edvHsTvqxLBkLKBTFvDJFtVQZrlKWj81 for 10.10.28.132/>,
-          <Cookie sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3 for 10.10.28.132/>]']
+      Cookie: ['[<Cookie csrftoken=K7JyCUHDUYxYqnrsMV5c0KoDlyo9CEZG for 10.10.28.132/>,
+          <Cookie sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0 for 10.10.28.132/>]']
       Referer: ['https://10.10.28.132']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.1.3]
-      X-CSRFToken: [edvHsTvqxLBkLKBTFvDJFtVQZrlKWj81]
+      X-CSRFToken: [K7JyCUHDUYxYqnrsMV5c0KoDlyo9CEZG]
       timeout: ['300']
     method: PUT
-    uri: https://10.10.28.132/api/scheduler/scheduler-45039609-2867-4a37-ac09-0e55f1bc32b7
+    uri: https://10.10.28.132/api/scheduler/scheduler-52fdbaa9-8707-408f-851a-49e8da8ccb15
   response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/scheduler/scheduler-45039609-2867-4a37-ac09-0e55f1bc32b7#Default-Scheduler",
-        "uuid": "scheduler-45039609-2867-4a37-ac09-0e55f1bc32b7", "name": "Default-Scheduler",
+    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/scheduler/scheduler-52fdbaa9-8707-408f-851a-49e8da8ccb15#Default-Scheduler",
+        "uuid": "scheduler-52fdbaa9-8707-408f-851a-49e8da8ccb15", "name": "Default-Scheduler",
         "enabled": true, "tenant_ref": "https://10.10.28.132/api/tenant/admin#admin",
-        "_last_modified": "1531302224650672", "start_date_time": "2018-07-11T09:43:44.642034",
-        "frequency_unit": "SCHEDULER_FREQUENCY_UNIT_MONTH", "backup_config_ref": "https://10.10.28.132/api/backupconfiguration/backupconfiguration-b9d34d78-96b3-4161-82e4-87d84d5e9494#Backup-Configuration",
+        "_last_modified": "1531303982929817", "start_date_time": "2018-07-11T10:13:02.920983",
+        "frequency_unit": "SCHEDULER_FREQUENCY_UNIT_MONTH", "backup_config_ref": "https://10.10.28.132/api/backupconfiguration/backupconfiguration-6e662461-1754-461b-84aa-db85c42fd777#Backup-Configuration",
         "frequency": 3, "scheduler_action": "SCHEDULER_ACTION_BACKUP", "run_mode":
         "RUN_MODE_PERIODIC"}'}
     headers:
@@ -133,10 +133,10 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 09:43:44 GMT']
-      set-cookie: ['sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3; expires=Thu, 12-Jul-2018
-          09:43:44 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=c7aetw87xdd5dbys5be11u7w3phzq5o3;
-          expires=Thu, 12-Jul-2018 09:43:44 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Wed, 11 Jul 2018 10:13:03 GMT']
+      set-cookie: ['sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0; expires=Thu, 12-Jul-2018
+          10:13:02 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=kyl47z4a68dl4rhkof8w0ym8t5zbp7e0;
+          expires=Thu, 12-Jul-2018 10:13:02 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
