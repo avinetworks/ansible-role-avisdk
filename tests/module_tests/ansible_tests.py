@@ -27,7 +27,7 @@ import requests
 modiles = AnsibleModules()
 
 my_vcr = vcr.VCR(
-    cassette_library_dir='./tests/module_tests/fixtures/cassettes',
+    cassette_library_dir='/fixtures/cassettes',
     record_mode='once'
 )
 
