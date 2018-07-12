@@ -6,20 +6,14 @@ from ansible.compat.tests import unittest
 from ansible.compat.tests.mock import patch
 from ansible.module_utils._text import to_bytes
 from ansible.module_utils import basic
-from library import avi_healthmonitor, \
-    avi_virtualservice, avi_tenant, avi_pool, avi_vsvip, avi_wafpolicy, \
-    avi_wafprofile, avi_useraccountprofile, avi_dnspolicy, \
-    avi_applicationpersistenceprofile, avi_applicationprofile, avi_network,avi_networkprofile, \
-    avi_gslb, avi_vsdatascriptset, avi_sslprofile, avi_httppolicyset, avi_backupconfiguration, \
-    avi_role,  avi_scheduler, avi_vrfcontext,  avi_cloud, avi_prioritylabels, avi_gslbservice, \
-    avi_stringgroup, avi_hardwaresecuritymodulegroup, avi_ipaddrgroup, avi_webhook, avi_actiongroupconfig, \
-    avi_microservicegroup, avi_alertconfig, avi_alertemailconfig,  avi_networksecuritypolicy,  \
-    avi_alertscriptconfig, avi_alertsyslogconfig, avi_pkiprofile, avi_analyticsprofile, \
-    avi_poolgroupdeploymentpolicy, avi_authprofile, avi_autoscalelaunchconfig, \
-    avi_cloudconnectoruser, avi_certificatemanagementprofile, avi_systemconfiguration, \
-    avi_ipamdnsproviderprofile, avi_serverautoscalepolicy, avi_serviceenginegroup,  \
-    avi_gslbgeodbprofile, avi_errorpageprofile, avi_seproperties, avi_snmptrapprofile, \
-    avi_customipamdnsprofile, avi_controllerproperties, avi_cloudproperties, avi_trafficcloneprofile
+
+from library import avi_healthmonitor, avi_virtualservice, \
+    avi_tenant, avi_pool, avi_vsvip, avi_wafpolicy, avi_wafprofile, \
+    avi_useraccountprofile, avi_dnspolicy, \
+    avi_applicationpersistenceprofile,  avi_applicationprofile, avi_network,avi_networkprofile, avi_gslb, avi_vsdatascriptset, avi_sslprofile, avi_httppolicyset, avi_backupconfiguration, avi_role,  avi_scheduler, avi_vrfcontext,  avi_cloud,  avi_prioritylabels, avi_gslbservice,  avi_stringgroup,  avi_hardwaresecuritymodulegroup, \
+    avi_ipaddrgroup, avi_webhook, \
+    avi_actiongroupconfig, avi_microservicegroup, avi_alertconfig, avi_alertemailconfig,  avi_networksecuritypolicy,  avi_alertscriptconfig, avi_alertsyslogconfig, avi_pkiprofile, avi_analyticsprofile, avi_poolgroupdeploymentpolicy, avi_authprofile, avi_autoscalelaunchconfig, avi_cloudconnectoruser, avi_certificatemanagementprofile, avi_systemconfiguration, avi_ipamdnsproviderprofile, avi_serverautoscalepolicy, avi_serviceenginegroup,  avi_gslbgeodbprofile, avi_errorpageprofile, avi_seproperties, avi_snmptrapprofile, avi_customipamdnsprofile, \
+avi_controllerproperties, avi_cloudproperties, avi_trafficcloneprofile
 import config as configure
 from baseModules import AnsibleModules
 from baseModules import (AnsibleExitJson, AnsibleFailJson)
@@ -29,8 +23,8 @@ import requests
 modiles = AnsibleModules()
 
 my_vcr = vcr.VCR(
-    cassette_library_dir='/fixtures/cassettes',
-    match_on= ['method','url']
+    cassette_library_dir='fixtures/cassettes',
+    record_mode='once'
 )
 
 ControllerCredentials = {
@@ -44,6 +38,7 @@ def set_module_args(args):
     args = json.dumps({'ANSIBLE_MODULE_ARGS': args})
     basic._ANSIBLE_ARGS = to_bytes(args)
 
+@my_vcr.use_cassette()
 def get_cluster_id():
 
     login_url = 'https://%s/login' % os.environ['AVI_CONTROLLER']
@@ -596,7 +591,6 @@ class test_ansible_modules(unittest.TestCase):
         with self.assertRaises(AnsibleExitJson) as result:
             avi_poolgroupdeploymentpolicy.main()
             self.assertTrue(result.exception.args[0]['changed'])
-
 
 
 
