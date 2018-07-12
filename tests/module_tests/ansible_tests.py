@@ -28,7 +28,7 @@ modiles = AnsibleModules()
 
 my_vcr = vcr.VCR(
     cassette_library_dir='/fixtures/cassettes',
-    record_mode='once'
+    match_on= ['method','url']
 )
 
 ControllerCredentials = {
