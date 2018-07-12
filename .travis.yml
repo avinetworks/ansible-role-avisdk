@@ -14,7 +14,7 @@ matrix:
       - export PYTHONPATH=$PWD
       script:
       - cd $PYTHONPATH/tests/module_tests/
-      - pytest ./ansible_tests.py -vvvv --color=yes
+      - pytest ./ansible_tests.py -m travis -vvvv --color=yes
 
     - language: ruby
       sudo: required
