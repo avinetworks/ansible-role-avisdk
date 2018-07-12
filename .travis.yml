@@ -10,9 +10,10 @@ matrix:
         AVI_PASSWORD="avi123$%"
         API_VERSION="18.1.3"
       install:
-      - pip install vcrpy pytest ansible requests
+      - sudo pip install vcrpy pytest ansible requests
       - export PYTHONPATH=$PWD
       script:
+      - echo $(pwd)
       - cd $PYTHONPATH/tests/module_tests/
       - echo $(pwd)
       - pytest ansible_tests.py -vvvv --color=yes
