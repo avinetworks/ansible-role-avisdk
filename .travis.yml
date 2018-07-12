@@ -3,12 +3,12 @@
 language: python
       python: "2.7"
       install:
-      - pip install pytest pyyaml ansible requests avisdk vcrpy
-      - sudo pip install flask
+      - sudo pip install pytest pyyaml ansible requests avisdk vcrpy
       - export PYTHONPATH=$PWD
       - echo $PYTHONPATH
+      - cd $PYTHONPATH/tests/module_tests/
       script:
-      - pytest ./tests/module_tests/ansible_tests.py -vvvv --color=yes
+      - pytest ansible_tests.py -vvvv --color=yes
 
 sudo: required
 env:
