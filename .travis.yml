@@ -1,6 +1,16 @@
 ---
-sudo: required
 
+language: python
+      python: "2.7"
+      install:
+      - sudo pip install pytest pyyaml ansible requests avisdk vcrpy
+      - export PYTHONPATH=$PWD
+      - echo $PYTHONPATH
+      - cd $PYTHONPATH/tests/module_tests/
+      script:
+      - pytest ansible_tests.py -vvvv --color=yes
+
+sudo: required
 env:
   - distribution: centos
     version: 6
