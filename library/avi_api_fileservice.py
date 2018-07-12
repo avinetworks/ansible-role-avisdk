@@ -113,8 +113,8 @@ except ImportError:
 
 def main():
     argument_specs = dict(
-        http_method=dict(required=True,
-                         choices=['get', 'post']),
+        upload=dict(required=True,
+                         type='bool'),
         path=dict(type='str', required=True),
         file_path=dict(type='str', required=True),
         params=dict(type='dict'),
@@ -151,10 +151,10 @@ def main():
     api_version = api_creds.api_version
     if data is not None:
         data = json.loads(data)
-    method = module.params['http_method']
+    upload = module.params['upload']
     file_path = module.params['file_path']
 
-    if method == 'post':
+    if upload:
         if not os.path.exists(file_path):
             return module.fail_json('File not found : %s' % file_path)
         file_name = os.path.basename(file_path)
@@ -177,7 +177,7 @@ def main():
                 return module.exit_json(
                     changed=True, msg="File uploaded successfully")
 
-    elif method == 'get':
+    elif not upload:
         rsp = api.get(path, params=params, stream=True)
         if rsp.status_code > 300:
             return module.fail_json(msg='Fail to download file: %s' % rsp.text)
