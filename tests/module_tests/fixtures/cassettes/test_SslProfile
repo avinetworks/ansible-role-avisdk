@@ -8,7 +8,7 @@ interactions:
     uri: https://10.10.28.132/login
   response:
     body: {string: !!python/unicode '{"user_initialized": true, "system_config": {"url":
-        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1531303540561942",
+        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1532007671779093",
         "email_configuration": {"from_email": "admin@avicontroller.net", "mail_server_port":
         25, "smtp_type": "SMTP_LOCAL_HOST", "mail_server_name": "localhost"}, "global_tenant_config":
         {"se_in_provider_context": true, "tenant_access_to_provider_se": true, "tenant_vrf":
@@ -17,9 +17,9 @@ interactions:
         "docker_mode": false, "snmp_configuration": {"version": "SNMP_VER2", "sys_contact":
         "support@avinetworks.com", "community": "<sensitive>"}, "portal_configuration":
         {"use_uuid_from_input": false, "redirect_to_https": true, "sslprofile_ref":
-        "/api/sslprofile/sslprofile-117e3223-f36b-4749-82b2-7bb0969f2d0b", "sslkeyandcertificate_refs":
-        ["/api/sslkeyandcertificate/sslkeyandcertificate-22eac1bf-885d-4f08-bcb7-b5901b5a5a58",
-        "/api/sslkeyandcertificate/sslkeyandcertificate-e14b5e7d-229d-4fec-83ac-dcb9d2ad54c9"],
+        "/api/sslprofile/sslprofile-c35f2815-d4ae-4488-9d6b-d71f234c6fb8", "sslkeyandcertificate_refs":
+        ["/api/sslkeyandcertificate/sslkeyandcertificate-3b24623b-3718-43a1-bb83-ee458d069414",
+        "/api/sslkeyandcertificate/sslkeyandcertificate-ae5d9ff6-e2fe-4d2c-b0b8-249f32dc2859"],
         "enable_clickjacking_protection": true, "enable_https": true, "disable_remote_cli_shell":
         false, "password_strength_check": true, "enable_http": true, "allow_basic_authentication":
         false}, "ntp_configuration": {"ntp_servers": [{"server": {"type": "DNS", "addr":
@@ -45,12 +45,12 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 10:13:16 GMT']
-      set-cookie: ['csrftoken=DEc775BvdYbxFK1X2mwko592Q4jqIviV; expires=Wed, 10-Jul-2019
-          10:13:16 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5;
-          expires=Thu, 12-Jul-2018 10:13:16 GMT; httponly; Max-Age=86400; Path=/;
-          secure', 'avi-sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5; expires=Thu, 12-Jul-2018
-          10:13:16 GMT; httponly; Max-Age=86400; Path=/; secure']
+      date: ['Thu, 19 Jul 2018 14:31:21 GMT']
+      set-cookie: ['csrftoken=ebqxVKIFJOpkzwRdcuNpfVw0hbLRUkI1; expires=Thu, 18-Jul-2019
+          14:31:20 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=dhxr4muwcb20iszmchys6z57vkkrade5;
+          expires=Fri, 20-Jul-2018 14:31:20 GMT; httponly; Max-Age=86400; Path=/;
+          secure', 'avi-sessionid=dhxr4muwcb20iszmchys6z57vkkrade5; expires=Fri, 20-Jul-2018
+          14:31:20 GMT; httponly; Max-Age=86400; Path=/; secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
       x-content-type-options: [nosniff]
@@ -61,12 +61,12 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=DEc775BvdYbxFK1X2mwko592Q4jqIviV for 10.10.28.132/>,
-          <Cookie sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5 for 10.10.28.132/>]']
+      Cookie: ['[<Cookie csrftoken=ebqxVKIFJOpkzwRdcuNpfVw0hbLRUkI1 for 10.10.28.132/>,
+          <Cookie sessionid=dhxr4muwcb20iszmchys6z57vkkrade5 for 10.10.28.132/>]']
       Referer: ['https://10.10.28.132']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.1.3]
-      X-CSRFToken: [DEc775BvdYbxFK1X2mwko592Q4jqIviV]
+      X-CSRFToken: [ebqxVKIFJOpkzwRdcuNpfVw0hbLRUkI1]
       timeout: ['300']
     method: GET
     uri: https://10.10.28.132/api/sslprofile?include_refs=&include_name=&name=Test-ssl_profile-cEE
@@ -82,10 +82,10 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 10:13:16 GMT']
-      set-cookie: ['sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5; expires=Thu, 12-Jul-2018
-          10:13:16 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5;
-          expires=Thu, 12-Jul-2018 10:13:16 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Thu, 19 Jul 2018 14:31:24 GMT']
+      set-cookie: ['sessionid=dhxr4muwcb20iszmchys6z57vkkrade5; expires=Fri, 20-Jul-2018
+          14:31:22 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=dhxr4muwcb20iszmchys6z57vkkrade5;
+          expires=Fri, 20-Jul-2018 14:31:22 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
@@ -101,20 +101,20 @@ interactions:
     headers:
       Content-Length: ['346']
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=DEc775BvdYbxFK1X2mwko592Q4jqIviV for 10.10.28.132/>,
-          <Cookie sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5 for 10.10.28.132/>]']
+      Cookie: ['[<Cookie csrftoken=ebqxVKIFJOpkzwRdcuNpfVw0hbLRUkI1 for 10.10.28.132/>,
+          <Cookie sessionid=dhxr4muwcb20iszmchys6z57vkkrade5 for 10.10.28.132/>]']
       Referer: ['https://10.10.28.132']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.1.3]
-      X-CSRFToken: [DEc775BvdYbxFK1X2mwko592Q4jqIviV]
+      X-CSRFToken: [ebqxVKIFJOpkzwRdcuNpfVw0hbLRUkI1]
       timeout: ['300']
     method: POST
     uri: https://10.10.28.132/api/sslprofile
   response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/sslprofile/sslprofile-f7a8f91c-b57a-460a-a235-97f8f798f5e8#Test-ssl_profile-cEE",
-        "uuid": "sslprofile-f7a8f91c-b57a-460a-a235-97f8f798f5e8", "name": "Test-ssl_profile-cEE",
+    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/sslprofile/sslprofile-f68d6d11-0c15-4111-9c03-dc106688593a#Test-ssl_profile-cEE",
+        "uuid": "sslprofile-f68d6d11-0c15-4111-9c03-dc106688593a", "name": "Test-ssl_profile-cEE",
         "tenant_ref": "https://10.10.28.132/api/tenant/admin#admin", "_last_modified":
-        "1531303997330243", "ssl_session_timeout": 86400, "accepted_ciphers": "DHE-DSS-AES256-SHA:AES256-SHA:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:DHE-RSA-AES256-SHA",
+        "1532010684526629", "ssl_session_timeout": 86400, "accepted_ciphers": "DHE-DSS-AES256-SHA:AES256-SHA:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:DHE-RSA-AES256-SHA",
         "prefer_client_cipher_ordering": false, "type": "SSL_PROFILE_TYPE_APPLICATION",
         "accepted_versions": [{"type": "SSL_VERSION_TLS1"}, {"type": "SSL_VERSION_TLS1_1"},
         {"type": "SSL_VERSION_TLS1_2"}], "enable_ssl_session_reuse": false, "send_close_notify":
@@ -131,11 +131,12 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Wed, 11 Jul 2018 10:13:17 GMT']
-      location: ['https://10.10.28.132/api/sslprofile/sslprofile-f7a8f91c-b57a-460a-a235-97f8f798f5e8#Test-ssl_profile-cEE']
-      set-cookie: ['sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5; expires=Thu, 12-Jul-2018
-          10:13:17 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=svcrrvv99duuma1mlsrypzvqsbjq5vv5;
-          expires=Thu, 12-Jul-2018 10:13:17 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Thu, 19 Jul 2018 14:31:32 GMT']
+      location: ['https://10.10.28.132/api/sslprofile/sslprofile-f68d6d11-0c15-4111-9c03-dc106688593a#Test-ssl_profile-cEE']
+      server-timing: ['create=141.013145447,']
+      set-cookie: ['sessionid=dhxr4muwcb20iszmchys6z57vkkrade5; expires=Fri, 20-Jul-2018
+          14:31:32 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=dhxr4muwcb20iszmchys6z57vkkrade5;
+          expires=Fri, 20-Jul-2018 14:31:32 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']

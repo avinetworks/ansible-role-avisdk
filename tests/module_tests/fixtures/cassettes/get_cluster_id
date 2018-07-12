@@ -1,9 +1,13 @@
 interactions:
 - request:
-    body: !!python/unicode username=admin&password=avi123%24%25
+    body: !!python/unicode '{"username": "admin", "password": "avi123$%"}'
     headers:
-      Content-Length: ['36']
-      Content-Type: [application/x-www-form-urlencoded]
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['45']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
     method: POST
     uri: https://10.10.28.132/login
   response:
@@ -45,12 +49,12 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 19 Jul 2018 14:29:36 GMT']
-      set-cookie: ['csrftoken=hdgS8aFLkwWa3M9vEA8tvDiLYb2SObEq; expires=Thu, 18-Jul-2019
-          14:29:32 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2;
-          expires=Fri, 20-Jul-2018 14:29:32 GMT; httponly; Max-Age=86400; Path=/;
-          secure', 'avi-sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2; expires=Fri, 20-Jul-2018
-          14:29:32 GMT; httponly; Max-Age=86400; Path=/; secure']
+      date: ['Thu, 19 Jul 2018 14:28:08 GMT']
+      set-cookie: ['csrftoken=iR4fzkGHwD43wtuEPKl3BHxFMcPxrEGw; expires=Thu, 18-Jul-2019
+          14:28:08 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=113j7dxwfoaegm19qgs5cv6lrwx5awac;
+          expires=Fri, 20-Jul-2018 14:28:08 GMT; httponly; Max-Age=86400; Path=/;
+          secure', 'avi-sessionid=113j7dxwfoaegm19qgs5cv6lrwx5awac; expires=Fri, 20-Jul-2018
+          14:28:08 GMT; httponly; Max-Age=86400; Path=/; secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
       x-content-type-options: [nosniff]
@@ -60,32 +64,36 @@ interactions:
 - request:
     body: null
     headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=hdgS8aFLkwWa3M9vEA8tvDiLYb2SObEq for 10.10.28.132/>,
-          <Cookie sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2 for 10.10.28.132/>]']
-      Referer: ['https://10.10.28.132']
-      X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.1.3]
-      X-CSRFToken: [hdgS8aFLkwWa3M9vEA8tvDiLYb2SObEq]
-      timeout: ['300']
+      Cookie: [csrftoken=iR4fzkGHwD43wtuEPKl3BHxFMcPxrEGw; sessionid=113j7dxwfoaegm19qgs5cv6lrwx5awac;
+          avi-sessionid=113j7dxwfoaegm19qgs5cv6lrwx5awac]
+      Referer: ['https://10.10.28.132/']
+      User-Agent: [python-requests/2.18.4]
+      X-CSRFToken: [iR4fzkGHwD43wtuEPKl3BHxFMcPxrEGw]
     method: GET
-    uri: https://10.10.28.132/api/hardwaresecuritymodulegroup?include_refs=&include_name=&name=test
+    uri: https://10.10.28.132/api/cluster
   response:
-    body: {string: !!python/unicode '{"count": 0, "results": []}'}
+    body: {string: !!python/unicode '{"nodes": [{"ip": {"type": "V4", "addr": "10.10.28.132"},
+        "vm_hostname": "node1.controller.local", "vm_uuid": "005056b0dbd4", "name":
+        "10.10.28.132", "vm_mor": "vm-222326"}], "tenant_uuid": "admin", "uuid": "cluster-57c74b9e-551b-49f9-ba1c-d83a1acd2d19",
+        "name": "cluster-0-1"}'}
     headers:
       access-control-allow-credentials: ['true']
       access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
       access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
-      allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.1.3]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
+      avi_api_version: ['16_4_2']
       cache-control: ['private, no-cache, must-revalidate']
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 19 Jul 2018 14:29:36 GMT']
-      set-cookie: ['sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2; expires=Fri, 20-Jul-2018
-          14:29:36 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2;
-          expires=Fri, 20-Jul-2018 14:29:36 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Thu, 19 Jul 2018 14:28:08 GMT']
+      set-cookie: ['sessionid=113j7dxwfoaegm19qgs5cv6lrwx5awac; expires=Fri, 20-Jul-2018
+          14:28:08 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=113j7dxwfoaegm19qgs5cv6lrwx5awac;
+          expires=Fri, 20-Jul-2018 14:28:08 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
@@ -93,53 +101,4 @@ interactions:
       x-frame-options: [SAMEORIGIN]
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
-- request:
-    body: !!python/unicode '{"name": "test", "tenant_ref": "/api/tenant?name=admin",
-      "hsm": {"rfs": {"ip": {"type": "V4", "addr": "1.2.3.4"}, "port": 9004}, "type":
-      "HSM_TYPE_THALES_NETHSM", "nethsm": [{"remote_port": 9004, "priority": 100,
-      "keyhash": "abc", "esn": "123", "module_id": 0, "remote_ip": {"type": "V4",
-      "addr": "1.2.3.4"}}]}}'
-    headers:
-      Content-Length: ['311']
-      Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=hdgS8aFLkwWa3M9vEA8tvDiLYb2SObEq for 10.10.28.132/>,
-          <Cookie sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2 for 10.10.28.132/>]']
-      Referer: ['https://10.10.28.132']
-      X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.1.3]
-      X-CSRFToken: [hdgS8aFLkwWa3M9vEA8tvDiLYb2SObEq]
-      timeout: ['300']
-    method: POST
-    uri: https://10.10.28.132/api/hardwaresecuritymodulegroup
-  response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/hardwaresecuritymodulegroup/hardwaresecuritymodulegroup-e7d7ccdd-9d66-4333-9c59-2d595a24b745#test",
-        "uuid": "hardwaresecuritymodulegroup-e7d7ccdd-9d66-4333-9c59-2d595a24b745",
-        "name": "test", "tenant_ref": "https://10.10.28.132/api/tenant/admin#admin",
-        "_last_modified": "1532010577443047", "hsm": {"rfs": {"ip": {"type": "V4",
-        "addr": "1.2.3.4"}, "port": 9004}, "type": "HSM_TYPE_THALES_NETHSM", "nethsm":
-        [{"remote_port": 9004, "priority": 100, "keyhash": "abc", "module_id": 0,
-        "esn": "123", "remote_ip": {"type": "V4", "addr": "1.2.3.4"}}]}}'}
-    headers:
-      access-control-allow-credentials: ['true']
-      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
-      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
-      allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.1.3]
-      cache-control: ['private, no-cache, must-revalidate']
-      connection: [keep-alive]
-      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
-      content-type: [application/json]
-      date: ['Thu, 19 Jul 2018 14:29:37 GMT']
-      location: ['https://10.10.28.132/api/hardwaresecuritymodulegroup/hardwaresecuritymodulegroup-e7d7ccdd-9d66-4333-9c59-2d595a24b745#test']
-      server-timing: ['create=265.594005585,']
-      set-cookie: ['sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2; expires=Fri, 20-Jul-2018
-          14:29:37 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=yn3aj8fctp56zexo1pwcnspdrg0373b2;
-          expires=Fri, 20-Jul-2018 14:29:37 GMT; httponly; Max-Age=86400; Path=/;
-          secure']
-      strict-transport-security: [max-age=31536000; includeSubdomains]
-      vary: ['Accept, Cookie']
-      x-content-type-options: [nosniff]
-      x-frame-options: [SAMEORIGIN]
-      x-xss-protection: [1; mode=block]
-    status: {code: 201, message: CREATED}
 version: 1

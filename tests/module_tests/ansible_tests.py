@@ -1,23 +1,19 @@
 import json
+
+import pytest
 import vcr
 from ansible.compat.tests import unittest
 from ansible.compat.tests.mock import patch
 from ansible.module_utils._text import to_bytes
 from ansible.module_utils import basic
-from ansible_role_avisdk.library import avi_healthmonitor, \
-    avi_virtualservice, avi_tenant, avi_pool, avi_vsvip, avi_wafpolicy, \
-    avi_wafprofile, avi_useraccountprofile, avi_dnspolicy, \
-    avi_applicationpersistenceprofile, avi_applicationprofile, avi_network,avi_networkprofile, \
-    avi_gslb, avi_vsdatascriptset, avi_sslprofile, avi_httppolicyset, avi_backupconfiguration, \
-    avi_role,  avi_scheduler, avi_vrfcontext,  avi_cloud, avi_prioritylabels, avi_gslbservice, \
-    avi_stringgroup, avi_hardwaresecuritymodulegroup, avi_ipaddrgroup, avi_webhook, avi_actiongroupconfig, \
-    avi_microservicegroup, avi_alertconfig, avi_alertemailconfig,  avi_networksecuritypolicy,  \
-    avi_alertscriptconfig, avi_alertsyslogconfig, avi_pkiprofile, avi_analyticsprofile, \
-    avi_poolgroupdeploymentpolicy, avi_authprofile, avi_autoscalelaunchconfig, \
-    avi_cloudconnectoruser, avi_certificatemanagementprofile, avi_systemconfiguration, \
-    avi_ipamdnsproviderprofile, avi_serverautoscalepolicy, avi_serviceenginegroup,  \
-    avi_gslbgeodbprofile, avi_errorpageprofile, avi_seproperties, avi_snmptrapprofile, \
-    avi_customipamdnsprofile, avi_controllerproperties, avi_cloudproperties, avi_trafficcloneprofile
+
+from library import avi_healthmonitor, avi_virtualservice, \
+    avi_tenant, avi_pool, avi_vsvip, avi_wafpolicy, avi_wafprofile, \
+    avi_useraccountprofile, avi_dnspolicy, \
+    avi_applicationpersistenceprofile,  avi_applicationprofile, avi_network,avi_networkprofile, avi_gslb, avi_vsdatascriptset, avi_sslprofile, avi_httppolicyset, avi_backupconfiguration, avi_role,  avi_scheduler, avi_vrfcontext,  avi_cloud,  avi_prioritylabels, avi_gslbservice,  avi_stringgroup,  avi_hardwaresecuritymodulegroup, \
+    avi_ipaddrgroup, avi_webhook, \
+    avi_actiongroupconfig, avi_microservicegroup, avi_alertconfig, avi_alertemailconfig,  avi_networksecuritypolicy,  avi_alertscriptconfig, avi_alertsyslogconfig, avi_pkiprofile, avi_analyticsprofile, avi_poolgroupdeploymentpolicy, avi_authprofile, avi_autoscalelaunchconfig, avi_cloudconnectoruser, avi_certificatemanagementprofile, avi_systemconfiguration, avi_ipamdnsproviderprofile, avi_serverautoscalepolicy, avi_serviceenginegroup,  avi_gslbgeodbprofile, avi_errorpageprofile, avi_seproperties, avi_snmptrapprofile, avi_customipamdnsprofile, \
+avi_controllerproperties, avi_cloudproperties, avi_trafficcloneprofile
 import config as configure
 from baseModules import AnsibleModules
 from baseModules import (AnsibleExitJson, AnsibleFailJson)
@@ -27,7 +23,7 @@ import requests
 modiles = AnsibleModules()
 
 my_vcr = vcr.VCR(
-    cassette_library_dir='./tests/module_tests/fixtures/cassettes',
+    cassette_library_dir='fixtures/cassettes',
     record_mode='once'
 )
 
@@ -42,6 +38,7 @@ def set_module_args(args):
     args = json.dumps({'ANSIBLE_MODULE_ARGS': args})
     basic._ANSIBLE_ARGS = to_bytes(args)
 
+@my_vcr.use_cassette()
 def get_cluster_id():
 
     login_url = 'https://%s/login' % os.environ['AVI_CONTROLLER']
@@ -90,6 +87,7 @@ class test_ansible_modules(unittest.TestCase):
         self.mock_module_helper.start()
         self.addCleanup(self.mock_module_helper.stop)
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_create_http_hm(self):
         configure.HealthMonitor.update(ControllerCredentials)
@@ -98,6 +96,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_healthmonitor.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_virtual_service(self):
         configure.VirtualService.update(ControllerCredentials)
@@ -106,6 +105,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_virtualservice.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_tenant(self):
         configure.Tenant.update(ControllerCredentials)
@@ -114,6 +114,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_tenant.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_pool(self):
         configure.Pool.update(ControllerCredentials)
@@ -122,6 +123,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_pool.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_VsVip(self):
         configure.VsVip.update(ControllerCredentials)
@@ -130,6 +132,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_vsvip.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_userAccountProfile(self):
         configure.Useraccountprofile.update(ControllerCredentials)
@@ -138,6 +141,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_useraccountprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_wafPolicy(self):
         configure.WafPolicy.update(ControllerCredentials)
@@ -146,6 +150,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_wafpolicy.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_wafProfile(self):
         configure.Wafprofile.update(ControllerCredentials)
@@ -154,6 +159,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_wafprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_appPersistProfile(self):
         configure.Applicationpersisteceprofile.update(ControllerCredentials)
@@ -162,6 +168,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_applicationpersistenceprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_applicationProfile(self):
         configure.ApplicationProfile.update(ControllerCredentials)
@@ -170,6 +177,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_applicationprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_NetworkProfile(self):
         configure.Networkprofile.update(ControllerCredentials)
@@ -178,6 +186,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_networkprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_SslProfile(self):
         configure.SslProfile.update(ControllerCredentials)
@@ -186,6 +195,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_sslprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_HttpPolicySet(self):
         configure.HttpPolicySet.update(ControllerCredentials)
@@ -194,6 +204,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_httppolicyset.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_BackupConfiguration(self):
         configure.BackupConfiguration.update(ControllerCredentials)
@@ -202,6 +213,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_backupconfiguration.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Role(self):
         configure.Role.update(ControllerCredentials)
@@ -210,6 +222,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_role.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Scheduler(self):
         configure.Scheduler.update(ControllerCredentials)
@@ -218,6 +231,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_scheduler.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Prioritylabels(self):
         configure.Prioritylabels.update(ControllerCredentials)
@@ -226,6 +240,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_prioritylabels.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Cloud(self):
         configure.Cloud.update(ControllerCredentials)
@@ -234,6 +249,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_cloud.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Vrfcontext(self):
         configure.Vrfcontext.update(ControllerCredentials)
@@ -242,6 +258,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_vrfcontext.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Gslbservice(self):
         configure.Gslbservice.update(ControllerCredentials)
@@ -250,6 +267,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_gslbservice.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Useraccountprofile(self):
         configure.Useraccountprofile.update(ControllerCredentials)
@@ -258,6 +276,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_useraccountprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_VsDataScriptSet(self):
         configure.VsDataScriptSet.update(ControllerCredentials)
@@ -266,6 +285,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_vsdatascriptset.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_StringGroup(self):
         configure.StringGroup.update(ControllerCredentials)
@@ -274,6 +294,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_stringgroup.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_HardwareSecurityModuleGroup(self):
         configure.HardwareSecurityModuleGroup.update(ControllerCredentials)
@@ -282,6 +303,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_hardwaresecuritymodulegroup.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Ipaddrgroup(self):
         configure.Ipaddrgroup.update(ControllerCredentials)
@@ -290,6 +312,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_ipaddrgroup.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Ipamdnsproviderprofile(self):
         configure.Ipamdnsproviderprofile.update(ControllerCredentials)
@@ -298,6 +321,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_ipamdnsproviderprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Webhook(self):
         configure.Webhook.update(ControllerCredentials)
@@ -306,6 +330,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_webhook.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_MicroserviceGroup(self):
         configure.MicroserviceGroup.update(ControllerCredentials)
@@ -314,6 +339,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_microservicegroup.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_ActionGroupConfig(self):
         configure.ActionGroupConfig.update(ControllerCredentials)
@@ -322,6 +348,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_actiongroupconfig.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_AlertConfig(self):
         configure.AlertConfig.update(ControllerCredentials)
@@ -330,6 +357,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_alertconfig.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_AlertEmailConfig(self):
         configure.AlertEmailConfig.update(ControllerCredentials)
@@ -338,6 +366,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_alertemailconfig.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Network(self):
         configure.Network.update(ControllerCredentials)
@@ -346,6 +375,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_network.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_NetworkSecurityPolicy(self):
         configure.NetworkSecurityPolicy.update(ControllerCredentials)
@@ -354,6 +384,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_networksecuritypolicy.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_AlertSyslogConfig(self):
         configure.AlertSyslogConfig.update(ControllerCredentials)
@@ -362,6 +393,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_alertsyslogconfig.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_PkiProfile(self):
         configure.PkiProfile.update(ControllerCredentials)
@@ -370,6 +402,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_pkiprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_AnalyticsProfile(self):
         configure.AnalyticsProfile.update(ControllerCredentials)
@@ -378,6 +411,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_analyticsprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_AuthProfile(self):
         configure.AuthProfile.update(ControllerCredentials)
@@ -386,6 +420,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_authprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_AutoScaleLaunchConfig(self):
         configure.AutoScaleLaunchConfig.update(ControllerCredentials)
@@ -394,6 +429,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_autoscalelaunchconfig.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_CloudConnecTorUser(self):
         configure.CloudConnecTorUser.update(ControllerCredentials)
@@ -402,6 +438,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_cloudconnectoruser.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_CertificateManagementProfile(self):
         configure.CertificateManagementProfile.update(ControllerCredentials)
@@ -410,6 +447,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_certificatemanagementprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_SystemConfiguration(self):
         configure.SystemConfiguration.update(ControllerCredentials)
@@ -418,6 +456,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_systemconfiguration.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_ServerautoscalePolicy(self):
         configure.ServerautoscalePolicy.update(ControllerCredentials)
@@ -426,6 +465,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_serverautoscalepolicy.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_ServiceengineGroup(self):
         configure.ServiceengineGroup.update(ControllerCredentials)
@@ -434,6 +474,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_serviceenginegroup.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_GslbgeodbProfile(self):
         configure.GslbgeodbProfile.update(ControllerCredentials)
@@ -442,6 +483,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_gslbgeodbprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_ErrorPageProfile(self):
         configure.ErrorPageProfile.update(ControllerCredentials)
@@ -450,6 +492,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_errorpageprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_Gslb(self):
         id = get_cluster_id()
@@ -468,6 +511,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_gslb.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_SeProperties(self):
         configure.SeProperties.update(ControllerCredentials)
@@ -476,6 +520,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_seproperties.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_SnmptrapProfile(self):
         configure.SnmptrapProfile.update(ControllerCredentials)
@@ -484,6 +529,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_snmptrapprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_CustomipamdnsProfile(self):
         configure.CustomipamdnsProfile.update(ControllerCredentials)
@@ -492,6 +538,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_customipamdnsprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_DnsPolicy(self):
         configure.DnsPolicy.update(ControllerCredentials)
@@ -500,6 +547,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_dnspolicy.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_ControllerProperties(self):
         configure.ControllerProperties.update(ControllerCredentials)
@@ -508,6 +556,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_controllerproperties.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_CloudProperties(self):
         configure.CloudProperties.update(ControllerCredentials)
@@ -516,6 +565,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_cloudproperties.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_TrafficCloneProfile(self):
         configure.TrafficCloneProfile.update(ControllerCredentials)
@@ -524,6 +574,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_trafficcloneprofile.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_AlertScriptConfig(self):
         configure.AlertScriptConfig.update(ControllerCredentials)
@@ -532,6 +583,7 @@ class test_ansible_modules(unittest.TestCase):
             avi_alertscriptconfig.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_PoolGroupDeploymentPolicy(self):
         configure.PoolGroupDeploymentPolicy.update(ControllerCredentials)
@@ -539,7 +591,6 @@ class test_ansible_modules(unittest.TestCase):
         with self.assertRaises(AnsibleExitJson) as result:
             avi_poolgroupdeploymentpolicy.main()
             self.assertTrue(result.exception.args[0]['changed'])
-
 
 
 
