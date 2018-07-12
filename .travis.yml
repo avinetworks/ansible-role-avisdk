@@ -12,6 +12,7 @@ matrix:
       install:
       - pip install vcrpy pytest ansible requests
       - export PYTHONPATH=$PWD
+      - export ANSIBLE_LIBRARY=$PWD
       script:
       - cd $PYTHONPATH/tests/module_tests/
       - pytest ./ansible_tests.py -m travis -vvvv --color=yes
