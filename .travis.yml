@@ -16,9 +16,9 @@ matrix:
       - cd $PYTHONPATH/tests/module_tests/
       - pytest ./ansible_tests.py -m travis -vvvv --color=yes
 
-    - language: ruby
-      sudo: required
-      env:
+    
+      
+    -  env:
         - distribution: centos
           version: 6
           init: /sbin/init
@@ -39,7 +39,8 @@ matrix:
           version: 14.04
           init: /sbin/init
           run_opts: ""
-
+      
+      sudo: required
       services:
         - docker
 
