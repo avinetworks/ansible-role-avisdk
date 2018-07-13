@@ -28,10 +28,9 @@ description:
 version_added: 2.7
 requirements: [ avisdk, requests_toolbelt ]
 options:
-    http_method:
+    upload:
         description:
-            - Allowed HTTP methods GET for download and POST for upload.
-        choices: ["get", "post"]
+            - Allowed upload flag false for download and true for upload.
         required: true
     file_path:
         description:
@@ -59,7 +58,7 @@ EXAMPLES = '''
       controller: ""
       username: ""
       password: ""
-      http_method: get
+      upload: false
       path: seova
       file_path: ./se.ova
       api_version: 17.2.8
@@ -69,7 +68,7 @@ EXAMPLES = '''
       controller: ""
       username: ""
       password: ""
-      http_method: post
+      upload: true
       path: hsmpackages?hsmtype=safenet
       file_path: ./safenet.tar
       api_version: 17.2.8
