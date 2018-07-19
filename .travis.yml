@@ -1,6 +1,22 @@
 ---
-sudo: required
 
+matrix:
+  include:
+    - language: python
+      python: "2.7"
+      install:
+      - export AVI_CONTROLLER="10.10.28.132"
+      - export AVI_USERNAME="admin"
+      - export AVI_PASSWORD="avi123$%"
+      - export API_VERSION="18.1.3"
+      - export PYTHONPATH=$PWD
+      - export ANSIBLE_LIBRARY=$PWD/
+      - pip install vcrpy pytest ansible requests avisdk
+      script:
+      - cd $PYTHONPATH/tests/module_tests/
+      - pytest ./ansible_tests.py -m travis -vvvv --color=yes
+
+sudo: required
 env:
   - distribution: centos
     version: 6
