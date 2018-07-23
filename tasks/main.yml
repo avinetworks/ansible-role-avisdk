@@ -7,5 +7,5 @@
 - name: Check ansible version
   when:
     - ansible_version.full is version_compare('2.4', '<')
-  debug: msg="This role works best with ansible version 2.4 or greater. It is recomended to use latest ansible versions for best experiance."
+  debug: msg="This role works best with ansible version 2.4 or greater. It is recommended to use the latest ansible version for the best experience."
 
