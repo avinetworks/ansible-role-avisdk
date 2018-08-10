@@ -79,7 +79,7 @@ options:
     tenant_ref:
         description:
             - Tenant reference.
-    
+
 
 extends_documentation_fragment:
     - avi
@@ -115,18 +115,15 @@ from ansible.module_utils.basic import AnsibleModule
 
 try:
     from avi.sdk.utils.ansible_utils import (
-        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return)
-    from avi.sdk.avi_api import ApiSession, AviCredentials
+        avi_common_argument_spec, ansible_return)
     from pkg_resources import parse_version
-    import avi.sdk
+
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -161,3 +158,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
