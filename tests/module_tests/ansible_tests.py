@@ -11,7 +11,7 @@ from library import avi_healthmonitor, avi_virtualservice, \
     avi_tenant, avi_pool, avi_vsvip, avi_wafpolicy, avi_wafprofile, \
     avi_useraccountprofile, avi_dnspolicy, \
     avi_applicationpersistenceprofile,  avi_applicationprofile, avi_network,avi_networkprofile, avi_gslb, avi_vsdatascriptset, avi_sslprofile, avi_httppolicyset, avi_backupconfiguration, avi_role,  avi_scheduler, avi_vrfcontext,  avi_cloud,  avi_prioritylabels, avi_gslbservice,  avi_stringgroup,  avi_hardwaresecuritymodulegroup, \
-    avi_ipaddrgroup, avi_webhook, \
+    avi_ipaddrgroup, avi_webhook, avi_user,\
     avi_actiongroupconfig, avi_microservicegroup, avi_alertconfig, avi_alertemailconfig,  avi_networksecuritypolicy,  avi_alertscriptconfig, avi_alertsyslogconfig, avi_pkiprofile, avi_analyticsprofile, avi_poolgroupdeploymentpolicy, avi_authprofile, avi_autoscalelaunchconfig, avi_cloudconnectoruser, avi_certificatemanagementprofile, avi_systemconfiguration, avi_ipamdnsproviderprofile, avi_serverautoscalepolicy, avi_serviceenginegroup,  avi_gslbgeodbprofile, avi_errorpageprofile, avi_seproperties, avi_snmptrapprofile, avi_customipamdnsprofile, \
 avi_controllerproperties, avi_cloudproperties, avi_trafficcloneprofile
 import config as configure
@@ -592,7 +592,30 @@ class test_ansible_modules(unittest.TestCase):
             avi_poolgroupdeploymentpolicy.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_create_user(self):
+        configure.CreateUser.update(ControllerCredentials)
+        set_module_args(configure.CreateUser)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_user.main()
+            self.assertTrue(result.exception.args[0]['changed'])
 
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_update_user(self):
+        configure.CreateUser.update(ControllerCredentials)
+        set_module_args(configure.UpdateUser)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_user.main()
+            self.assertTrue(result.exception.args[0]['changed'])
 
-
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_delete_user(self):
+        configure.CreateUser.update(ControllerCredentials)
+        set_module_args(configure.DeleteUser)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_user.main()
+            self.assertTrue(result.exception.args[0]['changed'])
 
