@@ -4,7 +4,7 @@
 #
 # @author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com) GitHub ID: gitshrikant
 #
-# module_check: not supported
+# module_check: supported
 #
 # This file is part of Ansible
 #
