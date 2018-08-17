@@ -153,7 +153,7 @@ def main():
         data = json.loads(data)
     upload = module.params['upload']
     file_path = module.params['file_path']
-    force_mode = module.param['force_mode']
+    force_mode = module.params['force_mode']
 
     if upload:
         if not os.path.exists(file_path):
