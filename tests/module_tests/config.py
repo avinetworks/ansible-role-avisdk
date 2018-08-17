@@ -1309,3 +1309,44 @@ TrafficCloneProfile = {
 			"preserve_client_ip": True,
 			"tenant_ref": "/api/tenant?name=admin"
     }
+
+CreateUser = {
+          "name": "shrikant",
+          "obj_username": "shrikant",
+          "obj_password": "test@1234",
+          "role": "/api/role?name=Tenant-Admin",
+          "user_profile_ref": "/api/useraccountprofile?name=Default-User-Account-Profile",
+          "is_active": True,
+          "is_superuser": True,
+          "default_tenant_ref": "/api/tenant?name=admin",
+          "tenant_ref": "api/tenant/admin#admin",
+          "email": "test@abc.in"
+}
+
+UpdateUser = {
+          "name": "shrikant",
+          "obj_username": "shrikant",
+          "obj_password": "test@1234",
+          "role": "/api/role?name=Tenant-Admin",
+          "user_profile_ref": "/api/useraccountprofile?name=Default-User-Account-Profile",
+          "is_active": True,
+          "is_superuser": True,
+          "default_tenant_ref": "/api/tenant?name=admin",
+          "tenant_ref": "api/tenant/admin#admin",
+          "email": "testuser@avi.in",
+}
+
+DeleteUser = {
+          "name": "shrikant",
+          "state": "absent",
+          "obj_username": "shrikant",
+          "obj_password": "test@1234",
+          "role": "/api/role?name=Tenant-Admin",
+          "user_profile_ref": "/api/useraccountprofile?name=Default-User-Account-Profile",
+          "is_active": True,
+          "is_superuser": True,
+          "default_tenant_ref": "/api/tenant?name=admin",
+          "tenant_ref": "api/tenant/admin#admin",
+          "email": "testuser@avi.in",
+}
+
