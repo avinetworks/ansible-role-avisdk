@@ -92,7 +92,7 @@ EXAMPLES = '''
       username: ""
       password: ""
       api_version: ""
-      full_name: "testuser"
+      name: "testuser"
       obj_username: "testuser"
       obj_password: "test123"
       email: "test@abc.com"
