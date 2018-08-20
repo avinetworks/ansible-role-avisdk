@@ -115,7 +115,7 @@ options:
         description:
             - If no license type is specified then default license enforcement for the cloud type is chosen.
             - The default mappings are container cloud is max ses, openstack and vmware is cores and linux it is sockets.
-            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH.
+            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH.
     linuxserver_configuration:
         description:
             - Linuxserverconfiguration settings for cloud.

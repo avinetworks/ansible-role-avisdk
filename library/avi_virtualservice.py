@@ -107,7 +107,7 @@ options:
             - Sync key-value cache to the new ses when vs is scaled out.
             - For ex  ssl sessions are stored using vs's key-value cache.
             - When the vs is scaled out, the ssl session information is synced to the new se, allowing existing ssl sessions to be reused on the new se.
-            - Field introduced in 18.1.1.
+            - Field introduced in 17.2.7, 18.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.6"
         type: bool

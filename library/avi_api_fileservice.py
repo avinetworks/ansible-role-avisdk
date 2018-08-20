@@ -31,6 +31,7 @@ options:
     upload:
         description:
             - Allowed upload flag false for download and true for upload.
+        choices: ["get", "post"]
         required: true
     file_path:
         description:
@@ -114,7 +115,7 @@ def main():
     argument_specs = dict(
         force_mode=dict(type='bool', default=True),
         upload=dict(required=True,
-                         type='bool'),
+                    type='bool'),
         path=dict(type='str', required=True),
         file_path=dict(type='str', required=True),
         params=dict(type='dict'),
@@ -179,7 +180,7 @@ def main():
                     changed=True, msg="File uploaded successfully")
 
     elif not upload:
-        # Removing existing qcow2 file.
+        # Removing existing file.
         if force_mode and os.path.exists(file_path):
             os.remove(file_path)
         rsp = api.get(path, params=params, stream=True)

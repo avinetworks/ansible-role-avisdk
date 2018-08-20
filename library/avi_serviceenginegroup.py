@@ -183,7 +183,7 @@ options:
         description:
             - If set, disable the config memory check done in service engine.
             - Field introduced in 18.1.2.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.7"
         type: bool
     disable_tso:
@@ -361,7 +361,7 @@ options:
     license_type:
         description:
             - If no license type is specified then default license enforcement for the cloud type is chosen.
-            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH.
+            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH.
             - Field introduced in 17.2.5.
         version_added: "2.5"
     log_disksz:
@@ -439,6 +439,12 @@ options:
             - Minimum number of active service engines for the virtual service.
             - Allowed values are 1-64.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
+    min_se:
+        description:
+            - Minimum number of services engines in this group (relevant for se autorebalance only).
+            - Allowed values are 0-1000.
+            - Field introduced in 17.2.13,18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     minimum_connection_memory:
         description:
             - Indicates the percent of memory reserved for connections.
@@ -471,6 +477,13 @@ options:
             - Set it to zero (0) to disable throttling.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+    num_dispatcher_cores:
+        description:
+            - Number of dispatcher cores (0,1,2,4,8 or 16).
+            - If set to 0, then number of dispatcher cores is deduced automatically.
+            - Allowed values are 0,1,2,4,8,16.
+            - Field introduced in 17.2.12, 18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     num_flow_cores_sum_changes_to_ignore:
         description:
             - Number of changes in num flow cores sum to ignore.
@@ -522,6 +535,13 @@ options:
     se_dos_profile:
         description:
             - Dosthresholdprofile settings for serviceenginegroup.
+    se_dpdk_pmd:
+        description:
+            - Determines if dpdk pool mode driver should be used or not   0  automatically determine based on hypervisor/nic type 1  unconditionally use dpdk
+            - poll mode driver 2  don't use dpdk poll mode driver.
+            - Allowed values are 0-2.
+            - Field introduced in 18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_ipc_udp_port:
         description:
             - Udp port for se_dp ipc in docker bridge mode.
@@ -532,6 +552,22 @@ options:
         description:
             - Prefix to use for virtual machine name of service engines.
             - Default value when not specified in API or module is interpreted by Avi Controller as Avi.
+    se_pcap_reinit_frequency:
+        description:
+            - Frequency in seconds at which periodically a pcap reinit check is triggered.
+            - May be used in conjunction with the configuration pcap_reinit_threshold.
+            - [valid range   15 mins - 12 hours, 0 - disables].
+            - Allowed values are 900-43200.
+            - Special values are 0- 'disable'.
+            - Field introduced in 17.2.13, 18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    se_pcap_reinit_threshold:
+        description:
+            - Threshold for input packet receive errors in pcap mode exceeding which a pcap reinit is triggered.
+            - If not set, an unconditional reinit is performed.
+            - This value is checked every pcap_reinit_frequency interval.
+            - Field introduced in 17.2.13, 18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_probe_port:
         description:
             - Tcp port on se where echo service will be run.
@@ -572,7 +608,8 @@ options:
         description:
             - Determines if dsr from secondary se is active or not  0  automatically determine based on hypervisor type.
             - 1  disable dsr unconditionally.
-            - ~[0,1]  enable dsr unconditionally.
+            - 2  enable dsr unconditionally.
+            - Allowed values are 0-2.
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_tunnel_udp_port:
@@ -582,18 +619,25 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 1550.
     se_udp_encap_ipc:
         description:
-            - Determines if se-se ipc messages are encapsulated in an udp header  0  automatically determine based on hypervisor type.
+            - Determines if se-se ipc messages are encapsulated in a udp header  0  automatically determine based on hypervisor type.
             - 1  use udp encap unconditionally.
-            - ~[0,1]  don't use udp encap.
+            - Allowed values are 0-1.
             - Field introduced in 17.1.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.4"
+    se_use_dpdk:
+        description:
+            - Determines if dpdk library should be used or not   0  automatically determine based on hypervisor type 1  use dpdk if pcap is not enabled 2 
+            - don't use dpdk.
+            - Allowed values are 0-2.
+            - Field introduced in 18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_vs_hb_max_pkts_in_batch:
         description:
             - Maximum number of aggregated vs heartbeat packets to send in a batch.
             - Allowed values are 1-256.
             - Field introduced in 17.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 64.
     se_vs_hb_max_vs_in_pkt:
         description:
             - Maximum number of virtualservices for which heartbeat messages are aggregated in one packet.
@@ -632,6 +676,13 @@ options:
             - Set it to zero (0) to disable throttling.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+    ssl_preprocess_sni_hostname:
+        description:
+            - (beta) preprocess ssl client hello for sni hostname extension.
+            - If set to true, this will apply sni child's ssl protocol(s) if they are different from sni parent's allowed ssl protocol(s).
+            - Field introduced in 17.2.12, 18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -853,11 +904,13 @@ def main():
         mgmt_subnet=dict(type='dict',),
         min_cpu_usage=dict(type='int',),
         min_scaleout_per_vs=dict(type='int',),
+        min_se=dict(type='int',),
         minimum_connection_memory=dict(type='int',),
         minimum_required_config_memory=dict(type='int',),
         n_log_streaming_threads=dict(type='int',),
         name=dict(type='str', required=True),
         non_significant_log_throttle=dict(type='int',),
+        num_dispatcher_cores=dict(type='int',),
         num_flow_cores_sum_changes_to_ignore=dict(type='int',),
         openstack_availability_zone=dict(type='str',),
         openstack_availability_zones=dict(type='list',),
@@ -870,8 +923,11 @@ def main():
         se_bandwidth_type=dict(type='str',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
+        se_dpdk_pmd=dict(type='int',),
         se_ipc_udp_port=dict(type='int',),
         se_name_prefix=dict(type='str',),
+        se_pcap_reinit_frequency=dict(type='int',),
+        se_pcap_reinit_threshold=dict(type='int',),
         se_probe_port=dict(type='int',),
         se_remote_punt_udp_port=dict(type='int',),
         se_sb_dedicated_core=dict(type='bool',),
@@ -881,6 +937,7 @@ def main():
         se_tunnel_mode=dict(type='int',),
         se_tunnel_udp_port=dict(type='int',),
         se_udp_encap_ipc=dict(type='int',),
+        se_use_dpdk=dict(type='int',),
         se_vs_hb_max_pkts_in_batch=dict(type='int',),
         se_vs_hb_max_vs_in_pkt=dict(type='int',),
         self_se_election=dict(type='bool',),
@@ -888,6 +945,7 @@ def main():
         service_ip_subnets=dict(type='list',),
         shm_minimum_config_memory=dict(type='int',),
         significant_log_throttle=dict(type='int',),
+        ssl_preprocess_sni_hostname=dict(type='bool',),
         tenant_ref=dict(type='str',),
         udf_log_throttle=dict(type='int',),
         url=dict(type='str',),

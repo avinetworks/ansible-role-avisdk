@@ -54,6 +54,10 @@ options:
         description:
             - Name of the object.
         required: true
+    oci_credentials:
+        description:
+            - Credentials for oracle cloud infrastructure.
+            - Field introduced in 18.1.3.
     private_key:
         description:
             - Private_key of cloudconnectoruser.
@@ -121,6 +125,7 @@ def main():
         azure_serviceprincipal=dict(type='dict',),
         azure_userpass=dict(type='dict',),
         name=dict(type='str', required=True),
+        oci_credentials=dict(type='dict',),
         private_key=dict(type='str', no_log=True,),
         public_key=dict(type='str',),
         tenant_ref=dict(type='str',),
