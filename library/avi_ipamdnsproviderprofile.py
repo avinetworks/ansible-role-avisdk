@@ -74,6 +74,10 @@ options:
         description:
             - Name for the ipam/dns provider profile.
         required: true
+    oci_profile:
+        description:
+            - Provider details for oracle cloud.
+            - Field introduced in 18.1.3.
     openstack_profile:
         description:
             - Provider details if type is openstack.
@@ -87,7 +91,8 @@ options:
         description:
             - Provider type for the ipam/dns provider profile.
             - Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM,
-            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
+            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS,
+            - IPAMDNS_TYPE_AZURE_DNS.
         required: true
     url:
         description:
@@ -160,6 +165,7 @@ def main():
         infoblox_profile=dict(type='dict',),
         internal_profile=dict(type='dict',),
         name=dict(type='str', required=True),
+        oci_profile=dict(type='dict',),
         openstack_profile=dict(type='dict',),
         proxy_configuration=dict(type='dict',),
         tenant_ref=dict(type='str',),

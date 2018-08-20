@@ -74,7 +74,7 @@ options:
     sip_service_profile:
         description:
             - Specifies various sip service related controls for virtual service.
-            - Field introduced in 17.2.8.
+            - Field introduced in 17.2.8, 18.1.3.
         version_added: "2.7"
     tcp_app_profile:
         description:

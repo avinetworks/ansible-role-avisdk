@@ -42,6 +42,12 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+    connection_mirror:
+        description:
+            - When enabled, avi mirrors all tcp fastpath connections to standby.applicable only in legacy ha mode.
+            - Field introduced in 18.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     description:
         description:
             - User defined description for the object.
@@ -113,6 +119,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        connection_mirror=dict(type='bool',),
         description=dict(type='str',),
         name=dict(type='str', required=True),
         profile=dict(type='dict', required=True),

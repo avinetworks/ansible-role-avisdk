@@ -31,6 +31,7 @@ options:
     upload:
         description:
             - Allowed upload flag false for download and true for upload.
+        choices: ["get", "post"]
         required: true
     file_path:
         description:
@@ -112,9 +113,8 @@ except ImportError:
 
 def main():
     argument_specs = dict(
-        force_mode=dict(type='bool', default=True),
         upload=dict(required=True,
-                         type='bool'),
+                    type='bool'),
         path=dict(type='str', required=True),
         file_path=dict(type='str', required=True),
         params=dict(type='dict'),
@@ -153,7 +153,6 @@ def main():
         data = json.loads(data)
     upload = module.params['upload']
     file_path = module.params['file_path']
-    force_mode = module.params['force_mode']
 
     if upload:
         if not os.path.exists(file_path):
@@ -179,9 +178,6 @@ def main():
                     changed=True, msg="File uploaded successfully")
 
     elif not upload:
-        # Removing existing qcow2 file.
-        if force_mode and os.path.exists(file_path):
-            os.remove(file_path)
         rsp = api.get(path, params=params, stream=True)
         if rsp.status_code > 300:
             return module.fail_json(msg='Fail to download file: %s' % rsp.text)
