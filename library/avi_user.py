@@ -54,9 +54,9 @@ options:
     email:
         description:
             - Email address of the user. This field is used when a user loses their password and requests to have it reset. See Password Recovery.
-    role:
+    access:
         description:
-            - Areas of the Avi Vantage system to which the user account will be allowed access. For each system area, the role defines whether the user account has read, write, or no access. Avi Vantage comes with predefined roles.
+            - Access settings (write, read, or no access) for each type of resource within Vantage.
     is_superuser:
         description:
             - If the user will need to have the same privileges as the admin account, set it to true.
@@ -68,7 +68,7 @@ options:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
         version_added: "2.6"
-        default: post
+        default: put
         choices: ["post", "put"]
     user_profile_ref:
         description:
@@ -76,9 +76,6 @@ options:
     default_tenant_ref:
         description:
             - Default tenant reference.
-    tenant_ref:
-        description:
-            - Tenant reference.
 
 
 extends_documentation_fragment:
@@ -96,12 +93,13 @@ EXAMPLES = '''
       obj_username: "testuser"
       obj_password: "test123"
       email: "test@abc.com"
-      role: "/api/roles?name=test_role"
+      access:
+        - role_ref: "/api/role?name=Tenant-Admin"
+          tenant_ref: "/api/tenant/admin#admin"
       user_profile_ref: "/api/useraccountprofile?name=Default-User-Account-Profile"
       is_active: true
       is_superuser: true
       default_tenant_ref: "/api/tenant?name=admin"
-      tenant_ref: "/api/tenant?name=admin"
 '''
 
 RETURN = '''
@@ -137,7 +135,7 @@ def main():
         name=dict(type='str', required=True),
         obj_username=dict(type='str', required=True),
         obj_password=dict(type='str', required=True, no_log=True),
-        role=dict(type='str', required=True),
+        access=dict(type='list',),
         email = dict(type='str',),
         is_superuser=dict(type='bool',),
         is_active=dict(type='bool',),
@@ -145,7 +143,6 @@ def main():
                                    choices=['post', 'put']),
         user_profile_ref=dict(type='str',),
         default_tenant_ref=dict(type='str', default='/api/tenant?name=admin'),
-        tenant_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs, supports_check_mode=True)
