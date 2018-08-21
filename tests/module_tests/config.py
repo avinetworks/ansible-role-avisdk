@@ -1317,7 +1317,8 @@ CreateUser = {
 	"access": [
 		{
 			"role_ref": "/api/role?name=Tenant-Admin",
-			"tenant_ref": "api/tenant/admin#admin",
+			"tenant_ref": "/api/tenant?name=admin",
+			"all_tenants": False
 		}
 	],
 	"user_profile_ref": "/api/useraccountprofile?name=Default-User-Account-Profile",
@@ -1334,7 +1335,8 @@ UpdateUser = {
 	"access": [
 		{
 			"role_ref": "/api/role?name=Tenant-Admin",
-			"tenant_ref": "api/tenant/admin#admin",
+			"tenant_ref": "/api/tenant?name=admin",
+			"all_tenants": False
 		}
 	],
 	"user_profile_ref": "/api/useraccountprofile?name=Default-User-Account-Profile",
@@ -1349,17 +1351,10 @@ DeleteUser = {
 	"state": "absent",
 	"obj_username": "shrikant",
 	"obj_password": "test@1234",
-	"access": [
-		{
-			"role_ref": "/api/role?name=Tenant-Admin",
-			"tenant_ref": "api/tenant/admin#admin",
-		}
-	],
 	"user_profile_ref": "/api/useraccountprofile?name=Default-User-Account-Profile",
 	"is_active": True,
 	"is_superuser": True,
 	"default_tenant_ref": "/api/tenant?name=admin",
-	"tenant_ref": "api/tenant/admin#admin",
 	"email": "testuser@avi.in",
 }
 
