@@ -194,9 +194,10 @@ def main():
             # object is not found
             pass
         else:
-            # object is present
-            method = 'put'
-            path += '/' + existing_obj['uuid']
+            if not path.startswith('/cluster/upgrade/'):
+                # object is present
+                method = 'put'
+                path += '/' + existing_obj['uuid']
 
     if method == 'put':
         # put can happen with when full path is specified or it is put + post
