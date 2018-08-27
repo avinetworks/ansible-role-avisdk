@@ -201,6 +201,8 @@ def main():
                 # object is present
                 method = 'put'
                 path += '/' + existing_obj['uuid']
+            else:
+                method = 'post'
 
     if method == 'put':
         # put can happen with when full path is specified or it is put + post
