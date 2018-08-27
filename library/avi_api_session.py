@@ -207,7 +207,7 @@ def main():
         if existing_obj is None:
             using_collection = False
             if ((len(path.split('/')) == 1) and ('name' in data) and
-                    (not path.startswith('cluster'))):
+                    (not path.startswith('/cluster'))):
                 gparams['name'] = data['name']
                 using_collection = True
             rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
