@@ -202,7 +202,6 @@ def main():
                 method = 'put'
                 path += '/' + existing_obj['uuid']
 
-
     if method == 'put':
         # put can happen with when full path is specified or it is put + post
         if existing_obj is None:
@@ -234,7 +233,8 @@ def main():
         existing_obj = rsp.json()
 
     if (method == 'put' and changed) or (method != 'put'):
-        fn = getattr(api, 'post')
+        method='put'
+        fn = getattr(api, method)
         rsp = fn(path, tenant=tenant, tenant_uuid=tenant, timeout=timeout,
                  params=params, data=data, api_version=api_version)
     else:
