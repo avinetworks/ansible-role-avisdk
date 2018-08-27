@@ -175,6 +175,9 @@ def main():
     gparams = deepcopy(params) if params else {}
     gparams.update({'include_refs': '', 'include_name': ''})
 
+    #API methods not allowed
+    api_get_not_allowed = ["/cluster/upgrade/"]
+
     if method == 'post' and not path.startswith('fileservice'):
         # TODO: Above condition should be updated after AV-38981 is fixed
         # need to check if object already exists. In that case
@@ -184,7 +187,7 @@ def main():
             if not path.startswith('cluster'):
                 gparams['name'] = data['name']
                 using_collection = True
-            if not path.startswith('/cluster/upgrade/'):
+            if path not in api_get_not_allowed:
                 rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
                           params=gparams, api_version=api_version)
                 existing_obj = rsp.json()
@@ -194,7 +197,7 @@ def main():
             # object is not found
             pass
         else:
-            if not path.startswith('/cluster/upgrade/'):
+            if path not in api_get_not_allowed:
                 # object is present
                 method = 'put'
                 path += '/' + existing_obj['uuid']
