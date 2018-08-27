@@ -194,7 +194,7 @@ def main():
                 if using_collection:
                     existing_obj = existing_obj['results'][0]
             else:
-                raise IndexError
+                existing_obj = None
 
         except IndexError:
             # object is not found
