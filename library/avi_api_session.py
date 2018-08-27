@@ -184,7 +184,7 @@ def main():
             if not path.startswith('cluster'):
                 gparams['name'] = data['name']
                 using_collection = True
-            if not path.startswith('cluster/upgrade'):
+            if not path.startswith('/cluster/upgrade/'):
                 rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
                           params=gparams, api_version=api_version)
                 existing_obj = rsp.json()
