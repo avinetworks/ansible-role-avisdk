@@ -160,7 +160,12 @@ def main():
         if not os.path.exists(file_path):
             return module.fail_json('File not found : %s' % file_path)
         file_name = os.path.basename(file_path)
-        uri = 'controller://%s' % module.params.get('path', '').split('?')[0]
+        #Handle special case of upgrade controller using .pkg file which will be uploaded to upgrade_pkgs directory
+        if file_name.lower().endswith('.pkg'):
+            uri = 'controller://upgrade_pkgs'
+            path = 'fileservice/uploads'
+        else:
+            uri = 'controller://%s' % module.params.get('path', '').split('?')[0]
         changed = False
         file_uri = 'fileservice?uri=%s' % uri
         rsp = api.post(file_uri, tenant=tenant, tenant_uuid=tenant_uuid,
