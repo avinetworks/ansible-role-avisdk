@@ -234,9 +234,11 @@ def main():
         existing_obj = rsp.json()
 
     if (method == 'put' and changed) or (method != 'put'):
-        fn = getattr(api, method)
-        rsp = fn(path, tenant=tenant, tenant_uuid=tenant, timeout=timeout,
-                 params=params, data=data, api_version=api_version)
+        # fn = getattr(api, method)
+        # rsp = fn(path, tenant=tenant, tenant_uuid=tenant, timeout=timeout,
+        #          params=params, data=data, api_version=api_version)
+        rsp = api.get(path, tenant=tenant, tenant_uuid=tenant, timeout=timeout,
+                  params=params, data=data, api_version=api_version)
     else:
         rsp = None
     if method == 'delete' and rsp.status_code == 404:
