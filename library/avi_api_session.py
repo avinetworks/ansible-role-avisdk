@@ -200,9 +200,10 @@ def main():
             # object is not found
             pass
         else:
-            # object is present
-            method = 'put'
-            path += '/' + existing_obj['uuid']
+            if path not in api_get_not_allowed:
+                # object is present
+                method = 'put'
+                path += '/' + existing_obj['uuid']
 
     if method == 'put':
         # put can happen with when full path is specified or it is put + post
