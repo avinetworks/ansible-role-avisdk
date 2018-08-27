@@ -176,7 +176,7 @@ def main():
     gparams.update({'include_refs': '', 'include_name': ''})
 
     #API methods not allowed
-    api_get_not_allowed = ["/cluster/upgrade/"]
+    api_get_not_allowed = ["cluster/upgrade/"]
 
     if method == 'post' and not path.startswith('fileservice'):
         # TODO: Above condition should be updated after AV-38981 is fixed
