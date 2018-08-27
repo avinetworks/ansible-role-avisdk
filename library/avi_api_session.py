@@ -193,14 +193,15 @@ def main():
                 existing_obj = rsp.json()
                 if using_collection:
                     existing_obj = existing_obj['results'][0]
+            else:
+                existing_obj = None
         except IndexError:
             # object is not found
             pass
         else:
-            if path not in api_get_not_allowed:
-                # object is present
-                method = 'put'
-                path += '/' + existing_obj['uuid']
+            # object is present
+            method = 'put'
+            path += '/' + existing_obj['uuid']
 
     if method == 'put':
         # put can happen with when full path is specified or it is put + post
@@ -233,7 +234,7 @@ def main():
         existing_obj = rsp.json()
 
     if (method == 'put' and changed) or (method != 'put'):
-        method='put'
+        # method='put'
         fn = getattr(api, method)
         rsp = fn(path, tenant=tenant, tenant_uuid=tenant, timeout=timeout,
                  params=params, data=data, api_version=api_version)
