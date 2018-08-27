@@ -193,9 +193,6 @@ def main():
                 existing_obj = rsp.json()
                 if using_collection:
                     existing_obj = existing_obj['results'][0]
-            else:
-                existing_obj = None
-
         except IndexError:
             # object is not found
             pass
@@ -210,7 +207,7 @@ def main():
         if existing_obj is None:
             using_collection = False
             if ((len(path.split('/')) == 1) and ('name' in data) and
-                    (not path.startswith('/cluster'))):
+                    (path not in api_get_not_allowed)):
                 gparams['name'] = data['name']
                 using_collection = True
             rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
