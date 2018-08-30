@@ -175,34 +175,41 @@ def main():
     gparams = deepcopy(params) if params else {}
     gparams.update({'include_refs': '', 'include_name': ''})
 
-    if method == 'post' and not path.startswith('fileservice'):
+    #API methods not allowed
+    api_get_not_allowed = ["cluster"]
+    api_post_not_allowed = ["alert"]
+    api_put_not_allowed = ["backup"]
+
+    if method == 'post' and not any(path.startswith(uri) for uri in api_post_not_allowed):
         # TODO: Above condition should be updated after AV-38981 is fixed
         # need to check if object already exists. In that case
         # change the method to be put
         try:
             using_collection = False
-            if not path.startswith('cluster'):
+            if not any(path.startswith(uri) for uri in api_get_not_allowed):
                 gparams['name'] = data['name']
                 using_collection = True
-            rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
+            if not any(path.startswith(uri) for uri in api_get_not_allowed):
+                rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
                           params=gparams, api_version=api_version)
-            existing_obj = rsp.json()
-            if using_collection:
-                existing_obj = existing_obj['results'][0]
+                existing_obj = rsp.json()
+                if using_collection:
+                    existing_obj = existing_obj['results'][0]
         except IndexError:
             # object is not found
             pass
         else:
-            # object is present
-            method = 'put'
-            path += '/' + existing_obj['uuid']
+            if not any(path.startswith(uri) for uri in api_get_not_allowed):
+                # object is present
+                method = 'put'
+                path += '/' + existing_obj['uuid']
 
-    if method == 'put':
+    if method == 'put' and not any(path.startswith(uri) for uri in api_put_not_allowed):
         # put can happen with when full path is specified or it is put + post
         if existing_obj is None:
             using_collection = False
             if ((len(path.split('/')) == 1) and ('name' in data) and
-                    (not path.startswith('cluster'))):
+                    (not any(path.startswith(uri) for uri in api_get_not_allowed))):
                 gparams['name'] = data['name']
                 using_collection = True
             rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
