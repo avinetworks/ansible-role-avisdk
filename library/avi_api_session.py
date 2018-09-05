@@ -176,7 +176,7 @@ def main():
     gparams.update({'include_refs': '', 'include_name': ''})
 
     #API methods not allowed
-    api_get_not_allowed = ["cluster"]
+    api_get_not_allowed = ["cluster", "gslbsiteops"]
     api_post_not_allowed = ["alert"]
     api_put_not_allowed = ["backup"]
 
@@ -187,7 +187,8 @@ def main():
         try:
             using_collection = False
             if not any(path.startswith(uri) for uri in api_get_not_allowed):
-                gparams['name'] = data['name']
+                if 'name' in data:
+                    gparams['name'] = data['name']
                 using_collection = True
             if not any(path.startswith(uri) for uri in api_get_not_allowed):
                 rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
