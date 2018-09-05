@@ -11,7 +11,7 @@ matrix:
       - export API_VERSION="18.1.3"
       - export PYTHONPATH=$PWD
       - export ANSIBLE_LIBRARY=$PWD/
-      - pip install vcrpy pytest ansible requests avisdk
+      - pip install vcrpy pytest ansible requests avisdk requests-toolbelt
       script:
       - cd $PYTHONPATH/tests/module_tests/
       - pytest ./ansible_tests.py -m travis -vvvv --color=yes
