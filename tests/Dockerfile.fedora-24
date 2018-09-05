@@ -5,7 +5,7 @@ RUN dnf -y update; dnf clean all;
 # RUN dnf -y install epel-release
 RUN dnf -y install python-dnf git ansible sudo
 RUN dnf -y install python-pip
-RUN pip install avisdk
+RUN pip install avisdk requests-toolbelt
 RUN dnf clean all
 
 # Disable requiretty
