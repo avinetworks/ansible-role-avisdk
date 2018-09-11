@@ -10,6 +10,7 @@ Using this role, you will be able to use the latest version, and version specifi
 
  - python >= 2.6
  - avisdk
+ - requests-toolbelt
 
 This role requires Ansible 2.0 or higher. Requirements are listed in the metadata file.
 
