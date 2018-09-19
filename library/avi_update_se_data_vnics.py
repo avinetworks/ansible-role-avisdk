@@ -129,19 +129,17 @@ def main():
     data_vnics_config = module.params['data_vnics_config']
     for d_vnic in se_obj['data_vnics']:
         for obj in data_vnics_config:
-            config_for = obj.get('linux_name', None)
+            config_for = obj.get('if_name', None)
             if not config_for:
                 return module.fail_json(msg=(
-                    'linux_name in configuration is mandatory. Please provide correct linux name.'))
-            if 'eth' in config_for and 'eth' in d_vnic['linux_name']:
-                if config_for == d_vnic['linux_name']:
-                    # modify existing SE object
-                    for key, val in obj.iteritems():
-                        d_vnic[key] = val
-            elif 'bond' in config_for and 'bond' in d_vnic['linux_name']:
-                if config_for == d_vnic['linux_name']:
-                    for key, val in obj.iteritems():
-                        d_vnic[key] = val
+                    'if_name in configuration is mandatory. Please provide if_name.'))
+            if config_for == d_vnic['if_name']:
+                # modify existing SE object
+                for key, val in obj.iteritems():
+                    d_vnic[key] = val
+            if config_for == d_vnic['if_name']:
+                for key, val in obj.iteritems():
+                    d_vnic[key] = val
     module.params.update(se_obj)
     module.params.update(
         {
