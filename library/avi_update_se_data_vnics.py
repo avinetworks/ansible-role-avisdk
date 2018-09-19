@@ -27,6 +27,65 @@ extends_documentation_fragment:
     - avi
 '''
 
+EXAMPLES = '''
+  - name: Update data vnics and vlan interfaces
+      avi_update_se_data_vnics:
+        controller: 10.10.28.102
+        username: admin
+        password: avi123$%
+        api_version: 18.1.4
+        data_vnics_config:
+        - config_for: "eth3"
+          is_asm: false
+          can_se_dp_takeover: true
+          is_hsm: false
+          is_avi_internal_network: false
+          enabled: true
+          if_name: "eth1"
+          dhcp_enabled: false
+          del_pending: false
+          linux_name: "eth3"
+          is_mgmt: false
+          connected: true
+          vlan_interfaces:
+            - dhcp_enabled: true
+              if_name: "eth3"
+              ip6_autocfg_enabled: false
+              is_mgmt: false
+              vlan_id: 0
+              vnic_networks:
+                - ip:
+                    ip_addr:
+                      addr: "10.161.56.155"
+                      type: "V4"
+                    mask: 24
+                  mode: "STATIC"
+                  ctlr_alloc: false
+              vrf_ref: "https://10.10.28.102/api/vrfcontext/vrfcontext-47f8a632-3ab4-427d-9084-433bc06da26d"
+          vnic_networks:
+            - ip:
+                ip_addr:
+                  addr: "10.161.56.154"
+                  type: "V4"
+                mask: 24
+              mode: "STATIC"
+              ctlr_alloc: false
+          vrf_id: 0
+          aggregator_chgd: false
+          mtu: 1500
+          vrf_ref: "https://10.10.28.102/api/vrfcontext/vrfcontext-47f8a632-3ab4-427d-9084-433bc06da26d"
+          ip6_autocfg_enabled: false
+          vlan_id: 0
+          is_portchannel: false
+'''
+
+RETURN = '''
+obj:
+    description: Avi REST resource
+    returned: success, changed
+    type: dict
+'''
+
 
 from ansible.module_utils.basic import AnsibleModule
 try:
@@ -70,10 +129,13 @@ def main():
     data_vnics_config = module.params['data_vnics_config']
     for d_vnic in se_obj['data_vnics']:
         for obj in data_vnics_config:
-            config_for = obj.get('config_for', None)
+            config_for = obj.get('linux_name', None)
+            if not config_for:
+                return module.fail_json(msg=(
+                    'linux_name in configuration is mandatory. Please provide correct linux name.'))
             if 'eth' in config_for and 'eth' in d_vnic['linux_name']:
                 if config_for == d_vnic['linux_name']:
-                    # modify existing object
+                    # modify existing SE object
                     for key, val in obj.iteritems():
                         d_vnic[key] = val
             elif 'bond' in config_for and 'bond' in d_vnic['linux_name']:
