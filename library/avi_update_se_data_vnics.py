@@ -17,12 +17,15 @@ DOCUMENTATION = '''
 module: avi_update_se_data_vnics
 author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
 
-short_description: Module for update se data vnic ips 
+short_description: Module to update Service Engine's data vnics/vlans configurations.
 requirements: [ avisdk ]
 options:
     data_vnics_config:
         description:
-            - vnic and vlan configs with their ips.
+            - Placeholder for description of property data_vnics of obj type ServiceEngine field.
+              Here you can specify configuration for data_vnics property of a service engine.
+              For more details you can refer to swagger specs https://{controller_ip}/swagger/
+              From above link you can find configurable fields under data_vnics property of a service engine.
 extends_documentation_fragment:
     - avi
 '''
@@ -30,18 +33,18 @@ extends_documentation_fragment:
 EXAMPLES = '''
   - name: Update data vnics and vlan interfaces
       avi_update_se_data_vnics:
-        controller: 10.10.28.102
-        username: admin
-        password: avi123$%
-        api_version: 18.1.4
+        avi_credentials:
+          controller: "10.10.28.102"
+          username: "username"
+          password: "password"
+          api_version: 18.1.3
         data_vnics_config:
-        - config_for: "eth3"
+        - if_name: "eth1"
           is_asm: false
           can_se_dp_takeover: true
           is_hsm: false
           is_avi_internal_network: false
           enabled: true
-          if_name: "eth1"
           dhcp_enabled: false
           del_pending: false
           linux_name: "eth3"
@@ -132,7 +135,7 @@ def main():
             config_for = obj.get('if_name', None)
             if not config_for:
                 return module.fail_json(msg=(
-                    'if_name in configuration is mandatory. Please provide if_name.'))
+                    "if_name in a configuration is mandatory. Please provide if_name i.e. vnic's interface name."))
             if config_for == d_vnic['if_name']:
                 # modify existing SE object
                 for key, val in obj.iteritems():
