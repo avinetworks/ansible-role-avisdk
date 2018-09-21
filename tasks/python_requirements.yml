@@ -1,0 +1,12 @@
+---
+- name: AviSDK | Requirements | python pip package is installed
+  command: which pip
+  changed_when: false
+
+- name: AviSDK | Requirements | avisdk python package is installed
+  command: pip show avisdk
+  changed_when: false
+
+- name: AviSDK | Requirements | requests-toolbelt python package is installed
+  command: pip show requests-toolbelt
+  changed_when: false

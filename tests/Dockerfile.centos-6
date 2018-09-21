@@ -5,7 +5,7 @@ RUN yum -y update; yum clean all;
 RUN yum -y install epel-release
 RUN yum -y install git ansible sudo
 RUN yum -y install python-pip
-RUN pip install avisdk
+RUN pip install avisdk requests-toolbelt
 RUN yum clean all
 
 # Disable requiretty
