@@ -41,6 +41,10 @@ options:
     old_password:
         description:
             - Old password for update password or default password for bootstrap.
+    try_old_password:
+        description:
+            - If specifically set to true then old password is tried first for controller and then the new password is 
+              tried. If not specified this flag then the new password is tried first.
 
 extends_documentation_fragment:
     - avi
@@ -54,11 +58,13 @@ EXAMPLES = '''
       password: new_password
       old_password: ""
       api_version: ""
+      try_old_password: false
 
   - name: Update user password using avi_credentials
     avi_useraccount:
       avi_credentials: ""
       old_password: ""
+      try_old_password: false
 '''
 
 RETURN = '''
@@ -94,7 +100,10 @@ except ImportError:
 
 def main():
     argument_specs = dict(
-        old_password=dict(type='str', required=True, no_log=True)
+        old_password=dict(type='str', required=True, no_log=True),
+        # Flag to specify priority of old/new password while establishing session with controller.
+        # To handle both Saas and conventional (Entire state in playbook) scenario.
+        try_old_password=dict(type='bool', default=False)
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs)
@@ -106,27 +115,34 @@ def main():
 
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
-    password_updated = False
     old_password = module.params.get('old_password')
+    try_old_password_first = module.params.get('try_old_password', False)
     data = {
         'old_password': old_password,
         'password': api_creds.password
     }
+    # First try old password if 'try_old_password' is set to true
+    if try_old_password_first:
+        first_pwd = old_password
+        second_pwd = api_creds.password
+    # First try new password if 'try_old_password' is set to false or not specified in playbook.
+    else:
+        first_pwd = api_creds.password
+        second_pwd = old_password
     password_changed = False
     try:
         api = ApiSession.get_session(
             api_creds.controller, api_creds.username,
-            password=api_creds.password, timeout=api_creds.timeout,
+            password=first_pwd, timeout=api_creds.timeout,
             tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
             token=api_creds.token, port=api_creds.port)
         password_changed = True
         return ansible_return(module, None, False, req=data)
     except:
         pass
-
     if not password_changed:
         api = ApiSession.get_session(
-            api_creds.controller, api_creds.username, password=old_password,
+            api_creds.controller, api_creds.username, password=second_pwd,
             timeout=api_creds.timeout, tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
             port=api_creds.port)
