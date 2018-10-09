@@ -41,7 +41,7 @@ options:
     old_password:
         description:
             - Old password for update password or default password for bootstrap.
-    force_pwd:
+    force_change:
         description:
             - If specifically set to true then old password is tried first for controller and then the new password is 
               tried. If not specified this flag then the new password is tried first.
@@ -58,13 +58,13 @@ EXAMPLES = '''
       password: new_password
       old_password: ""
       api_version: ""
-      force_pwd: false
+      force_change: false
 
   - name: Update user password using avi_credentials
     avi_useraccount:
       avi_credentials: ""
       old_password: ""
-      force_pwd: false
+      force_change: false
 '''
 
 RETURN = '''
@@ -103,7 +103,7 @@ def main():
         old_password=dict(type='str', required=True, no_log=True),
         # Flag to specify priority of old/new password while establishing session with controller.
         # To handle both Saas and conventional (Entire state in playbook) scenario.
-        force_pwd=dict(type='bool', default=False)
+        force_change=dict(type='bool', default=False)
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs)
@@ -116,16 +116,16 @@ def main():
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     old_password = module.params.get('old_password')
-    force_pwd = module.params.get('force_pwd', False)
+    force_change = module.params.get('force_change', False)
     data = {
         'old_password': old_password,
         'password': api_creds.password
     }
-    # First try old password if 'force_pwd' is set to true
-    if force_pwd:
+    # First try old password if 'force_change' is set to true
+    if force_change:
         first_pwd = old_password
         second_pwd = api_creds.password
-    # First try new password if 'force_pwd' is set to false or not specified in playbook.
+    # First try new password if 'force_change' is set to false or not specified in playbook.
     else:
         first_pwd = api_creds.password
         second_pwd = old_password
