@@ -275,7 +275,8 @@ def main():
         url=dict(type='str',),
         uuid=dict(type='str',),
         vca_configuration=dict(type='dict',),
-        vcenter_configuration=dict(type='dict',),
+        # Added no_log=True as vcenter_configuration contains sensitive fields.
+        vcenter_configuration=dict(type='dict', no_log=True),
         vtype=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
