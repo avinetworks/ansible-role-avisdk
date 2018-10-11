@@ -177,7 +177,7 @@ def main():
 
     #API methods not allowed
     api_get_not_allowed = ["cluster", "gslbsiteops"]
-    api_post_not_allowed = ["alert"]
+    api_post_not_allowed = ["alert", "fileservice"]
     api_put_not_allowed = ["backup"]
 
     if method == 'post' and not any(path.startswith(uri) for uri in api_post_not_allowed):
