@@ -136,8 +136,13 @@ def main():
             password=first_pwd, timeout=api_creds.timeout,
             tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
             token=api_creds.token, port=api_creds.port)
+        if force_change:
+            rsp = api.put('useraccount', data=data)
+            if rsp:
+                password_changed = True
+                return ansible_return(module, rsp, True, req=data)
         password_changed = True
-        return ansible_return(module, None, False, req=data)
+        return module.exit_json(changed=False, obj=data)
     except:
         pass
     if not password_changed:
@@ -146,9 +151,10 @@ def main():
             timeout=api_creds.timeout, tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
             port=api_creds.port)
-        rsp = api.put('useraccount', data=data)
-        if rsp:
-            return ansible_return(module, rsp, True, req=data)
+        if not force_change:
+            rsp = api.put('useraccount', data=data)
+            if rsp:
+                return ansible_return(module, rsp, True, req=data)
         return module.exit_json(changed=False, obj=data)
 
 
