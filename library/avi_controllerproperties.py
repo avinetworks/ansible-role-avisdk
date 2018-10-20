@@ -100,6 +100,12 @@ options:
             - Field introduced in 18.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.7"
+    cloud_reconcile:
+        description:
+            - Enable/disable periodic reconcile for all the clouds.
+            - Field introduced in 17.2.14,18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     cluster_ip_gratuitous_arp_period:
         description:
             - Period for cluster ip gratuitous arp job.
@@ -125,6 +131,12 @@ options:
     dummy:
         description:
             - Number of dummy.
+    enable_api_sharding:
+        description:
+            - This setting enables the controller leader to shard api requests to the followers (if any).
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     enable_memory_balancer:
         description:
             - Enable/disable memory balancer.
@@ -298,7 +310,7 @@ options:
     warmstart_se_reconnect_wait_time:
         description:
             - Number of warmstart_se_reconnect_wait_time.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 480.
     warmstart_vs_resync_wait_time:
         description:
             - Timeout for warmstart vs resync.
@@ -360,12 +372,14 @@ def main():
         bm_use_ansible=dict(type='bool',),
         cleanup_expired_authtoken_timeout_period=dict(type='int',),
         cleanup_sessions_timeout_period=dict(type='int',),
+        cloud_reconcile=dict(type='bool',),
         cluster_ip_gratuitous_arp_period=dict(type='int',),
         consistency_check_timeout_period=dict(type='int',),
         crashed_se_reboot=dict(type='int',),
         dead_se_detection_timer=dict(type='int',),
         dns_refresh_period=dict(type='int',),
         dummy=dict(type='int',),
+        enable_api_sharding=dict(type='bool',),
         enable_memory_balancer=dict(type='bool',),
         fatal_error_lease_time=dict(type='int',),
         max_dead_se_in_grp=dict(type='int',),

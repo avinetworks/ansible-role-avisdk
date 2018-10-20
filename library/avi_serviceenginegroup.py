@@ -42,6 +42,14 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+    accelerated_networking:
+        description:
+            - Enable acclerated networking option for azure se.
+            - Accelerated networking enables single root i/o virtualization (sr-iov) to a se vm.
+            - This improves networking performance.
+            - Field introduced in 17.2.14,18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     active_standby:
         description:
             - Service engines in active/standby mode for ha failover.
@@ -774,7 +782,21 @@ options:
     vs_scaleout_timeout:
         description:
             - Time to wait for the scaled out se to become ready before marking the scaleout done.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 30.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 600.
+    vs_se_scaleout_additional_wait_time:
+        description:
+            - Wait time for sending scaleout ready notification after virtual service is marked up.
+            - In certain deployments, there may be an additional delay to accept traffic.
+            - For example, for bgp, some time is needed for route advertisement.
+            - Allowed values are 0-20.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    vs_se_scaleout_ready_timeout:
+        description:
+            - Timeout in seconds for service engine to sendscaleout ready notification of a virtual service.
+            - Allowed values are 0-60.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 25.
     vs_switchover_timeout:
         description:
             - During se upgrade in a legacy active/standby segroup, time to wait for the new primary se to accept flows before marking the switchover done.
@@ -864,6 +886,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        accelerated_networking=dict(type='bool',),
         active_standby=dict(type='bool',),
         additional_config_memory=dict(type='int',),
         advertise_backend_networks=dict(type='bool',),
@@ -998,6 +1021,8 @@ def main():
         vs_scalein_timeout=dict(type='int',),
         vs_scalein_timeout_for_upgrade=dict(type='int',),
         vs_scaleout_timeout=dict(type='int',),
+        vs_se_scaleout_additional_wait_time=dict(type='int',),
+        vs_se_scaleout_ready_timeout=dict(type='int',),
         vs_switchover_timeout=dict(type='int',),
         vss_placement=dict(type='dict',),
         vss_placement_enabled=dict(type='bool',),
