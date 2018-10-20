@@ -55,6 +55,11 @@ options:
             - Priority of this pool in a a-b pool pair.
             - Internally used.
             - Field deprecated in 18.1.2.
+    analytics_profile_ref:
+        description:
+            - Specifies settings related to analytics.
+            - It is a reference to an object of type analyticsprofile.
+            - Field introduced in 18.1.4.
     apic_epg_name:
         description:
             - Synchronize cisco apic epg members with pool servers.
@@ -390,6 +395,7 @@ def main():
         a_pool=dict(type='str',),
         ab_pool=dict(type='dict',),
         ab_priority=dict(type='int',),
+        analytics_profile_ref=dict(type='str',),
         apic_epg_name=dict(type='str',),
         application_persistence_profile_ref=dict(type='str',),
         autoscale_launch_config_ref=dict(type='str',),

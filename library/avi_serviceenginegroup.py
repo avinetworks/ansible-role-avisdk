@@ -42,6 +42,14 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+    accelerated_networking:
+        description:
+            - Enable acclerated networking option for azure se.
+            - Accelerated networking enables single root i/o virtualization (sr-iov) to a se vm.
+            - This improves networking performance.
+            - Field introduced in 17.2.14,18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     active_standby:
         description:
             - Service engines in active/standby mode for ha failover.
@@ -126,6 +134,12 @@ options:
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
+    config_debugs_on_all_cores:
+        description:
+            - Enable config debugs on all cores of se.
+            - Field introduced in 17.2.13,18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     connection_memory_percentage:
         description:
             - Percentage of memory for connection state.
@@ -164,6 +178,15 @@ options:
     description:
         description:
             - User defined description for the object.
+    disable_avi_securitygroups:
+        description:
+            - By default, avi creates and manages security groups along with custom sg provided by user.
+            - Set this to true to disallow avi to create and manage new security groups.
+            - Avi will only make use of custom security groups provided by user.
+            - This option is only supported for aws cloud type.
+            - Field introduced in 17.2.13,18.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     disable_csum_offloads:
         description:
             - Stop using tcp/udp and ip checksum offload features of nics.
@@ -542,6 +565,18 @@ options:
             - Allowed values are 0-2.
             - Field introduced in 18.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    se_flow_probe_retries:
+        description:
+            - Flow probe retry count if no replies are received.
+            - Allowed values are 0-5.
+            - Field introduced in 18.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+    se_flow_probe_timer:
+        description:
+            - Timeout in milliseconds for flow probe entries.
+            - Allowed values are 10-200.
+            - Field introduced in 18.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
     se_ipc_udp_port:
         description:
             - Udp port for se_dp ipc in docker bridge mode.
@@ -747,7 +782,26 @@ options:
     vs_scaleout_timeout:
         description:
             - Time to wait for the scaled out se to become ready before marking the scaleout done.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 30.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 600.
+    vs_se_scaleout_additional_wait_time:
+        description:
+            - Wait time for sending scaleout ready notification after virtual service is marked up.
+            - In certain deployments, there may be an additional delay to accept traffic.
+            - For example, for bgp, some time is needed for route advertisement.
+            - Allowed values are 0-20.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    vs_se_scaleout_ready_timeout:
+        description:
+            - Timeout in seconds for service engine to sendscaleout ready notification of a virtual service.
+            - Allowed values are 0-60.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 25.
+    vs_switchover_timeout:
+        description:
+            - During se upgrade in a legacy active/standby segroup, time to wait for the new primary se to accept flows before marking the switchover done.
+            - Field introduced in 17.2.13,18.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     vss_placement:
         description:
             - Parameters to place virtual services on only a subset of the cores of an se.
@@ -832,6 +886,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        accelerated_networking=dict(type='bool',),
         active_standby=dict(type='bool',),
         additional_config_memory=dict(type='int',),
         advertise_backend_networks=dict(type='bool',),
@@ -848,6 +903,7 @@ def main():
         auto_redistribute_active_standby_load=dict(type='bool',),
         buffer_se=dict(type='int',),
         cloud_ref=dict(type='str',),
+        config_debugs_on_all_cores=dict(type='bool',),
         connection_memory_percentage=dict(type='int',),
         cpu_reserve=dict(type='bool',),
         cpu_socket_affinity=dict(type='bool',),
@@ -856,6 +912,7 @@ def main():
         custom_tag=dict(type='list',),
         dedicated_dispatcher_core=dict(type='bool',),
         description=dict(type='str',),
+        disable_avi_securitygroups=dict(type='bool',),
         disable_csum_offloads=dict(type='bool',),
         disable_gro=dict(type='bool',),
         disable_se_memory_check=dict(type='bool',),
@@ -924,6 +981,8 @@ def main():
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
         se_dpdk_pmd=dict(type='int',),
+        se_flow_probe_retries=dict(type='int',),
+        se_flow_probe_timer=dict(type='int',),
         se_ipc_udp_port=dict(type='int',),
         se_name_prefix=dict(type='str',),
         se_pcap_reinit_frequency=dict(type='int',),
@@ -962,6 +1021,9 @@ def main():
         vs_scalein_timeout=dict(type='int',),
         vs_scalein_timeout_for_upgrade=dict(type='int',),
         vs_scaleout_timeout=dict(type='int',),
+        vs_se_scaleout_additional_wait_time=dict(type='int',),
+        vs_se_scaleout_ready_timeout=dict(type='int',),
+        vs_switchover_timeout=dict(type='int',),
         vss_placement=dict(type='dict',),
         vss_placement_enabled=dict(type='bool',),
         waf_learning_interval=dict(type='int',),

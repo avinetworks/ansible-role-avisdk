@@ -174,6 +174,14 @@ options:
             - Additionally, no healthscore of servers is computed when server analytics is disabled.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    enable_advanced_analytics:
+        description:
+            - Enables advanced analytics features like anomaly detection.
+            - If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be disabled.
+            - However, setting it to false reduces cpu and memory requirements for analytics subsystem.
+            - Field introduced in 17.2.13, 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     exclude_client_close_before_request_as_error:
         description:
             - Exclude client closed connection before an http request could be completed from being classified as an error.
@@ -246,6 +254,13 @@ options:
             - Exclude unsupported dns queries from the list of errors.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    healthscore_max_server_limit:
+        description:
+            - Skips health score computation of pool servers when number of servers in a pool is more than this setting.
+            - Allowed values are 0-5000.
+            - Special values are 0- 'server health score is disabled'.
+            - Field introduced in 17.2.13, 18.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
     hs_event_throttle_window:
         description:
             - Time window (in secs) within which only unique health change events should occur.
@@ -525,6 +540,7 @@ def main():
         disable_ondemand_metrics=dict(type='bool',),
         disable_se_analytics=dict(type='bool',),
         disable_server_analytics=dict(type='bool',),
+        enable_advanced_analytics=dict(type='bool',),
         exclude_client_close_before_request_as_error=dict(type='bool',),
         exclude_dns_policy_drop_as_significant=dict(type='bool',),
         exclude_gs_down_as_error=dict(type='bool',),
@@ -539,6 +555,7 @@ def main():
         exclude_syn_retransmit_as_error=dict(type='bool',),
         exclude_tcp_reset_as_error=dict(type='bool',),
         exclude_unsupported_dns_query_as_error=dict(type='bool',),
+        healthscore_max_server_limit=dict(type='int',),
         hs_event_throttle_window=dict(type='int',),
         hs_max_anomaly_penalty=dict(type='int',),
         hs_max_resources_penalty=dict(type='int',),

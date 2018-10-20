@@ -196,7 +196,7 @@ def main():
                 existing_obj = rsp.json()
                 if using_collection:
                     existing_obj = existing_obj['results'][0]
-        except IndexError:
+        except (IndexError, KeyError):
             # object is not found
             pass
         else:

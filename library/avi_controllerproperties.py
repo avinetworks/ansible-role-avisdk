@@ -61,6 +61,12 @@ options:
         description:
             - Allowed values are 0-1440.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
+    api_perf_logging_threshold:
+        description:
+            - Threshold to log request timing in portal_performance.log and server-timing response header.
+            - Any stage taking longer than 1% of the threshold will be included in the server-timing header.
+            - Field introduced in 18.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10000.
     appviewx_compat_mode:
         description:
             - Export configuration in appviewx compatibility mode.
@@ -94,6 +100,12 @@ options:
             - Field introduced in 18.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.7"
+    cloud_reconcile:
+        description:
+            - Enable/disable periodic reconcile for all the clouds.
+            - Field introduced in 17.2.14,18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     cluster_ip_gratuitous_arp_period:
         description:
             - Period for cluster ip gratuitous arp job.
@@ -119,6 +131,12 @@ options:
     dummy:
         description:
             - Number of dummy.
+    enable_api_sharding:
+        description:
+            - This setting enables the controller leader to shard api requests to the followers (if any).
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     enable_memory_balancer:
         description:
             - Enable/disable memory balancer.
@@ -188,6 +206,12 @@ options:
         description:
             - Interval between attempting failovers to an se.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
+    se_from_marketplace:
+        description:
+            - This setting decides whether se is to be deployed from the cloud marketplace or to be created by the controller.
+            - The setting is applicable only when byol license is selected.
+            - Enum options - MARKETPLACE, IMAGE.
+            - Field introduced in 18.1.4, 18.2.1.
     se_offline_del:
         description:
             - Number of se_offline_del.
@@ -286,6 +310,11 @@ options:
     warmstart_se_reconnect_wait_time:
         description:
             - Number of warmstart_se_reconnect_wait_time.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 480.
+    warmstart_vs_resync_wait_time:
+        description:
+            - Timeout for warmstart vs resync.
+            - Field introduced in 18.1.4.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
 extends_documentation_fragment:
     - avi
@@ -336,18 +365,21 @@ def main():
         allow_unauthenticated_apis=dict(type='bool',),
         allow_unauthenticated_nodes=dict(type='bool',),
         api_idle_timeout=dict(type='int',),
+        api_perf_logging_threshold=dict(type='int',),
         appviewx_compat_mode=dict(type='bool',),
         attach_ip_retry_interval=dict(type='int',),
         attach_ip_retry_limit=dict(type='int',),
         bm_use_ansible=dict(type='bool',),
         cleanup_expired_authtoken_timeout_period=dict(type='int',),
         cleanup_sessions_timeout_period=dict(type='int',),
+        cloud_reconcile=dict(type='bool',),
         cluster_ip_gratuitous_arp_period=dict(type='int',),
         consistency_check_timeout_period=dict(type='int',),
         crashed_se_reboot=dict(type='int',),
         dead_se_detection_timer=dict(type='int',),
         dns_refresh_period=dict(type='int',),
         dummy=dict(type='int',),
+        enable_api_sharding=dict(type='bool',),
         enable_memory_balancer=dict(type='bool',),
         fatal_error_lease_time=dict(type='int',),
         max_dead_se_in_grp=dict(type='int',),
@@ -362,6 +394,7 @@ def main():
         safenet_hsm_version=dict(type='str',),
         se_create_timeout=dict(type='int',),
         se_failover_attempt_interval=dict(type='int',),
+        se_from_marketplace=dict(type='str',),
         se_offline_del=dict(type='int',),
         se_vnic_cooldown=dict(type='int',),
         secure_channel_cleanup_timeout=dict(type='int',),
@@ -386,6 +419,7 @@ def main():
         vs_se_vnic_fail=dict(type='int',),
         vs_se_vnic_ip_fail=dict(type='int',),
         warmstart_se_reconnect_wait_time=dict(type='int',),
+        warmstart_vs_resync_wait_time=dict(type='int',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(

@@ -34,10 +34,10 @@ EXAMPLES = '''
   - name: Update data vnics and vlan interfaces
       avi_update_se_data_vnics:
         avi_credentials:
-          controller: "10.10.28.102"
-          username: "username"
-          password: "password"
-          api_version: 18.1.3
+          controller: "{{ controller }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+          api_version: "18.1.3"
         data_vnics_config:
         - if_name: "eth1"
           is_asm: false
@@ -89,11 +89,12 @@ obj:
     type: dict
 '''
 
-
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from avi.sdk.utils.ansible_utils import (
+        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
+        ansible_return)
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
@@ -137,7 +138,7 @@ def main():
                 return module.fail_json(msg=(
                     "if_name in a configuration is mandatory. Please provide if_name i.e. vnic's interface name."))
             if config_for == d_vnic['if_name']:
-                # modify existing SE object
+                # modify existing object
                 for key, val in obj.iteritems():
                     d_vnic[key] = val
             if config_for == d_vnic['if_name']:

@@ -87,6 +87,10 @@ options:
     proxy_configuration:
         description:
             - Proxyconfiguration settings for systemconfiguration.
+    secure_channel_configuration:
+        description:
+            - Configure secure channel properties.
+            - Field introduced in 18.1.4, 18.2.1.
     snmp_configuration:
         description:
             - Snmpconfiguration settings for systemconfiguration.
@@ -163,6 +167,7 @@ def main():
         ntp_configuration=dict(type='dict',),
         portal_configuration=dict(type='dict',),
         proxy_configuration=dict(type='dict',),
+        secure_channel_configuration=dict(type='dict',),
         snmp_configuration=dict(type='dict',),
         ssh_ciphers=dict(type='list',),
         ssh_hmacs=dict(type='list',),
