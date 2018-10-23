@@ -120,11 +120,54 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create Gslb object
   avi_gslb:
-    controller: 10.10.25.42
-    username: admin
-    password: something
-    state: present
-    name: sample_gslb
+    name: "test-gslb"
+    avi_credentials:
+      username: "username"
+      password: "password"
+      controller: "10.10.28.83"
+    sites:
+      - name: "test-site1"
+        username: "gslb_username"
+        password: "gslb_password"
+        ip_addresses:
+          - type: "V4"
+            addr: "10.10.28.83"
+        enabled: True
+        member_type: "GSLB_ACTIVE_MEMBER"
+        port: 443
+        cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
+      - name: "test-site2"
+        username: "gslb_username"
+        password: "gslb_password"
+        ip_addresses:
+          - type: "V4"
+            addr: "10.10.28.102"
+        enabled: True
+        member_type: "GSLB_ACTIVE_MEMBER"
+        port: 443
+        cluster_uuid: "cluster-0c37ae8d-ab62-410c-ad3e-06fa831950b1"
+    dns_configs:
+      - domain_name: "test1.com"
+      - domain_name: "test2.com"
+    leader_cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
+
+- name: Configure dns_vses for sites
+  avi_gslb:
+    avi_credentials:
+      username: "username"
+      password: "password"
+      controller: "10.10.28.83"
+    avi_api_update_method: patch
+    leader_cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
+      name: "test-gslb"
+      state: present
+      gslb_sites_config:
+        - ip_addr: "10.10.28.83"
+          dns_vses:
+            - dns_vs_uuid: "virtualservice-f2a711cd-5e78-473f-8f47-d12de660fd62"
+        - ip_addr: "10.10.28.102"
+          dns_vses:
+            - dns_vs_uuid: "virtualservice-c1a63a16-f2a1-4f41-aab4-1e90f92a5e49"
 """
 
 RETURN = '''
@@ -137,6 +180,7 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from avi.sdk.avi_api import ApiSession, AviCredentials
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
@@ -162,6 +206,7 @@ def main():
         client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
+        gslb_sites_config=dict(type='list', ),
         is_federated=dict(type='bool',),
         leader_cluster_uuid=dict(type='str', required=True),
         maintenance_mode=dict(type='bool',),
@@ -181,8 +226,46 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'gslb',
-                           set([]))
+    api_method = module.params['avi_api_update_method']
+    if str(api_method).lower() == "patch":
+        # Create controller session
+        api_creds = AviCredentials()
+        api_creds.update_from_ansible_module(module)
+        api = ApiSession.get_session(
+            api_creds.controller, api_creds.username, password=api_creds.password,
+            timeout=api_creds.timeout, tenant=api_creds.tenant,
+            tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
+            port=api_creds.port)
+        # Get existing gslb objects
+        rsp = api.get('gslb', api_version=api_creds.api_version)
+        existing_gslb = rsp.json()
+        gslb = existing_gslb['results']
+        sites = module.params['gslb_sites_config']
+        state = module.params['state']
+        for gslb_obj in gslb:
+            for site_obj in gslb_obj['sites']:
+                for obj in sites:
+                    config_for = obj.get('ip_addr', None)
+                    if not config_for:
+                        return module.fail_json(msg=(
+                            "ip_addr of site in a configuration is mandatory. "
+                            "Please provide ip_addr i.e. gslb site's ip."))
+                    if config_for == site_obj['ip_addresses'][0]['addr']:
+                        if state == 'absent':
+                            site_obj['dns_vses'] = []
+                        else:
+                            # Modify existing gslb sites object
+                            for key, val in obj.iteritems():
+                                site_obj[key] = val
+        module.params.update(gslb_obj)
+        module.params.update(
+            {
+                'avi_api_update_method': 'put',
+                'state': 'present'
+            }
+        )
+    return avi_ansible_api(module, 'gslb', set([]))
+
 
 if __name__ == '__main__':
     main()
