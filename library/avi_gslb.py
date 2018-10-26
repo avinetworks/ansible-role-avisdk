@@ -17,6 +17,7 @@ DOCUMENTATION = '''
 ---
 module: avi_gslb
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+        Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
 
 short_description: Module for setup of Gslb Avi RESTful Object
 description:
@@ -151,23 +152,31 @@ EXAMPLES = """
       - domain_name: "test2.com"
     leader_cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
 
-- name: Configure dns_vses for sites
+- name: Update gslb object
   avi_gslb:
     avi_credentials:
-      username: "username"
-      password: "password"
-      controller: "10.10.28.83"
-    avi_api_update_method: patch
-    leader_cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
-      name: "test-gslb"
-      state: present
-      gslb_sites_config:
-        - ip_addr: "10.10.28.83"
-          dns_vses:
-            - dns_vs_uuid: "virtualservice-f2a711cd-5e78-473f-8f47-d12de660fd62"
-        - ip_addr: "10.10.28.102"
-          dns_vses:
-            - dns_vs_uuid: "virtualservice-c1a63a16-f2a1-4f41-aab4-1e90f92a5e49"
+      api_version: '{{ api_version }}'
+      username: "{{ avi_username }}"
+      password: "{{ avi_password }}"
+      controller: "{{ avi_controller }}"
+    leader_cluster_uuid: "cluster-84aa795f-8f09-42bb-97a4-5103f4a53da9"
+    name: "test-gslb"
+    state: present
+    dns_configs:
+      - domain_name: "temp.com"
+      - domain_name: "test.com"
+    gslb_sites_config:
+      # Ip address is mapping key for dns_vses field update. For the given IP address,
+      # dns_vses is updated.
+      - ip_addr: "10.10.28.83"
+        dns_vses:
+          - dns_vs_uuid: "virtualservice-7c947ed4-77f3-4a52-909c-4f12afaf5bb0"
+            domain_names:
+              - "temp.com"
+              - "test.com"
+      - ip_addr: "10.10.28.86"
+         dns_vses:
+           - dns_vs_uuid: "virtualservice-799b2c6d-7f2d-4c3f-94c6-6e813b20b674"
 """
 
 RETURN = '''
@@ -226,8 +235,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    api_method = module.params['avi_api_update_method']
-    if str(api_method).lower() == "patch":
+    if 'gslb_sites_config' in module.params:
         # Create controller session
         api_creds = AviCredentials()
         api_creds.update_from_ansible_module(module)
@@ -243,6 +251,12 @@ def main():
         sites = module.params['gslb_sites_config']
         state = module.params['state']
         for gslb_obj in gslb:
+            # Update domain names in dns_configs fields in gslb object.
+            if 'dns_configs' in module.params:
+                if gslb_obj['leader_cluster_uuid'] == module.params['leader_cluster_uuid']:
+                    gslb_obj['dns_configs'] = module.params['dns_configs']
+                    if state == 'absent':
+                        gslb_obj['dns_configs'] = []
             for site_obj in gslb_obj['sites']:
                 for obj in sites:
                     config_for = obj.get('ip_addr', None)
@@ -257,7 +271,7 @@ def main():
                             # Modify existing gslb sites object
                             for key, val in obj.iteritems():
                                 site_obj[key] = val
-        module.params.update(gslb_obj)
+            module.params.update(gslb_obj)
         module.params.update(
             {
                 'avi_api_update_method': 'put',
