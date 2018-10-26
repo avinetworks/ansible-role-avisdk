@@ -397,7 +397,6 @@ Wafprofile = {
 	"name": "Test-WAF-Profile",
 	"tenant_ref": "/api/tenant/?name=admin",
 	"config": {
-		"client_nonfile_upload_max_body_size": 128,
 		"regex_match_limit": 1500,
 		"allowed_request_content_types": [
 			"application/x-www-form-urlencoded",
@@ -438,7 +437,6 @@ Wafprofile = {
 			".asax",
 			".ascx"
 		],
-		"client_file_upload_max_body_size": 1024,
 		"cookie_format_version": 0,
 		"restricted_headers": [
 			"Proxy-Connection",
@@ -980,7 +978,7 @@ ErrorPageProfile = {
 import os
 Gslb = {
 	"clear_on_max_retries": 20,
-	"leader_cluster_uuid": "cluster-57c74b9e-551b-49f9-ba1c-d83a1acd2d19",
+	"leader_cluster_uuid": "cluster-97402a23-3490-4f71-8109-d8195b541644",
 	"client_ip_addr_group": {
 		"type": "GSLB_IP_PUBLIC"
 	},
@@ -995,7 +993,7 @@ Gslb = {
 	"send_interval": 15,
 	"sites": [
 		{
-			"cluster_uuid": "cluster-57c74b9e-551b-49f9-ba1c-d83a1acd2d19",
+			"cluster_uuid": "cluster-97402a23-3490-4f71-8109-d8195b541644",
 			"enabled": True,
 			"ip_addresses": [
 				{
