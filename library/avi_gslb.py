@@ -235,7 +235,9 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    if 'gslb_sites_config' in module.params:
+    api_method = module.params['avi_api_update_method']
+    if str(api_method).lower() == 'patch':
+        patch_op = module.params['avi_api_patch_op']
         # Create controller session
         api_creds = AviCredentials()
         api_creds.update_from_ansible_module(module)
@@ -249,28 +251,49 @@ def main():
         existing_gslb = rsp.json()
         gslb = existing_gslb['results']
         sites = module.params['gslb_sites_config']
-        state = module.params['state']
         for gslb_obj in gslb:
-            # Update domain names in dns_configs fields in gslb object.
+            # Update/Delete domain names in dns_configs fields in gslb object.
             if 'dns_configs' in module.params:
                 if gslb_obj['leader_cluster_uuid'] == module.params['leader_cluster_uuid']:
-                    gslb_obj['dns_configs'] = module.params['dns_configs']
-                    if state == 'absent':
+                    if str(patch_op).lower() == 'delete':
                         gslb_obj['dns_configs'] = []
-            for site_obj in gslb_obj['sites']:
-                for obj in sites:
-                    config_for = obj.get('ip_addr', None)
-                    if not config_for:
-                        return module.fail_json(msg=(
-                            "ip_addr of site in a configuration is mandatory. "
-                            "Please provide ip_addr i.e. gslb site's ip."))
-                    if config_for == site_obj['ip_addresses'][0]['addr']:
-                        if state == 'absent':
-                            site_obj['dns_vses'] = []
-                        else:
-                            # Modify existing gslb sites object
-                            for key, val in obj.iteritems():
-                                site_obj[key] = val
+                    elif str(patch_op).lower() == 'add':
+                        if module.params['dns_configs'] not in gslb_obj['dns_configs']:
+                            gslb_obj['dns_configs'].extend(module.params['dns_configs'])
+                    else:
+                        gslb_obj['dns_configs'] = module.params['dns_configs']
+            # Update/Delete sites configuration
+            if sites:
+                for site_obj in gslb_obj['sites']:
+                    dns_vses = site_obj.get('dns_vses', [])
+                    for obj in sites:
+                        config_for = obj.get('ip_addr', None)
+                        if not config_for:
+                            return module.fail_json(msg=(
+                                "ip_addr of site in a configuration is mandatory. "
+                                "Please provide ip_addr i.e. gslb site's ip."))
+                        if config_for == site_obj['ip_addresses'][0]['addr']:
+                            if str(patch_op).lower() == 'delete':
+                                site_obj['dns_vses'] = []
+                            else:
+                                # Modify existing gslb sites object
+                                for key, val in obj.iteritems():
+                                    if key == 'dns_vses' and str(patch_op).lower() == 'add':
+                                        found = False
+                                        # Check dns_vses field already exists on the controller
+                                        for v in dns_vses:
+                                            if val[0]['dns_vs_uuid'] != v['dns_vs_uuid']:
+                                                found = True
+                                                break
+                                        if not found:
+                                            dns_vses.extend(val)
+                                    else:
+                                        site_obj[key] = val
+                                if str(patch_op).lower() == 'add':
+                                    site_obj['dns_vses'] = dns_vses
+            uni_dns_configs = [dict(tupleized) for tupleized in set(tuple(item.items())
+                                                                    for item in gslb_obj['dns_configs'])]
+            gslb_obj['dns_configs'] = uni_dns_configs
             module.params.update(gslb_obj)
         module.params.update(
             {
