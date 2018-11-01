@@ -5,35 +5,36 @@ interactions:
       Content-Length: ['36']
       Content-Type: [application/x-www-form-urlencoded]
     method: POST
-    uri: https://10.10.28.132/login
+    uri: https://10.10.28.111/login
   response:
     body: {string: !!python/unicode '{"user_initialized": true, "system_config": {"url":
-        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1532007671779093",
-        "email_configuration": {"from_email": "admin@avicontroller.net", "mail_server_port":
-        25, "smtp_type": "SMTP_LOCAL_HOST", "mail_server_name": "localhost"}, "global_tenant_config":
-        {"se_in_provider_context": true, "tenant_access_to_provider_se": true, "tenant_vrf":
-        false}, "dns_configuration": {"search_domain": ""}, "ssh_hmacs": ["hmac-sha2-512-etm@openssh.com",
-        "hmac-sha2-256-etm@openssh.com", "umac-128-etm@openssh.com", "hmac-sha2-512"],
-        "docker_mode": false, "snmp_configuration": {"version": "SNMP_VER2", "sys_contact":
-        "support@avinetworks.com", "community": "<sensitive>"}, "portal_configuration":
+        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1540551487637520",
+        "email_configuration": {"disable_tls": false, "from_email": "admin@avi.com",
+        "mail_server_port": 25, "smtp_type": "SMTP_LOCAL_HOST", "mail_server_name":
+        "localhost"}, "global_tenant_config": {"se_in_provider_context": true, "tenant_access_to_provider_se":
+        true, "tenant_vrf": false}, "secure_channel_configuration": {"sslkeyandcertificate_refs":
+        ["/api/sslkeyandcertificate/sslkeyandcertificate-c1c99ad6-6966-4722-93ee-fbbddcfc2776"]},
+        "dns_configuration": {"search_domain": "", "server_list": [{"type": "V4",
+        "addr": "10.10.0.100"}]}, "ssh_hmacs": ["hmac-sha2-512-etm@openssh.com", "hmac-sha2-256-etm@openssh.com",
+        "umac-128-etm@openssh.com", "hmac-sha2-512"], "docker_mode": false, "portal_configuration":
         {"use_uuid_from_input": false, "redirect_to_https": true, "sslprofile_ref":
-        "/api/sslprofile/sslprofile-c35f2815-d4ae-4488-9d6b-d71f234c6fb8", "sslkeyandcertificate_refs":
-        ["/api/sslkeyandcertificate/sslkeyandcertificate-3b24623b-3718-43a1-bb83-ee458d069414",
-        "/api/sslkeyandcertificate/sslkeyandcertificate-ae5d9ff6-e2fe-4d2c-b0b8-249f32dc2859"],
+        "/api/sslprofile/sslprofile-741aed29-98d7-4db0-bb24-4c129819c2cf", "sslkeyandcertificate_refs":
+        ["/api/sslkeyandcertificate/sslkeyandcertificate-9e9affe3-086a-4461-8ca0-51ce5b5152b7",
+        "/api/sslkeyandcertificate/sslkeyandcertificate-3f029dff-37fd-4ad1-b466-361c605a55b1"],
         "enable_clickjacking_protection": true, "enable_https": true, "disable_remote_cli_shell":
-        false, "password_strength_check": true, "enable_http": true, "allow_basic_authentication":
-        false}, "ntp_configuration": {"ntp_servers": [{"server": {"type": "DNS", "addr":
+        false, "password_strength_check": false, "enable_http": false, "allow_basic_authentication":
+        true}, "ntp_configuration": {"ntp_servers": [{"server": {"type": "DNS", "addr":
         "0.us.pool.ntp.org"}}, {"server": {"type": "DNS", "addr": "1.us.pool.ntp.org"}},
         {"server": {"type": "DNS", "addr": "2.us.pool.ntp.org"}}, {"server": {"type":
         "DNS", "addr": "3.us.pool.ntp.org"}}]}, "ssh_ciphers": ["aes128-ctr", "aes256-ctr",
         "arcfour256", "arcfour128"], "default_license_tier": "ENTERPRISE_18"}, "controller":
         {"api_idle_timeout": 15}, "version": {"Product": "controller", "Version":
-        "18.1.3", "build": 9010, "Tag": "18.1.3-9010-20180629.083110", "Date": "2018-06-29T08:31:10+00:00",
+        "18.1.5", "build": 9098, "Tag": "18.1.5-9098-20181022.213947", "Date": "2018-10-22T21:39:47+00:00",
         "min_version": 15.2, "ProductName": "Avi Cloud Controller"}, "user": {"username":
         "admin", "name": "admin", "is_superuser": true, "full_name": "System Administrator",
         "ui_property": "{\"defaultTimeframe\":\"6h\",\"valuesToDisplay\":\"avg\",\"sideRailOpen\":true,\"logs\":{\"savedSearch\":[],\"sidebarActiveTab\":\"1\"},\"appDashboard\":{\"viewType\":\"list\"},\"grid\":{}}",
-        "local": true, "email": "", "default_tenant_ref": "https://10.10.28.132/api/tenant/admin"},
-        "tenants": [{"url": "https://10.10.28.132/api/tenant/admin", "uuid": "admin",
+        "local": true, "email": "", "default_tenant_ref": "https://10.10.28.111/api/tenant/admin"},
+        "tenants": [{"url": "https://10.10.28.111/api/tenant/admin", "uuid": "admin",
         "name": "admin", "local": true}], "session_cookie_name": "avi-sessionid"}'}
     headers:
       access-control-allow-credentials: ['true']
@@ -45,12 +46,12 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 19 Jul 2018 14:28:53 GMT']
-      set-cookie: ['csrftoken=okKdy9sb0ZNQ8Jw7v2BOXp4nILlDSGay; expires=Thu, 18-Jul-2019
-          14:28:53 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73;
-          expires=Fri, 20-Jul-2018 14:28:53 GMT; httponly; Max-Age=86400; Path=/;
-          secure', 'avi-sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73; expires=Fri, 20-Jul-2018
-          14:28:53 GMT; httponly; Max-Age=86400; Path=/; secure']
+      date: ['Fri, 26 Oct 2018 11:12:29 GMT']
+      set-cookie: ['csrftoken=eF1CbnT1qrcNEYGphYds2pyIQz8ZjA0B; expires=Fri, 25-Oct-2019
+          11:12:29 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=s6o2byj6cjx38om3wyauzm1m18pv1ian;
+          expires=Sat, 27-Oct-2018 11:12:29 GMT; httponly; Max-Age=86400; Path=/;
+          secure', 'avi-sessionid=s6o2byj6cjx38om3wyauzm1m18pv1ian; expires=Sat, 27-Oct-2018
+          11:12:29 GMT; httponly; Max-Age=86400; Path=/; secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']
       x-content-type-options: [nosniff]
@@ -60,21 +61,49 @@ interactions:
 - request:
     body: null
     headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.19.1]
+    method: GET
+    uri: https://10.10.28.111/api/login
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA7PJMLTzyy9RcMsvzUux0QfybArsQjJSFYpSC0tTi0tSUxRCg3wU9BMLMvVz8tMz
+        8xTKE4sV8oA60kA6FPLzFEoyMosVilOLylKL9Gz0C+wAvmInllMAAAA=
+    headers:
+      avi_api_version: ['16_4_2']
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [text/html]
+      date: ['Fri, 26 Oct 2018 11:12:31 GMT']
+      set-cookie: ['sessionid=7x7awt1pf0e18ldfb4gd5gowxeeiobvo; expires=Sat, 27-Oct-2018
+          11:12:31 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=7x7awt1pf0e18ldfb4gd5gowxeeiobvo;
+          expires=Sat, 27-Oct-2018 11:12:31 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      vary: [Cookie]
+    status: {code: 404, message: NOT FOUND}
+- request:
+    body: null
+    headers:
       Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=okKdy9sb0ZNQ8Jw7v2BOXp4nILlDSGay for 10.10.28.132/>,
-          <Cookie sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73 for 10.10.28.132/>]']
-      Referer: ['https://10.10.28.132']
+      Cookie: [!!python/unicode '[<Cookie csrftoken=eF1CbnT1qrcNEYGphYds2pyIQz8ZjA0B
+          for 10.10.28.111/>, <Cookie avi-sessionid=s6o2byj6cjx38om3wyauzm1m18pv1ian
+          for 10.10.28.111/>]']
+      Referer: ['https://10.10.28.111']
       X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.1.3]
-      X-CSRFToken: [okKdy9sb0ZNQ8Jw7v2BOXp4nILlDSGay]
+      X-Avi-Version: [18.1.5]
+      X-CSRFToken: [eF1CbnT1qrcNEYGphYds2pyIQz8ZjA0B]
       timeout: ['300']
     method: GET
-    uri: https://10.10.28.132/api/cloudproperties/?include_refs=&include_name=
+    uri: https://10.10.28.111/api/cloudproperties/?include_refs=&include_name=
   response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/cloudproperties",
-        "uuid": "global", "_last_modified": "1532007672854028", "info": [{"vtype":
+    body: {string: !!python/unicode '{"url": "https://10.10.28.111/api/cloudproperties",
+        "uuid": "global", "_last_modified": "1540551324238704", "info": [{"vtype":
         "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK", "flavor_props":
-        [{"max_ips_per_nic": 11, "public": true, "name": "all", "id": "all"}], "htypes":
+        [{"max_ips_per_nic": 11, "public": true, "id": "all", "name": "all"}], "htypes":
         ["KVM", "VMWARE_ESX", "VMWARE_VSAN"]}, {"vtype": "CLOUD_AWS", "flavor_regex_filter":
         "[ctmr][0-9]+\\..*", "flavor_props": [{"max_nics": 2, "name": "t2.micro",
         "disk_gb": 0, "max_ips_per_nic": 2, "ram_mb": 1024, "public": true, "vcpus":
@@ -93,325 +122,11 @@ interactions:
         u''0.012'', u''yrTerm3Standard.allUpfront'': u''0.009'', u''yrTerm1Convertible.allUpfront'':
         u''0.015'', u''yrTerm1Standard.allUpfront'': u''0.013'', u''yrTerm3Standard.partialUpfront'':
         u''0.009'', u''yrTerm1Standard.noUpfront'': u''0.014''}, u''ondemand'': u''0.023''}",
-        "id": "t2.small"}, {"max_nics": 3, "name": "t2.medium", "disk_gb": 0, "max_ips_per_nic":
-        6, "ram_mb": 4096, "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.033'', u''yrTerm3Convertible.allUpfront'': u''0.021'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.021'', u''yrTerm1Convertible.partialUpfront'': u''0.031'', u''yrTerm1Standard.partialUpfront'':
-        u''0.027'', u''yrTerm3Standard.noUpfront'': u''0.020'', u''yrTerm3Convertible.noUpfront'':
-        u''0.023'', u''yrTerm3Standard.allUpfront'': u''0.017'', u''yrTerm1Convertible.allUpfront'':
-        u''0.031'', u''yrTerm1Standard.allUpfront'': u''0.027'', u''yrTerm3Standard.partialUpfront'':
-        u''0.019'', u''yrTerm1Standard.noUpfront'': u''0.029''}, u''ondemand'': u''0.0464''}",
-        "id": "t2.medium"}, {"max_nics": 3, "name": "c5.large", "disk_gb": 0, "max_ips_per_nic":
-        10, "ram_mb": 4096, "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.062'', u''yrTerm3Convertible.allUpfront'': u''0.037'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.038'', u''yrTerm1Convertible.partialUpfront'': u''0.058'', u''yrTerm1Standard.partialUpfront'':
-        u''0.052'', u''yrTerm3Standard.noUpfront'': u''0.036'', u''yrTerm3Convertible.noUpfront'':
-        u''0.041'', u''yrTerm3Standard.allUpfront'': u''0.031'', u''yrTerm1Convertible.allUpfront'':
-        u''0.057'', u''yrTerm1Standard.allUpfront'': u''0.050'', u''yrTerm3Standard.partialUpfront'':
-        u''0.032'', u''yrTerm1Standard.noUpfront'': u''0.054''}, u''ondemand'': u''0.085''}",
-        "id": "c5.large"}, {"max_nics": 3, "name": "t2.large", "disk_gb": 0, "max_ips_per_nic":
-        12, "ram_mb": 8192, "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.066'', u''yrTerm3Convertible.allUpfront'': u''0.042'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.043'', u''yrTerm1Convertible.partialUpfront'': u''0.063'', u''yrTerm1Standard.partialUpfront'':
-        u''0.055'', u''yrTerm3Standard.noUpfront'': u''0.040'', u''yrTerm3Convertible.noUpfront'':
-        u''0.046'', u''yrTerm3Standard.allUpfront'': u''0.035'', u''yrTerm1Convertible.allUpfront'':
-        u''0.062'', u''yrTerm1Standard.allUpfront'': u''0.054'', u''yrTerm3Standard.partialUpfront'':
-        u''0.037'', u''yrTerm1Standard.noUpfront'': u''0.058''}, u''ondemand'': u''0.0928''}",
-        "id": "t2.large"}, {"max_nics": 2, "name": "m4.large", "disk_gb": 0, "max_ips_per_nic":
-        10, "ram_mb": 8192, "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.071'', u''yrTerm3Convertible.allUpfront'': u''0.045'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.046'', u''yrTerm1Convertible.partialUpfront'': u''0.068'', u''yrTerm1Standard.partialUpfront'':
-        u''0.059'', u''yrTerm3Standard.noUpfront'': u''0.043'', u''yrTerm3Convertible.noUpfront'':
-        u''0.050'', u''yrTerm3Standard.allUpfront'': u''0.038'', u''yrTerm1Convertible.allUpfront'':
-        u''0.067'', u''yrTerm1Standard.allUpfront'': u''0.058'', u''yrTerm3Standard.partialUpfront'':
-        u''0.040'', u''yrTerm1Standard.noUpfront'': u''0.062''}, u''ondemand'': u''0.1''}",
-        "id": "m4.large"}, {"max_nics": 3, "name": "c4.large", "disk_gb": 0, "max_ips_per_nic":
-        10, "ram_mb": 3840, "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.072'', u''yrTerm3Convertible.allUpfront'': u''0.046'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.048'', u''yrTerm1Convertible.partialUpfront'': u''0.070'', u''yrTerm1Standard.partialUpfront'':
-        u''0.060'', u''yrTerm3Standard.noUpfront'': u''0.044'', u''yrTerm3Convertible.noUpfront'':
-        u''0.051'', u''yrTerm3Standard.allUpfront'': u''0.039'', u''yrTerm1Convertible.allUpfront'':
-        u''0.068'', u''yrTerm1Standard.allUpfront'': u''0.059'', u''yrTerm3Standard.partialUpfront'':
-        u''0.041'', u''yrTerm1Standard.noUpfront'': u''0.063''}, u''ondemand'': u''0.1''}",
-        "id": "c4.large"}, {"max_nics": 3, "name": "c3.large", "disk_gb": 16, "max_ips_per_nic":
-        10, "ram_mb": 3840, "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.076'', u''yrTerm3Convertible.allUpfront'': u''0.056'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.057'', u''yrTerm1Convertible.partialUpfront'': u''0.072'', u''yrTerm1Standard.partialUpfront'':
-        u''0.063'', u''yrTerm3Convertible.noUpfront'': u''0.066'', u''yrTerm3Standard.allUpfront'':
-        u''0.039'', u''yrTerm1Convertible.allUpfront'': u''0.071'', u''yrTerm1Standard.allUpfront'':
-        u''0.062'', u''yrTerm3Standard.partialUpfront'': u''0.041'', u''yrTerm1Standard.noUpfront'':
-        u''0.073''}, u''ondemand'': u''0.105''}", "id": "c3.large"}, {"max_nics":
-        3, "name": "m3.large", "disk_gb": 32, "max_ips_per_nic": 10, "ram_mb": 7680,
-        "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.099'', u''yrTerm3Convertible.allUpfront'': u''0.073'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.075'', u''yrTerm1Convertible.partialUpfront'': u''0.094'', u''yrTerm1Standard.partialUpfront'':
-        u''0.083'', u''yrTerm3Convertible.noUpfront'': u''0.086'', u''yrTerm3Standard.allUpfront'':
-        u''0.052'', u''yrTerm1Convertible.allUpfront'': u''0.093'', u''yrTerm1Standard.allUpfront'':
-        u''0.081'', u''yrTerm3Standard.partialUpfront'': u''0.056'', u''yrTerm1Standard.noUpfront'':
-        u''0.095''}, u''ondemand'': u''0.133''}", "id": "m3.large"}, {"max_nics":
-        3, "name": "r4.large", "disk_gb": 0, "max_ips_per_nic": 10, "ram_mb": 15616,
-        "public": true, "vcpus": 2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.097'', u''yrTerm3Convertible.allUpfront'': u''0.060'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.061'', u''yrTerm1Convertible.partialUpfront'': u''0.092'', u''yrTerm1Standard.partialUpfront'':
-        u''0.080'', u''yrTerm3Standard.noUpfront'': u''0.057'', u''yrTerm3Convertible.noUpfront'':
-        u''0.066'', u''yrTerm3Standard.allUpfront'': u''0.050'', u''yrTerm1Convertible.allUpfront'':
-        u''0.090'', u''yrTerm1Standard.allUpfront'': u''0.078'', u''yrTerm3Standard.partialUpfront'':
-        u''0.053'', u''yrTerm1Standard.noUpfront'': u''0.084''}, u''ondemand'': u''0.133''}",
-        "id": "r4.large"}, {"max_nics": 4, "name": "c5.xlarge", "disk_gb": 0, "max_ips_per_nic":
-        15, "ram_mb": 8192, "public": true, "vcpus": 4, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.123'', u''yrTerm3Convertible.allUpfront'': u''0.074'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.076'', u''yrTerm1Convertible.partialUpfront'': u''0.118'', u''yrTerm1Standard.partialUpfront'':
-        u''0.102'', u''yrTerm3Standard.noUpfront'': u''0.071'', u''yrTerm3Convertible.noUpfront'':
-        u''0.082'', u''yrTerm3Standard.allUpfront'': u''0.062'', u''yrTerm1Convertible.allUpfront'':
-        u''0.115'', u''yrTerm1Standard.allUpfront'': u''0.100'', u''yrTerm3Standard.partialUpfront'':
-        u''0.066'', u''yrTerm1Standard.noUpfront'': u''0.107''}, u''ondemand'': u''0.17''}",
-        "id": "c5.xlarge"}, {"max_nics": 3, "name": "t2.xlarge", "disk_gb": 0, "max_ips_per_nic":
-        15, "ram_mb": 16384, "public": true, "vcpus": 4, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.132'', u''yrTerm3Convertible.allUpfront'':
-        u''0.084'', u''yrTerm3Convertible.partialUpfront'': u''0.085'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.126'', u''yrTerm1Standard.partialUpfront'': u''0.110'', u''yrTerm3Standard.noUpfront'':
-        u''0.080'', u''yrTerm3Convertible.noUpfront'': u''0.092'', u''yrTerm3Standard.allUpfront'':
-        u''0.070'', u''yrTerm1Convertible.allUpfront'': u''0.123'', u''yrTerm1Standard.allUpfront'':
-        u''0.107'', u''yrTerm3Standard.partialUpfront'': u''0.074'', u''yrTerm1Standard.noUpfront'':
-        u''0.115''}, u''ondemand'': u''0.1856''}", "id": "t2.xlarge"}, {"max_nics":
-        4, "name": "c4.xlarge", "disk_gb": 0, "max_ips_per_nic": 15, "ram_mb": 7680,
-        "public": true, "vcpus": 4, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.145'', u''yrTerm3Convertible.allUpfront'': u''0.092'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.094'', u''yrTerm1Convertible.partialUpfront'': u''0.138'', u''yrTerm1Standard.partialUpfront'':
-        u''0.121'', u''yrTerm3Standard.noUpfront'': u''0.089'', u''yrTerm3Convertible.noUpfront'':
-        u''0.102'', u''yrTerm3Standard.allUpfront'': u''0.078'', u''yrTerm1Convertible.allUpfront'':
-        u''0.135'', u''yrTerm1Standard.allUpfront'': u''0.119'', u''yrTerm3Standard.partialUpfront'':
-        u''0.083'', u''yrTerm1Standard.noUpfront'': u''0.126''}, u''ondemand'': u''0.199''}",
-        "id": "c4.xlarge"}, {"max_nics": 4, "name": "m4.xlarge", "disk_gb": 0, "max_ips_per_nic":
-        15, "ram_mb": 16384, "public": true, "vcpus": 4, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.143'', u''yrTerm3Convertible.allUpfront'':
-        u''0.090'', u''yrTerm3Convertible.partialUpfront'': u''0.092'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.136'', u''yrTerm1Standard.partialUpfront'': u''0.118'', u''yrTerm3Standard.noUpfront'':
-        u''0.086'', u''yrTerm3Convertible.noUpfront'': u''0.099'', u''yrTerm3Standard.allUpfront'':
-        u''0.075'', u''yrTerm1Convertible.allUpfront'': u''0.133'', u''yrTerm1Standard.allUpfront'':
-        u''0.116'', u''yrTerm3Standard.partialUpfront'': u''0.080'', u''yrTerm1Standard.noUpfront'':
-        u''0.124''}, u''ondemand'': u''0.2''}", "id": "m4.xlarge"}, {"max_nics": 4,
-        "name": "c3.xlarge", "disk_gb": 40, "max_ips_per_nic": 15, "ram_mb": 7680,
-        "public": true, "vcpus": 4, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.153'', u''yrTerm3Convertible.allUpfront'': u''0.112'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.115'', u''yrTerm1Convertible.partialUpfront'': u''0.146'', u''yrTerm1Standard.partialUpfront'':
-        u''0.127'', u''yrTerm3Convertible.noUpfront'': u''0.131'', u''yrTerm3Standard.allUpfront'':
-        u''0.079'', u''yrTerm1Convertible.allUpfront'': u''0.142'', u''yrTerm1Standard.allUpfront'':
-        u''0.125'', u''yrTerm3Standard.partialUpfront'': u''0.084'', u''yrTerm1Standard.noUpfront'':
-        u''0.146''}, u''ondemand'': u''0.21''}", "id": "c3.xlarge"}, {"max_nics":
-        4, "name": "m3.xlarge", "disk_gb": 40, "max_ips_per_nic": 15, "ram_mb": 15360,
-        "public": true, "vcpus": 4, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.199'', u''yrTerm3Convertible.allUpfront'': u''0.147'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.150'', u''yrTerm1Convertible.partialUpfront'': u''0.190'', u''yrTerm1Standard.partialUpfront'':
-        u''0.166'', u''yrTerm3Convertible.noUpfront'': u''0.171'', u''yrTerm3Standard.allUpfront'':
-        u''0.105'', u''yrTerm1Convertible.allUpfront'': u''0.185'', u''yrTerm1Standard.allUpfront'':
-        u''0.163'', u''yrTerm3Standard.partialUpfront'': u''0.111'', u''yrTerm1Standard.noUpfront'':
-        u''0.190''}, u''ondemand'': u''0.266''}", "id": "m3.xlarge"}, {"max_nics":
-        4, "name": "r4.xlarge", "disk_gb": 0, "max_ips_per_nic": 15, "ram_mb": 31232,
-        "public": true, "vcpus": 4, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.193'', u''yrTerm3Convertible.allUpfront'': u''0.120'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.122'', u''yrTerm1Convertible.partialUpfront'': u''0.184'', u''yrTerm1Standard.partialUpfront'':
-        u''0.160'', u''yrTerm3Standard.noUpfront'': u''0.115'', u''yrTerm3Convertible.noUpfront'':
-        u''0.132'', u''yrTerm3Standard.allUpfront'': u''0.100'', u''yrTerm1Convertible.allUpfront'':
-        u''0.180'', u''yrTerm1Standard.allUpfront'': u''0.156'', u''yrTerm3Standard.partialUpfront'':
-        u''0.106'', u''yrTerm1Standard.noUpfront'': u''0.168''}, u''ondemand'': u''0.266''}",
-        "id": "r4.xlarge"}, {"max_nics": 4, "name": "r3.xlarge", "disk_gb": 80, "max_ips_per_nic":
-        15, "ram_mb": 31232, "public": true, "vcpus": 4, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.217'', u''yrTerm3Convertible.allUpfront'':
-        u''0.159'', u''yrTerm3Convertible.partialUpfront'': u''0.162'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.206'', u''yrTerm1Standard.partialUpfront'': u''0.180'', u''yrTerm3Convertible.noUpfront'':
-        u''0.188'', u''yrTerm3Standard.allUpfront'': u''0.117'', u''yrTerm1Convertible.allUpfront'':
-        u''0.202'', u''yrTerm1Standard.allUpfront'': u''0.176'', u''yrTerm3Standard.partialUpfront'':
-        u''0.124'', u''yrTerm1Standard.noUpfront'': u''0.209''}, u''ondemand'': u''0.333''}",
-        "id": "r3.xlarge"}, {"max_nics": 4, "name": "c5.2xlarge", "disk_gb": 0, "max_ips_per_nic":
-        15, "ram_mb": 16384, "public": true, "vcpus": 8, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.246'', u''yrTerm3Convertible.allUpfront'':
-        u''0.149'', u''yrTerm3Convertible.partialUpfront'': u''0.152'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.234'', u''yrTerm1Standard.partialUpfront'': u''0.204'', u''yrTerm3Standard.noUpfront'':
-        u''0.142'', u''yrTerm3Convertible.noUpfront'': u''0.164'', u''yrTerm3Standard.allUpfront'':
-        u''0.124'', u''yrTerm1Convertible.allUpfront'': u''0.230'', u''yrTerm1Standard.allUpfront'':
-        u''0.200'', u''yrTerm3Standard.partialUpfront'': u''0.132'', u''yrTerm1Standard.noUpfront'':
-        u''0.214''}, u''ondemand'': u''0.34''}", "id": "c5.2xlarge"}, {"max_nics":
-        3, "name": "t2.2xlarge", "disk_gb": 0, "max_ips_per_nic": 15, "ram_mb": 32768,
-        "public": true, "vcpus": 8, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.265'', u''yrTerm3Convertible.allUpfront'': u''0.167'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.171'', u''yrTerm1Convertible.partialUpfront'': u''0.252'', u''yrTerm1Standard.partialUpfront'':
-        u''0.219'', u''yrTerm3Standard.noUpfront'': u''0.160'', u''yrTerm3Convertible.noUpfront'':
-        u''0.184'', u''yrTerm3Standard.allUpfront'': u''0.140'', u''yrTerm1Convertible.allUpfront'':
-        u''0.247'', u''yrTerm1Standard.allUpfront'': u''0.215'', u''yrTerm3Standard.partialUpfront'':
-        u''0.148'', u''yrTerm1Standard.noUpfront'': u''0.230''}, u''ondemand'': u''0.3712''}",
-        "id": "t2.2xlarge"}, {"max_nics": 4, "name": "c4.2xlarge", "disk_gb": 0, "max_ips_per_nic":
-        15, "ram_mb": 15360, "public": true, "vcpus": 8, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.290'', u''yrTerm3Convertible.allUpfront'':
-        u''0.185'', u''yrTerm3Convertible.partialUpfront'': u''0.188'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.276'', u''yrTerm1Standard.partialUpfront'': u''0.242'', u''yrTerm3Standard.noUpfront'':
-        u''0.177'', u''yrTerm3Convertible.noUpfront'': u''0.204'', u''yrTerm3Standard.allUpfront'':
-        u''0.155'', u''yrTerm1Convertible.allUpfront'': u''0.270'', u''yrTerm1Standard.allUpfront'':
-        u''0.237'', u''yrTerm3Standard.partialUpfront'': u''0.165'', u''yrTerm1Standard.noUpfront'':
-        u''0.252''}, u''ondemand'': u''0.398''}", "id": "c4.2xlarge"}, {"max_nics":
-        4, "name": "m4.2xlarge", "disk_gb": 0, "max_ips_per_nic": 15, "ram_mb": 32768,
-        "public": true, "vcpus": 8, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.285'', u''yrTerm3Convertible.allUpfront'': u''0.180'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.184'', u''yrTerm1Convertible.partialUpfront'': u''0.271'', u''yrTerm1Standard.partialUpfront'':
-        u''0.236'', u''yrTerm3Standard.noUpfront'': u''0.173'', u''yrTerm3Convertible.noUpfront'':
-        u''0.199'', u''yrTerm3Standard.allUpfront'': u''0.150'', u''yrTerm1Convertible.allUpfront'':
-        u''0.266'', u''yrTerm1Standard.allUpfront'': u''0.231'', u''yrTerm3Standard.partialUpfront'':
-        u''0.160'', u''yrTerm1Standard.noUpfront'': u''0.248''}, u''ondemand'': u''0.4''}",
-        "id": "m4.2xlarge"}, {"max_nics": 4, "name": "c3.2xlarge", "disk_gb": 80,
-        "max_ips_per_nic": 15, "ram_mb": 15360, "public": true, "vcpus": 8, "cost":
-        "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.305'', u''yrTerm3Convertible.allUpfront'':
-        u''0.223'', u''yrTerm3Convertible.partialUpfront'': u''0.228'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.290'', u''yrTerm1Standard.partialUpfront'': u''0.253'', u''yrTerm3Convertible.noUpfront'':
-        u''0.263'', u''yrTerm3Standard.allUpfront'': u''0.157'', u''yrTerm1Convertible.allUpfront'':
-        u''0.285'', u''yrTerm1Standard.allUpfront'': u''0.248'', u''yrTerm3Standard.partialUpfront'':
-        u''0.167'', u''yrTerm1Standard.noUpfront'': u''0.292''}, u''ondemand'': u''0.42''}",
-        "id": "c3.2xlarge"}, {"max_nics": 4, "name": "m3.2xlarge", "disk_gb": 80,
-        "max_ips_per_nic": 30, "ram_mb": 30720, "public": true, "vcpus": 8, "cost":
-        "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.397'', u''yrTerm3Convertible.allUpfront'':
-        u''0.292'', u''yrTerm3Convertible.partialUpfront'': u''0.298'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.378'', u''yrTerm1Standard.partialUpfront'': u''0.331'', u''yrTerm3Convertible.noUpfront'':
-        u''0.342'', u''yrTerm3Standard.allUpfront'': u''0.209'', u''yrTerm1Convertible.allUpfront'':
-        u''0.371'', u''yrTerm1Standard.allUpfront'': u''0.324'', u''yrTerm3Standard.partialUpfront'':
-        u''0.222'', u''yrTerm1Standard.noUpfront'': u''0.380''}, u''ondemand'': u''0.532''}",
-        "id": "m3.2xlarge"}, {"max_nics": 4, "name": "r4.2xlarge", "disk_gb": 0, "max_ips_per_nic":
-        15, "ram_mb": 62464, "public": true, "vcpus": 8, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.386'', u''yrTerm3Convertible.allUpfront'':
-        u''0.239'', u''yrTerm3Convertible.partialUpfront'': u''0.244'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.368'', u''yrTerm1Standard.partialUpfront'': u''0.319'', u''yrTerm3Standard.noUpfront'':
-        u''0.229'', u''yrTerm3Convertible.noUpfront'': u''0.263'', u''yrTerm3Standard.allUpfront'':
-        u''0.200'', u''yrTerm1Convertible.allUpfront'': u''0.361'', u''yrTerm1Standard.allUpfront'':
-        u''0.313'', u''yrTerm3Standard.partialUpfront'': u''0.213'', u''yrTerm1Standard.noUpfront'':
-        u''0.336''}, u''ondemand'': u''0.532''}", "id": "r4.2xlarge"}, {"max_nics":
-        4, "name": "r3.2xlarge", "disk_gb": 160, "max_ips_per_nic": 15, "ram_mb":
-        62464, "public": true, "vcpus": 8, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.433'', u''yrTerm3Convertible.allUpfront'': u''0.317'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.324'', u''yrTerm1Convertible.partialUpfront'': u''0.412'', u''yrTerm1Standard.partialUpfront'':
-        u''0.360'', u''yrTerm3Convertible.noUpfront'': u''0.376'', u''yrTerm3Standard.allUpfront'':
-        u''0.233'', u''yrTerm1Convertible.allUpfront'': u''0.404'', u''yrTerm1Standard.allUpfront'':
-        u''0.353'', u''yrTerm3Standard.partialUpfront'': u''0.248'', u''yrTerm1Standard.noUpfront'':
-        u''0.418''}, u''ondemand'': u''0.665''}", "id": "r3.2xlarge"}, {"max_nics":
-        8, "name": "c5.4xlarge", "disk_gb": 0, "max_ips_per_nic": 30, "ram_mb": 32768,
-        "public": true, "vcpus": 16, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.493'', u''yrTerm3Convertible.allUpfront'': u''0.298'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.304'', u''yrTerm1Convertible.partialUpfront'': u''0.470'', u''yrTerm1Standard.partialUpfront'':
-        u''0.408'', u''yrTerm3Standard.noUpfront'': u''0.285'', u''yrTerm3Convertible.noUpfront'':
-        u''0.328'', u''yrTerm3Standard.allUpfront'': u''0.248'', u''yrTerm1Convertible.allUpfront'':
-        u''0.460'', u''yrTerm1Standard.allUpfront'': u''0.400'', u''yrTerm3Standard.partialUpfront'':
-        u''0.264'', u''yrTerm1Standard.noUpfront'': u''0.428''}, u''ondemand'': u''0.68''}",
-        "id": "c5.4xlarge"}, {"max_nics": 8, "name": "c4.4xlarge", "disk_gb": 0, "max_ips_per_nic":
-        30, "ram_mb": 30720, "public": true, "vcpus": 16, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.580'', u''yrTerm3Convertible.allUpfront'':
-        u''0.370'', u''yrTerm3Convertible.partialUpfront'': u''0.378'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.552'', u''yrTerm1Standard.partialUpfront'': u''0.483'', u''yrTerm3Standard.noUpfront'':
-        u''0.354'', u''yrTerm3Convertible.noUpfront'': u''0.407'', u''yrTerm3Standard.allUpfront'':
-        u''0.310'', u''yrTerm1Convertible.allUpfront'': u''0.541'', u''yrTerm1Standard.allUpfront'':
-        u''0.473'', u''yrTerm3Standard.partialUpfront'': u''0.330'', u''yrTerm1Standard.noUpfront'':
-        u''0.504''}, u''ondemand'': u''0.796''}", "id": "c4.4xlarge"}, {"max_nics":
-        8, "name": "m4.4xlarge", "disk_gb": 0, "max_ips_per_nic": 30, "ram_mb": 65536,
-        "public": true, "vcpus": 16, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.570'', u''yrTerm3Convertible.allUpfront'': u''0.361'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.368'', u''yrTerm1Convertible.partialUpfront'': u''0.543'', u''yrTerm1Standard.partialUpfront'':
-        u''0.472'', u''yrTerm3Standard.noUpfront'': u''0.346'', u''yrTerm3Convertible.noUpfront'':
-        u''0.397'', u''yrTerm3Standard.allUpfront'': u''0.301'', u''yrTerm1Convertible.allUpfront'':
-        u''0.532'', u''yrTerm1Standard.allUpfront'': u''0.463'', u''yrTerm3Standard.partialUpfront'':
-        u''0.320'', u''yrTerm1Standard.noUpfront'': u''0.496''}, u''ondemand'': u''0.8''}",
-        "id": "m4.4xlarge"}, {"max_nics": 8, "name": "c3.4xlarge", "disk_gb": 160,
-        "max_ips_per_nic": 30, "ram_mb": 30720, "public": true, "vcpus": 16, "cost":
-        "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.611'', u''yrTerm3Convertible.allUpfront'':
-        u''0.447'', u''yrTerm3Convertible.partialUpfront'': u''0.456'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.582'', u''yrTerm1Standard.partialUpfront'': u''0.507'', u''yrTerm3Convertible.noUpfront'':
-        u''0.526'', u''yrTerm3Standard.allUpfront'': u''0.315'', u''yrTerm1Convertible.allUpfront'':
-        u''0.570'', u''yrTerm1Standard.allUpfront'': u''0.497'', u''yrTerm3Standard.partialUpfront'':
-        u''0.335'', u''yrTerm1Standard.noUpfront'': u''0.584''}, u''ondemand'': u''0.84''}",
-        "id": "c3.4xlarge"}, {"max_nics": 8, "name": "r4.4xlarge", "disk_gb": 0, "max_ips_per_nic":
-        30, "ram_mb": 124928, "public": true, "vcpus": 16, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.773'', u''yrTerm3Convertible.allUpfront'':
-        u''0.478'', u''yrTerm3Convertible.partialUpfront'': u''0.488'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.736'', u''yrTerm1Standard.partialUpfront'': u''0.638'', u''yrTerm3Standard.noUpfront'':
-        u''0.458'', u''yrTerm3Convertible.noUpfront'': u''0.527'', u''yrTerm3Standard.allUpfront'':
-        u''0.400'', u''yrTerm1Convertible.allUpfront'': u''0.721'', u''yrTerm1Standard.allUpfront'':
-        u''0.626'', u''yrTerm3Standard.partialUpfront'': u''0.426'', u''yrTerm1Standard.noUpfront'':
-        u''0.672''}, u''ondemand'': u''1.064''}", "id": "r4.4xlarge"}, {"max_nics":
-        8, "name": "r3.4xlarge", "disk_gb": 320, "max_ips_per_nic": 30, "ram_mb":
-        124928, "public": true, "vcpus": 16, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.867'', u''yrTerm3Convertible.allUpfront'': u''0.635'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.648'', u''yrTerm1Convertible.partialUpfront'': u''0.826'', u''yrTerm1Standard.partialUpfront'':
-        u''0.720'', u''yrTerm3Convertible.noUpfront'': u''0.752'', u''yrTerm3Standard.allUpfront'':
-        u''0.467'', u''yrTerm1Convertible.allUpfront'': u''0.809'', u''yrTerm1Standard.allUpfront'':
-        u''0.706'', u''yrTerm3Standard.partialUpfront'': u''0.497'', u''yrTerm1Standard.noUpfront'':
-        u''0.836''}, u''ondemand'': u''1.33''}", "id": "r3.4xlarge"}, {"max_nics":
-        8, "name": "c5.9xlarge", "disk_gb": 0, "max_ips_per_nic": 30, "ram_mb": 73728,
-        "public": true, "vcpus": 36, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''1.108'', u''yrTerm3Convertible.allUpfront'': u''0.670'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.684'', u''yrTerm1Convertible.partialUpfront'': u''1.056'', u''yrTerm1Standard.partialUpfront'':
-        u''0.918'', u''yrTerm3Standard.noUpfront'': u''0.641'', u''yrTerm3Convertible.noUpfront'':
-        u''0.739'', u''yrTerm3Standard.allUpfront'': u''0.558'', u''yrTerm1Convertible.allUpfront'':
-        u''1.035'', u''yrTerm1Standard.allUpfront'': u''0.900'', u''yrTerm3Standard.partialUpfront'':
-        u''0.594'', u''yrTerm1Standard.noUpfront'': u''0.964''}, u''ondemand'': u''1.53''}",
-        "id": "c5.9xlarge"}, {"max_nics": 8, "name": "c4.8xlarge", "disk_gb": 0, "max_ips_per_nic":
-        30, "ram_mb": 61440, "public": true, "vcpus": 36, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''1.159'', u''yrTerm3Convertible.allUpfront'':
-        u''0.739'', u''yrTerm3Convertible.partialUpfront'': u''0.754'', u''yrTerm1Convertible.partialUpfront'':
-        u''1.104'', u''yrTerm1Standard.partialUpfront'': u''0.966'', u''yrTerm3Standard.noUpfront'':
-        u''0.708'', u''yrTerm3Convertible.noUpfront'': u''0.815'', u''yrTerm3Standard.allUpfront'':
-        u''0.621'', u''yrTerm1Convertible.allUpfront'': u''1.082'', u''yrTerm1Standard.allUpfront'':
-        u''0.947'', u''yrTerm3Standard.partialUpfront'': u''0.661'', u''yrTerm1Standard.noUpfront'':
-        u''1.008''}, u''ondemand'': u''1.591''}", "id": "c4.8xlarge"}, {"max_nics":
-        8, "name": "c3.8xlarge", "disk_gb": 320, "max_ips_per_nic": 30, "ram_mb":
-        61440, "public": true, "vcpus": 32, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''1.221'', u''yrTerm3Convertible.allUpfront'': u''0.893'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.911'', u''yrTerm1Convertible.partialUpfront'': u''1.162'', u''yrTerm1Standard.partialUpfront'':
-        u''1.012'', u''yrTerm3Convertible.noUpfront'': u''1.051'', u''yrTerm3Standard.allUpfront'':
-        u''0.628'', u''yrTerm1Convertible.allUpfront'': u''1.140'', u''yrTerm1Standard.allUpfront'':
-        u''0.992'', u''yrTerm3Standard.partialUpfront'': u''0.668'', u''yrTerm1Standard.noUpfront'':
-        u''1.168''}, u''ondemand'': u''1.68''}", "id": "c3.8xlarge"}, {"max_nics":
-        8, "name": "m4.10xlarge", "disk_gb": 0, "max_ips_per_nic": 30, "ram_mb": 163840,
-        "public": true, "vcpus": 40, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''1.425'', u''yrTerm3Convertible.allUpfront'': u''0.902'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.920'', u''yrTerm1Convertible.partialUpfront'': u''1.357'', u''yrTerm1Standard.partialUpfront'':
-        u''1.180'', u''yrTerm3Standard.noUpfront'': u''0.864'', u''yrTerm3Convertible.noUpfront'':
-        u''0.994'', u''yrTerm3Standard.allUpfront'': u''0.752'', u''yrTerm1Convertible.allUpfront'':
-        u''1.330'', u''yrTerm1Standard.allUpfront'': u''1.156'', u''yrTerm3Standard.partialUpfront'':
-        u''0.800'', u''yrTerm1Standard.noUpfront'': u''1.239''}, u''ondemand'': u''2''}",
-        "id": "m4.10xlarge"}, {"max_nics": 8, "name": "r4.8xlarge", "disk_gb": 0,
-        "max_ips_per_nic": 30, "ram_mb": 249856, "public": true, "vcpus": 32, "cost":
-        "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''1.546'', u''yrTerm3Convertible.allUpfront'':
-        u''0.956'', u''yrTerm3Convertible.partialUpfront'': u''0.975'', u''yrTerm1Convertible.partialUpfront'':
-        u''1.472'', u''yrTerm1Standard.partialUpfront'': u''1.277'', u''yrTerm3Standard.noUpfront'':
-        u''0.916'', u''yrTerm3Convertible.noUpfront'': u''1.053'', u''yrTerm3Standard.allUpfront'':
-        u''0.800'', u''yrTerm1Convertible.allUpfront'': u''1.443'', u''yrTerm1Standard.allUpfront'':
-        u''1.251'', u''yrTerm3Standard.partialUpfront'': u''0.851'', u''yrTerm1Standard.noUpfront'':
-        u''1.344''}, u''ondemand'': u''2.128''}", "id": "r4.8xlarge"}, {"max_nics":
-        15, "name": "c5.18xlarge", "disk_gb": 0, "max_ips_per_nic": 50, "ram_mb":
-        147456, "public": true, "vcpus": 72, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''2.217'', u''yrTerm3Convertible.allUpfront'': u''1.340'', u''yrTerm3Convertible.partialUpfront'':
-        u''1.368'', u''yrTerm1Convertible.partialUpfront'': u''2.112'', u''yrTerm1Standard.partialUpfront'':
-        u''1.836'', u''yrTerm3Standard.noUpfront'': u''1.282'', u''yrTerm3Convertible.noUpfront'':
-        u''1.477'', u''yrTerm3Standard.allUpfront'': u''1.116'', u''yrTerm1Convertible.allUpfront'':
-        u''2.069'', u''yrTerm1Standard.allUpfront'': u''1.799'', u''yrTerm3Standard.partialUpfront'':
-        u''1.188'', u''yrTerm1Standard.noUpfront'': u''1.928''}, u''ondemand'': u''3.06''}",
-        "id": "c5.18xlarge"}, {"max_nics": 8, "name": "m4.16xlarge", "disk_gb": 0,
-        "max_ips_per_nic": 30, "ram_mb": 262144, "public": true, "vcpus": 64, "cost":
-        "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''2.280'', u''yrTerm3Convertible.allUpfront'':
-        u''1.443'', u''yrTerm3Convertible.partialUpfront'': u''1.472'', u''yrTerm1Convertible.partialUpfront'':
-        u''2.171'', u''yrTerm1Standard.partialUpfront'': u''1.888'', u''yrTerm3Standard.noUpfront'':
-        u''1.382'', u''yrTerm3Convertible.noUpfront'': u''1.590'', u''yrTerm3Standard.allUpfront'':
-        u''1.203'', u''yrTerm1Convertible.allUpfront'': u''2.128'', u''yrTerm1Standard.allUpfront'':
-        u''1.850'', u''yrTerm3Standard.partialUpfront'': u''1.280'', u''yrTerm1Standard.noUpfront'':
-        u''1.982''}, u''ondemand'': u''3.2''}", "id": "m4.16xlarge"}, {"max_nics":
-        15, "name": "r4.16xlarge", "disk_gb": 0, "max_ips_per_nic": 50, "ram_mb":
-        499712, "public": true, "vcpus": 64, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''3.091'', u''yrTerm3Convertible.allUpfront'': u''1.911'', u''yrTerm3Convertible.partialUpfront'':
-        u''1.950'', u''yrTerm1Convertible.partialUpfront'': u''2.944'', u''yrTerm1Standard.partialUpfront'':
-        u''2.554'', u''yrTerm3Standard.noUpfront'': u''1.832'', u''yrTerm3Convertible.noUpfront'':
-        u''2.106'', u''yrTerm3Standard.allUpfront'': u''1.600'', u''yrTerm1Convertible.allUpfront'':
-        u''2.885'', u''yrTerm1Standard.allUpfront'': u''2.503'', u''yrTerm3Standard.partialUpfront'':
-        u''1.702'', u''yrTerm1Standard.noUpfront'': u''2.688''}, u''ondemand'': u''4.256''}",
-        "id": "r4.16xlarge"}], "htypes": ["XEN"]}, {"vtype": "CLOUD_MESOS"}, {"vtype":
+        "id": "t2.small"}], "htypes": ["XEN"]}, {"vtype": "CLOUD_MESOS"}, {"vtype":
         "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"},
         {"vtype": "CLOUD_LINUXSERVER"}, {"vtype": "CLOUD_VCA", "htypes": ["VMWARE_ESX"]},
         {"vtype": "CLOUD_AZURE", "flavor_props": [{"max_nics": 1, "max_ips_per_nic":
-        150, "public": true, "name": "all", "id": "all"}]}], "hyp_props": [{"max_nics":
+        150, "public": true, "id": "all", "name": "all"}]}], "hyp_props": [{"max_nics":
         10, "htype": "VMWARE_ESX"}, {"max_nics": 10, "htype": "VMWARE_VSAN"}, {"max_nics":
         24, "htype": "KVM"}, {"htype": "XEN"}], "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS",
         "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S",
@@ -421,110 +136,15 @@ interactions:
       access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
       access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
       allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
-      avi_api_version: [18.1.3]
+      avi_api_version: [18.1.5]
       cache-control: ['private, no-cache, must-revalidate']
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 19 Jul 2018 14:28:53 GMT']
-      set-cookie: ['sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73; expires=Fri, 20-Jul-2018
-          14:28:53 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73;
-          expires=Fri, 20-Jul-2018 14:28:53 GMT; httponly; Max-Age=86400; Path=/;
-          secure']
-      strict-transport-security: [max-age=31536000; includeSubdomains]
-      vary: ['Accept, Cookie']
-      x-content-type-options: [nosniff]
-      x-frame-options: [SAMEORIGIN]
-      x-xss-protection: [1; mode=block]
-    status: {code: 200, message: OK}
-- request:
-    body: !!python/unicode '{"info": [{"vtype": "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]},
-      {"flavor_props": [{"max_ips_per_nic": 11, "id": "all", "name": "all", "public":
-      true}], "vtype": "CLOUD_OPENSTACK", "htypes": ["KVM", "VMWARE_ESX", "VMWARE_VSAN"]},
-      {"flavor_props": [{"max_nics": 2, "name": "t2.micro", "disk_gb": 0, "max_ips_per_nic":
-      2, "ram_mb": 1024, "public": true, "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-      u''0.008'', u''yrTerm3Convertible.allUpfront'': u''0.005'', u''yrTerm3Convertible.partialUpfront'':
-      u''0.005'', u''yrTerm1Convertible.partialUpfront'': u''0.008'', u''yrTerm1Standard.partialUpfront'':
-      u''0.007'', u''yrTerm3Standard.noUpfront'': u''0.005'', u''yrTerm3Convertible.noUpfront'':
-      u''0.006'', u''yrTerm3Standard.allUpfront'': u''0.004'', u''yrTerm1Convertible.allUpfront'':
-      u''0.008'', u''yrTerm1Standard.allUpfront'': u''0.007'', u''yrTerm3Standard.partialUpfront'':
-      u''0.005'', u''yrTerm1Standard.noUpfront'': u''0.007''}, u''ondemand'': u''0.0116''}",
-      "id": "t2.micro"}, {"max_nics": 2, "name": "t2.small", "disk_gb": 0, "max_ips_per_nic":
-      4, "ram_mb": 2048, "public": true, "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-      u''0.017'', u''yrTerm3Convertible.allUpfront'': u''0.011'', u''yrTerm3Convertible.partialUpfront'':
-      u''0.011'', u''yrTerm1Convertible.partialUpfront'': u''0.016'', u''yrTerm1Standard.partialUpfront'':
-      u''0.014'', u''yrTerm3Standard.noUpfront'': u''0.010'', u''yrTerm3Convertible.noUpfront'':
-      u''0.012'', u''yrTerm3Standard.allUpfront'': u''0.009'', u''yrTerm1Convertible.allUpfront'':
-      u''0.015'', u''yrTerm1Standard.allUpfront'': u''0.013'', u''yrTerm3Standard.partialUpfront'':
-      u''0.009'', u''yrTerm1Standard.noUpfront'': u''0.014''}, u''ondemand'': u''0.023''}",
-      "id": "t2.small"}], "flavor_regex_filter": "[ctmr][0-9]+\\..*", "vtype": "CLOUD_AWS",
-      "htypes": ["XEN"]}, {"vtype": "CLOUD_MESOS"}, {"vtype": "CLOUD_DOCKER_UCP"},
-      {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"}, {"vtype": "CLOUD_LINUXSERVER"},
-      {"vtype": "CLOUD_VCA", "htypes": ["VMWARE_ESX"]}, {"flavor_props": [{"max_nics":
-      1, "max_ips_per_nic": 150, "id": "all", "name": "all", "public": true}], "vtype":
-      "CLOUD_AZURE"}], "hyp_props": [{"max_nics": 10, "htype": "VMWARE_ESX"}, {"max_nics":
-      10, "htype": "VMWARE_VSAN"}, {"max_nics": 24, "htype": "KVM"}, {"htype": "XEN"}],
-      "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP",
-      "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER", "CLOUD_AZURE"]}'
-    headers:
-      Content-Length: ['2394']
-      Content-Type: [application/json]
-      Cookie: ['[<Cookie csrftoken=okKdy9sb0ZNQ8Jw7v2BOXp4nILlDSGay for 10.10.28.132/>,
-          <Cookie sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73 for 10.10.28.132/>]']
-      Referer: ['https://10.10.28.132']
-      X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.1.3]
-      X-CSRFToken: [okKdy9sb0ZNQ8Jw7v2BOXp4nILlDSGay]
-      timeout: ['300']
-    method: PUT
-    uri: https://10.10.28.132/api/cloudproperties/
-  response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.132/api/cloudproperties",
-        "uuid": "global", "_last_modified": "1532010534694721", "info": [{"vtype":
-        "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]}, {"flavor_props": [{"max_ips_per_nic":
-        11, "public": true, "id": "all", "name": "all"}], "vtype": "CLOUD_OPENSTACK",
-        "htypes": ["KVM", "VMWARE_ESX", "VMWARE_VSAN"]}, {"flavor_props": [{"max_nics":
-        2, "name": "t2.micro", "disk_gb": 0, "max_ips_per_nic": 2, "ram_mb": 1024,
-        "id": "t2.micro", "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.008'', u''yrTerm3Convertible.allUpfront'': u''0.005'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.005'', u''yrTerm1Convertible.partialUpfront'': u''0.008'', u''yrTerm1Standard.partialUpfront'':
-        u''0.007'', u''yrTerm3Standard.noUpfront'': u''0.005'', u''yrTerm3Convertible.noUpfront'':
-        u''0.006'', u''yrTerm3Standard.allUpfront'': u''0.004'', u''yrTerm1Convertible.allUpfront'':
-        u''0.008'', u''yrTerm1Standard.allUpfront'': u''0.007'', u''yrTerm3Standard.partialUpfront'':
-        u''0.005'', u''yrTerm1Standard.noUpfront'': u''0.007''}, u''ondemand'': u''0.0116''}",
-        "public": true}, {"max_nics": 2, "name": "t2.small", "disk_gb": 0, "max_ips_per_nic":
-        4, "ram_mb": 2048, "id": "t2.small", "vcpus": 1, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.017'', u''yrTerm3Convertible.allUpfront'':
-        u''0.011'', u''yrTerm3Convertible.partialUpfront'': u''0.011'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.016'', u''yrTerm1Standard.partialUpfront'': u''0.014'', u''yrTerm3Standard.noUpfront'':
-        u''0.010'', u''yrTerm3Convertible.noUpfront'': u''0.012'', u''yrTerm3Standard.allUpfront'':
-        u''0.009'', u''yrTerm1Convertible.allUpfront'': u''0.015'', u''yrTerm1Standard.allUpfront'':
-        u''0.013'', u''yrTerm3Standard.partialUpfront'': u''0.009'', u''yrTerm1Standard.noUpfront'':
-        u''0.014''}, u''ondemand'': u''0.023''}", "public": true}], "flavor_regex_filter":
-        "[ctmr][0-9]+\\..*", "vtype": "CLOUD_AWS", "htypes": ["XEN"]}, {"vtype": "CLOUD_MESOS"},
-        {"vtype": "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"},
-        {"vtype": "CLOUD_LINUXSERVER"}, {"vtype": "CLOUD_VCA", "htypes": ["VMWARE_ESX"]},
-        {"flavor_props": [{"max_nics": 1, "public": true, "max_ips_per_nic": 150,
-        "id": "all", "name": "all"}], "vtype": "CLOUD_AZURE"}], "hyp_props": [{"max_nics":
-        10, "htype": "VMWARE_ESX"}, {"max_nics": 10, "htype": "VMWARE_VSAN"}, {"max_nics":
-        24, "htype": "KVM"}, {"htype": "XEN"}], "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS",
-        "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S",
-        "CLOUD_LINUXSERVER", "CLOUD_AZURE"]}'}
-    headers:
-      access-control-allow-credentials: ['true']
-      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
-      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
-      allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
-      avi_api_version: [18.1.3]
-      cache-control: ['private, no-cache, must-revalidate']
-      connection: [keep-alive]
-      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
-      content-type: [application/json]
-      date: ['Thu, 19 Jul 2018 14:28:55 GMT']
-      server-timing: ['update=189.782142639,']
-      set-cookie: ['sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73; expires=Fri, 20-Jul-2018
-          14:28:54 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=p2ny3038opd0gfoaa6uqi1bhtqod6u73;
-          expires=Fri, 20-Jul-2018 14:28:54 GMT; httponly; Max-Age=86400; Path=/;
+      date: ['Fri, 26 Oct 2018 11:12:31 GMT']
+      set-cookie: ['sessionid=s6o2byj6cjx38om3wyauzm1m18pv1ian; expires=Sat, 27-Oct-2018
+          11:12:31 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=s6o2byj6cjx38om3wyauzm1m18pv1ian;
+          expires=Sat, 27-Oct-2018 11:12:31 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       vary: ['Accept, Cookie']

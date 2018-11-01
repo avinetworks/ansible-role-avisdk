@@ -5,10 +5,10 @@ matrix:
     - language: python
       python: "2.7"
       install:
-      - export AVI_CONTROLLER="10.10.28.132"
+      - export AVI_CONTROLLER="10.10.28.111"
       - export AVI_USERNAME="admin"
       - export AVI_PASSWORD="avi123$%"
-      - export API_VERSION="18.1.3"
+      - export API_VERSION="18.1.5"
       - export PYTHONPATH=$PWD
       - export ANSIBLE_LIBRARY=$PWD/
       - pip install vcrpy pytest ansible requests avisdk
