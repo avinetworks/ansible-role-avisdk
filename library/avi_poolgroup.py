@@ -88,6 +88,12 @@ options:
             - Uuid of the priority labels.
             - If not provided, pool group member priority label will be interpreted as a number with a larger number considered higher priority.
             - It is a reference to an object of type prioritylabels.
+    service_metadata:
+        description:
+            - Metadata pertaining to the service provided by this poolgroup.
+            - In openshift/kubernetes environments, app metadata info is stored.
+            - Any user input to this field will be overwritten by avi vantage.
+            - Field introduced in 17.2.14,18.1.5.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -153,6 +159,7 @@ def main():
         min_servers=dict(type='int',),
         name=dict(type='str', required=True),
         priority_labels_ref=dict(type='str',),
+        service_metadata=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -166,6 +173,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'poolgroup',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

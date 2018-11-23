@@ -219,7 +219,7 @@ options:
         description:
             - Criteria for flow distribution among ses.
             - Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT.
-            - Default value when not specified in API or module is interpreted by Avi Controller as LOAD_AWARE.
+            - Default value when not specified in API or module is interpreted by Avi Controller as CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT.
     flow_label_type:
         description:
             - Criteria for flow labelling.
@@ -629,6 +629,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'virtualservice',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

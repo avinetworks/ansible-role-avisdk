@@ -134,7 +134,7 @@ options:
     ttl:
         description:
             - Ttl value (in seconds) for records served for this gslb service by the dns service.
-            - Allowed values are 1-86400.
+            - Allowed values are 0-86400.
     url:
         description:
             - Avi controller URL of the object.
@@ -233,6 +233,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'gslbservice',
                            set([]))
+
 
 if __name__ == '__main__':
     main()
