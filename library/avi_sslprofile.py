@@ -88,7 +88,7 @@ options:
             - Sslrating settings for sslprofile.
     ssl_session_timeout:
         description:
-            - The amount of time before an ssl session expires.
+            - The amount of time in seconds before an ssl session expires.
             - Default value when not specified in API or module is interpreted by Avi Controller as 86400.
     tags:
         description:
@@ -215,6 +215,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'sslprofile',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

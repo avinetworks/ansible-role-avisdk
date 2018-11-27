@@ -17,7 +17,6 @@ DOCUMENTATION = '''
 ---
 module: avi_gslb
 author: Gaurav Rastogi (grastogi@avinetworks.com)
-        Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
 
 short_description: Module for setup of Gslb Avi RESTful Object
 description:
@@ -123,9 +122,9 @@ EXAMPLES = """
   avi_gslb:
     name: "test-gslb"
     avi_credentials:
-      username: "username"
-      password: "password"
-      controller: "10.10.28.83"
+      username: '{{ username }}'
+      password: '{{ password }}'
+      controller: '{{ controller }}'
     sites:
       - name: "test-site1"
         username: "gslb_username"
@@ -142,7 +141,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.28.102"
+            addr: "10.10.28.86"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 443
@@ -152,19 +151,47 @@ EXAMPLES = """
       - domain_name: "test2.com"
     leader_cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
 
-- name: Update gslb object
+- name: Update Gslb site's configurations (Patch Add Operation)
   avi_gslb:
     avi_credentials:
-      api_version: '{{ api_version }}'
-      username: "{{ avi_username }}"
-      password: "{{ avi_password }}"
-      controller: "{{ avi_controller }}"
+      username: '{{ username }}'
+      password: '{{ password }}'
+      controller: '{{ controller }}'
+    avi_api_update_method: patch
+    avi_api_patch_op: add
+    leader_cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
+    name: "test-gslb"
+    dns_configs:
+      - domain_name: "temp1.com"
+      - domain_name: "temp2.com"
+    gslb_sites_config:
+      - ip_addr: "10.10.28.83"
+        dns_vses:
+          - dns_vs_uuid: "virtualservice-f2a711cd-5e78-473f-8f47-d12de660fd62"
+            domain_names:
+              - "test1.com"
+              - "test2.com"
+      - ip_addr: "10.10.28.86"
+        dns_vses:
+          - dns_vs_uuid: "virtualservice-c1a63a16-f2a1-4f41-aab4-1e90f92a5e49"
+            domain_names:
+              - "temp1.com"
+              - "temp2.com"
+
+- name: Update Gslb site's configurations (Patch Replace Operation)
+  avi_gslb:
+    avi_credentials:
+      username: "{{ username }}"
+      password: "{{ password }}"
+      controller: "{{ controller }}"
+    # On basis of cluster leader uuid dns_configs is set for that perticular leader cluster
     leader_cluster_uuid: "cluster-84aa795f-8f09-42bb-97a4-5103f4a53da9"
     name: "test-gslb"
-    state: present
+    avi_api_update_method: patch
+    avi_api_patch_op: replace
     dns_configs:
-      - domain_name: "temp.com"
-      - domain_name: "test.com"
+      - domain_name: "test3.com"
+      - domain_name: "temp3.com"
     gslb_sites_config:
       # Ip address is mapping key for dns_vses field update. For the given IP address,
       # dns_vses is updated.
@@ -172,11 +199,28 @@ EXAMPLES = """
         dns_vses:
           - dns_vs_uuid: "virtualservice-7c947ed4-77f3-4a52-909c-4f12afaf5bb0"
             domain_names:
-              - "temp.com"
-              - "test.com"
+              - "test3.com"
       - ip_addr: "10.10.28.86"
-         dns_vses:
-           - dns_vs_uuid: "virtualservice-799b2c6d-7f2d-4c3f-94c6-6e813b20b674"
+        dns_vses:
+          - dns_vs_uuid: "virtualservice-799b2c6d-7f2d-4c3f-94c6-6e813b20b674"
+            domain_names:
+              - "temp3.com"
+
+- name: Update Gslb site's configurations (Patch Delete Operation)
+  avi_gslb:
+    avi_credentials:
+      username: "{{ username }}"
+      password: "{{ password }}"
+      controller: "{{ controller }}"
+    # On basis of cluster leader uuid dns_configs is set for that perticular leader cluster
+    leader_cluster_uuid: "cluster-84aa795f-8f09-42bb-97a4-5103f4a53da9"
+    name: "test-gslb"
+    avi_api_update_method: patch
+    avi_api_patch_op: delete
+    dns_configs:
+    gslb_sites_config:
+      - ip_addr: "10.10.28.83"
+      - ip_addr: "10.10.28.86"
 """
 
 RETURN = '''
@@ -215,7 +259,6 @@ def main():
         client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
-        gslb_sites_config=dict(type='list', ),
         is_federated=dict(type='bool',),
         leader_cluster_uuid=dict(type='str', required=True),
         maintenance_mode=dict(type='bool',),
@@ -301,7 +344,8 @@ def main():
                 'state': 'present'
             }
         )
-    return avi_ansible_api(module, 'gslb', set([]))
+    return avi_ansible_api(module, 'gslb',
+                           set([]))
 
 
 if __name__ == '__main__':

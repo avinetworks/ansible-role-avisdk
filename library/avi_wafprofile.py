@@ -130,5 +130,6 @@ def main():
     return avi_ansible_api(module, 'wafprofile',
                            set([]))
 
+
 if __name__ == '__main__':
     main()

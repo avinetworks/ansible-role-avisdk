@@ -41,6 +41,13 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+    allow_mode_delegation:
+        description:
+            - Allow rules to overwrite the policy mode.
+            - This must be set if the policy mode is set to enforcement.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     created_by:
         description:
             - Creator name.
@@ -70,6 +77,7 @@ options:
         description:
             - Waf policy mode.
             - This can be detection or enforcement.
+            - It can be overwritten by rules if allow_mode_delegation is set.
             - Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT.
             - Field introduced in 17.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_MODE_DETECTION_ONLY.
@@ -162,6 +170,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        allow_mode_delegation=dict(type='bool',),
         created_by=dict(type='str',),
         crs_groups=dict(type='list',),
         description=dict(type='str',),
@@ -187,6 +196,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'wafpolicy',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

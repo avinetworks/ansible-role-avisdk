@@ -42,6 +42,15 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+    cloud_config_cksum:
+        description:
+            - Checksum of application profiles.
+            - Internally set by cloud connector.
+            - Field introduced in 17.2.15, 18.1.5, 18.2.1.
+    created_by:
+        description:
+            - Name of the application profile creator.
+            - Field introduced in 17.2.15, 18.1.5, 18.2.1.
     description:
         description:
             - User defined description for the object.
@@ -191,6 +200,8 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        cloud_config_cksum=dict(type='str',),
+        created_by=dict(type='str',),
         description=dict(type='str',),
         dns_service_profile=dict(type='dict',),
         dos_rl_profile=dict(type='dict',),
@@ -214,6 +225,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'applicationprofile',
                            set([]))
+
 
 if __name__ == '__main__':
     main()
