@@ -48,7 +48,6 @@ options:
             - Accelerated networking enables single root i/o virtualization (sr-iov) to a se vm.
             - This improves networking performance.
             - Field introduced in 17.2.14,18.1.5.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     active_standby:
         description:
@@ -127,6 +126,12 @@ options:
             - If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to rest api.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    bgp_state_update_interval:
+        description:
+            - Bgp peer state update interval.
+            - Allowed values are 5-100.
+            - Field introduced in 17.2.14,18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
     buffer_se:
         description:
             - Excess service engine capacity provisioned for ha failover.
@@ -266,6 +271,14 @@ options:
             - Use virtual mac address for interfaces on which floating interface ips are placed.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    ephemeral_portrange_end:
+        description:
+            - End local ephemeral port number for outbound connections.
+            - Field introduced in 17.2.13, 18.1.5.
+    ephemeral_portrange_start:
+        description:
+            - Start local ephemeral port number for outbound connections.
+            - Field introduced in 17.2.13, 18.1.5.
     extra_config_multiplier:
         description:
             - Multiplier for extra config to support large vs/pool config.
@@ -398,6 +411,11 @@ options:
             - A new se may be created as part of this process.
             - Allowed values are 40-90.
             - Default value when not specified in API or module is interpreted by Avi Controller as 80.
+    max_memory_per_mempool:
+        description:
+            - Max bytes that can be allocated in a single mempool.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 64.
     max_public_ips_per_lb:
         description:
             - Applicable to azure platform only.
@@ -782,7 +800,7 @@ options:
     vs_scaleout_timeout:
         description:
             - Time to wait for the scaled out se to become ready before marking the scaleout done.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 600.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 30.
     vs_se_scaleout_additional_wait_time:
         description:
             - Wait time for sending scaleout ready notification after virtual service is marked up.
@@ -901,6 +919,7 @@ def main():
         auto_rebalance_criteria=dict(type='list',),
         auto_rebalance_interval=dict(type='int',),
         auto_redistribute_active_standby_load=dict(type='bool',),
+        bgp_state_update_interval=dict(type='int',),
         buffer_se=dict(type='int',),
         cloud_ref=dict(type='str',),
         config_debugs_on_all_cores=dict(type='bool',),
@@ -925,6 +944,8 @@ def main():
         enable_routing=dict(type='bool',),
         enable_vip_on_all_interfaces=dict(type='bool',),
         enable_vmac=dict(type='bool',),
+        ephemeral_portrange_end=dict(type='int',),
+        ephemeral_portrange_start=dict(type='int',),
         extra_config_multiplier=dict(type='float',),
         extra_shared_config_memory=dict(type='int',),
         floating_intf_ip=dict(type='list',),
@@ -949,6 +970,7 @@ def main():
         license_type=dict(type='str',),
         log_disksz=dict(type='int',),
         max_cpu_usage=dict(type='int',),
+        max_memory_per_mempool=dict(type='int',),
         max_public_ips_per_lb=dict(type='int',),
         max_rules_per_lb=dict(type='int',),
         max_scaleout_per_vs=dict(type='int',),
@@ -1040,6 +1062,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'serviceenginegroup',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

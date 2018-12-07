@@ -55,6 +55,10 @@ options:
             - Priority of this pool in a a-b pool pair.
             - Internally used.
             - Field deprecated in 18.1.2.
+    analytics_policy:
+        description:
+            - Determines analytics settings for the pool.
+            - Field introduced in 18.1.5.
     analytics_profile_ref:
         description:
             - Specifies settings related to analytics.
@@ -283,10 +287,24 @@ options:
     server_reselect:
         description:
             - Server reselect configuration for http requests.
+    server_timeout:
+        description:
+            - Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes
+            - between avi and the server.
+            - Value of 0 results in using default timeout of 60 minutes.
+            - Allowed values are 0-3600000.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     servers:
         description:
             - The pool directs load balanced traffic to this list of destination servers.
             - The servers can be configured by ip address, name, network or via ip address group.
+    service_metadata:
+        description:
+            - Metadata pertaining to the service provided by this pool.
+            - In openshift/kubernetes environments, app metadata info is stored.
+            - Any user input to this field will be overwritten by avi vantage.
+            - Field introduced in 17.2.14,18.1.5.
     sni_enabled:
         description:
             - Enable tls sni for server connections.
@@ -395,6 +413,7 @@ def main():
         a_pool=dict(type='str',),
         ab_pool=dict(type='dict',),
         ab_priority=dict(type='int',),
+        analytics_policy=dict(type='dict',),
         analytics_profile_ref=dict(type='str',),
         apic_epg_name=dict(type='str',),
         application_persistence_profile_ref=dict(type='str',),
@@ -442,7 +461,9 @@ def main():
         server_count=dict(type='int',),
         server_name=dict(type='str',),
         server_reselect=dict(type='dict',),
+        server_timeout=dict(type='int',),
         servers=dict(type='list',),
+        service_metadata=dict(type='str',),
         sni_enabled=dict(type='bool',),
         ssl_key_and_certificate_ref=dict(type='str',),
         ssl_profile_ref=dict(type='str',),
@@ -461,6 +482,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'pool',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

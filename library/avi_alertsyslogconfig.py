@@ -126,5 +126,6 @@ def main():
     return avi_ansible_api(module, 'alertsyslogconfig',
                            set([]))
 
+
 if __name__ == '__main__':
     main()

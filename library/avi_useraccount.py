@@ -43,7 +43,7 @@ options:
             - Old password for update password or default password for bootstrap.
     force_change:
         description:
-            - If specifically set to true then old password is tried first for controller and then the new password is 
+            - If specifically set to true then old password is tried first for controller and then the new password is
               tried. If not specified this flag then the new password is tried first.
 
 extends_documentation_fragment:
@@ -140,9 +140,6 @@ def main():
             rsp = api.put('useraccount', data=data)
             if rsp:
                 password_changed = True
-                return ansible_return(module, rsp, True, req=data)
-        password_changed = True
-        return module.exit_json(changed=False, obj=data)
     except:
         pass
     if not password_changed:
@@ -154,8 +151,11 @@ def main():
         if not force_change:
             rsp = api.put('useraccount', data=data)
             if rsp:
-                return ansible_return(module, rsp, True, req=data)
-        return module.exit_json(changed=False, obj=data)
+                password_changed = True
+    if password_changed:
+        return ansible_return(module, rsp, True, req=data)
+    else:
+        return ansible_return(module, rsp, False, req=data)
 
 
 if __name__ == '__main__':
