@@ -239,6 +239,10 @@ options:
             - It is common for applications like ms exchange.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    exclude_sip_error_codes:
+        description:
+            - List of sip status codes to be excluded from being classified as an error.
+            - Field introduced in 17.2.13, 18.1.5.
     exclude_syn_retransmit_as_error:
         description:
             - Exclude 'server unanswered syns' from the list of errors.
@@ -411,6 +415,13 @@ options:
             - Rules applied to the http application log for filtering sensitive information.
             - Field introduced in 17.2.10, 18.1.2.
         version_added: "2.7"
+    sip_log_depth:
+        description:
+            - Maximum number of sip messages added in logs for a sip transaction.
+            - By default, this value is 20.
+            - Allowed values are 1-1000.
+            - Field introduced in 17.2.13, 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -552,6 +563,7 @@ def main():
         exclude_persistence_change_as_error=dict(type='bool',),
         exclude_server_dns_error_as_error=dict(type='bool',),
         exclude_server_tcp_reset_as_error=dict(type='bool',),
+        exclude_sip_error_codes=dict(type='list',),
         exclude_syn_retransmit_as_error=dict(type='bool',),
         exclude_tcp_reset_as_error=dict(type='bool',),
         exclude_unsupported_dns_query_as_error=dict(type='bool',),
@@ -587,6 +599,7 @@ def main():
         ranges=dict(type='list',),
         resp_code_block=dict(type='list',),
         sensitive_log_profile=dict(type='dict',),
+        sip_log_depth=dict(type='int',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),

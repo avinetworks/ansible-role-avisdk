@@ -287,6 +287,14 @@ options:
     server_reselect:
         description:
             - Server reselect configuration for http requests.
+    server_timeout:
+        description:
+            - Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes
+            - between avi and the server.
+            - Value of 0 results in using default timeout of 60 minutes.
+            - Allowed values are 0-3600000.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     servers:
         description:
             - The pool directs load balanced traffic to this list of destination servers.
@@ -453,6 +461,7 @@ def main():
         server_count=dict(type='int',),
         server_name=dict(type='str',),
         server_reselect=dict(type='dict',),
+        server_timeout=dict(type='int',),
         servers=dict(type='list',),
         service_metadata=dict(type='str',),
         sni_enabled=dict(type='bool',),

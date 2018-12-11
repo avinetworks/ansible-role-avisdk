@@ -411,6 +411,11 @@ options:
             - A new se may be created as part of this process.
             - Allowed values are 40-90.
             - Default value when not specified in API or module is interpreted by Avi Controller as 80.
+    max_memory_per_mempool:
+        description:
+            - Max bytes that can be allocated in a single mempool.
+            - Field introduced in 18.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 64.
     max_public_ips_per_lb:
         description:
             - Applicable to azure platform only.
@@ -965,6 +970,7 @@ def main():
         license_type=dict(type='str',),
         log_disksz=dict(type='int',),
         max_cpu_usage=dict(type='int',),
+        max_memory_per_mempool=dict(type='int',),
         max_public_ips_per_lb=dict(type='int',),
         max_rules_per_lb=dict(type='int',),
         max_scaleout_per_vs=dict(type='int',),
