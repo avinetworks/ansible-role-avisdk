@@ -6,6 +6,12 @@ services:
 before_install:
   - sudo apt-get -qq update
 install:
+  - export AVI_CONTROLLER="10.10.25.128"
+  - export AVI_USERNAME="admin"
+  - export AVI_PASSWORD="avi123$%"
+  - export API_VERSION="18.1.5"
+  - export PYTHONPATH=$PWD
+  - export ANSIBLE_LIBRARY=$PWD/
   - pip install molecule docker
   # - pip install required driver (e.g. docker, python-vagrant, shade, boto, apache-libcloud)
 script:

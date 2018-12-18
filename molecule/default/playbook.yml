@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   roles:
-    - role: avinetworks.avisdk
+    - role: ansible-role-avisdk
   vars_files:
     - ./var/creds.yml
   vars:
