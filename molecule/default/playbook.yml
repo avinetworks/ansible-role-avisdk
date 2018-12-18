@@ -1,0 +1,34 @@
+---
+- name: Converge
+  hosts: localhost
+  connection: local
+  roles:
+    - role: avinetworks.avisdk
+  vars_files:
+    - ./var/creds.yml
+  vars:
+    config: "{{ config }}"
+    state: "{{ state }}"
+    cluster_uuid: "{{uuid}}"
+    avi_credentials:
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  tasks:
+    - name: Get cloud information
+      avi_api_session:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{avi_credentials.api_version}}"
+        http_method: get
+        path: cluster
+      register: get_result
+
+    - name: set cluster uuid
+      set_fact:
+        cluster_uuid: "{{ get_result.obj.uuid }}"
+      vars:
+        avi_config_file: "{{ config }}"
