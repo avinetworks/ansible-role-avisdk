@@ -12,7 +12,7 @@ install:
   - export API_VERSION="18.1.5"
   - export PYTHONPATH=$PWD
   - export ANSIBLE_LIBRARY=$PWD/
-  - pip install molecule docker
+  - pip install molecule docker avisdk
   # - pip install required driver (e.g. docker, python-vagrant, shade, boto, apache-libcloud)
 script:
   - molecule converge
