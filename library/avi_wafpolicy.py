@@ -45,7 +45,7 @@ options:
         description:
             - Allow rules to overwrite the policy mode.
             - This must be set if the policy mode is set to enforcement.
-            - Field introduced in 18.1.5.
+            - Field introduced in 18.1.5, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     created_by:

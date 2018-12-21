@@ -98,12 +98,10 @@ options:
         description:
             - Allowed ciphers list for ssh to the management interface on the controller and service engines.
             - If this is not specified, all the default ciphers are allowed.
-            - Ssh -q cipher provides the list of default ciphers supported.
     ssh_hmacs:
         description:
             - Allowed hmac list for ssh to the management interface on the controller and service engines.
             - If this is not specified, all the default hmacs are allowed.
-            - Ssh -q mac provides the list of default hmacs supported.
     url:
         description:
             - Avi controller URL of the object.

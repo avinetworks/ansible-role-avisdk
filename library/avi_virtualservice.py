@@ -131,7 +131,7 @@ options:
     cloud_type:
         description:
             - Enum options - cloud_none, cloud_vcenter, cloud_openstack, cloud_aws, cloud_vca, cloud_apic, cloud_mesos, cloud_linuxserver, cloud_docker_ucp,
-            - cloud_rancher, cloud_oshift_k8s, cloud_azure.
+            - cloud_rancher, cloud_oshift_k8s, cloud_azure, cloud_gcp.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
     connections_rate_limit:
         description:
@@ -219,7 +219,7 @@ options:
         description:
             - Criteria for flow distribution among ses.
             - Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT.
-            - Default value when not specified in API or module is interpreted by Avi Controller as CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT.
+            - Default value when not specified in API or module is interpreted by Avi Controller as LOAD_AWARE.
     flow_label_type:
         description:
             - Criteria for flow labelling.
@@ -269,6 +269,10 @@ options:
         description:
             - Microservice representing the virtual service.
             - It is a reference to an object of type microservice.
+    min_pools_up:
+        description:
+            - Minimum number of up pools to mark vs up.
+            - Field introduced in 18.2.1, 17.2.12.
     name:
         description:
             - Name for the virtual service.
@@ -325,6 +329,12 @@ options:
             - The service engine group to use for this virtual service.
             - Moving to a new se group is disruptive to existing connections for this vs.
             - It is a reference to an object of type serviceenginegroup.
+    security_policy_ref:
+        description:
+            - Security policy applied on the traffic of the virtual service.
+            - This policy is used to perform security actions such as distributed denial of service (ddos) attack mitigation, etc.
+            - It is a reference to an object of type securitypolicy.
+            - Field introduced in 18.2.1.
     server_network_profile_ref:
         description:
             - Determines the network settings profile for the server side of tcp proxied connections.
@@ -370,6 +380,10 @@ options:
             - Expected number of ssl session cache entries (may be exceeded).
             - Allowed values are 1024-16383.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1024.
+    sso_policy:
+        description:
+            - Client authentication and authorization policy for the virtualservice.
+            - Field introduced in 18.2.1.
     static_dns_records:
         description:
             - List of static dns records applied to this virtual service.
@@ -576,6 +590,7 @@ def main():
         limit_doser=dict(type='bool',),
         max_cps_per_client=dict(type='int',),
         microservice_ref=dict(type='str',),
+        min_pools_up=dict(type='int',),
         name=dict(type='str', required=True),
         network_profile_ref=dict(type='str',),
         network_ref=dict(type='str',),
@@ -589,6 +604,7 @@ def main():
         requests_rate_limit=dict(type='dict',),
         scaleout_ecmp=dict(type='bool',),
         se_group_ref=dict(type='str',),
+        security_policy_ref=dict(type='str',),
         server_network_profile_ref=dict(type='str',),
         service_metadata=dict(type='str',),
         service_pool_select=dict(type='list',),
@@ -599,6 +615,7 @@ def main():
         ssl_key_and_certificate_refs=dict(type='list',),
         ssl_profile_ref=dict(type='str',),
         ssl_sess_cache_avg_size=dict(type='int',),
+        sso_policy=dict(type='dict',),
         static_dns_records=dict(type='list',),
         subnet=dict(type='dict',),
         subnet_uuid=dict(type='str',),

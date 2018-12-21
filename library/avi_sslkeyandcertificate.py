@@ -52,7 +52,7 @@ options:
     certificate_base64:
         description:
             - States if the certificate is base64 encoded.
-            - Field introduced in 18.1.2.
+            - Field introduced in 18.1.2, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.7"
         type: bool
@@ -77,7 +77,7 @@ options:
         description:
             - Format of the key/certificate file.
             - Enum options - SSL_PEM, SSL_PKCS12.
-            - Field introduced in 18.1.2.
+            - Field introduced in 18.1.2, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as SSL_PEM.
         version_added: "2.7"
     hardwaresecuritymodulegroup_ref:
@@ -89,7 +89,7 @@ options:
     key_base64:
         description:
             - States if the private key is base64 encoded.
-            - Field introduced in 18.1.2.
+            - Field introduced in 18.1.2, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.7"
         type: bool
@@ -99,7 +99,7 @@ options:
     key_passphrase:
         description:
             - Passphrase used to encrypt the private key.
-            - Field introduced in 18.1.2.
+            - Field introduced in 18.1.2, 18.2.1.
         version_added: "2.7"
     name:
         description:

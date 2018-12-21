@@ -44,10 +44,10 @@ options:
         choices: ["add", "replace", "delete"]
     accelerated_networking:
         description:
-            - Enable acclerated networking option for azure se.
+            - Enable accelerated networking option for azure se.
             - Accelerated networking enables single root i/o virtualization (sr-iov) to a se vm.
             - This improves networking performance.
-            - Field introduced in 17.2.14,18.1.5.
+            - Field introduced in 17.2.14,18.1.5,18.2.1.
         type: bool
     active_standby:
         description:
@@ -130,7 +130,7 @@ options:
         description:
             - Bgp peer state update interval.
             - Allowed values are 5-100.
-            - Field introduced in 17.2.14,18.1.5.
+            - Field introduced in 17.2.14,18.1.5,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
     buffer_se:
         description:
@@ -142,7 +142,7 @@ options:
     config_debugs_on_all_cores:
         description:
             - Enable config debugs on all cores of se.
-            - Field introduced in 17.2.13,18.1.5.
+            - Field introduced in 17.2.13,18.1.5,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     connection_memory_percentage:
@@ -189,7 +189,7 @@ options:
             - Set this to true to disallow avi to create and manage new security groups.
             - Avi will only make use of custom security groups provided by user.
             - This option is only supported for aws cloud type.
-            - Field introduced in 17.2.13,18.1.4.
+            - Field introduced in 17.2.13,18.1.4,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     disable_csum_offloads:
@@ -274,11 +274,11 @@ options:
     ephemeral_portrange_end:
         description:
             - End local ephemeral port number for outbound connections.
-            - Field introduced in 17.2.13, 18.1.5.
+            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
     ephemeral_portrange_start:
         description:
             - Start local ephemeral port number for outbound connections.
-            - Field introduced in 17.2.13, 18.1.5.
+            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
     extra_config_multiplier:
         description:
             - Multiplier for extra config to support large vs/pool config.
@@ -484,7 +484,7 @@ options:
         description:
             - Minimum number of services engines in this group (relevant for se autorebalance only).
             - Allowed values are 0-1000.
-            - Field introduced in 17.2.13,18.1.3.
+            - Field introduced in 17.2.13,18.1.3,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
     minimum_connection_memory:
         description:
@@ -523,7 +523,7 @@ options:
             - Number of dispatcher cores (0,1,2,4,8 or 16).
             - If set to 0, then number of dispatcher cores is deduced automatically.
             - Allowed values are 0,1,2,4,8,16.
-            - Field introduced in 17.2.12, 18.1.3.
+            - Field introduced in 17.2.12, 18.1.3, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     num_flow_cores_sum_changes_to_ignore:
         description:
@@ -587,13 +587,13 @@ options:
         description:
             - Flow probe retry count if no replies are received.
             - Allowed values are 0-5.
-            - Field introduced in 18.1.4.
+            - Field introduced in 18.1.4, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
     se_flow_probe_timer:
         description:
             - Timeout in milliseconds for flow probe entries.
             - Allowed values are 10-200.
-            - Field introduced in 18.1.4.
+            - Field introduced in 18.1.4, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
     se_ipc_udp_port:
         description:
@@ -612,14 +612,14 @@ options:
             - [valid range   15 mins - 12 hours, 0 - disables].
             - Allowed values are 900-43200.
             - Special values are 0- 'disable'.
-            - Field introduced in 17.2.13, 18.1.3.
+            - Field introduced in 17.2.13, 18.1.3, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_pcap_reinit_threshold:
         description:
             - Threshold for input packet receive errors in pcap mode exceeding which a pcap reinit is triggered.
             - If not set, an unconditional reinit is performed.
             - This value is checked every pcap_reinit_frequency interval.
-            - Field introduced in 17.2.13, 18.1.3.
+            - Field introduced in 17.2.13, 18.1.3, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     se_probe_port:
         description:
@@ -731,8 +731,8 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
     ssl_preprocess_sni_hostname:
         description:
-            - (beta) preprocess ssl client hello for sni hostname extension.
-            - If set to true, this will apply sni child's ssl protocol(s) if they are different from sni parent's allowed ssl protocol(s).
+            - (beta) preprocess ssl client hello for sni hostname extension.if set to true, this will apply sni child's ssl protocol(s), if they are different
+            - from sni parent's allowed ssl protocol(s).
             - Field introduced in 17.2.12, 18.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
@@ -782,7 +782,7 @@ options:
     vip_asg:
         description:
             - When vip_asg is set, vip configuration will be managed by avi.user will be able to configure vip_asg or vips individually at the time of create.
-            - Field introduced in 18.1.2.
+            - Field introduced in 17.2.12, 18.1.2.
         version_added: "2.7"
     vs_host_redundancy:
         description:
@@ -807,18 +807,18 @@ options:
             - In certain deployments, there may be an additional delay to accept traffic.
             - For example, for bgp, some time is needed for route advertisement.
             - Allowed values are 0-20.
-            - Field introduced in 18.1.5.
+            - Field introduced in 18.1.5,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     vs_se_scaleout_ready_timeout:
         description:
             - Timeout in seconds for service engine to sendscaleout ready notification of a virtual service.
             - Allowed values are 0-60.
-            - Field introduced in 18.1.5.
+            - Field introduced in 18.1.5,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 25.
     vs_switchover_timeout:
         description:
             - During se upgrade in a legacy active/standby segroup, time to wait for the new primary se to accept flows before marking the switchover done.
-            - Field introduced in 17.2.13,18.1.4.
+            - Field introduced in 17.2.13,18.1.4,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     vss_placement:
         description:

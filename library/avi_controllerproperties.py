@@ -65,7 +65,7 @@ options:
         description:
             - Threshold to log request timing in portal_performance.log and server-timing response header.
             - Any stage taking longer than 1% of the threshold will be included in the server-timing header.
-            - Field introduced in 18.1.4.
+            - Field introduced in 18.1.4, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10000.
     appviewx_compat_mode:
         description:
@@ -103,7 +103,7 @@ options:
     cloud_reconcile:
         description:
             - Enable/disable periodic reconcile for all the clouds.
-            - Field introduced in 17.2.14,18.1.5.
+            - Field introduced in 17.2.14,18.1.5,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     cluster_ip_gratuitous_arp_period:
@@ -134,7 +134,7 @@ options:
     enable_api_sharding:
         description:
             - This setting enables the controller leader to shard api requests to the followers (if any).
-            - Field introduced in 18.1.5.
+            - Field introduced in 18.1.5, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     enable_memory_balancer:
@@ -212,6 +212,7 @@ options:
             - The setting is applicable only when byol license is selected.
             - Enum options - MARKETPLACE, IMAGE.
             - Field introduced in 18.1.4, 18.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as IMAGE.
     se_offline_del:
         description:
             - Number of se_offline_del.
@@ -314,7 +315,7 @@ options:
     warmstart_vs_resync_wait_time:
         description:
             - Timeout for warmstart vs resync.
-            - Field introduced in 18.1.4.
+            - Field introduced in 18.1.4, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
 extends_documentation_fragment:
     - avi
