@@ -93,6 +93,10 @@ options:
             - Use static routes for vip side network resolution during virtualservice placement.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    gcp_configuration:
+        description:
+            - Google cloud platform configuration.
+            - Field introduced in 18.2.1.
     ip6_autocfg_enabled:
         description:
             - Enable ipv6 auto configuration.
@@ -181,7 +185,7 @@ options:
         description:
             - Cloud type.
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
-            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         required: true
 extends_documentation_fragment:
@@ -255,6 +259,7 @@ def main():
         east_west_dns_provider_ref=dict(type='str',),
         east_west_ipam_provider_ref=dict(type='str',),
         enable_vip_static_routes=dict(type='bool',),
+        gcp_configuration=dict(type='dict',),
         ip6_autocfg_enabled=dict(type='bool',),
         ipam_provider_ref=dict(type='str',),
         license_tier=dict(type='str',),

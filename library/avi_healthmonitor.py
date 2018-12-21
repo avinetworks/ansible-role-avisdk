@@ -96,7 +96,7 @@ options:
     sip_monitor:
         description:
             - Health monitor for sip.
-            - Field introduced in 17.2.8, 18.1.3.
+            - Field introduced in 17.2.8, 18.1.3, 18.2.1.
         version_added: "2.7"
     successful_checks:
         description:

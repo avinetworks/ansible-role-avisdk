@@ -77,7 +77,7 @@ options:
     oci_profile:
         description:
             - Provider details for oracle cloud.
-            - Field introduced in 18.1.3.
+            - Field introduced in 18.2.1,18.1.3.
     openstack_profile:
         description:
             - Provider details if type is openstack.

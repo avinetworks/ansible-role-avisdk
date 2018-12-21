@@ -93,7 +93,7 @@ options:
             - Metadata pertaining to the service provided by this poolgroup.
             - In openshift/kubernetes environments, app metadata info is stored.
             - Any user input to this field will be overwritten by avi vantage.
-            - Field introduced in 17.2.14,18.1.5.
+            - Field introduced in 17.2.14,18.1.5,18.2.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.

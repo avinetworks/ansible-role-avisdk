@@ -44,8 +44,9 @@ options:
         choices: ["add", "replace", "delete"]
     connection_mirror:
         description:
-            - When enabled, avi mirrors all tcp fastpath connections to standby.applicable only in legacy ha mode.
-            - Field introduced in 18.1.3.
+            - When enabled, avi mirrors all tcp fastpath connections to standby.
+            - Applicable only in legacy ha mode.
+            - Field introduced in 18.1.3,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     description:

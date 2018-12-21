@@ -58,12 +58,12 @@ options:
     analytics_policy:
         description:
             - Determines analytics settings for the pool.
-            - Field introduced in 18.1.5.
+            - Field introduced in 18.1.5, 18.2.1.
     analytics_profile_ref:
         description:
             - Specifies settings related to analytics.
             - It is a reference to an object of type analyticsprofile.
-            - Field introduced in 18.1.4.
+            - Field introduced in 18.1.4,18.2.1.
     apic_epg_name:
         description:
             - Synchronize cisco apic epg members with pool servers.
@@ -101,6 +101,10 @@ options:
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
+    conn_pool_properties:
+        description:
+            - Connnection pool properties.
+            - Field introduced in 18.2.1.
     connection_ramp_duration:
         description:
             - Duration for which new connections will be gradually ramped up to a server recently brought online.
@@ -224,6 +228,14 @@ options:
     max_conn_rate_per_server:
         description:
             - Rate limit connections to each server.
+    min_health_monitors_up:
+        description:
+            - Minimum number of health monitors in up state to mark server up.
+            - Field introduced in 18.2.1, 17.2.12.
+    min_servers_up:
+        description:
+            - Minimum number of servers in up state for marking the pool up.
+            - Field introduced in 18.2.1, 17.2.12.
     name:
         description:
             - The name of the pool.
@@ -278,8 +290,7 @@ options:
         type: bool
     server_count:
         description:
-            - Number of server_count.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+            - Field deprecated in 18.2.1.
     server_name:
         description:
             - Fully qualified dns hostname which will be used in the tls sni extension in server connections if sni is enabled.
@@ -293,7 +304,7 @@ options:
             - between avi and the server.
             - Value of 0 results in using default timeout of 60 minutes.
             - Allowed values are 0-3600000.
-            - Field introduced in 18.1.5.
+            - Field introduced in 18.1.5,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     servers:
         description:
@@ -304,7 +315,7 @@ options:
             - Metadata pertaining to the service provided by this pool.
             - In openshift/kubernetes environments, app metadata info is stored.
             - Any user input to this field will be overwritten by avi vantage.
-            - Field introduced in 17.2.14,18.1.5.
+            - Field introduced in 17.2.14,18.1.5,18.2.1.
     sni_enabled:
         description:
             - Enable tls sni for server connections.
@@ -424,6 +435,7 @@ def main():
         capacity_estimation_ttfb_thresh=dict(type='int',),
         cloud_config_cksum=dict(type='str',),
         cloud_ref=dict(type='str',),
+        conn_pool_properties=dict(type='dict',),
         connection_ramp_duration=dict(type='int',),
         created_by=dict(type='str',),
         default_server_port=dict(type='int',),
@@ -447,6 +459,8 @@ def main():
         lookup_server_by_name=dict(type='bool',),
         max_concurrent_connections_per_server=dict(type='int',),
         max_conn_rate_per_server=dict(type='dict',),
+        min_health_monitors_up=dict(type='int',),
+        min_servers_up=dict(type='int',),
         name=dict(type='str', required=True),
         networks=dict(type='list',),
         nsx_securitygroup=dict(type='list',),

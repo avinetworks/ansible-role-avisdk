@@ -174,12 +174,19 @@ options:
             - Additionally, no healthscore of servers is computed when server analytics is disabled.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    disable_vs_analytics:
+        description:
+            - Disable virtualservice (frontend) analytics.
+            - This flag disables metrics and healthscore for virtualservice.
+            - Field introduced in 18.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     enable_advanced_analytics:
         description:
             - Enables advanced analytics features like anomaly detection.
             - If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be disabled.
             - However, setting it to false reduces cpu and memory requirements for analytics subsystem.
-            - Field introduced in 17.2.13, 18.1.5.
+            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     exclude_client_close_before_request_as_error:
@@ -242,7 +249,7 @@ options:
     exclude_sip_error_codes:
         description:
             - List of sip status codes to be excluded from being classified as an error.
-            - Field introduced in 17.2.13, 18.1.5.
+            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
     exclude_syn_retransmit_as_error:
         description:
             - Exclude 'server unanswered syns' from the list of errors.
@@ -420,7 +427,7 @@ options:
             - Maximum number of sip messages added in logs for a sip transaction.
             - By default, this value is 20.
             - Allowed values are 1-1000.
-            - Field introduced in 17.2.13, 18.1.5.
+            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
     tenant_ref:
         description:
@@ -551,6 +558,7 @@ def main():
         disable_ondemand_metrics=dict(type='bool',),
         disable_se_analytics=dict(type='bool',),
         disable_server_analytics=dict(type='bool',),
+        disable_vs_analytics=dict(type='bool',),
         enable_advanced_analytics=dict(type='bool',),
         exclude_client_close_before_request_as_error=dict(type='bool',),
         exclude_dns_policy_drop_as_significant=dict(type='bool',),

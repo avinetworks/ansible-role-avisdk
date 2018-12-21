@@ -46,11 +46,11 @@ options:
         description:
             - Checksum of application profiles.
             - Internally set by cloud connector.
-            - Field introduced in 17.2.15, 18.1.5, 18.2.1.
+            - Field introduced in 17.2.14, 18.1.5, 18.2.1.
     created_by:
         description:
             - Name of the application profile creator.
-            - Field introduced in 17.2.15, 18.1.5, 18.2.1.
+            - Field introduced in 17.2.14, 18.1.5, 18.2.1.
     description:
         description:
             - User defined description for the object.
@@ -83,7 +83,7 @@ options:
     sip_service_profile:
         description:
             - Specifies various sip service related controls for virtual service.
-            - Field introduced in 17.2.8, 18.1.3.
+            - Field introduced in 17.2.8, 18.1.3, 18.2.1.
         version_added: "2.7"
     tcp_app_profile:
         description:
