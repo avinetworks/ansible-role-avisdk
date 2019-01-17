@@ -82,6 +82,14 @@ options:
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: bool
+    app_cache_percent:
+        description:
+            - A percent value of total se memory reserved for application caching.
+            - This is an se bootup property and requires se restart.
+            - Allowed values are 0 - 100.
+            - Special values are 0- 'disable'.
+            - Field introduced in 18.2.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     archive_shm_limit:
         description:
             - Amount of se memory in gb until which shared memory is collected in core archive.
@@ -911,6 +919,7 @@ def main():
         aggressive_failure_detection=dict(type='bool',),
         algo=dict(type='str',),
         allow_burst=dict(type='bool',),
+        app_cache_percent=dict(type='int',),
         archive_shm_limit=dict(type='int',),
         async_ssl=dict(type='bool',),
         async_ssl_threads=dict(type='int',),

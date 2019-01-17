@@ -90,6 +90,11 @@ options:
             - In such a case, avi members can have controller derived status while non-avi members can be probed by via health monitor probes in dataplane.
             - Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS.
             - Default value when not specified in API or module is interpreted by Avi Controller as GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS.
+    hm_off:
+        description:
+            - This field is an internal field and is used in se.
+            - Field introduced in 18.2.2.
+        type: bool
     is_federated:
         description:
             - This field indicates that this object is replicated across gslb federation.
@@ -211,6 +216,7 @@ def main():
         groups=dict(type='list',),
         health_monitor_refs=dict(type='list',),
         health_monitor_scope=dict(type='str',),
+        hm_off=dict(type='bool',),
         is_federated=dict(type='bool',),
         min_members=dict(type='int',),
         name=dict(type='str', required=True),
