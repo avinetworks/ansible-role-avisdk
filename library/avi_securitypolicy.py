@@ -31,15 +31,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_alertscriptconfig
+module: avi_securitypolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of AlertScriptConfig Avi RESTful Object
+short_description: Module for setup of SecurityPolicy Avi RESTful Object
 description:
-    - This module is used to configure AlertScriptConfig object
+    - This module is used to configure SecurityPolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.7"
 options:
     state:
         description:
@@ -58,41 +58,75 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
-    action_script:
+    description:
         description:
-            - User defined alert action script.
-            - Please refer to kb.avinetworks.com for more information.
+            - Security policy is used to specify various configuration information used to perform distributed denial of service (ddos) attacks detection and
+            - mitigation.
+            - Field introduced in 18.2.1.
+    dns_attacks:
+        description:
+            - Attacks utilizing the dns protocol operations.
+            - Field introduced in 18.2.1.
+    dns_policy_index:
+        description:
+            - Index of the dns policy to use for the mitigation rules applied to the dns attacks.
+            - Field introduced in 18.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        required: true
     name:
         description:
-            - A user-friendly name of the script.
+            - The name of the security policy.
+            - Field introduced in 18.2.1.
         required: true
+    network_security_policy_index:
+        description:
+            - Index of the network security policy to use for the mitigation rules applied to the attacks.
+            - Field introduced in 18.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        required: true
+    oper_mode:
+        description:
+            - Mode of dealing with the attacks - perform detection only, or detect and mitigate the attacks.
+            - Enum options - DETECTION, MITIGATION.
+            - Field introduced in 18.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as DETECTION.
+    tcp_attacks:
+        description:
+            - Attacks utilizing the tcp protocol operations.
+            - Field introduced in 18.2.1.
     tenant_ref:
         description:
+            - Tenancy of the security policy.
             - It is a reference to an object of type tenant.
+            - Field introduced in 18.2.1.
+    udp_attacks:
+        description:
+            - Attacks utilizing the udp protocol operations.
+            - Field introduced in 18.2.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Unique object identifier of the object.
+            - The uuid of the security policy.
+            - Field introduced in 18.2.1.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-  - name: Create Alert Script to perform AWS server autoscaling
-    avi_alertscriptconfig:
-      username: '{{ username }}'
-      controller: '{{ controller }}'
-      password: '{{ password }}'
-      action_script: "echo Hello"
-      name: AWS-Launch-Script
-      tenant_ref: Demo
+- name: Example to create SecurityPolicy object
+  avi_securitypolicy:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_securitypolicy
 """
 
 RETURN = '''
 obj:
-    description: AlertScriptConfig (api/alertscriptconfig) object
+    description: SecurityPolicy (api/securitypolicy) object
     returned: success, changed
     type: dict
 '''
@@ -105,9 +139,15 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        action_script=dict(type='str',),
+        description=dict(type='str',),
+        dns_attacks=dict(type='dict',),
+        dns_policy_index=dict(type='int', required=True),
         name=dict(type='str', required=True),
+        network_security_policy_index=dict(type='int', required=True),
+        oper_mode=dict(type='str',),
+        tcp_attacks=dict(type='dict',),
         tenant_ref=dict(type='str',),
+        udp_attacks=dict(type='dict',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -118,7 +158,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'alertscriptconfig',
+    return avi_ansible_api(module, 'securitypolicy',
                            set([]))
 
 

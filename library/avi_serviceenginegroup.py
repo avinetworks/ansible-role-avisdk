@@ -9,6 +9,23 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -82,6 +99,14 @@ options:
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: bool
+    app_cache_percent:
+        description:
+            - A percent value of total se memory reserved for application caching.
+            - This is an se bootup property and requires se restart.
+            - Allowed values are 0 - 100.
+            - Special values are 0- 'disable'.
+            - Field introduced in 18.2.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     archive_shm_limit:
         description:
             - Amount of se memory in gb until which shared memory is collected in core archive.
@@ -680,7 +705,7 @@ options:
         version_added: "2.4"
     se_use_dpdk:
         description:
-            - Determines if dpdk library should be used or not   0  automatically determine based on hypervisor type 1  use dpdk if pcap is not enabled 2 
+            - Determines if dpdk library should be used or not   0  automatically determine based on hypervisor type 1  use dpdk if pcap is not enabled 2
             - don't use dpdk.
             - Allowed values are 0-2.
             - Field introduced in 18.1.3.
@@ -880,22 +905,6 @@ obj:
     type: dict
 '''
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
 
 def main():
     argument_specs = dict(
@@ -911,6 +920,7 @@ def main():
         aggressive_failure_detection=dict(type='bool',),
         algo=dict(type='str',),
         allow_burst=dict(type='bool',),
+        app_cache_percent=dict(type='int',),
         archive_shm_limit=dict(type='int',),
         async_ssl=dict(type='bool',),
         async_ssl_threads=dict(type='int',),
