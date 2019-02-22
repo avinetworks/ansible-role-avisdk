@@ -288,7 +288,7 @@ def main():
             api_creds.controller, api_creds.username, password=api_creds.password,
             timeout=api_creds.timeout, tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
-            port=api_creds.port)
+            port=api_creds.port, idp=api_creds.idp)
         # Get existing gslb objects
         rsp = api.get('gslb', api_version=api_creds.api_version)
         existing_gslb = rsp.json()

@@ -24,9 +24,9 @@
 
 from ansible.module_utils.basic import AnsibleModule
 from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
+from avi.sdk.avi_api import ApiSession, ObjectNotFound, AviCredentials
 from avi.sdk.utils.ansible_utils import (ansible_return, purge_optional_fields,
-    avi_obj_cmp, cleanup_absent_fields)
+                                         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec)
 
 EXAMPLES = """
 - code: 'avi_globalhealthmonitor controller=10.10.25.42 username=admin '
@@ -158,125 +158,91 @@ obj:
 
 
 def main():
-    try:
-        module = AnsibleModule(
-            argument_spec=dict(
-                controller=dict(required=True),
-                username=dict(required=True),
-                password=dict(required=True),
-                tenant=dict(default='admin'),
-                tenant_uuid=dict(default=''),
-                state=dict(default='present',
-                           choices=['absent', 'present']),
-                description=dict(
-                    type='str',
-                    ),
-                dns_monitor=dict(
-                    type='dict',
-                    ),
-                external_monitor=dict(
-                    type='dict',
-                    ),
-                failed_checks=dict(
-                    type='int',
-                    ),
-                http_monitor=dict(
-                    type='dict',
-                    ),
-                https_monitor=dict(
-                    type='dict',
-                    ),
-                monitor_port=dict(
-                    type='int',
-                    ),
-                name=dict(
-                    type='str',
-                    ),
-                receive_timeout=dict(
-                    type='int',
-                    ),
-                send_interval=dict(
-                    type='int',
-                    ),
-                successful_checks=dict(
-                    type='int',
-                    ),
-                tcp_monitor=dict(
-                    type='dict',
-                    ),
-                tenant_ref=dict(
-                    type='str',
-                    ),
-                type=dict(
-                    type='str',
-                    ),
-                udp_monitor=dict(
-                    type='dict',
-                    ),
-                url=dict(
-                    type='str',
-                    ),
-                uuid=dict(
-                    type='str',
-                    ),
-                ),
-        )
-        api = ApiSession.get_session(
-                module.params['controller'],
-                module.params['username'],
-                module.params['password'],
-                tenant=module.params['tenant'])
+    argument_specs = dict(
+        controller=dict(required=True),
+        username=dict(required=True),
+        password=dict(required=True),
+        tenant=dict(default='admin'),
+        tenant_uuid=dict(default=''),
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        description=dict(type='str',),
+        dns_monitor=dict(type='dict',),
+        external_monitor=dict(type='dict',),
+        failed_checks=dict(type='int',),
+        http_monitor=dict(type='dict',),
+        https_monitor=dict(type='dict',),
+        monitor_port=dict(type='int',),
+        name=dict(type='str',),
+        receive_timeout=dict(type='int',),
+        send_interval=dict(type='int',),
+        successful_checks=dict(type='int',),
+        tcp_monitor=dict(type='dict',),
+        tenant_ref=dict(type='str',),
+        type=dict(type='str',),
+        udp_monitor=dict(type='dict',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+    ),
+    argument_specs.update(avi_common_argument_spec())
+    module = AnsibleModule(argument_spec=argument_specs)
+    api_creds = AviCredentials()
+    api_creds.update_from_ansible_module(module)
+    api = ApiSession.get_session(
+        module.params['controller'],
+        module.params['username'],
+        module.params['password'],
+        tenant=module.params['tenant'],
+        idp=api_creds.idp,
+    )
+    state = module.params['state']
+    name = module.params['name']
 
-        state = module.params['state']
-        name = module.params['name']
+    obj = deepcopy(module.params)
+    obj.pop('state', None)
+    obj.pop('controller', None)
+    obj.pop('username', None)
+    obj.pop('password', None)
+    tenant = obj.pop('tenant', '')
+    tenant_uuid = obj.pop('tenant_uuid', '')
+    obj.pop('cloud_ref', None)
 
-        obj = deepcopy(module.params)
-        obj.pop('state', None)
-        obj.pop('controller', None)
-        obj.pop('username', None)
-        obj.pop('password', None)
-        tenant = obj.pop('tenant', '')
-        tenant_uuid = obj.pop('tenant_uuid', '')
-        obj.pop('cloud_ref', None)
+    purge_optional_fields(obj, module)
 
-        purge_optional_fields(obj, module)
-
-        if state == 'absent':
-            try:
-                rsp = api.delete_by_name(
-                    'globalhealthmonitor', name,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-            except ObjectNotFound:
-                return module.exit_json(changed=False)
-            if rsp.status_code == 204:
-                return module.exit_json(changed=True)
-            return module.fail_json(msg=rsp.text)
-        existing_obj = api.get_object_by_name(
+    if state == 'absent':
+        try:
+            rsp = api.delete_by_name(
                 'globalhealthmonitor', name,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                params={'include_refs': '', 'include_name': ''})
-        changed = False
-        rsp = None
-        if existing_obj:
-            # this is case of modify as object exists. should find out
-            # if changed is true or not
-            changed = not avi_obj_cmp(obj, existing_obj)
-            cleanup_absent_fields(obj)
-            if changed:
-                obj_uuid = existing_obj['uuid']
-                rsp = api.put(
-                    'globalhealthmonitor/%s' % obj_uuid, data=obj,
-                    tenant=tenant, tenant_uuid=tenant_uuid)
-        else:
-            changed = True
-            rsp = api.post('globalhealthmonitor', data=obj,
-                           tenant=tenant, tenant_uuid=tenant_uuid)
-        if rsp is None:
-            return module.exit_json(changed=changed, obj=existing_obj)
-        else:
-            return ansible_return(module, rsp, changed)
-    except:
-        raise
+                tenant=tenant, tenant_uuid=tenant_uuid)
+        except ObjectNotFound:
+            return module.exit_json(changed=False)
+        if rsp.status_code == 204:
+            return module.exit_json(changed=True)
+        return module.fail_json(msg=rsp.text)
+    existing_obj = api.get_object_by_name(
+        'globalhealthmonitor', name,
+        tenant=tenant, tenant_uuid=tenant_uuid,
+        params={'include_refs': '', 'include_name': ''})
+    changed = False
+    rsp = None
+    if existing_obj:
+        # this is case of modify as object exists. should find out
+        # if changed is true or not
+        changed = not avi_obj_cmp(obj, existing_obj)
+        cleanup_absent_fields(obj)
+        if changed:
+            obj_uuid = existing_obj['uuid']
+            rsp = api.put(
+                'globalhealthmonitor/%s' % obj_uuid, data=obj,
+                tenant=tenant, tenant_uuid=tenant_uuid)
+    else:
+        changed = True
+        rsp = api.post('globalhealthmonitor', data=obj,
+                       tenant=tenant, tenant_uuid=tenant_uuid)
+    if rsp is None:
+        return module.exit_json(changed=changed, obj=existing_obj)
+    else:
+        return ansible_return(module, rsp, changed)
 
 
 if __name__ == '__main__':

@@ -135,7 +135,7 @@ def main():
             api_creds.controller, api_creds.username,
             password=first_pwd, timeout=api_creds.timeout,
             tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
-            token=api_creds.token, port=api_creds.port)
+            token=api_creds.token, port=api_creds.port, idp=api_creds.idp)
         if force_change:
             rsp = api.put('useraccount', data=data)
             if rsp:
@@ -147,7 +147,7 @@ def main():
             api_creds.controller, api_creds.username, password=second_pwd,
             timeout=api_creds.timeout, tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
-            port=api_creds.port)
+            port=api_creds.port, idp=api_creds.idp)
         if not force_change:
             rsp = api.put('useraccount', data=data)
             if rsp:

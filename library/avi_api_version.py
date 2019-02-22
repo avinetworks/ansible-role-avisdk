@@ -81,7 +81,7 @@ def main():
             password=api_creds.password,
             timeout=api_creds.timeout, tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
-            port=api_creds.port)
+            port=api_creds.port, idp=api_creds.idp)
 
         remote_api_version = api.remote_api_version
         remote = {}
