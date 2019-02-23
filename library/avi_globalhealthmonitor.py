@@ -189,10 +189,10 @@ def main():
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     api = ApiSession.get_session(
-        module.params['controller'],
-        module.params['username'],
-        module.params['password'],
-        tenant=module.params['tenant'],
+        api_creds.controller,
+        api_creds.username,
+        api_creds.password,
+        tenant=api_creds.tenant,
         idp=api_creds.idp,
     )
     state = module.params['state']

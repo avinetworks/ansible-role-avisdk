@@ -160,10 +160,10 @@ def main():
             'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     api = ApiSession.get_session(
-        module.params['controller'],
-        module.params['username'],
-        module.params['password'],
-        tenant=module.params['tenant'],
+        api_creds.controller,
+        api_creds.username,
+        api_creds.password,
+        tenant=api_creds.tenant,
         idp=api_creds.idp,)
 
     state = module.params['state']
