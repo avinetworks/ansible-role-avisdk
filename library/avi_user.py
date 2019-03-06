@@ -23,6 +23,24 @@
 #
 """
 
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import (
+        avi_common_argument_spec, ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -62,7 +80,7 @@ options:
             - If the user will need to have the same privileges as the admin account, set it to true.
     is_active:
         description:
-            - Activates the current user account. 
+            - Activates the current user account.
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -109,24 +127,6 @@ obj:
     type: dict
 '''
 
-from ansible.module_utils.basic import AnsibleModule
-
-try:
-    from avi.sdk.utils.ansible_utils import (
-        avi_common_argument_spec, ansible_return)
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
 
 def main():
     argument_specs = dict(
@@ -136,7 +136,7 @@ def main():
         obj_username=dict(type='str', required=True),
         obj_password=dict(type='str', required=True, no_log=True),
         access=dict(type='list',),
-        email = dict(type='str',),
+        email=dict(type='str',),
         is_superuser=dict(type='bool',),
         is_active=dict(type='bool',),
         avi_api_update_method=dict(default='put',
@@ -153,6 +153,7 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'user',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

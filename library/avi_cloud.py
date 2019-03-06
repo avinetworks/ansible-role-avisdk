@@ -9,6 +9,23 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -50,6 +67,11 @@ options:
             - Boolean flag to set apic_mode.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    autoscale_polling_interval:
+        description:
+            - Cloudconnector polling interval for external autoscale groups.
+            - Field introduced in 18.2.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     aws_configuration:
         description:
             - Awsconfiguration settings for cloud.
@@ -125,7 +147,7 @@ options:
             - Linuxserverconfiguration settings for cloud.
     mesos_configuration:
         description:
-            - Mesosconfiguration settings for cloud.
+            - Field deprecated in 18.2.2.
     mtu:
         description:
             - Mtu setting for the cloud.
@@ -223,22 +245,6 @@ obj:
     type: dict
 '''
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
 
 def main():
     argument_specs = dict(
@@ -249,6 +255,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         apic_configuration=dict(type='dict',),
         apic_mode=dict(type='bool',),
+        autoscale_polling_interval=dict(type='int',),
         aws_configuration=dict(type='dict',),
         azure_configuration=dict(type='dict',),
         cloudstack_configuration=dict(type='dict',),

@@ -9,6 +9,23 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -282,11 +299,16 @@ options:
             - Allowed values are 1-1051200.
             - Special values are 0 - 'disabled'.
             - Default value when not specified in API or module is interpreted by Avi Controller as 360.
+    vs_scaleout_ready_check_interval:
+        description:
+            - Interval for checking scaleout_ready status while controller is waiting for scaleoutready rpc from the service engine.
+            - Field introduced in 18.2.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
     vs_se_attach_ip_fail:
         description:
             - Time to wait before marking attach ip operation on an se as failed.
             - Field introduced in 17.2.2.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 3600.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 600.
         version_added: "2.5"
     vs_se_bootup_fail:
         description:
@@ -337,22 +359,6 @@ obj:
     returned: success, changed
     type: dict
 '''
-
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
 
 
 def main():
@@ -413,6 +419,7 @@ def main():
         vs_apic_scaleout_timeout=dict(type='int',),
         vs_awaiting_se_timeout=dict(type='int',),
         vs_key_rotate_period=dict(type='int',),
+        vs_scaleout_ready_check_interval=dict(type='int',),
         vs_se_attach_ip_fail=dict(type='int',),
         vs_se_bootup_fail=dict(type='int',),
         vs_se_create_fail=dict(type='int',),
