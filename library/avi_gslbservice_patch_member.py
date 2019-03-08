@@ -256,7 +256,7 @@ def main():
         api_creds.controller, api_creds.username, password=api_creds.password,
         timeout=api_creds.timeout, tenant=api_creds.tenant,
         tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
-        port=api_creds.port, idp=api_creds.idp)
+        port=api_creds.port)
 
     tenant = api_creds.tenant
     tenant_uuid = api_creds.tenant_uuid

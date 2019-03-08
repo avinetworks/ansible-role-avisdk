@@ -163,8 +163,7 @@ def main():
         api_creds.controller,
         api_creds.username,
         api_creds.password,
-        tenant=api_creds.tenant,
-        idp=api_creds.idp,)
+        tenant=api_creds.tenant,)
 
     state = module.params['state']
     name = module.params['name']

@@ -193,7 +193,6 @@ def main():
         api_creds.username,
         api_creds.password,
         tenant=api_creds.tenant,
-        idp=api_creds.idp,
     )
     state = module.params['state']
     name = module.params['name']
