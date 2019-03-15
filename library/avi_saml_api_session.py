@@ -15,11 +15,12 @@ from requests import ConnectionError
 from ssl import SSLError
 from requests.exceptions import ChunkedEncodingError
 from ansible.module_utils.basic import AnsibleModule
+from avi.sdk.saml_avi_api import OktaSAMLApiSession, OneloginSAMLApiSession
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return, get_idp_class)
+        ansible_return)
     from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
@@ -117,6 +118,22 @@ obj:
 '''
 
 
+def get_idp_class(idp):
+    """
+    This return corresponding idp class.
+    :param idp: idp type such as okta, onelogin, pingfed
+    :return: IDP class or ApiSession class
+    """
+
+    if str(idp).lower() == "oktasamlapisession":
+        idp_class = OktaSAMLApiSession
+    elif str(idp).lower() == 'oneloginsamlapisession':
+        idp_class = OneloginSAMLApiSession
+    else:
+        idp_class = None
+    return idp_class
+
+
 def main():
     argument_specs = dict(
         idp_class=dict(type=str, required=True, ),
@@ -130,6 +147,9 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     idp_class = module.params.get("idp_class", None)
     idp = get_idp_class(idp_class)
+    if not idp:
+        msg = "IDP {} not supported yet.".format(idp_class)
+        return module.fail_json(msg=msg)
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     try:
