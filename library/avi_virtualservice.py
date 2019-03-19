@@ -9,23 +9,6 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -33,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_virtualservice
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of VirtualService Avi RESTful Object
 description:
@@ -82,7 +65,7 @@ options:
             - Should be in the <contract name> <graph name> format.
             - This is applicable only for service integration mode with cisco apic controller.
             - Field introduced in 17.2.12,18.1.2.
-        version_added: "2.7"
+        version_added: "2.8"
     application_profile_ref:
         description:
             - Enable application layer specific features for the virtual service.
@@ -117,7 +100,7 @@ options:
             - Azure availability set to which this vs is associated.
             - Internally set by the cloud connector.
             - Field introduced in 17.2.12, 18.1.2.
-        version_added: "2.7"
+        version_added: "2.8"
     bulk_sync_kvcache:
         description:
             - (this is a beta feature).
@@ -290,6 +273,7 @@ options:
         description:
             - Minimum number of up pools to mark vs up.
             - Field introduced in 18.2.1, 17.2.12.
+        version_added: "2.8"
     name:
         description:
             - Name for the virtual service.
@@ -352,6 +336,7 @@ options:
             - This policy is used to perform security actions such as distributed denial of service (ddos) attack mitigation, etc.
             - It is a reference to an object of type securitypolicy.
             - Field introduced in 18.2.1.
+        version_added: "2.8"
     server_network_profile_ref:
         description:
             - Determines the network settings profile for the server side of tcp proxied connections.
@@ -401,6 +386,7 @@ options:
         description:
             - Client authentication and authorization policy for the virtualservice.
             - Field introduced in 18.2.1.
+        version_added: "2.8"
     static_dns_records:
         description:
             - List of static dns records applied to this virtual service.
@@ -482,7 +468,7 @@ options:
             - Checksum of cloud configuration for vsvip.
             - Internally set by cloud connector.
             - Field introduced in 17.2.9, 18.1.2.
-        version_added: "2.7"
+        version_added: "2.8"
     vsvip_ref:
         description:
             - Mostly used during the creation of shared vs, this field refers to entities that can be shared across virtual services.
@@ -535,6 +521,23 @@ obj:
     returned: success, changed
     type: dict
 '''
+
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
+except ImportError:
+    from ansible.module_utils.network.avi.avi import (
+        avi_common_argument_spec, avi_ansible_api)
 
 
 def main():
@@ -641,10 +644,6 @@ def main():
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
         argument_spec=argument_specs, supports_check_mode=True)
-    if not HAS_AVI:
-        return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'virtualservice',
                            set([]))
 

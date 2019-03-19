@@ -23,23 +23,6 @@
 #
 """
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import (
-        avi_common_argument_spec, ansible_return)
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -48,7 +31,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_user
-author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
+author: Shrikant Chaudhari (@gitshrikant) <shrikant.chaudhari@avinetworks.com>
 short_description: Avi User Module
 description:
     - This module can be used for creation, updation and deletion of a user.
@@ -94,6 +77,7 @@ options:
     default_tenant_ref:
         description:
             - Default tenant reference.
+        default: /api/tenant?name=admin
 
 
 extends_documentation_fragment:
@@ -128,6 +112,27 @@ obj:
 '''
 
 
+from ansible.module_utils.basic import AnsibleModule
+
+
+try:
+    from avi.sdk.utils.ansible_utils import (
+        avi_common_argument_spec, ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in d
+        # evelopment builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+except ImportError:
+    from ansible.module_utils.network.avi.avi import (
+        avi_common_argument_spec, ansible_return)
+
+
 def main():
     argument_specs = dict(
         state=dict(default='present',
@@ -147,10 +152,6 @@ def main():
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs, supports_check_mode=True)
 
-    if not HAS_AVI:
-        return module.fail_json(msg=(
-            'Avi python API SDK (avisdk) is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'user',
                            set([]))
 

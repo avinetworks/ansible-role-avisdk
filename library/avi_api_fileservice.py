@@ -12,33 +12,6 @@
 #
 """
 
-import json
-import os
-from ansible.module_utils.basic import AnsibleModule
-
-try:
-    from requests_toolbelt import MultipartEncoder
-    HAS_LIB = True
-except ImportError:
-    HAS_LIB = False
-
-try:
-    from avi.sdk.avi_api import ApiSession, AviCredentials
-    from avi.sdk.utils.ansible_utils import (
-        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return)
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -48,7 +21,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_api_fileservice
-author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com)
+author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
 
 short_description: Avi API Module for fileservice
 description:
@@ -59,8 +32,11 @@ options:
     upload:
         description:
             - Allowed upload flag false for download and true for upload.
-        choices: ["get", "post"]
         required: true
+    force_mode:
+        description:
+            - Allowed force mode for upload forcefully.
+        default: true
     file_path:
         description:
             - Local file path of file to be uploaded or downloaded file
@@ -113,6 +89,39 @@ obj:
 '''
 
 
+import json
+import os
+from ansible.module_utils.basic import AnsibleModule
+
+try:
+    from requests_toolbelt import MultipartEncoder
+    HAS_LIB = True
+except ImportError:
+    HAS_LIB = False
+
+
+try:
+    from avi.sdk.avi_api import ApiSession, AviCredentials
+    from avi.sdk.utils.ansible_utils import (
+        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
+        ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in d
+        # evelopment builds
+        raise ImportError
+except ImportError:
+    from ansible.module_utils.network.avi.avi import (
+        avi_common_argument_spec, ansible_return, avi_obj_cmp,
+        cleanup_absent_fields)
+    from ansible.module_utils.network.avi.avi_api import (
+        ApiSession, AviCredentials)
+
+
 def main():
     argument_specs = dict(
         force_mode=dict(type='bool', default=True),
@@ -125,11 +134,6 @@ def main():
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs)
-
-    if not HAS_AVI:
-        return module.fail_json(msg=(
-            'Avi python API SDK (avisdk) is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
 
     if not HAS_LIB:
         return module.fail_json(

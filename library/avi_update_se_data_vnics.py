@@ -8,26 +8,6 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.avi_api import ApiSession, AviCredentials
-    from avi.sdk.utils.ansible_utils import (
-        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return)
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -35,10 +15,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_update_se_data_vnics
-author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
-
-short_description: Module to update Service Engine's data vnics/vlans configurations.
+author: Shrikant Chaudhari (@gitshrikant) <shrikant.chaudhari@avinetworks.com>
+short_description: Avi API Module for update data vnics and vlan interfaces.
+description:
+    - Module to update Service Engine's data vnics/vlans configurations.
 requirements: [ avisdk ]
+version_added: 2.7
 options:
     data_vnics_config:
         description:
@@ -52,54 +34,54 @@ extends_documentation_fragment:
 
 EXAMPLES = '''
   - name: Update data vnics and vlan interfaces
-      avi_update_se_data_vnics:
-        avi_credentials:
-          controller: "{{ controller }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
-          api_version: "18.1.3"
-        data_vnics_config:
-        - if_name: "eth1"
-          is_asm: false
-          can_se_dp_takeover: true
-          is_hsm: false
-          is_avi_internal_network: false
-          enabled: true
-          dhcp_enabled: false
-          del_pending: false
-          linux_name: "eth3"
-          is_mgmt: false
-          connected: true
-          vlan_interfaces:
-            - dhcp_enabled: true
-              if_name: "eth3"
-              ip6_autocfg_enabled: false
-              is_mgmt: false
-              vlan_id: 0
-              vnic_networks:
-                - ip:
-                    ip_addr:
-                      addr: "10.161.56.155"
-                      type: "V4"
-                    mask: 24
-                  mode: "STATIC"
-                  ctlr_alloc: false
-              vrf_ref: "https://10.10.28.102/api/vrfcontext/vrfcontext-47f8a632-3ab4-427d-9084-433bc06da26d"
-          vnic_networks:
-            - ip:
-                ip_addr:
-                  addr: "10.161.56.154"
-                  type: "V4"
-                mask: 24
-              mode: "STATIC"
-              ctlr_alloc: false
-          vrf_id: 0
-          aggregator_chgd: false
-          mtu: 1500
-          vrf_ref: "https://10.10.28.102/api/vrfcontext/vrfcontext-47f8a632-3ab4-427d-9084-433bc06da26d"
-          ip6_autocfg_enabled: false
-          vlan_id: 0
-          is_portchannel: false
+    avi_update_se_data_vnics:
+      avi_credentials:
+        controller: "{{ controller }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        api_version: "18.1.3"
+      data_vnics_config:
+      - if_name: "eth1"
+        is_asm: false
+        can_se_dp_takeover: true
+        is_hsm: false
+        is_avi_internal_network: false
+        enabled: true
+        dhcp_enabled: false
+        del_pending: false
+        linux_name: "eth3"
+        is_mgmt: false
+        connected: true
+        vlan_interfaces:
+          - dhcp_enabled: true
+            if_name: "eth3"
+            ip6_autocfg_enabled: false
+            is_mgmt: false
+            vlan_id: 0
+            vnic_networks:
+              - ip:
+                  ip_addr:
+                    addr: "10.161.56.155"
+                    type: "V4"
+                  mask: 24
+                mode: "STATIC"
+                ctlr_alloc: false
+            vrf_ref: "https://10.10.28.102/api/vrfcontext/vrfcontext-47f8a632-3ab4-427d-9084-433bc06da26d"
+        vnic_networks:
+          - ip:
+              ip_addr:
+                addr: "10.161.56.154"
+                type: "V4"
+              mask: 24
+            mode: "STATIC"
+            ctlr_alloc: false
+        vrf_id: 0
+        aggregator_chgd: false
+        mtu: 1500
+        vrf_ref: "https://10.10.28.102/api/vrfcontext/vrfcontext-47f8a632-3ab4-427d-9084-433bc06da26d"
+        ip6_autocfg_enabled: false
+        vlan_id: 0
+        is_portchannel: false
 '''
 
 RETURN = '''
@@ -108,6 +90,28 @@ obj:
     returned: success, changed
     type: dict
 '''
+
+from ansible.module_utils.basic import AnsibleModule
+
+try:
+    from avi.sdk.avi_api import ApiSession, AviCredentials
+    from avi.sdk.utils.ansible_utils import (
+        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
+        ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in d
+        # evelopment builds
+        raise ImportError
+except ImportError:
+    from ansible.module_utils.network.avi.avi import (
+        avi_common_argument_spec, ansible_return)
+    from ansible.module_utils.network.avi.avi_api import (
+        ApiSession, AviCredentials)
 
 
 def main():
@@ -153,10 +157,6 @@ def main():
         }
     )
     module.params.pop('data_vnics_config')
-    if not HAS_AVI:
-        return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'serviceengine',
                            set([]))
 

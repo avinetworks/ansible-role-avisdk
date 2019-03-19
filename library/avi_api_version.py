@@ -12,21 +12,6 @@
 #
 """
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.avi_api import ApiSession, AviCredentials
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             parse_version(sdk_version) < parse_version('17.2.2b3'))):
-        raise ImportError
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -36,7 +21,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_api_version
-author: Vilian Atmadzhov (vilian.atmadzhov@paddypowerbetfair.com)
+author: Vilian Atmadzhov (@grastogi23) <vilian.atmadzhov@paddypowerbetfair.com>
 
 short_description: Avi API Version Module
 description:
@@ -66,13 +51,31 @@ obj:
     type: dict
 '''
 
+from ansible.module_utils.basic import AnsibleModule
+
+
+try:
+    from avi.sdk.avi_api import ApiSession, AviCredentials
+    from avi.sdk.utils.ansible_utils import (
+        avi_common_argument_spec, ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in d
+        # evelopment builds
+        raise ImportError
+except ImportError:
+    from ansible.module_utils.network.avi.avi import (
+        avi_common_argument_spec, ansible_return)
+    from ansible.module_utils.network.avi.avi_api import (
+        ApiSession, AviCredentials)
+
 
 def main():
     module = AnsibleModule(argument_spec=avi_common_argument_spec())
-    if not HAS_AVI:
-        return module.fail_json(msg=(
-            'Avi python API SDK (avisdk) is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
     try:
         api_creds = AviCredentials()
         api_creds.update_from_ansible_module(module)
