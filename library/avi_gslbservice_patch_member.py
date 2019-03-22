@@ -11,11 +11,6 @@
 #
 """
 
-import json
-import time
-from copy import deepcopy
-from ansible.module_utils.basic import AnsibleModule
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -109,6 +104,11 @@ obj:
     returned: success, changed
     type: dict
 '''
+
+import json
+import time
+from ansible.module_utils.basic import AnsibleModule
+from copy import deepcopy
 
 HAS_AVI = True
 try:

@@ -12,34 +12,6 @@
 #
 """
 
-import json
-import os
-from ansible.module_utils.basic import AnsibleModule
-
-try:
-    from requests_toolbelt import MultipartEncoder
-    HAS_LIB = True
-except ImportError:
-    HAS_LIB = False
-
-try:
-    from avi.sdk.avi_api import ApiSession, AviCredentials
-    from avi.sdk.utils.ansible_utils import (
-        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return)
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -112,6 +84,32 @@ obj:
     type: dict
 '''
 
+import json
+import os
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from requests_toolbelt import MultipartEncoder
+    HAS_LIB = True
+except ImportError:
+    HAS_LIB = False
+
+try:
+    from avi.sdk.avi_api import ApiSession, AviCredentials
+    from avi.sdk.utils.ansible_utils import (
+        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
+        ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
 
 def main():
     argument_specs = dict(
@@ -162,7 +160,7 @@ def main():
         if not os.path.exists(file_path):
             return module.fail_json('File not found : %s' % file_path)
         file_name = os.path.basename(file_path)
-        # Handle special case of upgrade controller using .pkg file which will be uploaded to upgrade_pkgs directory
+        #Handle special case of upgrade controller using .pkg file which will be uploaded to upgrade_pkgs directory
         if file_name.lower().endswith('.pkg'):
             uri = 'controller://upgrade_pkgs'
             path = 'fileservice/uploads'

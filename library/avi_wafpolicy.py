@@ -8,23 +8,6 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -77,6 +60,12 @@ options:
     description:
         description:
             - Field introduced in 17.2.1.
+    enable_app_learning:
+        description:
+            - Enable application learning for this waf policy.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     failure_mode:
         description:
             - Waf policy failure mode.
@@ -88,6 +77,7 @@ options:
     learning:
         description:
             - Configure parameters for waf learning.
+            - Field deprecated in 18.2.3.
             - Field introduced in 18.1.2.
         version_added: "2.7"
     mode:
@@ -110,6 +100,12 @@ options:
             - Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME.
             - Field introduced in 17.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_PARANOIA_LEVEL_LOW.
+    positive_security_model:
+        description:
+            - The positive security model.
+            - This is used to describe how the request or parts of the request should look like.
+            - It is executed in the request body phase of avi waf.
+            - Field introduced in 18.2.3.
     post_crs_groups:
         description:
             - Waf rules are categorized in to groups based on their characterization.
@@ -142,6 +138,11 @@ options:
             - It is a reference to an object of type wafprofile.
             - Field introduced in 17.2.1.
         required: true
+    whitelist:
+        description:
+            - A set of rules which describe conditions under which the request will bypass the waf.
+            - This will be executed in the request header phase before any other waf related code.
+            - Field introduced in 18.2.3.
 extends_documentation_fragment:
     - avi
 '''
@@ -163,6 +164,22 @@ obj:
     type: dict
 '''
 
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
 
 def main():
     argument_specs = dict(
@@ -175,11 +192,13 @@ def main():
         created_by=dict(type='str',),
         crs_groups=dict(type='list',),
         description=dict(type='str',),
+        enable_app_learning=dict(type='bool',),
         failure_mode=dict(type='str',),
         learning=dict(type='dict',),
         mode=dict(type='str', required=True),
         name=dict(type='str', required=True),
         paranoia_level=dict(type='str',),
+        positive_security_model=dict(type='dict',),
         post_crs_groups=dict(type='list',),
         pre_crs_groups=dict(type='list',),
         tenant_ref=dict(type='str',),
@@ -187,6 +206,7 @@ def main():
         uuid=dict(type='str',),
         waf_crs_ref=dict(type='str',),
         waf_profile_ref=dict(type='str', required=True),
+        whitelist=dict(type='dict',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
