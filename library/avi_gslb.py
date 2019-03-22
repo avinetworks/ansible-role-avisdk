@@ -9,24 +9,6 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from avi.sdk.avi_api import ApiSession, AviCredentials
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -110,6 +92,13 @@ options:
             - Frequency with which group members communicate.
             - Allowed values are 1-3600.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
+    send_interval_prior_to_maintenance_mode:
+        description:
+            - The user can specify a send-interval while entering maintenance mode.
+            - The validity of this 'maintenance send-interval' is only during maintenance mode.
+            - When the user leaves maintenance mode, the original send-interval is reinstated.
+            - This internal variable is used to store the original send-interval.
+            - Field introduced in 18.2.3.
     sites:
         description:
             - Select avi site member belonging to this gslb.
@@ -248,6 +237,23 @@ obj:
     type: dict
 '''
 
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from avi.sdk.avi_api import ApiSession, AviCredentials
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
 
 def main():
     argument_specs = dict(
@@ -265,6 +271,7 @@ def main():
         maintenance_mode=dict(type='bool',),
         name=dict(type='str', required=True),
         send_interval=dict(type='int',),
+        send_interval_prior_to_maintenance_mode=dict(type='int',),
         sites=dict(type='list',),
         tenant_ref=dict(type='str',),
         third_party_sites=dict(type='list',),

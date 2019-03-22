@@ -11,28 +11,6 @@
 #
 """
 
-import json
-import time
-from copy import deepcopy
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.avi_api import ApiSession, AviCredentials
-    from avi.sdk.utils.ansible_utils import (
-        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return)
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -130,6 +108,28 @@ obj:
     type: dict
 '''
 
+import json
+import time
+from ansible.module_utils.basic import AnsibleModule
+from copy import deepcopy
+
+try:
+    from avi.sdk.avi_api import ApiSession, AviCredentials
+    from avi.sdk.utils.ansible_utils import (
+        avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
+        ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
 
 def main():
     argument_specs = dict(
@@ -175,7 +175,7 @@ def main():
     gparams = deepcopy(params) if params else {}
     gparams.update({'include_refs': '', 'include_name': ''})
 
-    # API methods not allowed
+    #API methods not allowed
     api_get_not_allowed = ["cluster", "gslbsiteops"]
     api_post_not_allowed = ["alert", "fileservice"]
     api_put_not_allowed = ["backup"]
@@ -192,7 +192,7 @@ def main():
                 using_collection = True
             if not any(path.startswith(uri) for uri in api_get_not_allowed):
                 rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
-                              params=gparams, api_version=api_version)
+                          params=gparams, api_version=api_version)
                 existing_obj = rsp.json()
                 if using_collection:
                     existing_obj = existing_obj['results'][0]

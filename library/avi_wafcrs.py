@@ -14,15 +14,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_snmptrapprofile
+module: avi_wafcrs
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of SnmpTrapProfile Avi RESTful Object
+short_description: Module for setup of WafCRS Avi RESTful Object
 description:
-    - This module is used to configure SnmpTrapProfile object
+    - This module is used to configure WafCRS object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.7"
 options:
     state:
         description:
@@ -41,39 +41,63 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+    description:
+        description:
+            - A short description of this ruleset.
+            - Field introduced in 18.1.1.
+        required: true
+    groups:
+        description:
+            - Waf rules are sorted in groups based on their characterization.
+            - Field introduced in 18.1.1.
+    integrity:
+        description:
+            - Integrity protection value.
+            - Field introduced in 18.2.1.
+        required: true
     name:
         description:
-            - A user-friendly name of the snmp trap configuration.
+            - The name of this ruleset object.
+            - Field introduced in 18.2.1.
+        required: true
+    release_date:
+        description:
+            - The release date of this version in rfc 3339 / iso 8601 format.
+            - Field introduced in 18.1.1.
         required: true
     tenant_ref:
         description:
+            - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
-    trap_servers:
-        description:
-            - The ip address or hostname of the snmp trap destination server.
+            - Field introduced in 18.2.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Uuid of the snmp trap profile object.
+            - Field introduced in 18.1.1.
+    version:
+        description:
+            - The version of this ruleset object.
+            - Field introduced in 18.1.1.
+        required: true
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create SnmpTrapProfile object
-  avi_snmptrapprofile:
+- name: Example to create WafCRS object
+  avi_wafcrs:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_snmptrapprofile
+    name: sample_wafcrs
 """
 
 RETURN = '''
 obj:
-    description: SnmpTrapProfile (api/snmptrapprofile) object
+    description: WafCRS (api/wafcrs) object
     returned: success, changed
     type: dict
 '''
@@ -102,11 +126,15 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        description=dict(type='str', required=True),
+        groups=dict(type='list',),
+        integrity=dict(type='str', required=True),
         name=dict(type='str', required=True),
+        release_date=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        trap_servers=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        version=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -115,7 +143,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'snmptrapprofile',
+    return avi_ansible_api(module, 'wafcrs',
                            set([]))
 
 

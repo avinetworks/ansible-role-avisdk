@@ -9,23 +9,6 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
-    HAS_AVI = True
-except ImportError:
-    HAS_AVI = False
-
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -138,6 +121,15 @@ options:
             - The ssl checkbox enables avi to server encryption.
             - Allowed values are 1-65535.
             - Default value when not specified in API or module is interpreted by Avi Controller as 80.
+    delete_server_on_dns_refresh:
+        description:
+            - Indicates whether existing ips are disabled(false) or deleted(true) on dns hostname refreshdetail -- on a dns refresh, some ips set on pool may
+            - no longer be returned by the resolver.
+            - These ips are deleted from the pool when this knob is set to true.
+            - They are disabled, if the knob is set to false.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     description:
         description:
             - A description of the pool.
@@ -414,6 +406,22 @@ obj:
     type: dict
 '''
 
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
+except ImportError:
+    HAS_AVI = False
+
 
 def main():
     argument_specs = dict(
@@ -440,6 +448,7 @@ def main():
         connection_ramp_duration=dict(type='int',),
         created_by=dict(type='str',),
         default_server_port=dict(type='int',),
+        delete_server_on_dns_refresh=dict(type='bool',),
         description=dict(type='str',),
         domain_name=dict(type='list',),
         east_west=dict(type='bool',),

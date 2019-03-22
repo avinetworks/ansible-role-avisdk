@@ -14,15 +14,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_snmptrapprofile
+module: avi_serviceenginepolicy
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of SnmpTrapProfile Avi RESTful Object
+short_description: Module for setup of ServiceEnginePolicy Avi RESTful Object
 description:
-    - This module is used to configure SnmpTrapProfile object
+    - This module is used to configure ServiceEnginePolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.7"
 options:
     state:
         description:
@@ -43,37 +43,49 @@ options:
         choices: ["add", "replace", "delete"]
     name:
         description:
-            - A user-friendly name of the snmp trap configuration.
+            - Name of the service engine policy.
+            - Field introduced in 18.2.3.
+        required: true
+    se_group_ref:
+        description:
+            - Service engine group to which the policy is applied.
+            - It is a reference to an object of type serviceenginegroup.
+            - Field introduced in 18.2.3.
         required: true
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-    trap_servers:
-        description:
-            - The ip address or hostname of the snmp trap destination server.
+            - Field introduced in 18.2.3.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Uuid of the snmp trap profile object.
+            - Uuid of the service engine policy.
+            - Field introduced in 18.2.3.
+    vrf_ref:
+        description:
+            - Vrf context to which the policy is scoped.
+            - It is a reference to an object of type vrfcontext.
+            - Field introduced in 18.2.3.
+        required: true
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create SnmpTrapProfile object
-  avi_snmptrapprofile:
+- name: Example to create ServiceEnginePolicy object
+  avi_serviceenginepolicy:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_snmptrapprofile
+    name: sample_serviceenginepolicy
 """
 
 RETURN = '''
 obj:
-    description: SnmpTrapProfile (api/snmptrapprofile) object
+    description: ServiceEnginePolicy (api/serviceenginepolicy) object
     returned: success, changed
     type: dict
 '''
@@ -103,10 +115,11 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         name=dict(type='str', required=True),
+        se_group_ref=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        trap_servers=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        vrf_ref=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -115,7 +128,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'snmptrapprofile',
+    return avi_ansible_api(module, 'serviceenginepolicy',
                            set([]))
 
 
