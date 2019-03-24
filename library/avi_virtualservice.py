@@ -52,6 +52,13 @@ options:
             - Redistribution is based on the auto redistribute property of the serviceenginegroup.
             - Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2.
             - Default value when not specified in API or module is interpreted by Avi Controller as ACTIVE_STANDBY_SE_1.
+    allow_invalid_client_cert:
+        description:
+            - Process request even if invalid client certificate is presented.
+            - Datascript apis need to be used for processing of such requests.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     analytics_policy:
         description:
             - Determines analytics settings for the application.
@@ -544,6 +551,7 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         active_standby_se_tag=dict(type='str',),
+        allow_invalid_client_cert=dict(type='bool',),
         analytics_policy=dict(type='dict',),
         analytics_profile_ref=dict(type='str',),
         apic_contract_graph=dict(type='str',),
