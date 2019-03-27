@@ -124,12 +124,17 @@ try:
         # It allows the __version__ to be '' as that value is used in d
         # evelopment builds
         raise ImportError
+    HAS_AVI = True
 except ImportError:
-    from ansible.module_utils.network.avi.avi import (
-        avi_common_argument_spec, avi_obj_cmp, cleanup_absent_fields,
-        ansible_return, AviCheckModeResponse)
-    from ansible.module_utils.network.avi.avi_api import (
-        ApiSession, AviCredentials)
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_obj_cmp, cleanup_absent_fields,
+            ansible_return, AviCheckModeResponse)
+        from ansible.module_utils.network.avi.avi_api import (
+            ApiSession, AviCredentials)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 def delete_member(module, check_mode, api, tenant, tenant_uuid,
                   existing_obj, data, api_version):
@@ -247,6 +252,11 @@ def main():
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs)
+
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
 
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)

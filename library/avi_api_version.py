@@ -67,15 +67,26 @@ try:
         # It allows the __version__ to be '' as that value is used in d
         # evelopment builds
         raise ImportError
+    HAS_AVI = True
 except ImportError:
-    from ansible.module_utils.network.avi.avi import (
-        avi_common_argument_spec, ansible_return)
-    from ansible.module_utils.network.avi.avi_api import (
-        ApiSession, AviCredentials)
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, ansible_return)
+        from ansible.module_utils.network.avi.avi_api import (
+            ApiSession, AviCredentials)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
     module = AnsibleModule(argument_spec=avi_common_argument_spec())
+
+    if not HAS_AVI:
+        return module.fail_json(msg=(
+            'Avi python API SDK (avisdk) is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
+
     try:
         api_creds = AviCredentials()
         api_creds.update_from_ansible_module(module)
