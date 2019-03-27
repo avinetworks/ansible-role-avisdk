@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_gslb
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of Gslb Avi RESTful Object
 description:
@@ -92,13 +92,6 @@ options:
             - Frequency with which group members communicate.
             - Allowed values are 1-3600.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
-    send_interval_prior_to_maintenance_mode:
-        description:
-            - The user can specify a send-interval while entering maintenance mode.
-            - The validity of this 'maintenance send-interval' is only during maintenance mode.
-            - When the user leaves maintenance mode, the original send-interval is reinstated.
-            - This internal variable is used to store the original send-interval.
-            - Field introduced in 18.2.3.
     sites:
         description:
             - Select avi site member belonging to this gslb.
@@ -249,10 +242,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
@@ -271,7 +270,6 @@ def main():
         maintenance_mode=dict(type='bool',),
         name=dict(type='str', required=True),
         send_interval=dict(type='int',),
-        send_interval_prior_to_maintenance_mode=dict(type='int',),
         sites=dict(type='list',),
         tenant_ref=dict(type='str',),
         third_party_sites=dict(type='list',),
@@ -284,7 +282,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     api_method = module.params['avi_api_update_method']
     if str(api_method).lower() == 'patch':

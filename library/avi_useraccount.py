@@ -23,6 +23,7 @@
 #
 """
 
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -30,7 +31,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_useraccount
-author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com)
+author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
 short_description: Avi UserAccount Module
 description:
     - This module can be used for updating the password of a user.
@@ -86,16 +87,24 @@ try:
         ansible_return)
     from pkg_resources import parse_version
     import avi.sdk
-
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
             (sdk_version and
              (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in development builds
+        # It allows the __version__ to be '' as that value is used in d
+        # evelopment builds
         raise ImportError
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, ansible_return, avi_obj_cmp,
+            cleanup_absent_fields)
+        from ansible.module_utils.network.avi.avi_api import (
+            ApiSession, AviCredentials)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
@@ -140,7 +149,7 @@ def main():
             rsp = api.put('useraccount', data=data)
             if rsp:
                 password_changed = True
-    except:
+    except Exception:
         pass
     if not password_changed:
         api = ApiSession.get_session(

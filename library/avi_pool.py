@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_pool
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of Pool Avi RESTful Object
 description:
@@ -59,11 +59,13 @@ options:
         description:
             - Determines analytics settings for the pool.
             - Field introduced in 18.1.5, 18.2.1.
+        version_added: "2.8"
     analytics_profile_ref:
         description:
             - Specifies settings related to analytics.
             - It is a reference to an object of type analyticsprofile.
             - Field introduced in 18.1.4,18.2.1.
+        version_added: "2.8"
     apic_epg_name:
         description:
             - Synchronize cisco apic epg members with pool servers.
@@ -105,6 +107,7 @@ options:
         description:
             - Connnection pool properties.
             - Field introduced in 18.2.1.
+        version_added: "2.8"
     connection_ramp_duration:
         description:
             - Duration for which new connections will be gradually ramped up to a server recently brought online.
@@ -129,6 +132,7 @@ options:
             - They are disabled, if the knob is set to false.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        version_added: "2.8"
         type: bool
     description:
         description:
@@ -241,10 +245,12 @@ options:
         description:
             - Minimum number of health monitors in up state to mark server up.
             - Field introduced in 18.2.1, 17.2.12.
+        version_added: "2.8"
     min_servers_up:
         description:
             - Minimum number of servers in up state for marking the pool up.
             - Field introduced in 18.2.1, 17.2.12.
+        version_added: "2.8"
     name:
         description:
             - The name of the pool.
@@ -315,6 +321,7 @@ options:
             - Allowed values are 0-3600000.
             - Field introduced in 18.1.5,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        version_added: "2.8"
     servers:
         description:
             - The pool directs load balanced traffic to this list of destination servers.
@@ -325,6 +332,7 @@ options:
             - In openshift/kubernetes environments, app metadata info is stored.
             - Any user input to this field will be overwritten by avi vantage.
             - Field introduced in 17.2.14,18.1.5,18.2.1.
+        version_added: "2.8"
     sni_enabled:
         description:
             - Enable tls sni for server connections.
@@ -417,10 +425,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
@@ -502,7 +516,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'pool',
                            set([]))
