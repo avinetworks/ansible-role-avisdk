@@ -15,7 +15,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_l4policyset
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
 
 short_description: Module for setup of L4PolicySet Avi RESTful Object
 description:
@@ -105,10 +105,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():

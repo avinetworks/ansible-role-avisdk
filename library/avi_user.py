@@ -23,6 +23,7 @@
 #
 """
 
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -30,11 +31,11 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_user
-author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
+author: Shrikant Chaudhari (@gitshrikant) <shrikant.chaudhari@avinetworks.com>
 short_description: Avi User Module
 description:
     - This module can be used for creation, updation and deletion of a user.
-version_added: 2.6
+version_added: 2.8
 requirements: [ avisdk ]
 options:
     state:
@@ -62,7 +63,7 @@ options:
             - If the user will need to have the same privileges as the admin account, set it to true.
     is_active:
         description:
-            - Activates the current user account. 
+            - Activates the current user account.
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -76,6 +77,7 @@ options:
     default_tenant_ref:
         description:
             - Default tenant reference.
+        default: /api/tenant?name=admin
 
 
 extends_documentation_fragment:
@@ -109,7 +111,9 @@ obj:
     type: dict
 '''
 
+
 from ansible.module_utils.basic import AnsibleModule
+
 
 try:
     from avi.sdk.utils.ansible_utils import (
@@ -120,12 +124,18 @@ try:
     if ((sdk_version is None) or
             (sdk_version and
              (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in development builds
+        # It allows the __version__ to be '' as that value is used in d
+        # evelopment builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, ansible_return)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
@@ -136,7 +146,7 @@ def main():
         obj_username=dict(type='str', required=True),
         obj_password=dict(type='str', required=True, no_log=True),
         access=dict(type='list',),
-        email = dict(type='str',),
+        email=dict(type='str',),
         is_superuser=dict(type='bool',),
         is_active=dict(type='bool',),
         avi_api_update_method=dict(default='put',
@@ -146,13 +156,13 @@ def main():
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs, supports_check_mode=True)
-
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'user',
                            set([]))
+
 
 if __name__ == '__main__':
     main()

@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_analyticsprofile
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of AnalyticsProfile Avi RESTful Object
 description:
@@ -160,7 +160,7 @@ options:
             - In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
             - Field introduced in 18.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.7"
+        version_added: "2.8"
         type: bool
     disable_se_analytics:
         description:
@@ -180,6 +180,7 @@ options:
             - This flag disables metrics and healthscore for virtualservice.
             - Field introduced in 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        version_added: "2.8"
         type: bool
     enable_advanced_analytics:
         description:
@@ -188,6 +189,7 @@ options:
             - However, setting it to false reduces cpu and memory requirements for analytics subsystem.
             - Field introduced in 17.2.13, 18.1.5, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        version_added: "2.8"
         type: bool
     exclude_client_close_before_request_as_error:
         description:
@@ -250,6 +252,7 @@ options:
         description:
             - List of sip status codes to be excluded from being classified as an error.
             - Field introduced in 17.2.13, 18.1.5, 18.2.1.
+        version_added: "2.8"
     exclude_syn_retransmit_as_error:
         description:
             - Exclude 'server unanswered syns' from the list of errors.
@@ -272,6 +275,7 @@ options:
             - Special values are 0- 'server health score is disabled'.
             - Field introduced in 17.2.13, 18.1.4.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
+        version_added: "2.8"
     hs_event_throttle_window:
         description:
             - Time window (in secs) within which only unique health change events should occur.
@@ -409,7 +413,7 @@ options:
             - It is applicable only when disable_ondemand_metrics is set to false.
             - Field introduced in 18.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1800.
-        version_added: "2.7"
+        version_added: "2.8"
     ranges:
         description:
             - List of http status code ranges to be excluded from being classified as an error.
@@ -421,7 +425,7 @@ options:
         description:
             - Rules applied to the http application log for filtering sensitive information.
             - Field introduced in 17.2.10, 18.1.2.
-        version_added: "2.7"
+        version_added: "2.8"
     sip_log_depth:
         description:
             - Maximum number of sip messages added in logs for a sip transaction.
@@ -429,6 +433,7 @@ options:
             - Allowed values are 1-1000.
             - Field introduced in 17.2.13, 18.1.5, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
+        version_added: "2.8"
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -521,10 +526,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():

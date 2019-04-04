@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_gslb
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of Gslb Avi RESTful Object
 description:
@@ -42,6 +42,13 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+    async_interval:
+        description:
+            - Frequency with which messages are propagated to vs mgr.
+            - Value of 0 disables async behavior and rpc are sent inline.
+            - Allowed values are 0-5.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     clear_on_max_retries:
         description:
             - Max retries after which the remote site is treated as a fresh start.
@@ -99,6 +106,7 @@ options:
             - When the user leaves maintenance mode, the original send-interval is reinstated.
             - This internal variable is used to store the original send-interval.
             - Field introduced in 18.2.3.
+        version_added: "2.8"
     sites:
         description:
             - Select avi site member belonging to this gslb.
@@ -249,10 +257,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
@@ -262,6 +276,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        async_interval=dict(type='int',),
         clear_on_max_retries=dict(type='int',),
         client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
