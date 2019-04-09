@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_cloudconnectoruser
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of CloudConnectorUser Avi RESTful Object
 description:
@@ -54,6 +54,7 @@ options:
         description:
             - Credentials for google cloud platform.
             - Field introduced in 18.2.1.
+        version_added: "2.8"
     name:
         description:
             - Name of the object.
@@ -62,6 +63,7 @@ options:
         description:
             - Credentials for oracle cloud infrastructure.
             - Field introduced in 18.2.1,18.1.3.
+        version_added: "2.8"
     private_key:
         description:
             - Private_key of cloudconnectoruser.
@@ -71,6 +73,10 @@ options:
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+    tencent_credentials:
+        description:
+            - Credentials for tencent cloud.
+            - Field introduced in 18.2.3.
     url:
         description:
             - Avi controller URL of the object.
@@ -113,10 +119,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
@@ -134,6 +146,7 @@ def main():
         private_key=dict(type='str', no_log=True,),
         public_key=dict(type='str',),
         tenant_ref=dict(type='str',),
+        tencent_credentials=dict(type='dict',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )

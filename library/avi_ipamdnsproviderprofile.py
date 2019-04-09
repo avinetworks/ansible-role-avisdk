@@ -15,7 +15,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_ipamdnsproviderprofile
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of IpamDnsProviderProfile Avi RESTful Object
 description:
@@ -78,6 +78,7 @@ options:
         description:
             - Provider details for oracle cloud.
             - Field introduced in 18.2.1,18.1.3.
+        version_added: "2.8"
     openstack_profile:
         description:
             - Provider details if type is openstack.
@@ -87,12 +88,16 @@ options:
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+    tencent_profile:
+        description:
+            - Provider details for tencent cloud.
+            - Field introduced in 18.2.3.
     type:
         description:
             - Provider type for the ipam/dns provider profile.
             - Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM,
-            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS,
-            - IPAMDNS_TYPE_AZURE_DNS.
+            - IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_TENCENT, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS,
+            - IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
         required: true
     url:
         description:
@@ -144,10 +149,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
@@ -169,6 +180,7 @@ def main():
         openstack_profile=dict(type='dict',),
         proxy_configuration=dict(type='dict',),
         tenant_ref=dict(type='str',),
+        tencent_profile=dict(type='dict',),
         type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),

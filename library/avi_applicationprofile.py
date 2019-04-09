@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_applicationprofile
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of ApplicationProfile Avi RESTful Object
 description:
@@ -47,10 +47,12 @@ options:
             - Checksum of application profiles.
             - Internally set by cloud connector.
             - Field introduced in 17.2.14, 18.1.5, 18.2.1.
+        version_added: "2.8"
     created_by:
         description:
             - Name of the application profile creator.
             - Field introduced in 17.2.14, 18.1.5, 18.2.1.
+        version_added: "2.8"
     description:
         description:
             - User defined description for the object.
@@ -84,7 +86,7 @@ options:
         description:
             - Specifies various sip service related controls for virtual service.
             - Field introduced in 17.2.8, 18.1.3, 18.2.1.
-        version_added: "2.7"
+        version_added: "2.8"
     tcp_app_profile:
         description:
             - Specifies the tcp application proxy profile parameters.
@@ -187,10 +189,16 @@ try:
              (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    HAS_AVI = False
+    try:
+        from ansible.module_utils.network.avi.avi import (
+            avi_common_argument_spec, avi_ansible_api)
+        HAS_AVI = True
+    except ImportError:
+        HAS_AVI = False
 
 
 def main():
