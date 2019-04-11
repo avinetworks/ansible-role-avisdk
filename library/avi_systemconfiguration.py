@@ -109,6 +109,12 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
+    welcome_workflow_complete:
+        description:
+            - This flag is set once the initial controller setup workflow is complete.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
 extends_documentation_fragment:
     - avi
 '''
@@ -178,6 +184,7 @@ def main():
         ssh_hmacs=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        welcome_workflow_complete=dict(type='bool',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
