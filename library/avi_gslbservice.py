@@ -134,16 +134,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
-    skip_vs_site_selection_policy:
-        description:
-            - A dns vs hosting a gslb service can have dns policies.
-            - These dns policies apply to all the gslb services.
-            - If a policy is hit, and the action contains site selection, this knob skips/overrides that selection, and relies on the normal load balancing
-            - algorithm.
-            - Field introduced in 18.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
-        type: bool
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -240,7 +230,6 @@ def main():
         num_dns_ip=dict(type='int',),
         pool_algorithm=dict(type='str',),
         site_persistence_enabled=dict(type='bool',),
-        skip_vs_site_selection_policy=dict(type='bool',),
         tenant_ref=dict(type='str',),
         ttl=dict(type='int',),
         url=dict(type='str',),

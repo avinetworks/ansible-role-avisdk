@@ -411,6 +411,10 @@ options:
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+    topology_policies:
+        description:
+            - Topology policies applied on the dns traffic of the virtual service based ongslb topology algorithm.
+            - Field introduced in 18.2.3.
     traffic_clone_profile_ref:
         description:
             - Server network or list of servers for cloning traffic.
@@ -638,6 +642,7 @@ def main():
         subnet=dict(type='dict',),
         subnet_uuid=dict(type='str',),
         tenant_ref=dict(type='str',),
+        topology_policies=dict(type='list',),
         traffic_clone_profile_ref=dict(type='str',),
         traffic_enabled=dict(type='bool',),
         type=dict(type='str',),

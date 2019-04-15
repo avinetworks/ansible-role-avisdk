@@ -2,7 +2,7 @@
 """
 # Created on Aug 12, 2016
 #
-# @author: Gaurav Rastogi (grastogi@avinetworks.com) GitHub ID: grastogi23
+# @author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com) GitHub ID: gitshrikant
 #
 # module_check: not supported
 #
@@ -42,7 +42,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_saml_api_session
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
 
 short_description: Avi API Module
 description:
@@ -76,9 +76,9 @@ EXAMPLES = '''
 
   - name: Create Pool
     avi_pool:
-      api_context: "{{ saml_api_context |  default(omit) }}"
+      api_context: "{{ saml_api_context | default(omit) }}"
       avi_credentials: "{{ avi_credentials }}"
-      state: "{{ state | default('present') }}"
+      state: "{{ state | default(present) }}"
       name: vs-simple-pool
       lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
       servers:
@@ -94,9 +94,9 @@ EXAMPLES = '''
 
   - name: Create Virtual Service
     avi_virtualservice:
-      api_context: "{{ saml_api_context |  default(omit) }}"
+      api_context: "{{ saml_api_context | default(omit) }}"
       avi_credentials: "{{ avi_credentials }}"
-      state: "{{ state | default('present') }}"
+      state: "{{ state | default(present) }}"
       name: vs-simple
       services:
       - port: 80
@@ -150,13 +150,13 @@ def main():
     if not idp:
         msg = "IDP {} not supported yet.".format(idp_class)
         return module.fail_json(msg=msg)
-    api_creds = AviCredentials()
-    api_creds.update_from_ansible_module(module)
+    avi_credentials = AviCredentials()
+    avi_credentials.update_from_ansible_module(module)
     try:
         api = ApiSession.get_session(
-            api_creds.controller, api_creds.username, password=api_creds.password,
-            timeout=api_creds.timeout, tenant=api_creds.tenant,
-            tenant_uuid=api_creds.tenant_uuid, port=api_creds.port, idp_class=idp)
+            avi_credentials.controller, avi_credentials.username, password=avi_credentials.password,
+            timeout=avi_credentials.timeout, tenant=avi_credentials.tenant,
+            tenant_uuid=avi_credentials.tenant_uuid, port=avi_credentials.port, idp_class=idp)
         changed = True
     except (ConnectionError, SSLError, ChunkedEncodingError) as e:
         msg = "Error during get session {}".format(e.message)

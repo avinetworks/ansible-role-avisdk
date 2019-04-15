@@ -47,7 +47,7 @@ options:
             - Field introduced in 17.2.4.
     format:
         description:
-            - Format of an error page body {html, json}.
+            - Format of an error page body html or json.
             - Enum options - ERROR_PAGE_FORMAT_HTML, ERROR_PAGE_FORMAT_JSON.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as ERROR_PAGE_FORMAT_HTML.

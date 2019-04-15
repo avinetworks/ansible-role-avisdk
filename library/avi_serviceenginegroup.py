@@ -650,6 +650,14 @@ options:
         description:
             - Prefix to use for virtual machine name of service engines.
             - Default value when not specified in API or module is interpreted by Avi Controller as Avi.
+    se_pcap_lookahead:
+        description:
+            - Enables lookahead mode of packet receive in pcap mode.
+            - Introduced to overcome an issue with hv_netvsc driver.
+            - Lookahead mode attempts to ensure that application and kernel's view of the receive rings are consistent.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     se_pcap_reinit_frequency:
         description:
             - Frequency in seconds at which periodically a pcap reinit check is triggered.
@@ -1089,6 +1097,7 @@ def main():
         se_flow_probe_timer=dict(type='int',),
         se_ipc_udp_port=dict(type='int',),
         se_name_prefix=dict(type='str',),
+        se_pcap_lookahead=dict(type='bool',),
         se_pcap_reinit_frequency=dict(type='int',),
         se_pcap_reinit_threshold=dict(type='int',),
         se_probe_port=dict(type='int',),
