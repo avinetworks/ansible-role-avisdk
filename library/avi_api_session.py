@@ -115,30 +115,19 @@ import time
 from ansible.module_utils.basic import AnsibleModule
 from copy import deepcopy
 
-
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
         ansible_return)
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
-        # It allows the __version__ to be '' as that value is used in d
-        # evelopment builds
-        raise ImportError
     HAS_AVI = True
 except ImportError:
     try:
         from ansible.module_utils.network.avi.avi import (
             avi_common_argument_spec, ansible_return, avi_obj_cmp,
-            cleanup_absent_fields)
+            cleanup_absent_fields, HAS_AVI)
         from ansible.module_utils.network.avi.avi_api import (
             ApiSession, AviCredentials)
-        HAS_AVI = True
     except ImportError:
         HAS_AVI = False
 
@@ -157,7 +146,7 @@ def main():
     module = AnsibleModule(argument_spec=argument_specs)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)

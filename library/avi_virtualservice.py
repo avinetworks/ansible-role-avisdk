@@ -411,6 +411,10 @@ options:
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+    topology_policies:
+        description:
+            - Topology policies applied on the dns traffic of the virtual service based ongslb topology algorithm.
+            - Field introduced in 18.2.3.
     traffic_clone_profile_ref:
         description:
             - Server network or list of servers for cloning traffic.
@@ -533,22 +537,13 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
     from avi.sdk.utils.ansible_utils import (
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
     try:
         from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api)
-        HAS_AVI = True
+            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
     except ImportError:
         HAS_AVI = False
 
@@ -638,6 +633,7 @@ def main():
         subnet=dict(type='dict',),
         subnet_uuid=dict(type='str',),
         tenant_ref=dict(type='str',),
+        topology_policies=dict(type='list',),
         traffic_clone_profile_ref=dict(type='str',),
         traffic_enabled=dict(type='bool',),
         type=dict(type='str',),
@@ -660,7 +656,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'virtualservice',
                            set([]))

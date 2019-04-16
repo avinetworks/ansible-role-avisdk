@@ -99,6 +99,7 @@ options:
             - Allowed values are 0 - 10.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        version_added: "2.8"
     archive_shm_limit:
         description:
             - Amount of se memory in gb until which shared memory is collected in core archive.
@@ -198,12 +199,14 @@ options:
             - Subnet used to spin up the data nic for service engines, used only for azure cloud.
             - Overrides the cloud level setting for service engine subnet.
             - Field introduced in 18.2.3.
+        version_added: "2.8"
     datascript_timeout:
         description:
             - Number of instructions before datascript times out.
             - Allowed values are 0-100000000.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1000000.
+        version_added: "2.8"
     dedicated_dispatcher_core:
         description:
             - Dedicate the core that handles packet receive/transmit from the network to just the dispatching function.
@@ -601,6 +604,7 @@ options:
             - Reboot the system if the se is stopped.
             - Field introduced in 17.2.16,18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        version_added: "2.8"
         type: bool
     se_bandwidth_type:
         description:
@@ -954,22 +958,13 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
     from avi.sdk.utils.ansible_utils import (
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
     try:
         from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api)
-        HAS_AVI = True
+            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
     except ImportError:
         HAS_AVI = False
 
@@ -1142,7 +1137,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'serviceenginegroup',
                            set([]))
