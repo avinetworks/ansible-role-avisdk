@@ -46,8 +46,8 @@ options:
             - AWS/Azure ssh key pair to login on the controller instance.
     force_mode:
         description:
-            - Re-initialise controller with given password even if controller
-              password is initialised before
+            - Avoid check for login with given password and re-initialise controller 
+              with given password even if controller password is initialised before
 
 extends_documentation_fragment:
     - avi
@@ -62,6 +62,8 @@ EXAMPLES = '''
         api_version: "18.2.3"
       ssh_key_pair: "/path/to/key-pair-file.pem"
       password: new_password
+      con_wait_time: 3600
+      round_wait: 10
 
 '''
 
@@ -74,7 +76,7 @@ obj:
 
 import time
 from ansible.module_utils.basic import AnsibleModule
-import requests, paramiko
+import requests
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
@@ -148,33 +150,29 @@ def main():
     if not controller_up:
         return module.fail_json(
             msg='Something wrong with the controller. The Controller is not in the up state.')
-    # Check for admin login with new password before initializing controller password.
     if not force_mode:
+        # Check for admin login with new password before initializing controller password.
         try:
             ApiSession.get_session(
                 api_creds.controller, "admin",
                 password=new_password, timeout=api_creds.timeout,
                 tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
                 token=api_creds.token, port=api_creds.port)
-            module.exit_json(msg="Already initialized controller password with the given password.", changed=False)
+            module.exit_json(msg="Already initialized controller password with a given password.", changed=False)
         except Exception as e:
             pass
-    try:
-        ssh = paramiko.SSHClient()
-        k = paramiko.RSAKey.from_private_key_file(key_pair)
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(hostname=api_creds.controller, username="admin", pkey=k)
-        stdin, stdout, stderr = ssh.exec_command("sudo /opt/avi/scripts/initialize_admin_user.py")
-        stdin.write(api_creds.controller + '\n')
-        stdin.write(new_password + '\n')
-        cmd_status = stdout.channel.recv_exit_status()
-        if cmd_status == 0:
-            module.exit_json(changed=True, msg='Successfully initialized controller with new password.')
-        else:
-            module.fail_json(msg='Fail to initialize password for controllers status: %s output: %s error: %s'
-                                 % (cmd_status, stdout.read(), stderr.read()))
-    except Exception as e:
-        return module.fail_json(msg='Fail to initialize password for controllers %s' % e)
+    cmd = "ssh -o \"StrictHostKeyChecking no\" -t -i " + key_pair + " admin@" + \
+          api_creds.controller + " \"ls /opt/avi/scripts/initialize_admin_user.py && echo -e '" + \
+          api_creds.controller + "\\n" + new_password + "' | sudo /opt/avi/scripts/initialize_admin_user.py\""
+    process = subprocess.Popen(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    stdout, stderr = process.communicate()
+    cmd_status = process.returncode
+    if cmd_status == 0:
+        return module.exit_json(changed=True, msg="Successfully initialized controller with new password. "
+                                "return_code: %s output: %s error: %s" % (cmd_status, stdout, stderr))
+    else:
+        return module.fail_json(msg='Fail to initialize password for controllers return_code: %s '
+                                'output: %s error: %s' % (cmd_status, stdout, stderr))
 
 
 if __name__ == '__main__':
