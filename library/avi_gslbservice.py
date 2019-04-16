@@ -134,16 +134,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
-    skip_vs_site_selection_policy:
-        description:
-            - A dns vs hosting a gslb service can have dns policies.
-            - These dns policies apply to all the gslb services.
-            - If a policy is hit, and the action contains site selection, this knob skips/overrides that selection, and relies on the normal load balancing
-            - algorithm.
-            - Field introduced in 18.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
-        type: bool
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -196,22 +186,13 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
     from avi.sdk.utils.ansible_utils import (
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
     try:
         from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api)
-        HAS_AVI = True
+            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
     except ImportError:
         HAS_AVI = False
 
@@ -240,7 +221,6 @@ def main():
         num_dns_ip=dict(type='int',),
         pool_algorithm=dict(type='str',),
         site_persistence_enabled=dict(type='bool',),
-        skip_vs_site_selection_policy=dict(type='bool',),
         tenant_ref=dict(type='str',),
         ttl=dict(type='int',),
         url=dict(type='str',),
@@ -253,7 +233,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'gslbservice',
                            set([]))

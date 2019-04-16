@@ -45,14 +45,17 @@ options:
         description:
             - Aws access key id.
             - Field introduced in 18.2.3.
+        version_added: "2.8"
     aws_bucket_id:
         description:
             - Aws bucket.
             - Field introduced in 18.2.3.
+        version_added: "2.8"
     aws_secret_access:
         description:
             - Aws secret access key.
             - Field introduced in 18.2.3.
+        version_added: "2.8"
     backup_file_prefix:
         description:
             - Prefix of the exported configuration file.
@@ -94,6 +97,7 @@ options:
         description:
             - Cloud backup.
             - Field introduced in 18.2.3.
+        version_added: "2.8"
         type: bool
     url:
         description:
@@ -125,22 +129,13 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
     from avi.sdk.utils.ansible_utils import (
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
     try:
         from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api)
-        HAS_AVI = True
+            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
     except ImportError:
         HAS_AVI = False
 
@@ -174,7 +169,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'backupconfiguration',
                            set(['backup_passphrase', 'aws_access_key', 'aws_secret_access']))
