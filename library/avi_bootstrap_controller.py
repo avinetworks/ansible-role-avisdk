@@ -44,6 +44,10 @@ options:
     ssh_key_pair:
         description:
             - AWS/Azure ssh key pair to login on the controller instance.
+    force_mode:
+        description:
+            - Re-initialise controller with given password even if controller
+              password is initialised before
 
 extends_documentation_fragment:
     - avi
@@ -52,10 +56,12 @@ extends_documentation_fragment:
 EXAMPLES = '''
   - name: Initialize user password
     avi_bootstrap_controller:
-      controller: "controller_ip"
+      avi_credentials:
+        controller: "controller_ip"
+        port: "443"
+        api_version: "18.2.3"
       ssh_key_pair: "/path/to/key-pair-file.pem"
       password: new_password
-      api_version: "18.2.3"
 
 '''
 
@@ -69,7 +75,6 @@ obj:
 import time
 from ansible.module_utils.basic import AnsibleModule
 import requests
-
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
@@ -99,26 +104,19 @@ def controller_wait(controller_ip, round_wait=10, wait_time=3600):
     max_count = wait_time / round_wait
     path = "http://" + str(controller_ip) + "/api/cluster/runtime"
     ctrl_status = False
-    r = None
     while True:
         if count >= max_count:
             break
         try:
             r = requests.get(path, timeout=10, verify=False)
             # Check for controller response for login URI.
-            if r.status_code in (500, 502, 503) and count < max_count:
-                time.sleep(10)
-                count += 1
-            else:
-                if r:
-                    data = r.json()
-                    cluster_state = data.get('cluster_state', '')
-                    if cluster_state:
-                        if cluster_state['state'] == 'CLUSTER_UP_NO_HA':
-                            ctrl_status = True
-                            break
-        except (requests.Timeout, requests.exceptions.ConnectionError) as e:
+            if r.json()['cluster_state']['state'] == 'CLUSTER_UP_NO_HA':
+                ctrl_status = True
+                break
+        except Exception as e:
+            time.sleep(round_wait)
             pass
+        count += 1
     return ctrl_status
 
 
@@ -126,10 +124,14 @@ def main():
     argument_specs = dict(
         password=dict(type='str', required=True, no_log=True),
         ssh_key_pair=dict(type='str', required=True),
+        force_mode=dict(type='bool', default=False),
+        # Max time to wait for controller up state
+        con_wait_time=dict(type='int', default=3600),
+        # Retry after every rount_wait time to check for controller state.
+        round_wait=dict(type='int', default=10),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs)
-
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk) is not installed. '
@@ -139,20 +141,35 @@ def main():
     api_creds.update_from_ansible_module(module)
     new_password = module.params.get('password')
     key_pair = module.params.get('ssh_key_pair')
+    force_mode = module.params.get('force_mode')
     # Wait for controller to come up for given con_wait_time
-    controller_up = controller_wait(api_creds.controller)
+    controller_up = controller_wait(api_creds.controller, module.params['round_wait'],
+                                    module.params['con_wait_time'])
     if not controller_up:
         return module.fail_json(
             msg='Something wrong with the controller. The Controller is not in the up state.')
+    # Check for admin login with new password before initializing controller password.
     try:
-        subprocess.check_output(
+        ApiSession.get_session(
+            api_creds.controller, "admin",
+            password=new_password, timeout=api_creds.timeout,
+            tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
+            token=api_creds.token, port=api_creds.port)
+        if not force_mode:
+            module.fail_json(msg="Controller password is initialized before. To re-initialize "
+                                 "controller password, please use force mode option.")
+    except Exception as e:
+        pass
+    cmd_status = None
+    try:
+        cmd_status = subprocess.check_output(
             "ssh -o \"StrictHostKeyChecking no\" -t -i " + key_pair + " admin@" +
             api_creds.controller + " \"echo -e '" + api_creds.controller + "\\n" +
             new_password + "' | sudo /opt/avi/scripts/initialize_admin_user.py\"",
             stderr=subprocess.STDOUT, shell=True)
         return module.exit_json(changed=True, msg="Successfully initialized controller with new password.")
     except Exception as e:
-        return module.fail_json(msg='Fail to initialize password for controllers %s' % e)
+        return module.fail_json(msg='Fail to initialize password for controllers %s %s' % (e, cmd_status))
 
 
 if __name__ == '__main__':
