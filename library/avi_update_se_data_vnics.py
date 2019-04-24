@@ -22,6 +22,10 @@ description:
 requirements: [ avisdk ]
 version_added: 2.8
 options:
+    se_name:
+        description: 
+            - Name of the Service Engine for which data vnics to be updated
+        required: true
     data_vnics_config:
         description:
             - Placeholder for description of property data_vnics of obj type ServiceEngine field.
@@ -40,6 +44,7 @@ EXAMPLES = '''
         username: "{{ username }}"
         password: "{{ password }}"
         api_version: "18.1.3"
+      se_name: "10.10.20.30"
       data_vnics_config:
       - if_name: "eth1"
         is_asm: false
@@ -112,6 +117,7 @@ except ImportError:
 def main():
     argument_specs = dict(
         data_vnics_config=dict(type='list', ),
+        se_name=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -130,9 +136,8 @@ def main():
         port=api_creds.port)
     path = 'serviceengine'
     # Get existing SE object
-    rsp = api.get(path, api_version=api_creds.api_version)
-    existing_se = rsp.json()
-    se_obj = existing_se['results'][0]
+    se_obj = api.get_object_by_name(path, module.params['se_name'],
+                                    api_version=api_creds.api_version)
     data_vnics_config = module.params['data_vnics_config']
     for d_vnic in se_obj['data_vnics']:
         for obj in data_vnics_config:
