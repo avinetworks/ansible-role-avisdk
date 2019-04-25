@@ -97,14 +97,15 @@ except ImportError:
     HAS_AVI = False
 
 
-def controller_wait(controller_ip, round_wait=10, wait_time=3600):
+def controller_wait(controller_ip, port=None, round_wait=10, wait_time=3600):
     """
     It waits for controller to come up for a given wait_time (default 1 hour).
     :return: controller_up: Boolean value for controller up state.
     """
     count = 0
     max_count = wait_time / round_wait
-    path = "http://" + str(controller_ip) + "/api/cluster/runtime"
+    ctrl_port = port if port else 80
+    path = "http://{}:{}{}".format(controller_ip, ctrl_port, "/api/cluster/runtime")
     ctrl_status = False
     while True:
         if count >= max_count:
@@ -145,7 +146,7 @@ def main():
     key_pair = module.params.get('ssh_key_pair')
     force_mode = module.params.get('force_mode')
     # Wait for controller to come up for given con_wait_time
-    controller_up = controller_wait(api_creds.controller, module.params['round_wait'],
+    controller_up = controller_wait(api_creds.controller, api_creds.port, module.params['round_wait'],
                                     module.params['con_wait_time'])
     if not controller_up:
         return module.fail_json(
