@@ -67,6 +67,14 @@ options:
         description:
             - Sub domain configuration for the gslb.
             - Gslb service's fqdn must be a match one of these subdomains.
+    error_resync_interval:
+        description:
+            - Frequency with which errored messages are resynced to follower sites.
+            - Value of 0 disables resync behavior.
+            - Allowed values are 300-3600.
+            - Special values are 0 - 'disable'.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     is_federated:
         description:
             - This field indicates that this object is replicated across gslb federation.
@@ -253,11 +261,7 @@ try:
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    try:
-        from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
-    except ImportError:
-        HAS_AVI = False
+    HAS_AVI = False
 
 
 def main():
@@ -272,6 +276,7 @@ def main():
         client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
+        error_resync_interval=dict(type='int',),
         is_federated=dict(type='bool',),
         leader_cluster_uuid=dict(type='str', required=True),
         maintenance_mode=dict(type='bool',),

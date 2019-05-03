@@ -272,6 +272,12 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.8"
         type: bool
+    enable_gratarp_permanent:
+        description:
+            - Enable gratarp for vip_ip.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     enable_hsm_priming:
         description:
             - (this is a beta feature).
@@ -346,6 +352,12 @@ options:
             - Field introduced in 17.2.10, 18.1.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1024.
         version_added: "2.8"
+    gratarp_permanent_periodicity:
+        description:
+            - Gratarp periodicity for vip-ip.
+            - Allowed values are 5-30.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
     ha_mode:
         description:
             - High availability mode for all the virtual services using this service engine group.
@@ -654,6 +666,14 @@ options:
         description:
             - Prefix to use for virtual machine name of service engines.
             - Default value when not specified in API or module is interpreted by Avi Controller as Avi.
+    se_pcap_lookahead:
+        description:
+            - Enables lookahead mode of packet receive in pcap mode.
+            - Introduced to overcome an issue with hv_netvsc driver.
+            - Lookahead mode attempts to ensure that application and kernel's view of the receive rings are consistent.
+            - Field introduced in 18.2.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     se_pcap_reinit_frequency:
         description:
             - Frequency in seconds at which periodically a pcap reinit check is triggered.
@@ -962,11 +982,7 @@ try:
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    try:
-        from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
-    except ImportError:
-        HAS_AVI = False
+    HAS_AVI = False
 
 
 def main():
@@ -1015,6 +1031,7 @@ def main():
         disk_per_se=dict(type='int',),
         distribute_load_active_standby=dict(type='bool',),
         distribute_queues=dict(type='bool',),
+        enable_gratarp_permanent=dict(type='bool',),
         enable_hsm_priming=dict(type='bool',),
         enable_multi_lb=dict(type='bool',),
         enable_routing=dict(type='bool',),
@@ -1028,6 +1045,7 @@ def main():
         floating_intf_ip_se_2=dict(type='list',),
         flow_table_new_syn_max_entries=dict(type='int',),
         free_list_size=dict(type='int',),
+        gratarp_permanent_periodicity=dict(type='int',),
         ha_mode=dict(type='str',),
         hardwaresecuritymodulegroup_ref=dict(type='str',),
         heap_minimum_config_memory=dict(type='int',),
@@ -1084,6 +1102,7 @@ def main():
         se_flow_probe_timer=dict(type='int',),
         se_ipc_udp_port=dict(type='int',),
         se_name_prefix=dict(type='str',),
+        se_pcap_lookahead=dict(type='bool',),
         se_pcap_reinit_frequency=dict(type='int',),
         se_pcap_reinit_threshold=dict(type='int',),
         se_probe_port=dict(type='int',),

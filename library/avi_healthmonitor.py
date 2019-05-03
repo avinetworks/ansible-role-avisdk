@@ -81,6 +81,10 @@ options:
         description:
             - A user friendly name for this health monitor.
         required: true
+    radius_monitor:
+        description:
+            - Health monitor for radius.
+            - Field introduced in 18.2.3.
     receive_timeout:
         description:
             - A valid response from the server is expected within the receive timeout window.
@@ -113,7 +117,7 @@ options:
         description:
             - Type of the health monitor.
             - Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP,
-            - HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP.
+            - HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS.
         required: true
     udp_monitor:
         description:
@@ -161,11 +165,7 @@ try:
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    try:
-        from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
-    except ImportError:
-        HAS_AVI = False
+    HAS_AVI = False
 
 
 def main():
@@ -184,6 +184,7 @@ def main():
         is_federated=dict(type='bool',),
         monitor_port=dict(type='int',),
         name=dict(type='str', required=True),
+        radius_monitor=dict(type='dict',),
         receive_timeout=dict(type='int',),
         send_interval=dict(type='int',),
         sip_monitor=dict(type='dict',),

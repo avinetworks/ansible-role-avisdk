@@ -117,14 +117,7 @@ try:
         ansible_return, AviCheckModeResponse)
     HAS_AVI = True
 except ImportError:
-    try:
-        from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_obj_cmp, cleanup_absent_fields,
-            ansible_return, AviCheckModeResponse, HAS_AVI)
-        from ansible.module_utils.network.avi.avi_api import (
-            ApiSession, AviCredentials)
-    except ImportError:
-        HAS_AVI = False
+    HAS_AVI = False
 
 
 def delete_member(module, check_mode, api, tenant, tenant_uuid,

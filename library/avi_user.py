@@ -121,13 +121,7 @@ try:
     from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
-    try:
-        from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, ansible_return, HAS_AVI)
-        from ansible.module_utils.network.avi.ansible_utils import (
-            avi_ansible_api)
-    except ImportError:
-        HAS_AVI = False
+    HAS_AVI = False
 
 
 def main():

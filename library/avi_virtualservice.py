@@ -327,6 +327,10 @@ options:
     requests_rate_limit:
         description:
             - Rate limit the incoming requests to this virtual service.
+    saml_sp_config:
+        description:
+            - Application-specific saml config.
+            - Field introduced in 18.2.3.
     scaleout_ecmp:
         description:
             - Disable re-distribution of flows across service engines for a virtual service.
@@ -385,6 +389,10 @@ options:
         description:
             - Determines the set of ssl versions and ciphers to accept for ssl/tls terminated connections.
             - It is a reference to an object of type sslprofile.
+    ssl_profile_selectors:
+        description:
+            - Select ssl profile based on client ip address match.
+            - Field introduced in 18.2.3.
     ssl_sess_cache_avg_size:
         description:
             - Expected number of ssl session cache entries (may be exceeded).
@@ -393,8 +401,14 @@ options:
     sso_policy:
         description:
             - Client authentication and authorization policy for the virtualservice.
+            - Field deprecated in 18.2.3.
             - Field introduced in 18.2.1.
         version_added: "2.8"
+    sso_policy_ref:
+        description:
+            - The sso policy attached to the virtualservice.
+            - It is a reference to an object of type ssopolicy.
+            - Field introduced in 18.2.3.
     static_dns_records:
         description:
             - List of static dns records applied to this virtual service.
@@ -541,11 +555,7 @@ try:
         avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
-    try:
-        from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, avi_ansible_api, HAS_AVI)
-    except ImportError:
-        HAS_AVI = False
+    HAS_AVI = False
 
 
 def main():
@@ -615,6 +625,7 @@ def main():
         port_uuid=dict(type='str',),
         remove_listening_port_on_vs_down=dict(type='bool',),
         requests_rate_limit=dict(type='dict',),
+        saml_sp_config=dict(type='dict',),
         scaleout_ecmp=dict(type='bool',),
         se_group_ref=dict(type='str',),
         security_policy_ref=dict(type='str',),
@@ -627,8 +638,10 @@ def main():
         sp_pool_refs=dict(type='list',),
         ssl_key_and_certificate_refs=dict(type='list',),
         ssl_profile_ref=dict(type='str',),
+        ssl_profile_selectors=dict(type='list',),
         ssl_sess_cache_avg_size=dict(type='int',),
         sso_policy=dict(type='dict',),
+        sso_policy_ref=dict(type='str',),
         static_dns_records=dict(type='list',),
         subnet=dict(type='dict',),
         subnet_uuid=dict(type='str',),

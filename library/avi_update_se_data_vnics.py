@@ -101,17 +101,11 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
-        avi_ansible_api, avi_common_argument_spec,
+        avi_common_argument_spec, avi_ansible_api,
         ansible_return)
     HAS_AVI = True
 except ImportError:
-    try:
-        from ansible.module_utils.network.avi.avi import (
-            avi_common_argument_spec, ansible_return, HAS_AVI)
-        from ansible.module_utils.network.avi.avi_api import (
-            ApiSession, AviCredentials)
-    except ImportError:
-        HAS_AVI = False
+    HAS_AVI = False
 
 
 def main():
@@ -137,7 +131,7 @@ def main():
     path = 'serviceengine'
     # Get existing SE object
     se_obj = api.get_object_by_name(path, module.params['se_name'],
-                                    api_version=api_creds.api_version)
+                                api_version=api_creds.api_version)
     data_vnics_config = module.params['data_vnics_config']
     for d_vnic in se_obj['data_vnics']:
         for obj in data_vnics_config:
