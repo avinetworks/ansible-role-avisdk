@@ -46,7 +46,7 @@ options:
             - AWS/Azure ssh key pair to login on the controller instance.
     force_mode:
         description:
-            - Avoid check for login with given password and re-initialise controller 
+            - Avoid check for login with given password and re-initialise controller
               with given password even if controller password is initialised before
 
 extends_documentation_fragment:
