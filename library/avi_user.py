@@ -35,7 +35,7 @@ author: Shrikant Chaudhari (@gitshrikant) <shrikant.chaudhari@avinetworks.com>
 short_description: Avi User Module
 description:
     - This module can be used for creation, updation and deletion of a user.
-version_added: 2.8
+version_added: 2.9
 requirements: [ avisdk ]
 options:
     state:
@@ -68,9 +68,12 @@ options:
         description:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
-        version_added: "2.6"
         default: put
-        choices: ["post", "put"]
+        choices: ["post", "put", "patch"]
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete"]
     user_profile_ref:
         description:
             - Refer user profile.
@@ -137,6 +140,7 @@ def main():
         is_active=dict(type='bool',),
         avi_api_update_method=dict(default='put',
                                    choices=['post', 'put']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         user_profile_ref=dict(type='str',),
         default_tenant_ref=dict(type='str', default='/api/tenant?name=admin'),
     )
