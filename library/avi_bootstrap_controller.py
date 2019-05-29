@@ -35,7 +35,7 @@ short_description: avi bootstrap controller module.
 description:
     - This module can be used for initializing the password of a user.
     - This module is useful for setting up admin password for Controller bootstrap.
-version_added: 2.6
+version_added: 2.9
 requirements: [ avisdk ]
 options:
     password:
