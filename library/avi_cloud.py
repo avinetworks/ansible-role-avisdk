@@ -166,11 +166,6 @@ options:
     rancher_configuration:
         description:
             - Rancherconfiguration settings for cloud.
-    se_group_template_ref:
-        description:
-            - The service engine group to use as template.
-            - It is a reference to an object of type serviceenginegroup.
-            - Field introduced in 18.2.4.
     state_based_dns_registration:
         description:
             - Dns records for vips are added/deleted based on the operational state of the vips.
@@ -281,7 +276,6 @@ def main():
         prefer_static_routes=dict(type='bool',),
         proxy_configuration=dict(type='dict',),
         rancher_configuration=dict(type='dict',),
-        se_group_template_ref=dict(type='str',),
         state_based_dns_registration=dict(type='bool',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

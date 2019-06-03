@@ -611,16 +611,10 @@ options:
     realtime_se_metrics:
         description:
             - Enable or disable real time se metrics.
-    reboot_on_panic:
-        description:
-            - Reboot the vm or host on kernel panic.
-            - Field introduced in 18.2.4.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
     reboot_on_stop:
         description:
             - Reboot the system if the se is stopped.
-            - Field deprecated in 18.2.4.
+            - Field introduced in 17.2.16,18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.8"
         type: bool
@@ -655,18 +649,12 @@ options:
             - Field introduced in 18.1.4, 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         version_added: "2.8"
-    se_flow_probe_retry_timer:
-        description:
-            - Timeout in milliseconds for flow probe retries.
-            - Allowed values are 20-50.
-            - Field introduced in 18.2.4.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 40.
     se_flow_probe_timer:
         description:
             - Timeout in milliseconds for flow probe entries.
             - Allowed values are 10-200.
-            - Field deprecated in 18.2.4.
             - Field introduced in 18.1.4, 18.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
         version_added: "2.8"
     se_ipc_udp_port:
         description:
@@ -1105,14 +1093,12 @@ def main():
         per_app=dict(type='bool',),
         placement_mode=dict(type='str',),
         realtime_se_metrics=dict(type='dict',),
-        reboot_on_panic=dict(type='bool',),
         reboot_on_stop=dict(type='bool',),
         se_bandwidth_type=dict(type='str',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
         se_dpdk_pmd=dict(type='int',),
         se_flow_probe_retries=dict(type='int',),
-        se_flow_probe_retry_timer=dict(type='int',),
         se_flow_probe_timer=dict(type='int',),
         se_ipc_udp_port=dict(type='int',),
         se_name_prefix=dict(type='str',),
