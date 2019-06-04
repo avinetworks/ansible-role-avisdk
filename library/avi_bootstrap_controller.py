@@ -35,7 +35,7 @@ short_description: avi bootstrap controller module.
 description:
     - This module can be used for initializing the password of a user.
     - This module is useful for setting up admin password for Controller bootstrap.
-version_added: 2.6
+version_added: 2.9
 requirements: [ avisdk ]
 options:
     password:
@@ -76,7 +76,6 @@ obj:
 
 import time
 from ansible.module_utils.basic import AnsibleModule
-import requests
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
@@ -85,6 +84,7 @@ try:
     from pkg_resources import parse_version
     import avi.sdk
     import subprocess
+    import requests
 
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or

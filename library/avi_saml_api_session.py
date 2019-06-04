@@ -48,7 +48,7 @@ short_description: Avi API Module
 description:
     - This module is useful to get SAML session after successful SAML authentication from a given IDP.
     - This module return api_context and token after successful authentication from IDP.
-version_added: 2.3
+version_added: 2.9
 requirements: [ avisdk ]
 options:
     idp_class:

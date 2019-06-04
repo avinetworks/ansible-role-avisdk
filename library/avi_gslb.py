@@ -49,6 +49,7 @@ options:
             - Allowed values are 0-5.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        version_added: "2.9"
     clear_on_max_retries:
         description:
             - Max retries after which the remote site is treated as a fresh start.
@@ -114,7 +115,7 @@ options:
             - When the user leaves maintenance mode, the original send-interval is reinstated.
             - This internal variable is used to store the original send-interval.
             - Field introduced in 18.2.3.
-        version_added: "2.8"
+        version_added: "2.9"
     sites:
         description:
             - Select avi site member belonging to this gslb.

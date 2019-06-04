@@ -23,7 +23,7 @@ description:
     - This module is used to configure ServiceEnginePolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.8"
+version_added: "2.9"
 options:
     state:
         description:

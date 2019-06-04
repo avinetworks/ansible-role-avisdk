@@ -26,7 +26,7 @@ author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com
 short_description: Avi API Module for fileservice
 description:
     - This module can be used for calling fileservice resources to upload/download files
-version_added: 2.8
+version_added: 2.9
 requirements: [ avisdk, requests_toolbelt ]
 options:
     upload:

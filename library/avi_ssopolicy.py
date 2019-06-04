@@ -15,14 +15,14 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_ssopolicy
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
 
 short_description: Module for setup of SSOPolicy Avi RESTful Object
 description:
     - This module is used to configure SSOPolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.7"
+version_added: "2.9"
 options:
     state:
         description:
@@ -46,6 +46,10 @@ options:
             - Authentication policy settings.
             - Field introduced in 18.2.1.
         required: true
+    authorization_policy:
+        description:
+            - Authorization policy settings.
+            - Field introduced in 18.2.5.
     name:
         description:
             - Name of the sso policy.
@@ -56,6 +60,12 @@ options:
             - Uuid of the tenant.
             - It is a reference to an object of type tenant.
             - Field introduced in 18.2.3.
+    type:
+        description:
+            - Sso policy type.
+            - Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS.
+            - Field introduced in 18.2.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as SSO_TYPE_SAML.
     url:
         description:
             - Avi controller URL of the object.
@@ -102,8 +112,10 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         authentication_policy=dict(type='dict', required=True),
+        authorization_policy=dict(type='dict',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
+        type=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )

@@ -20,10 +20,10 @@ short_description: Avi API Module for update data vnics and vlan interfaces.
 description:
     - Module to update Service Engine's data vnics/vlans configurations.
 requirements: [ avisdk ]
-version_added: 2.8
+version_added: 2.9
 options:
     se_name:
-        description: 
+        description:
             - Name of the Service Engine for which data vnics to be updated
         required: true
     data_vnics_config:
@@ -130,8 +130,8 @@ def main():
         port=api_creds.port)
     path = 'serviceengine'
     # Get existing SE object
-    se_obj = api.get_object_by_name(path, module.params['se_name'],
-                                api_version=api_creds.api_version)
+    se_obj = api.get_object_by_name(
+        path, module.params['se_name'], api_version=api_creds.api_version)
     data_vnics_config = module.params['data_vnics_config']
     for d_vnic in se_obj['data_vnics']:
         for obj in data_vnics_config:
@@ -141,10 +141,10 @@ def main():
                     "if_name in a configuration is mandatory. Please provide if_name i.e. vnic's interface name."))
             if config_for == d_vnic['if_name']:
                 # modify existing object
-                for key, val in obj.iteritems():
+                for key, val in obj.items():
                     d_vnic[key] = val
             if config_for == d_vnic['if_name']:
-                for key, val in obj.iteritems():
+                for key, val in obj.items():
                     d_vnic[key] = val
     module.params.update(se_obj)
     module.params.update(

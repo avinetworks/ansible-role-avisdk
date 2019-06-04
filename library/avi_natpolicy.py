@@ -15,14 +15,14 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_natpolicy
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
 
 short_description: Module for setup of NatPolicy Avi RESTful Object
 description:
     - This module is used to configure NatPolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.7"
+version_added: "2.9"
 options:
     state:
         description:

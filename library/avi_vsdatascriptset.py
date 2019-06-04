@@ -74,6 +74,7 @@ options:
             - List of protocol parsers that could be referred by vsdatascriptset objects.
             - It is a reference to an object of type protocolparser.
             - Field introduced in 18.2.3.
+        version_added: "2.9"
     string_group_refs:
         description:
             - Uuid of string groups that could be referred by vsdatascriptset objects.
