@@ -23,15 +23,16 @@
 #
 """
 
-
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
+
 DOCUMENTATION = '''
 ---
 module: avi_useraccount
-author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
+author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com)
+
 short_description: Avi UserAccount Module
 description:
     - This module can be used for updating the password of a user.
@@ -42,17 +43,13 @@ options:
     old_password:
         description:
             - Old password for update password or default password for bootstrap.
-    force_change:
-        description:
-            - If specifically set to true then old password is tried first for controller and then the new password is
-              tried. If not specified this flag then the new password is tried first.
-        version_added: "2.8"
 
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = '''
+
   - name: Update user password
     avi_useraccount:
       controller: ""
@@ -60,13 +57,11 @@ EXAMPLES = '''
       password: new_password
       old_password: ""
       api_version: ""
-      force_change: false
 
   - name: Update user password using avi_credentials
     avi_useraccount:
       avi_credentials: ""
       old_password: ""
-      force_change: false
 '''
 
 RETURN = '''
@@ -86,6 +81,14 @@ try:
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
         ansible_return)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.2.2b3')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -93,60 +96,46 @@ except ImportError:
 
 def main():
     argument_specs = dict(
-        old_password=dict(type='str', required=True, no_log=True),
-        # Flag to specify priority of old/new password while establishing session with controller.
-        # To handle both Saas and conventional (Entire state in playbook) scenario.
-        force_change=dict(type='bool', default=False)
+        old_password=dict(type='str', required=True, no_log=True)
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs)
+
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
+
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
+    password_updated = False
     old_password = module.params.get('old_password')
-    force_change = module.params.get('force_change', False)
     data = {
         'old_password': old_password,
         'password': api_creds.password
     }
-    # First try old password if 'force_change' is set to true
-    if force_change:
-        first_pwd = old_password
-        second_pwd = api_creds.password
-    # First try new password if 'force_change' is set to false or not specified in playbook.
-    else:
-        first_pwd = api_creds.password
-        second_pwd = old_password
     password_changed = False
     try:
         api = ApiSession.get_session(
             api_creds.controller, api_creds.username,
-            password=first_pwd, timeout=api_creds.timeout,
+            password=api_creds.password, timeout=api_creds.timeout,
             tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
             token=api_creds.token, port=api_creds.port)
-        if force_change:
-            rsp = api.put('useraccount', data=data)
-            if rsp:
-                password_changed = True
-    except Exception:
+        password_changed = True
+        return ansible_return(module, None, False, req=data)
+    except:
         pass
+
     if not password_changed:
         api = ApiSession.get_session(
-            api_creds.controller, api_creds.username, password=second_pwd,
+            api_creds.controller, api_creds.username, password=old_password,
             timeout=api_creds.timeout, tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
             port=api_creds.port)
-        if not force_change:
-            rsp = api.put('useraccount', data=data)
-            if rsp:
-                password_changed = True
-    if password_changed:
-        return ansible_return(module, rsp, True, req=data)
-    else:
-        return ansible_return(module, rsp, False, req=data)
+        rsp = api.put('useraccount', data=data)
+        if rsp:
+            return ansible_return(module, rsp, True, req=data)
+        return module.exit_json(changed=False, obj=data)
 
 
 if __name__ == '__main__':

@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_healthmonitor
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 short_description: Module for setup of HealthMonitor Avi RESTful Object
 description:
@@ -81,10 +81,6 @@ options:
         description:
             - A user friendly name for this health monitor.
         required: true
-    radius_monitor:
-        description:
-            - Health monitor for radius.
-            - Field introduced in 18.2.3.
     receive_timeout:
         description:
             - A valid response from the server is expected within the receive timeout window.
@@ -100,8 +96,7 @@ options:
     sip_monitor:
         description:
             - Health monitor for sip.
-            - Field introduced in 17.2.8, 18.1.3, 18.2.1.
-        version_added: "2.8"
+            - Field introduced in 17.2.8.
     successful_checks:
         description:
             - Number of continuous successful health checks before server is marked up.
@@ -117,7 +112,7 @@ options:
         description:
             - Type of the health monitor.
             - Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP,
-            - HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS.
+            - HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP.
         required: true
     udp_monitor:
         description:
@@ -161,8 +156,15 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from avi.sdk.utils.ansible_utils import (
-        avi_ansible_api, avi_common_argument_spec)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -184,7 +186,6 @@ def main():
         is_federated=dict(type='bool',),
         monitor_port=dict(type='int',),
         name=dict(type='str', required=True),
-        radius_monitor=dict(type='dict',),
         receive_timeout=dict(type='int',),
         send_interval=dict(type='int',),
         sip_monitor=dict(type='dict',),
@@ -201,11 +202,10 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'healthmonitor',
                            set([]))
-
 
 if __name__ == '__main__':
     main()

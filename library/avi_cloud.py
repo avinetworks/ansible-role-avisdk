@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_cloud
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 short_description: Module for setup of Cloud Avi RESTful Object
 description:
@@ -50,12 +50,6 @@ options:
             - Boolean flag to set apic_mode.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    autoscale_polling_interval:
-        description:
-            - Cloudconnector polling interval for external autoscale groups.
-            - Field introduced in 18.2.2.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
-        version_added: "2.8"
     aws_configuration:
         description:
             - Awsconfiguration settings for cloud.
@@ -99,18 +93,6 @@ options:
             - Use static routes for vip side network resolution during virtualservice placement.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    gcp_configuration:
-        description:
-            - Google cloud platform configuration.
-            - Field introduced in 18.2.1.
-        version_added: "2.8"
-    ip6_autocfg_enabled:
-        description:
-            - Enable ipv6 auto configuration.
-            - Field introduced in 18.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
-        type: bool
     ipam_provider_ref:
         description:
             - Ipam profile for the cloud.
@@ -126,13 +108,13 @@ options:
         description:
             - If no license type is specified then default license enforcement for the cloud type is chosen.
             - The default mappings are container cloud is max ses, openstack and vmware is cores and linux it is sockets.
-            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH.
+            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH.
     linuxserver_configuration:
         description:
             - Linuxserverconfiguration settings for cloud.
     mesos_configuration:
         description:
-            - Field deprecated in 18.2.2.
+            - Mesosconfiguration settings for cloud.
     mtu:
         description:
             - Mtu setting for the cloud.
@@ -192,7 +174,7 @@ options:
         description:
             - Cloud type.
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
-            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         required: true
 extends_documentation_fragment:
@@ -233,8 +215,15 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from avi.sdk.utils.ansible_utils import (
-        avi_ansible_api, avi_common_argument_spec)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -249,7 +238,6 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         apic_configuration=dict(type='dict',),
         apic_mode=dict(type='bool',),
-        autoscale_polling_interval=dict(type='int',),
         aws_configuration=dict(type='dict',),
         azure_configuration=dict(type='dict',),
         cloudstack_configuration=dict(type='dict',),
@@ -260,8 +248,6 @@ def main():
         east_west_dns_provider_ref=dict(type='str',),
         east_west_ipam_provider_ref=dict(type='str',),
         enable_vip_static_routes=dict(type='bool',),
-        gcp_configuration=dict(type='dict',),
-        ip6_autocfg_enabled=dict(type='bool',),
         ipam_provider_ref=dict(type='str',),
         license_tier=dict(type='str',),
         license_type=dict(type='str',),
@@ -289,11 +275,10 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'cloud',
                            set([]))
-
 
 if __name__ == '__main__':
     main()

@@ -41,13 +41,6 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
-    allow_mode_delegation:
-        description:
-            - Allow rules to overwrite the policy mode.
-            - This must be set if the policy mode is set to enforcement.
-            - Field introduced in 18.1.5, 18.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
     created_by:
         description:
             - Creator name.
@@ -60,31 +53,17 @@ options:
     description:
         description:
             - Field introduced in 17.2.1.
-    enable_app_learning:
-        description:
-            - Enable application learning for this waf policy.
-            - Field introduced in 18.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     failure_mode:
         description:
             - Waf policy failure mode.
             - This can be 'open' or 'closed'.
             - Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED.
-            - Field introduced in 18.1.2.
+            - Field introduced in 17.2.16.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_FAILURE_MODE_OPEN.
-        version_added: "2.7"
-    learning:
-        description:
-            - Configure parameters for waf learning.
-            - Field deprecated in 18.2.3.
-            - Field introduced in 18.1.2.
-        version_added: "2.7"
     mode:
         description:
             - Waf policy mode.
             - This can be detection or enforcement.
-            - It can be overwritten by rules if allow_mode_delegation is set.
             - Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT.
             - Field introduced in 17.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_MODE_DETECTION_ONLY.
@@ -100,12 +79,6 @@ options:
             - Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME.
             - Field introduced in 17.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_PARANOIA_LEVEL_LOW.
-    positive_security_model:
-        description:
-            - The positive security model.
-            - This is used to describe how the request or parts of the request should look like.
-            - It is executed in the request body phase of avi waf.
-            - Field introduced in 18.2.3.
     post_crs_groups:
         description:
             - Waf rules are categorized in to groups based on their characterization.
@@ -126,23 +99,12 @@ options:
     uuid:
         description:
             - Field introduced in 17.2.1.
-    waf_crs_ref:
-        description:
-            - Waf core ruleset used for the crs part of this policy.
-            - It is a reference to an object of type wafcrs.
-            - Field introduced in 18.1.1.
-        version_added: "2.7"
     waf_profile_ref:
         description:
             - Waf profile for waf policy.
             - It is a reference to an object of type wafprofile.
             - Field introduced in 17.2.1.
         required: true
-    whitelist:
-        description:
-            - A set of rules which describe conditions under which the request will bypass the waf.
-            - This will be executed in the request header phase before any other waf related code.
-            - Field introduced in 18.2.3.
 extends_documentation_fragment:
     - avi
 '''
@@ -188,25 +150,19 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        allow_mode_delegation=dict(type='bool',),
         created_by=dict(type='str',),
         crs_groups=dict(type='list',),
         description=dict(type='str',),
-        enable_app_learning=dict(type='bool',),
         failure_mode=dict(type='str',),
-        learning=dict(type='dict',),
         mode=dict(type='str', required=True),
         name=dict(type='str', required=True),
         paranoia_level=dict(type='str',),
-        positive_security_model=dict(type='dict',),
         post_crs_groups=dict(type='list',),
         pre_crs_groups=dict(type='list',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        waf_crs_ref=dict(type='str',),
         waf_profile_ref=dict(type='str', required=True),
-        whitelist=dict(type='dict',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -217,7 +173,6 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'wafpolicy',
                            set([]))
-
 
 if __name__ == '__main__':
     main()

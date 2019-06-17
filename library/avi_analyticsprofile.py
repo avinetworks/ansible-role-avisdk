@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_analyticsprofile
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 short_description: Module for setup of AnalyticsProfile Avi RESTful Object
 description:
@@ -154,14 +154,6 @@ options:
     description:
         description:
             - User defined description for the object.
-    disable_ondemand_metrics:
-        description:
-            - Virtual service (vs) metrics are processed only when there is live data traffic on the vs.
-            - In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
-            - Field introduced in 18.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
-        type: bool
     disable_se_analytics:
         description:
             - Disable node (service engine) level analytics forvs metrics.
@@ -170,26 +162,16 @@ options:
     disable_server_analytics:
         description:
             - Disable analytics on backend servers.
-            - This may be desired in container environment when there are large number of ephemeral servers.
-            - Additionally, no healthscore of servers is computed when server analytics is disabled.
+            - This may be desired in container environment when there are large number of  ephemeral servers.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
-    disable_vs_analytics:
-        description:
-            - Disable virtualservice (frontend) analytics.
-            - This flag disables metrics and healthscore for virtualservice.
-            - Field introduced in 18.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
         type: bool
     enable_advanced_analytics:
         description:
             - Enables advanced analytics features like anomaly detection.
             - If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be disabled.
             - However, setting it to false reduces cpu and memory requirements for analytics subsystem.
-            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
+            - Field introduced in 17.2.13.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        version_added: "2.8"
         type: bool
     exclude_client_close_before_request_as_error:
         description:
@@ -251,8 +233,7 @@ options:
     exclude_sip_error_codes:
         description:
             - List of sip status codes to be excluded from being classified as an error.
-            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
-        version_added: "2.8"
+            - Field introduced in 17.2.13.
     exclude_syn_retransmit_as_error:
         description:
             - Exclude 'server unanswered syns' from the list of errors.
@@ -270,12 +251,11 @@ options:
         type: bool
     healthscore_max_server_limit:
         description:
-            - Skips health score computation of pool servers when number of servers in a pool is more than this setting.
+            - Skips healthscore computation of pool servers when number of servers in a pool is more than this setting.
             - Allowed values are 0-5000.
             - Special values are 0- 'server health score is disabled'.
-            - Field introduced in 17.2.13, 18.1.4.
+            - Field introduced in 17.2.13.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
-        version_added: "2.8"
     hs_event_throttle_window:
         description:
             - Time window (in secs) within which only unique health change events should occur.
@@ -407,13 +387,6 @@ options:
         description:
             - The name of the analytics profile.
         required: true
-    ondemand_metrics_idle_timeout:
-        description:
-            - This flag sets the time duration of no live data traffic after which virtual service metrics processing is suspended.
-            - It is applicable only when disable_ondemand_metrics is set to false.
-            - Field introduced in 18.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 1800.
-        version_added: "2.8"
     ranges:
         description:
             - List of http status code ranges to be excluded from being classified as an error.
@@ -424,16 +397,14 @@ options:
     sensitive_log_profile:
         description:
             - Rules applied to the http application log for filtering sensitive information.
-            - Field introduced in 17.2.10, 18.1.2.
-        version_added: "2.8"
+            - Field introduced in 17.2.10.
     sip_log_depth:
         description:
             - Maximum number of sip messages added in logs for a sip transaction.
             - By default, this value is 20.
             - Allowed values are 1-1000.
-            - Field introduced in 17.2.13, 18.1.5, 18.2.1.
+            - Field introduced in 17.2.13.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
-        version_added: "2.8"
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -518,8 +489,15 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from avi.sdk.utils.ansible_utils import (
-        avi_ansible_api, avi_common_argument_spec)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -553,10 +531,8 @@ def main():
         conn_server_lossy_total_rexmt_threshold=dict(type='int',),
         conn_server_lossy_zero_win_size_event_threshold=dict(type='int',),
         description=dict(type='str',),
-        disable_ondemand_metrics=dict(type='bool',),
         disable_se_analytics=dict(type='bool',),
         disable_server_analytics=dict(type='bool',),
-        disable_vs_analytics=dict(type='bool',),
         enable_advanced_analytics=dict(type='bool',),
         exclude_client_close_before_request_as_error=dict(type='bool',),
         exclude_dns_policy_drop_as_significant=dict(type='bool',),
@@ -601,7 +577,6 @@ def main():
         hs_security_tls12_score=dict(type='float',),
         hs_security_weak_signature_algo_penalty=dict(type='float',),
         name=dict(type='str', required=True),
-        ondemand_metrics_idle_timeout=dict(type='int',),
         ranges=dict(type='list',),
         resp_code_block=dict(type='list',),
         sensitive_log_profile=dict(type='dict',),
@@ -615,11 +590,10 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'analyticsprofile',
                            set([]))
-
 
 if __name__ == '__main__':
     main()

@@ -15,7 +15,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_backupconfiguration
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 short_description: Module for setup of BackupConfiguration Avi RESTful Object
 description:
@@ -41,21 +41,6 @@ options:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
-    aws_access_key:
-        description:
-            - Aws access key id.
-            - Field introduced in 18.2.3.
-        version_added: "2.8"
-    aws_bucket_id:
-        description:
-            - Aws bucket.
-            - Field introduced in 18.2.3.
-        version_added: "2.8"
-    aws_secret_access:
-        description:
-            - Aws secret access key.
-            - Field introduced in 18.2.3.
-        version_added: "2.8"
     backup_file_prefix:
         description:
             - Prefix of the exported configuration file.
@@ -93,12 +78,6 @@ options:
         description:
             - Remote backup.
         type: bool
-    upload_to_s3:
-        description:
-            - Cloud backup.
-            - Field introduced in 18.2.3.
-        version_added: "2.8"
-        type: bool
     url:
         description:
             - Avi controller URL of the object.
@@ -129,8 +108,15 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from avi.sdk.utils.ansible_utils import (
-        avi_ansible_api, avi_common_argument_spec)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -143,9 +129,6 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        aws_access_key=dict(type='str', no_log=True,),
-        aws_bucket_id=dict(type='str',),
-        aws_secret_access=dict(type='str', no_log=True,),
         backup_file_prefix=dict(type='str',),
         backup_passphrase=dict(type='str', no_log=True,),
         maximum_backups_stored=dict(type='int',),
@@ -156,7 +139,6 @@ def main():
         ssh_user_ref=dict(type='str',),
         tenant_ref=dict(type='str',),
         upload_to_remote_host=dict(type='bool',),
-        upload_to_s3=dict(type='bool',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -165,11 +147,10 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'backupconfiguration',
-                           set(['backup_passphrase', 'aws_access_key', 'aws_secret_access']))
-
+                           set(['backup_passphrase']))
 
 if __name__ == '__main__':
     main()

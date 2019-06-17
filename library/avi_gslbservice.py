@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_gslbservice
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 short_description: Module for setup of GslbService Avi RESTful Object
 description:
@@ -90,12 +90,6 @@ options:
             - In such a case, avi members can have controller derived status while non-avi members can be probed by via health monitor probes in dataplane.
             - Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS.
             - Default value when not specified in API or module is interpreted by Avi Controller as GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS.
-    hm_off:
-        description:
-            - This field is an internal field and is used in se.
-            - Field introduced in 18.2.2.
-        version_added: "2.8"
-        type: bool
     is_federated:
         description:
             - This field indicates that this object is replicated across gslb federation.
@@ -186,8 +180,15 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from avi.sdk.utils.ansible_utils import (
-        avi_ansible_api, avi_common_argument_spec)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -210,7 +211,6 @@ def main():
         groups=dict(type='list',),
         health_monitor_refs=dict(type='list',),
         health_monitor_scope=dict(type='str',),
-        hm_off=dict(type='bool',),
         is_federated=dict(type='bool',),
         min_members=dict(type='int',),
         name=dict(type='str', required=True),
@@ -229,11 +229,10 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'gslbservice',
                            set([]))
-
 
 if __name__ == '__main__':
     main()

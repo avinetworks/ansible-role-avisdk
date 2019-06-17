@@ -16,7 +16,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_pool
-author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
+author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 short_description: Module for setup of Pool Avi RESTful Object
 description:
@@ -45,27 +45,13 @@ options:
     a_pool:
         description:
             - Name of container cloud application that constitutes a pool in a a-b pool configuration, if different from vs app.
-            - Field deprecated in 18.1.2.
     ab_pool:
         description:
             - A/b pool configuration.
-            - Field deprecated in 18.1.2.
     ab_priority:
         description:
             - Priority of this pool in a a-b pool pair.
             - Internally used.
-            - Field deprecated in 18.1.2.
-    analytics_policy:
-        description:
-            - Determines analytics settings for the pool.
-            - Field introduced in 18.1.5, 18.2.1.
-        version_added: "2.8"
-    analytics_profile_ref:
-        description:
-            - Specifies settings related to analytics.
-            - It is a reference to an object of type analyticsprofile.
-            - Field introduced in 18.1.4,18.2.1.
-        version_added: "2.8"
     apic_epg_name:
         description:
             - Synchronize cisco apic epg members with pool servers.
@@ -103,11 +89,6 @@ options:
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
-    conn_pool_properties:
-        description:
-            - Connnection pool properties.
-            - Field introduced in 18.2.1.
-        version_added: "2.8"
     connection_ramp_duration:
         description:
             - Duration for which new connections will be gradually ramped up to a server recently brought online.
@@ -124,16 +105,6 @@ options:
             - The ssl checkbox enables avi to server encryption.
             - Allowed values are 1-65535.
             - Default value when not specified in API or module is interpreted by Avi Controller as 80.
-    delete_server_on_dns_refresh:
-        description:
-            - Indicates whether existing ips are disabled(false) or deleted(true) on dns hostname refreshdetail -- on a dns refresh, some ips set on pool may
-            - no longer be returned by the resolver.
-            - These ips are deleted from the pool when this knob is set to true.
-            - They are disabled, if the knob is set to false.
-            - Field introduced in 18.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        version_added: "2.8"
-        type: bool
     description:
         description:
             - A description of the pool.
@@ -206,7 +177,7 @@ options:
             - The load balancing algorithm will pick a server within the pool's list of available servers.
             - Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH,
             - LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER,
-            - LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY.
+            - LB_ALGORITHM_CORE_AFFINITY.
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_LEAST_CONNECTIONS.
     lb_algorithm_consistent_hash_hdr:
         description:
@@ -244,13 +215,11 @@ options:
     min_health_monitors_up:
         description:
             - Minimum number of health monitors in up state to mark server up.
-            - Field introduced in 18.2.1, 17.2.12.
-        version_added: "2.8"
+            - Field introduced in 17.2.12.
     min_servers_up:
         description:
-            - Minimum number of servers in up state for marking the pool up.
-            - Field introduced in 18.2.1, 17.2.12.
-        version_added: "2.8"
+            - Minimum number of servers in up state for marking thr pool up.
+            - Field introduced in 17.2.12.
     name:
         description:
             - The name of the pool.
@@ -276,7 +245,6 @@ options:
     prst_hdr_name:
         description:
             - Header name for custom header persistence.
-            - Field deprecated in 18.1.2.
     request_queue_depth:
         description:
             - Minimum number of requests to be queued when pool is full.
@@ -301,11 +269,12 @@ options:
         description:
             - Server autoscale.
             - Not used anymore.
-            - Field deprecated in 18.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     server_count:
         description:
-            - Field deprecated in 18.2.1.
+            - Number of server_count.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
     server_name:
         description:
             - Fully qualified dns hostname which will be used in the tls sni extension in server connections if sni is enabled.
@@ -313,15 +282,6 @@ options:
     server_reselect:
         description:
             - Server reselect configuration for http requests.
-    server_timeout:
-        description:
-            - Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes
-            - between avi and the server.
-            - Value of 0 results in using default timeout of 60 minutes.
-            - Allowed values are 0-3600000.
-            - Field introduced in 18.1.5,18.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
-        version_added: "2.8"
     servers:
         description:
             - The pool directs load balanced traffic to this list of destination servers.
@@ -331,8 +291,7 @@ options:
             - Metadata pertaining to the service provided by this pool.
             - In openshift/kubernetes environments, app metadata info is stored.
             - Any user input to this field will be overwritten by avi vantage.
-            - Field introduced in 17.2.14,18.1.5,18.2.1.
-        version_added: "2.8"
+            - Field introduced in 17.2.14.
     sni_enabled:
         description:
             - Enable tls sni for server connections.
@@ -417,8 +376,15 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from avi.sdk.utils.ansible_utils import (
-        avi_ansible_api, avi_common_argument_spec)
+    from pkg_resources import parse_version
+    import avi.sdk
+    sdk_version = getattr(avi.sdk, '__version__', None)
+    if ((sdk_version is None) or
+            (sdk_version and
+             (parse_version(sdk_version) < parse_version('17.1')))):
+        # It allows the __version__ to be '' as that value is used in development builds
+        raise ImportError
+    from avi.sdk.utils.ansible_utils import avi_ansible_api
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -434,8 +400,6 @@ def main():
         a_pool=dict(type='str',),
         ab_pool=dict(type='dict',),
         ab_priority=dict(type='int',),
-        analytics_policy=dict(type='dict',),
-        analytics_profile_ref=dict(type='str',),
         apic_epg_name=dict(type='str',),
         application_persistence_profile_ref=dict(type='str',),
         autoscale_launch_config_ref=dict(type='str',),
@@ -445,11 +409,9 @@ def main():
         capacity_estimation_ttfb_thresh=dict(type='int',),
         cloud_config_cksum=dict(type='str',),
         cloud_ref=dict(type='str',),
-        conn_pool_properties=dict(type='dict',),
         connection_ramp_duration=dict(type='int',),
         created_by=dict(type='str',),
         default_server_port=dict(type='int',),
-        delete_server_on_dns_refresh=dict(type='bool',),
         description=dict(type='str',),
         domain_name=dict(type='list',),
         east_west=dict(type='bool',),
@@ -486,7 +448,6 @@ def main():
         server_count=dict(type='int',),
         server_name=dict(type='str',),
         server_reselect=dict(type='dict',),
-        server_timeout=dict(type='int',),
         servers=dict(type='list',),
         service_metadata=dict(type='str',),
         sni_enabled=dict(type='bool',),
@@ -503,11 +464,10 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'pool',
                            set([]))
-
 
 if __name__ == '__main__':
     main()
