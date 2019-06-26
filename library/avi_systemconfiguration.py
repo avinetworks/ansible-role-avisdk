@@ -91,7 +91,7 @@ options:
         description:
             - Configure secure channel properties.
             - Field introduced in 18.1.4, 18.2.1.
-        version_added: "2.8"
+        version_added: "2.9"
     snmp_configuration:
         description:
             - Snmpconfiguration settings for systemconfiguration.
@@ -114,6 +114,7 @@ options:
             - This flag is set once the initial controller setup workflow is complete.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        version_added: "2.9"
         type: bool
 extends_documentation_fragment:
     - avi

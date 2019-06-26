@@ -52,10 +52,11 @@ options:
         type: bool
     autoscale_polling_interval:
         description:
-            - Cloudconnector polling interval for external autoscale groups.
+            - Cloudconnector polling interval in seconds for external autoscale groups, minimum 60 seconds.
+            - Allowed values are 60-3600.
             - Field introduced in 18.2.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
-        version_added: "2.8"
+        version_added: "2.9"
     aws_configuration:
         description:
             - Awsconfiguration settings for cloud.
@@ -103,13 +104,13 @@ options:
         description:
             - Google cloud platform configuration.
             - Field introduced in 18.2.1.
-        version_added: "2.8"
+        version_added: "2.9"
     ip6_autocfg_enabled:
         description:
             - Enable ipv6 auto configuration.
             - Field introduced in 18.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
+        version_added: "2.9"
         type: bool
     ipam_provider_ref:
         description:
@@ -166,6 +167,11 @@ options:
     rancher_configuration:
         description:
             - Rancherconfiguration settings for cloud.
+    se_group_template_ref:
+        description:
+            - The service engine group to use as template.
+            - It is a reference to an object of type serviceenginegroup.
+            - Field introduced in 18.2.5.
     state_based_dns_registration:
         description:
             - Dns records for vips are added/deleted based on the operational state of the vips.
@@ -276,6 +282,7 @@ def main():
         prefer_static_routes=dict(type='bool',),
         proxy_configuration=dict(type='dict',),
         rancher_configuration=dict(type='dict',),
+        se_group_template_ref=dict(type='str',),
         state_based_dns_registration=dict(type='bool',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

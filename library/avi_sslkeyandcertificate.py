@@ -53,7 +53,7 @@ options:
         description:
             - States if the certificate is base64 encoded.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
+        version_added: "2.9"
         type: bool
     certificate_management_profile_ref:
         description:
@@ -77,7 +77,7 @@ options:
             - Format of the key/certificate file.
             - Enum options - SSL_PEM, SSL_PKCS12.
             - Default value when not specified in API or module is interpreted by Avi Controller as SSL_PEM.
-        version_added: "2.8"
+        version_added: "2.9"
     hardwaresecuritymodulegroup_ref:
         description:
             - It is a reference to an object of type hardwaresecuritymodulegroup.
@@ -88,7 +88,7 @@ options:
         description:
             - States if the private key is base64 encoded.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.8"
+        version_added: "2.9"
         type: bool
     key_params:
         description:
@@ -96,7 +96,7 @@ options:
     key_passphrase:
         description:
             - Passphrase used to encrypt the private key.
-        version_added: "2.8"
+        version_added: "2.9"
     name:
         description:
             - Name of the object.

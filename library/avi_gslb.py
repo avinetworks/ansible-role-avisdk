@@ -49,6 +49,7 @@ options:
             - Allowed values are 0-5.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        version_added: "2.9"
     clear_on_max_retries:
         description:
             - Max retries after which the remote site is treated as a fresh start.
@@ -71,10 +72,10 @@ options:
         description:
             - Frequency with which errored messages are resynced to follower sites.
             - Value of 0 disables resync behavior.
-            - Allowed values are 300-3600.
+            - Allowed values are 60-3600.
             - Special values are 0 - 'disable'.
             - Field introduced in 18.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
     is_federated:
         description:
             - This field indicates that this object is replicated across gslb federation.
@@ -114,7 +115,7 @@ options:
             - When the user leaves maintenance mode, the original send-interval is reinstated.
             - This internal variable is used to store the original send-interval.
             - Field introduced in 18.2.3.
-        version_added: "2.8"
+        version_added: "2.9"
     sites:
         description:
             - Select avi site member belonging to this gslb.
@@ -187,20 +188,18 @@ EXAMPLES = """
     dns_configs:
       - domain_name: "temp1.com"
       - domain_name: "temp2.com"
-    gslb_sites_config:
-      - ip_addr: "10.10.28.83"
-        dns_vses:
-          - dns_vs_uuid: "virtualservice-f2a711cd-5e78-473f-8f47-d12de660fd62"
-            domain_names:
-              - "test1.com"
-              - "test2.com"
-      - ip_addr: "10.10.28.86"
-        dns_vses:
-          - dns_vs_uuid: "virtualservice-c1a63a16-f2a1-4f41-aab4-1e90f92a5e49"
-            domain_names:
-              - "temp1.com"
-              - "temp2.com"
-
+    sites:
+      - name: "test-site1"
+        username: "gslb_username"
+        password: "gslb_password"
+        ip_addresses:
+          - type: "V4"
+            addr: "10.10.21.13"
+        enabled: True
+        member_type: "GSLB_ACTIVE_MEMBER"
+        port: 283
+        cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
+    
 - name: Update Gslb site's configurations (Patch Replace Operation)
   avi_gslb:
     avi_credentials:
@@ -215,20 +214,18 @@ EXAMPLES = """
     dns_configs:
       - domain_name: "test3.com"
       - domain_name: "temp3.com"
-    gslb_sites_config:
-      # Ip address is mapping key for dns_vses field update. For the given IP address,
-      # dns_vses is updated.
-      - ip_addr: "10.10.28.83"
-        dns_vses:
-          - dns_vs_uuid: "virtualservice-7c947ed4-77f3-4a52-909c-4f12afaf5bb0"
-            domain_names:
-              - "test3.com"
-      - ip_addr: "10.10.28.86"
-        dns_vses:
-          - dns_vs_uuid: "virtualservice-799b2c6d-7f2d-4c3f-94c6-6e813b20b674"
-            domain_names:
-              - "temp3.com"
-
+    sites:
+      - name: "test-site1"
+        username: "gslb_username"
+        password: "gslb_password"
+        ip_addresses:
+          - type: "V4"
+            addr: "10.10.11.24"
+        enabled: True
+        member_type: "GSLB_ACTIVE_MEMBER"
+        port: 283
+        cluster_uuid: "cluster-d4ee5fcc-3e0a-4d4f-9ae6-4182bc605829"
+        
 - name: Update Gslb site's configurations (Patch Delete Operation)
   avi_gslb:
     avi_credentials:
@@ -241,9 +238,9 @@ EXAMPLES = """
     avi_api_update_method: patch
     avi_api_patch_op: delete
     dns_configs:
-    gslb_sites_config:
-      - ip_addr: "10.10.28.83"
-      - ip_addr: "10.10.28.86"
+    sites:
+      - ip_addresses: "10.10.28.83"
+      - ip_addresses: "10.10.28.86"
 """
 
 RETURN = '''
@@ -312,7 +309,7 @@ def main():
         rsp = api.get('gslb', api_version=api_creds.api_version)
         existing_gslb = rsp.json()
         gslb = existing_gslb['results']
-        sites = module.params['gslb_sites_config']
+        sites = module.params['sites']
         for gslb_obj in gslb:
             # Update/Delete domain names in dns_configs fields in gslb object.
             if 'dns_configs' in module.params:
@@ -329,11 +326,11 @@ def main():
                 for site_obj in gslb_obj['sites']:
                     dns_vses = site_obj.get('dns_vses', [])
                     for obj in sites:
-                        config_for = obj.get('ip_addr', None)
+                        config_for = obj.get('ip_addresses', None)
                         if not config_for:
                             return module.fail_json(msg=(
                                 "ip_addr of site in a configuration is mandatory. "
-                                "Please provide ip_addr i.e. gslb site's ip."))
+                                "Please provide ip_addresses i.e. gslb site's ip."))
                         if config_for == site_obj['ip_addresses'][0]['addr']:
                             if str(patch_op).lower() == 'delete':
                                 site_obj['dns_vses'] = []
