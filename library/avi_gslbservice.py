@@ -94,7 +94,7 @@ options:
         description:
             - This field is an internal field and is used in se.
             - Field introduced in 18.2.2.
-        version_added: "2.8"
+        version_added: "2.9"
         type: bool
     is_federated:
         description:

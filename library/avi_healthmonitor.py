@@ -85,6 +85,7 @@ options:
         description:
             - Health monitor for radius.
             - Field introduced in 18.2.3.
+        version_added: "2.9"
     receive_timeout:
         description:
             - A valid response from the server is expected within the receive timeout window.
@@ -101,7 +102,7 @@ options:
         description:
             - Health monitor for sip.
             - Field introduced in 17.2.8, 18.1.3, 18.2.1.
-        version_added: "2.8"
+        version_added: "2.9"
     successful_checks:
         description:
             - Number of continuous successful health checks before server is marked up.

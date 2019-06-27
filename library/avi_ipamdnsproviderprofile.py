@@ -78,7 +78,7 @@ options:
         description:
             - Provider details for oracle cloud.
             - Field introduced in 18.2.1,18.1.3.
-        version_added: "2.8"
+        version_added: "2.9"
     openstack_profile:
         description:
             - Provider details if type is openstack.
@@ -92,6 +92,7 @@ options:
         description:
             - Provider details for tencent cloud.
             - Field introduced in 18.2.3.
+        version_added: "2.9"
     type:
         description:
             - Provider type for the ipam/dns provider profile.
