@@ -35,7 +35,7 @@ author: Shrikant Chaudhari (@gitshrikant) <shrikant.chaudhari@avinetworks.com>
 short_description: Avi User Module
 description:
     - This module can be used for creation, updation and deletion of a user.
-version_added: 2.8
+version_added: 2.9
 requirements: [ avisdk ]
 options:
     state:
