@@ -431,7 +431,6 @@ Wafprofile = {
 			".svg",
 			".webp"
 		],
-		"buffer_response_body_for_inspection": False,
 		"restricted_extensions": [
 			".asa",
 			".asax",
@@ -694,7 +693,6 @@ AuthProfile = {
 	"name": "Test-AuthProfile",
 	"http": {
 		"cache_expiration_time": 5,
-		"group_member_is_full_dn": False
 	},
 	"ldap": {
 		"base_dn": "dc=avi,dc=local",
@@ -978,7 +976,7 @@ ErrorPageProfile = {
 import os
 Gslb = {
 	"clear_on_max_retries": 20,
-	"leader_cluster_uuid": "cluster-97402a23-3490-4f71-8109-d8195b541644",
+	"leader_cluster_uuid": "cluster-87aefc9d-d206-4c06-a693-eadda5e61766",
 	"client_ip_addr_group": {
 		"type": "GSLB_IP_PUBLIC"
 	},
@@ -993,7 +991,7 @@ Gslb = {
 	"send_interval": 15,
 	"sites": [
 		{
-			"cluster_uuid": "cluster-97402a23-3490-4f71-8109-d8195b541644",
+			"cluster_uuid": "cluster-87aefc9d-d206-4c06-a693-eadda5e61766",
 			"enabled": True,
 			"ip_addresses": [
 				{
@@ -1052,16 +1050,12 @@ SeProperties = {
 		"vnic_dhcp_ip_check_interval": 6
 	},
 	"se_runtime_properties": {
-		"upstream_connpool_conn_life_tmo": -1,
 		"log_agent_max_active_adf_files_per_vs": 100,
 		"se_auth_ldap_conns_per_server": 1,
 		"log_agent_file_sz_appl": 4,
 		"se_packet_buffer_max": 0,
 		"log_agent_max_logmessage_proto_sz": 65536,
 		"se_hb_persist_fudge_bits": 3,
-		"se_dp_vnic_stall_se_restart_window": 3600,
-		"upstream_connpool_conn_max_reuse": -1,
-		"upstream_connpool_server_max_cache": -1,
 		"dp_aggressive_hb_timeout_count": 10,
 		"se_metrics_rt_interval": 1000,
 		"persistence_mem_max": 0,
@@ -1076,7 +1070,6 @@ SeProperties = {
 		"baremetal_dispatcher_handles_flows": False,
 		"upstream_connpool_cache_thresh": -1,
 		"connections_lossy_log_rate_limiter_threshold": 1000,
-		"upstream_connpool_conn_idle_tmo": -1,
 		"log_agent_unknown_vs_timer": 1800,
 		"upstream_connpool_strategy": -1,
 		"upstream_connpool_conn_idle_thresh_tmo": -1,

@@ -2,8 +2,8 @@ import json
 
 import pytest
 import vcr
-from ansible.compat.tests import unittest
-from ansible.compat.tests.mock import patch
+import unittest
+from mock import patch
 from ansible.module_utils._text import to_bytes
 from ansible.module_utils import basic
 
