@@ -1,3 +1,4 @@
+---
 - hosts: localhost
   roles:
     - role: avinetworks.avisdk
