@@ -1,3 +1,4 @@
+---
 - hosts: all
 
   pre_tasks:
@@ -9,7 +10,8 @@
         - unzip
         - sudo
         - which
-      when: ansible_os_family == 'RedHat' and not ansible_distribution == 'Fedora'
+      when: >
+        ansible_os_family == 'RedHat' and not ansible_distribution == 'Fedora'
 
     - name: Ensure build dependencies are installed (Fedora).
       dnf: 'name="{{ item }}" state=present'

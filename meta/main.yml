@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Eric Anderson
   description: Ansible role that allows use of Avi Ansible Modules
@@ -7,37 +8,37 @@ galaxy_info:
   min_ansible_version: 2.0.0
   github_branch: master
   platforms:
-  - name: EL
-    versions:
-    - 6
-    - 7
-  - name: Fedora
-    versions:
-    - 22
-    - 23
-    - 24
-  - name: Ubuntu
-    versions:
-    - precise
-    - trusty
-    - wily
-    - xenial
-  - name: Debian
-    versions:
-    - jessie
-    - stretch
-    - wheezy
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Fedora
+      versions:
+        - 22
+        - 23
+        - 24
+    - name: Ubuntu
+      versions:
+        - precise
+        - trusty
+        - wily
+        - xenial
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+        - wheezy
   galaxy_tags:
-  - avi
-  - controller
-  - avicontroller
-  - avisdk
-  - avinetworks
-  - networks
-  - load
-  - balancer
-  - sdk
-  - ubuntu
-  - centos
-  - debian
+    - avi
+    - controller
+    - avicontroller
+    - avisdk
+    - avinetworks
+    - networks
+    - load
+    - balancer
+    - sdk
+    - ubuntu
+    - centos
+    - debian
 dependencies: []

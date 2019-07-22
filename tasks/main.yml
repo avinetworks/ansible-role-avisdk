@@ -2,10 +2,14 @@
 # tasks file for avinetworks.avisdk
 
 - name: Checking if avisdk python library is present
-  debug: msg="Please make sure avisdk is installed via pip. 'pip install avisdk --upgrade'"
+  debug: >
+    msg="Please make sure avisdk is installed via pip.
+    'pip install avisdk --upgrade'"
 
 - name: Check ansible version
   when:
     - ansible_version.full is version_compare('2.4', '<')
-  debug: msg="This role works best with ansible version 2.4 or greater. It is recommended to use the latest ansible version for the best experience."
-
+  debug: >
+    msg="This role works best with ansible version 2.4 or greater.
+    It is recommended to use the latest ansible version for
+    the best experience."
