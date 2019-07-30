@@ -66,6 +66,7 @@ options:
             - Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS.
             - Field introduced in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as SSO_TYPE_SAML.
+        required: true
     url:
         description:
             - Avi controller URL of the object.
@@ -115,7 +116,7 @@ def main():
         authorization_policy=dict(type='dict',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        type=dict(type='str',),
+        type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )

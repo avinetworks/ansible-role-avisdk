@@ -59,6 +59,9 @@ options:
         description:
             - Name of the object.
         required: true
+    obj_password:
+        description:
+            - Password of cloudconnectoruser.
     oci_credentials:
         description:
             - Credentials for oracle cloud infrastructure.
@@ -130,6 +133,7 @@ def main():
         azure_userpass=dict(type='dict',),
         gcp_credentials=dict(type='dict',),
         name=dict(type='str', required=True),
+        obj_password=dict(type='str',),
         oci_credentials=dict(type='dict',),
         private_key=dict(type='str', no_log=True,),
         public_key=dict(type='str',),
@@ -146,7 +150,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'cloudconnectoruser',
-                           set(['private_key']))
+                           set(['private_key', 'password']))
 
 
 if __name__ == '__main__':

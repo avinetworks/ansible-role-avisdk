@@ -65,6 +65,7 @@ options:
     advertise_backend_networks:
         description:
             - Advertise reach-ability of backend server networks via adc through bgp for default gateway feature.
+            - Field deprecated in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     aggressive_failure_detection:
@@ -149,7 +150,7 @@ options:
             - Bgp peer state update interval.
             - Allowed values are 5-100.
             - Field introduced in 17.2.14,18.1.5,18.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.9"
     buffer_se:
         description:
@@ -301,20 +302,30 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
+    enable_pcap_tx_ring:
+        description:
+            - Enable tx ring support in pcap mode of operation.
+            - Tso feature is not supported with tx ring enabled.requires se reboot.
+            - Field introduced in 18.2.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     enable_routing:
         description:
-            - Enable routing for this serviceenginegroup .
+            - Enable routing for this serviceenginegroup.
+            - Field deprecated in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     enable_vip_on_all_interfaces:
         description:
             - Enable vip on all interfaces of se.
+            - Field deprecated in 18.2.5.
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     enable_vmac:
         description:
             - Use virtual mac address for interfaces on which floating interface ips are placed.
+            - Field deprecated in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     ephemeral_portrange_end:
@@ -341,11 +352,13 @@ options:
             - If serviceenginegroup is configured for legacy 1+1 active standby ha mode, floating ip's will be advertised only by the active se in the pair.
             - Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
             - Only active se hosting vs tagged with active standby se 1 tag will advertise this floating ip when manual load distribution is enabled.
+            - Field deprecated in 18.2.5.
     floating_intf_ip_se_2:
         description:
             - If serviceenginegroup is configured for legacy 1+1 active standby ha mode, floating ip's will be advertised only by the active se in the pair.
             - Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
             - Only active se hosting vs tagged with active standby se 2 tag will advertise this floating ip when manual load distribution is enabled.
+            - Field deprecated in 18.2.5.
     flow_table_new_syn_max_entries:
         description:
             - Maximum number of flow table entries that have not completed tcp three-way handshake yet.
@@ -771,7 +784,7 @@ options:
             - Max size of each packet in the pcap interface.
             - Requires se reboot.
             - Field introduced in 18.2.5.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 65536.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 69632.
     se_pcap_reinit_frequency:
         description:
             - Frequency in seconds at which periodically a pcap reinit check is triggered.
@@ -807,6 +820,7 @@ options:
             - Enable routing via service engine datapath.
             - When disabled, routing is done by the linux kernel.
             - Ip routing needs to be enabled in service engine group for se routing to be effective.
+            - Field deprecated in 18.2.5.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
@@ -1137,6 +1151,7 @@ def main():
         enable_gratarp_permanent=dict(type='bool',),
         enable_hsm_priming=dict(type='bool',),
         enable_multi_lb=dict(type='bool',),
+        enable_pcap_tx_ring=dict(type='bool',),
         enable_routing=dict(type='bool',),
         enable_vip_on_all_interfaces=dict(type='bool',),
         enable_vmac=dict(type='bool',),

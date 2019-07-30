@@ -245,6 +245,12 @@ options:
         description:
             - Time to wait before marking segroup upgrade as stuck.
             - Default value when not specified in API or module is interpreted by Avi Controller as 360.
+    shared_ssl_certificates:
+        description:
+            - Ssl certificates in the admin tenant can be used in non-admin tenants.
+            - Field introduced in 18.2.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     ssl_certificate_expiry_warning_days:
         description:
             - Number of days for ssl certificate expiry warning.
@@ -407,6 +413,7 @@ def main():
         secure_channel_se_token_timeout=dict(type='int',),
         seupgrade_fabric_pool_size=dict(type='int',),
         seupgrade_segroup_min_dead_timeout=dict(type='int',),
+        shared_ssl_certificates=dict(type='bool',),
         ssl_certificate_expiry_warning_days=dict(type='list',),
         unresponsive_se_reboot=dict(type='int',),
         upgrade_dns_ttl=dict(type='int',),
