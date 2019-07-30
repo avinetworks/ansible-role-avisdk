@@ -99,6 +99,20 @@ EXAMPLES = '''
         limit: 10
     register: pool_metrics
 
+  - name: Wait for Controller upgrade to finish
+    avi_api_session:
+      controller: "{{ controller }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      http_method: get
+      timeout: 300
+      path: cluster/upgrade/status
+      api_version: 16.4
+    register: upgrade_status
+    until: "'result' in upgrade_status.obj and upgrade_status.obj.result == 'SUCCESS'"
+    retries: 120
+    delay: 10
+
 '''
 
 

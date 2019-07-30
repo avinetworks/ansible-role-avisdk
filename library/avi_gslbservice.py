@@ -127,6 +127,12 @@ options:
             - Field introduced in 17.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as GSLB_SERVICE_ALGORITHM_PRIORITY.
         version_added: "2.5"
+    resolve_cname:
+        description:
+            - This field indicates that for a cname query, respond with resolved cnames in the additional section with a records.
+            - Field introduced in 18.2.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     site_persistence_enabled:
         description:
             - Enable site-persistence for the gslbservice.
@@ -216,6 +222,7 @@ def main():
         name=dict(type='str', required=True),
         num_dns_ip=dict(type='int',),
         pool_algorithm=dict(type='str',),
+        resolve_cname=dict(type='bool',),
         site_persistence_enabled=dict(type='bool',),
         tenant_ref=dict(type='str',),
         ttl=dict(type='int',),
