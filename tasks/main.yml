@@ -2,9 +2,7 @@
 # tasks file for avinetworks.avisdk
 
 - name: Checking if avisdk python library is present
-  debug: >
-    msg="Please make sure avisdk is installed via pip.
-    'pip install avisdk --upgrade'"
+  avi_verify_sdk:
 
 - name: Check ansible version
   when:
