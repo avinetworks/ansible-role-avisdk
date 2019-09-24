@@ -39,14 +39,26 @@ description:
 version_added: 2.6
 requirements: [ avisdk ]
 options:
+    full_name:
+        description:
+            - To set the full name for useraccount.
+        type: str
+    email:
+        description:
+            - To set email address for useraccount.
+        type: str
     old_password:
         description:
             - Old password for update password or default password for bootstrap.
+        required: true
+        type: str
     force_change:
         description:
             - If specifically set to true then old password is tried first for controller and then the new password is
               tried. If not specified this flag then the new password is tried first.
         version_added: "2.9"
+        type: bool
+
 
 extends_documentation_fragment:
     - avi
@@ -57,7 +69,9 @@ EXAMPLES = '''
     avi_useraccount:
       controller: ""
       username: ""
-      password: new_password
+      password: ""
+      full_name: "abc xyz"
+      email: "abc@xyz.com"
       old_password: ""
       api_version: ""
       force_change: false
@@ -93,6 +107,8 @@ except ImportError:
 
 def main():
     argument_specs = dict(
+        full_name=dict(type='str',),
+        email=dict(type='str',),
         old_password=dict(type='str', required=True, no_log=True),
         # Flag to specify priority of old/new password while establishing session with controller.
         # To handle both Saas and conventional (Entire state in playbook) scenario.
@@ -106,9 +122,13 @@ def main():
             'For more details visit https://github.com/avinetworks/sdk.'))
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
+    full_name = module.params.get('full_name')
+    email = module.params.get('email')
     old_password = module.params.get('old_password')
     force_change = module.params.get('force_change', False)
     data = {
+        'full_name': full_name,
+        'email': email,
         'old_password': old_password,
         'password': api_creds.password
     }
