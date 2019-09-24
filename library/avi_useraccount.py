@@ -107,8 +107,8 @@ except ImportError:
 
 def main():
     argument_specs = dict(
-        full_name=dict(type='str',),
-        email=dict(type='str',),
+        full_name=dict(type='str'),
+        email=dict(type='str'),
         old_password=dict(type='str', required=True, no_log=True),
         # Flag to specify priority of old/new password while establishing session with controller.
         # To handle both Saas and conventional (Entire state in playbook) scenario.
@@ -127,11 +127,13 @@ def main():
     old_password = module.params.get('old_password')
     force_change = module.params.get('force_change', False)
     data = {
-        'full_name': full_name,
-        'email': email,
         'old_password': old_password,
         'password': api_creds.password
     }
+    if full_name:
+        data.update({'full_name': full_name})
+    if email:
+        data.update({'email': email})
     # First try old password if 'force_change' is set to true
     if force_change:
         first_pwd = old_password
