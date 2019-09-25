@@ -23,6 +23,8 @@
 #
 """
 
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -43,41 +45,60 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent", "present"]
+        type: str
     name:
         description:
             - Full name of the user.
+        required: true
+        type: str
     obj_username:
         description:
             - Name that the user will supply when signing into Avi Vantage, such as jdoe or jdoe@avinetworks.com.
+        required: true
+        type: str
     obj_password:
         description:
             - You may either enter a case-sensitive password in this field for the new or existing user.
+        required: true
+        type: str
     email:
         description:
             - Email address of the user. This field is used when a user loses their password and requests to have it reset. See Password Recovery.
+        type: str
     access:
         description:
             - Access settings (write, read, or no access) for each type of resource within Vantage.
+        type: list
     is_superuser:
         description:
             - If the user will need to have the same privileges as the admin account, set it to true.
+        type: bool
     is_active:
         description:
             - Activates the current user account.
+        type: bool
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
             - Setting to patch will override that behavior to use HTTP PATCH.
-        version_added: "2.6"
         default: put
-        choices: ["post", "put"]
+        choices: ["put", "patch"]
+        type: str
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete"]
     user_profile_ref:
         description:
             - Refer user profile.
+            - This can also be full URI same as it comes in response payload
+        type: str
     default_tenant_ref:
         description:
             - Default tenant reference.
+            - This can also be full URI same as it comes in response payload
         default: /api/tenant?name=admin
+        type: str
 
 
 extends_documentation_fragment:
@@ -102,6 +123,24 @@ EXAMPLES = '''
       is_active: true
       is_superuser: true
       default_tenant_ref: "/api/tenant?name=admin"
+      
+  - name: user creation
+    avi_user:
+      controller: "192.0.2.10"
+      username: ""
+      password: ""
+      api_version: ""
+      name: "testuser"
+      obj_username: "testuser2"
+      obj_password: "password"
+      email: "testuser2@abc.test"
+      access:
+        - role_ref: "https://192.0.2.10/api/role?name=Tenant-Admin"
+          tenant_ref: "https://192.0.2.10/api/tenant/admin#admin"
+      user_profile_ref: "https://192.0.2.10/api/useraccountprofile?name=Default-User-Account-Profile"
+      is_active: true
+      is_superuser: true
+      default_tenant_ref: "https://192.0.2.10/api/tenant?name=admin"
 '''
 
 RETURN = '''
@@ -136,8 +175,9 @@ def main():
         is_superuser=dict(type='bool',),
         is_active=dict(type='bool',),
         avi_api_update_method=dict(default='put',
-                                   choices=['post', 'put']),
-        user_profile_ref=dict(type='str',),
+                                   choices=['put', 'patch']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        user_profile_ref=dict(type='str'),
         default_tenant_ref=dict(type='str', default='/api/tenant?name=admin'),
     )
     argument_specs.update(avi_common_argument_spec())
