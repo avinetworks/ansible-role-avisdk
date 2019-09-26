@@ -11,17 +11,17 @@
 #
 """
 
-from requests import ConnectionError
-from ssl import SSLError
-from requests.exceptions import ChunkedEncodingError
 from ansible.module_utils.basic import AnsibleModule
-from avi.sdk.saml_avi_api import OktaSAMLApiSession, OneloginSAMLApiSession
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
         ansible_return)
     from pkg_resources import parse_version
+    from requests import ConnectionError
+    from ssl import SSLError
+    from requests.exceptions import ChunkedEncodingError
+    from avi.sdk.saml_avi_api import OktaSAMLApiSession, OneloginSAMLApiSession
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or
@@ -56,6 +56,9 @@ options:
             - IDP class which will be used to authenticate session with that corresponding IDP such as Okta,
             Onelogin and Pingfederate. Currently, we support two idp classes OktaSAMLApiSession, OneloginSAMLApiSession.
         required: true
+        type: str
+
+
 extends_documentation_fragment:
     - avi
 '''
