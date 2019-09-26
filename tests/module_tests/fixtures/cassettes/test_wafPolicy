@@ -8,7 +8,7 @@ interactions:
     uri: https://10.10.28.130/login
   response:
     body: {string: !!python/unicode '{"user_initialized": true, "system_config": {"url":
-        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1569499180436085",
+        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1569510761582856",
         "email_configuration": {"disable_tls": false, "from_email": "admin@avi.com",
         "mail_server_port": 25, "smtp_type": "SMTP_LOCAL_HOST", "mail_server_name":
         "localhost"}, "global_tenant_config": {"se_in_provider_context": true, "tenant_access_to_provider_se":
@@ -49,13 +49,13 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 26 Sep 2019 12:02:06 GMT']
+      date: ['Thu, 26 Sep 2019 15:37:26 GMT']
       referrer-policy: [strict-origin]
-      set-cookie: ['csrftoken=q2lBgMN903cwIy3oSB3c1e9grV1E0UkT; expires=Thu, 24-Sep-2020
-          12:02:06 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa;
-          expires=Fri, 27-Sep-2019 12:02:06 GMT; httponly; Max-Age=86400; Path=/;
-          secure', 'avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; expires=Fri, 27-Sep-2019
-          12:02:06 GMT; httponly; Max-Age=86400; Path=/; secure']
+      set-cookie: ['csrftoken=ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU; expires=Thu, 24-Sep-2020
+          15:37:26 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp;
+          expires=Fri, 27-Sep-2019 15:37:26 GMT; httponly; Max-Age=86400; Path=/;
+          secure', 'avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; expires=Fri, 27-Sep-2019
+          15:37:26 GMT; httponly; Max-Age=86400; Path=/; secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
       vary: ['Accept, Cookie', Origin]
@@ -67,13 +67,13 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: [csrftoken=q2lBgMN903cwIy3oSB3c1e9grV1E0UkT; sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa;
-          avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; csrftoken=q2lBgMN903cwIy3oSB3c1e9grV1E0UkT;
-          sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa]
+      Cookie: [csrftoken=ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU; sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp;
+          avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; csrftoken=ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU;
+          sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp]
       Referer: ['https://10.10.28.130']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.2.6]
-      X-CSRFToken: [q2lBgMN903cwIy3oSB3c1e9grV1E0UkT]
+      X-CSRFToken: [ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU]
       timeout: ['300']
     method: GET
     uri: https://10.10.28.130/api/wafpolicy?name=vs1-waf-policy
@@ -91,11 +91,11 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 26 Sep 2019 12:02:06 GMT']
+      date: ['Thu, 26 Sep 2019 15:37:29 GMT']
       referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; expires=Fri, 27-Sep-2019
-          12:02:06 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa;
-          expires=Fri, 27-Sep-2019 12:02:06 GMT; httponly; Max-Age=86400; Path=/;
+      set-cookie: ['sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; expires=Fri, 27-Sep-2019
+          15:37:29 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp;
+          expires=Fri, 27-Sep-2019 15:37:29 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
@@ -108,13 +108,13 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: [csrftoken=q2lBgMN903cwIy3oSB3c1e9grV1E0UkT; sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa;
-          avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; csrftoken=q2lBgMN903cwIy3oSB3c1e9grV1E0UkT;
-          sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa]
+      Cookie: [csrftoken=ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU; sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp;
+          avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; csrftoken=ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU;
+          sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp]
       Referer: ['https://10.10.28.130']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.2.6]
-      X-CSRFToken: [q2lBgMN903cwIy3oSB3c1e9grV1E0UkT]
+      X-CSRFToken: [ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU]
       timeout: ['300']
     method: GET
     uri: https://10.10.28.130/api/wafpolicy?name=System-WAF-Policy
@@ -3304,11 +3304,11 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 26 Sep 2019 12:02:06 GMT']
+      date: ['Thu, 26 Sep 2019 15:37:36 GMT']
       referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; expires=Fri, 27-Sep-2019
-          12:02:06 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa;
-          expires=Fri, 27-Sep-2019 12:02:06 GMT; httponly; Max-Age=86400; Path=/;
+      set-cookie: ['sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; expires=Fri, 27-Sep-2019
+          15:37:36 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp;
+          expires=Fri, 27-Sep-2019 15:37:36 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
@@ -6398,21 +6398,21 @@ interactions:
     headers:
       Content-Length: ['348780']
       Content-Type: [application/json]
-      Cookie: [csrftoken=q2lBgMN903cwIy3oSB3c1e9grV1E0UkT; sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa;
-          avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; csrftoken=q2lBgMN903cwIy3oSB3c1e9grV1E0UkT;
-          sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa]
+      Cookie: [csrftoken=ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU; sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp;
+          avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; csrftoken=ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU;
+          sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp]
       Referer: ['https://10.10.28.130']
       X-Avi-Tenant: [admin]
       X-Avi-Version: [18.2.6]
-      X-CSRFToken: [q2lBgMN903cwIy3oSB3c1e9grV1E0UkT]
+      X-CSRFToken: [ZZXpc5YPZMNpNaa1xOVmOOFeIxUWsYkU]
       timeout: ['300']
     method: POST
     uri: https://10.10.28.130/api/wafpolicy
   response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/wafpolicy/wafpolicy-846c49d5-1a32-4a50-a1a7-d0726d99e484#vs1-waf-policy",
-        "uuid": "wafpolicy-846c49d5-1a32-4a50-a1a7-d0726d99e484", "name": "vs1-waf-policy",
+    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/wafpolicy/wafpolicy-1ef83860-4a15-474b-a57b-3419d93ab9d3#vs1-waf-policy",
+        "uuid": "wafpolicy-1ef83860-4a15-474b-a57b-3419d93ab9d3", "name": "vs1-waf-policy",
         "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin", "_last_modified":
-        "1569499333912602", "allow_mode_delegation": true, "waf_crs_ref": "https://10.10.28.130/api/wafcrs/wafcrs-cc950c9d-6f8a-4aa6-b057-1fec4e3d4d7f#CRS-2019-2",
+        "1569512287199610", "allow_mode_delegation": true, "waf_crs_ref": "https://10.10.28.130/api/wafcrs/wafcrs-cc950c9d-6f8a-4aa6-b057-1fec4e3d4d7f#CRS-2019-2",
         "waf_profile_ref": "https://10.10.28.130/api/wafprofile/wafprofile-60434fd2-3600-4d61-8193-78154b563193#System-WAF-Profile",
         "failure_mode": "WAF_FAILURE_MODE_OPEN", "crs_groups": [{"rules": [{"index":
         0, "enable": true, "name": "Desync attack detected", "tags": ["platform-multi",
@@ -9595,13 +9595,13 @@ interactions:
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Thu, 26 Sep 2019 12:02:14 GMT']
-      location: ['https://10.10.28.130/api/wafpolicy/wafpolicy-846c49d5-1a32-4a50-a1a7-d0726d99e484#vs1-waf-policy']
+      date: ['Thu, 26 Sep 2019 15:38:07 GMT']
+      location: ['https://10.10.28.130/api/wafpolicy/wafpolicy-1ef83860-4a15-474b-a57b-3419d93ab9d3#vs1-waf-policy']
       referrer-policy: [strict-origin]
-      server-timing: ['pre_save_transform;dur=165.982961655,create;dur=388.871908188,total;dur=497.314929962,']
-      set-cookie: ['sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa; expires=Fri, 27-Sep-2019
-          12:02:14 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=37hn0m0i95vggp6rjvay6b4czmfh4ppa;
-          expires=Fri, 27-Sep-2019 12:02:14 GMT; httponly; Max-Age=86400; Path=/;
+      server-timing: ['pre_save_transform;dur=164.551973343,create;dur=404.623031616,total;dur=512.044906616,']
+      set-cookie: ['sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp; expires=Fri, 27-Sep-2019
+          15:38:07 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=4g59hngnqvq4r50n9glq5kwodr74ifhp;
+          expires=Fri, 27-Sep-2019 15:38:07 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
