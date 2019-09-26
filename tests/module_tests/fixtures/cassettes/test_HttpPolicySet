@@ -1,0 +1,108 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type: [application/json]
+      Cookie: [csrftoken=UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV; sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0;
+          avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; csrftoken=UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV;
+          sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV]
+      timeout: ['300']
+    method: GET
+    uri: https://10.10.28.130/api/httppolicyset?include_refs=&include_name=&name=mysitestg-43000-redirect-policy
+  response:
+    body: {string: !!python/unicode '{"count": 1, "results": [{"_last_modified": "1569498254469219",
+        "url": "https://10.10.28.130/api/httppolicyset/httppolicyset-6538992e-6a4c-44a9-9a2b-a43549411dbb#mysitestg-43000-redirect-policy",
+        "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin", "uuid": "httppolicyset-6538992e-6a4c-44a9-9a2b-a43549411dbb",
+        "name": "mysitestg-43000-redirect-policy", "http_request_policy": {"rules":
+        [{"index": 0, "redirect_action": {"keep_query": true, "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
+        "host": {"tokens": [{"str_value": "mysitestg.qualcomm.com", "type": "URI_TOKEN_TYPE_STRING"}],
+        "type": "URI_PARAM_TYPE_TOKENIZED"}, "protocol": "HTTP"}, "enable": true,
+        "name": "mysitestg-43000-redirect-policy-rule-0", "match": {"path": {"match_case":
+        "INSENSITIVE", "match_str": ["/"], "match_criteria": "EQUALS"}}}]}, "is_internal_policy":
+        false}]}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Thu, 26 Sep 2019 12:03:16 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; expires=Fri, 27-Sep-2019
+          12:03:16 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0;
+          expires=Fri, 27-Sep-2019 12:03:16 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{"http_request_policy": {"rules": [{"index": 0, "redirect_action":
+      {"host": {"tokens": [{"str_value": "mysitestg.qualcomm.com", "type": "URI_TOKEN_TYPE_STRING",
+      "start_index": "0", "end_index": "65535"}], "type": "URI_PARAM_TYPE_TOKENIZED"},
+      "protocol": "HTTP"}, "name": "mysitestg-43000-redirect-policy-rule-0", "match":
+      {"path": {"match_case": "INSENSITIVE", "match_str": ["/"], "match_criteria":
+      "EQUALS"}}}]}, "name": "mysitestg-43000-redirect-policy", "tenant_ref": "/api/tenant/?name=admin"}'
+    headers:
+      Content-Length: ['497']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV; sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0;
+          avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; csrftoken=UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV;
+          sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV]
+      timeout: ['300']
+    method: PUT
+    uri: https://10.10.28.130/api/httppolicyset/httppolicyset-6538992e-6a4c-44a9-9a2b-a43549411dbb
+  response:
+    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/httppolicyset/httppolicyset-6538992e-6a4c-44a9-9a2b-a43549411dbb#mysitestg-43000-redirect-policy",
+        "uuid": "httppolicyset-6538992e-6a4c-44a9-9a2b-a43549411dbb", "name": "mysitestg-43000-redirect-policy",
+        "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin", "_last_modified":
+        "1569499396615010", "http_request_policy": {"rules": [{"index": 0, "redirect_action":
+        {"keep_query": true, "status_code": "HTTP_REDIRECT_STATUS_CODE_302", "host":
+        {"tokens": [{"str_value": "mysitestg.qualcomm.com", "type": "URI_TOKEN_TYPE_STRING"}],
+        "type": "URI_PARAM_TYPE_TOKENIZED"}, "protocol": "HTTP"}, "enable": true,
+        "name": "mysitestg-43000-redirect-policy-rule-0", "match": {"path": {"match_case":
+        "INSENSITIVE", "match_str": ["/"], "match_criteria": "EQUALS"}}}]}, "is_internal_policy":
+        false}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS, DELETE']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Thu, 26 Sep 2019 12:03:16 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; expires=Fri, 27-Sep-2019
+          12:03:16 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0;
+          expires=Fri, 27-Sep-2019 12:03:16 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

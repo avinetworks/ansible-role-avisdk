@@ -1,0 +1,88 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type: [application/json]
+      Cookie: [csrftoken=UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV; sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0;
+          avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; csrftoken=UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV;
+          sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [UYTqyFPslgbiKHnIXG6hi9jCGIZX4enV]
+      timeout: ['300']
+    method: GET
+    uri: https://10.10.28.130/api/seproperties/?include_refs=&include_name=
+  response:
+    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/seproperties",
+        "uuid": "global", "_last_modified": "1569481214625629", "se_agent_properties":
+        {"vnic_rpc_retry_interval": 5, "dp_enq_interval_msec": 10, "sdb_scan_count":
+        600, "dp_reg_pending_max_wait_time": 75, "controller_echo_rpc_aggressive_timeout":
+        2000, "states_flush_interval": 100, "dp_aggressive_enq_interval_msec": 1,
+        "ns_helper_deq_interval_msec": 20, "vnic_ip_delete_interval": 5, "dp_max_wait_rsp_time_sec":
+        60, "send_se_ready_timeout": 300, "se_grp_change_disruptive": true, "controller_rpc_timeout":
+        10, "headless_timeout_sec": 0, "dp_aggressive_deq_interval_msec": 1, "controller_echo_rpc_timeout":
+        2000, "ignore_docker_mac_change": true, "sdb_pipeline_size": 100, "cpustats_interval":
+        5, "dp_batch_size": 100, "vnicdb_cmd_history_size": 256, "vnic_probe_interval":
+        5, "debug_mode": false, "vnic_dhcp_ip_max_retries": 10, "dp_deq_interval_msec":
+        20, "ctrl_reg_pending_max_wait_time": 150, "controller_heartbeat_miss_limit":
+        6, "sdb_flush_interval": 100, "controller_echo_miss_aggressive_limit": 2,
+        "controller_heartbeat_timeout_sec": 12, "controller_registration_timeout_sec":
+        10, "controller_echo_miss_limit": 4, "vnic_dhcp_ip_check_interval": 6}, "se_runtime_properties":
+        {"downstream_send_timeout": 3600000, "log_agent_unknown_vs_timer": 1800, "upstream_connpool_strategy":
+        -1, "upstream_keepalive": false, "upstream_connpool_conn_idle_thresh_tmo":
+        -1, "log_agent_min_storage_per_vs": 10, "dp_hb_timeout_count": 10, "upstream_connpool_core_max_cache":
+        -1, "log_agent_file_sz_event": 4, "se_dp_log_udf_enqueue_percent": 90, "spdy_fwd_proxy_parse_enable":
+        true, "dp_hb_frequency": 100, "feproxy_vips_enable_proxy_arp": true, "log_agent_max_active_adf_files_per_vs":
+        100, "se_auth_ldap_conns_per_server": 1, "dupip_frequency": 0, "scaleout_udp_per_pkt":
+        true, "log_agent_file_sz_appl": 4, "ngx_free_connection_stack": false, "se_dp_log_nf_enqueue_percent":
+        70, "se_packet_buffer_max": 0, "se_memory_poison": true, "http_rum_min_content_length":
+        64, "flow_table_batch_push_frequency": 5, "log_agent_max_storage_ignore_percent":
+        20.0, "se_hb_persist_fudge_bits": 3, "dp_aggressive_hb_frequency": 100, "log_agent_export_wait_time":
+        100, "se_dp_hm_drops": 0, "log_agent_file_sz_conn": 4, "se_mac_error_threshold_to_disable_promiscious":
+        1000, "disable_flow_probes": false, "lbaction_rq_per_request_max_retries":
+        22, "lbaction_num_requests_to_dispatch": 4, "log_agent_pause_interval": 0,
+        "log_agent_file_sz_debug": 4, "se_auth_ldap_connect_timeout": 10000, "se_auth_ldap_bind_timeout":
+        5000, "se_metrics_rt_interval": 1000, "dp_aggressive_hb_timeout_count": 10,
+        "se_metrics_interval": 60000, "persistence_mem_max": 0, "se_metrics_rt_enabled":
+        true, "http_rum_console_log": false, "se_dump_core_on_assert": false, "log_agent_max_storage_excess_percent":
+        110, "log_agent_log_storage_min_sz": 1024, "log_agent_conn_send_buffer_size":
+        16384, "global_mtu": 0, "upstream_read_timeout": 3600000, "upstream_connpool_enable":
+        true, "se_random_tcp_drops": false, "connections_udfnf_log_rate_limiter_threshold":
+        1000, "user_defined_metric_age": 60, "upstream_send_timeout": 3600000, "tcp_syncache_max_retransmit_default":
+        4, "se_dp_if_state_poll_interval": 10, "se_auth_ldap_cache_size": 100000,
+        "se_auth_ldap_servers_failover_only": false, "se_handle_interface_routes":
+        false, "log_agent_sleep_interval": 10, "log_message_max_file_list_size": 64,
+        "se_auth_ldap_reconnect_timeout": 10000, "log_agent_compress_logs": true,
+        "log_agent_max_logmessage_proto_sz": 65536, "admin_ssh_enabled": true, "services_accessible_all_interfaces":
+        false, "dupip_timeout_count": 5, "enable_hsm_log": false, "log_agent_export_msg_buffer_size":
+        524288, "baremetal_dispatcher_handles_flows": false, "log_agent_max_concurrent_rsync":
+        1024, "upstream_connpool_cache_thresh": -1, "se_auth_ldap_request_timeout":
+        10000, "upstream_connect_timeout": 3600000, "connections_lossy_log_rate_limiter_threshold":
+        1000, "service_port_ranges": [{"start": 4000, "end": 9000}]}}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Thu, 26 Sep 2019 12:03:33 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0; expires=Fri, 27-Sep-2019
+          12:03:33 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=6slkd8lob3bqkbic8vizxvb7rlonh0w0;
+          expires=Fri, 27-Sep-2019 12:03:33 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
