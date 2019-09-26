@@ -1,96 +1,14 @@
-#!/usr/bin/python
-"""
-# Created on Aug 2, 2018
-#
-# @author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com) GitHub ID: chaitanyaavi
-#
-# module_check: supported
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
-#
-"""
-
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
-
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
-
-DOCUMENTATION = '''
----
-module: avi_wafpolicy
-author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
-short_description: Avi WAF Policy Module
-description:
-    - This module can be used for creation, updation and deletion of a user.
-version_added: 2.9
-options:
-    state:
-        description:
-            - The state that should be applied on the entity.
-        default: present
-        choices: ["absent", "present"]
-        type: str
-    name:
-        description:
-            - Name of Waf policy.
-        required: true
-        type: str
-    base_waf_policy:
-        description:
-            - Name of the base waf policy on which patch is applied
-        required: true
-        type: str
-    patch_file:
-        description
-            - File path of json patch file
-        required: true
-        type: str
-
-
-extends_documentation_fragment:
-    - avi
-'''
-
-EXAMPLES = '''
-  - name: Create WAF Policy Example using System-Waf-Policy as base policy 
-    avi_wafpolicy:
-      avi_credentials: '' 
-      patch_file: ./vs-1-waf-policy-patches.json
-      base_waf_policy: System-WAF-Policy
-      name: vs1-waf-policy
-      state: present
-'''
-
-RETURN = '''
-obj:
-    description: Avi REST resource
-    returned: success, changed
-    type: dict
-'''
-
+import json
+import collections
 from ansible.module_utils.basic import AnsibleModule
-
+from copy import deepcopy
 
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
         ansible_return)
+    HAS_AVI = True
 except ImportError:
     HAS_AVI = False
 
@@ -98,7 +16,7 @@ except ImportError:
 def update_patch(base_policy, patch):
     base_policy.pop('_last_modified', '')
     base_policy.pop('url', '')
-    for k, v in base_policy.iteritems():
+    for k, v in base_policy.items():
         if k in patch and not k == 'crs_groups':
             base_policy[k] = patch[k]
     if 'crs_groups' in patch:
@@ -140,14 +58,15 @@ def update_patch(base_policy, patch):
 
 
 def main():
-
+    if not HAS_AVI:
+        AnsibleModule.fail_json(msg=('Avi python API SDK (avisdk>=17.1) or requests is not installed. '
+            'For more details visit https://github.com/avinetworks/sdk.'))
     argument_specs = dict(
         base_waf_policy=dict(type='str', required=True),
         name=dict(type='str', required=True),
         patch_file=dict(type='str', required=True),
         state=dict(default='present', choices=['absent', 'present']),
     )
-
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs,
                            supports_check_mode=True)
@@ -184,7 +103,6 @@ def main():
     if not existing_obj:
         existing_obj = api.get_object_by_name(
             'wafpolicy', module.params.get('base_waf_policy'))
-
     with open(module.params.get('patch_file'), "r+") as f:
         waf_patch = json.loads(f.read())
         new_obj = deepcopy(existing_obj)
@@ -209,3 +127,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

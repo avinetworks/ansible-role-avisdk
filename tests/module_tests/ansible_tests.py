@@ -28,10 +28,12 @@ my_vcr = vcr.VCR(
 )
 
 ControllerCredentials = {
-    "controller": os.environ['AVI_CONTROLLER'],
-    "username": os.environ["AVI_USERNAME"],
-    "password": os.environ["AVI_PASSWORD"],
-    "api_version": os.environ["API_VERSION"],
+    "avi_credentials": {
+        "controller": os.environ['AVI_CONTROLLER'],
+        "username": os.environ["AVI_USERNAME"],
+        "password": os.environ["AVI_PASSWORD"],
+        "api_version": os.environ["API_VERSION"],
+    }
 }
 
 def set_module_args(args):
@@ -498,11 +500,10 @@ class test_ansible_modules(unittest.TestCase):
         id = get_cluster_id()
 
         configure.Gslb.update(ControllerCredentials)
-        configure.Gslb.update(cluster_id)
-
+        configure.Gslb["leader_cluster_uuid"]= str(id)
         configure.Gslb['sites'][0]["ip_addresses"][0]["addr"] = str(os.environ[
            "AVI_CONTROLLER"])
-        configure.Gslb["leader_cluster_uuid"] = str(id)
+        configure.Gslb["sites"][0]["cluster_uuid"] = str(id)
 
         configure.Gslb['sites'][0]['password'] = str(os.environ[
                                                          "AVI_PASSWORD"])

@@ -90,11 +90,9 @@ UserAccountProfile = {
 }
 
 WafPolicy = {
-	"waf_profile_ref": "/api/wafprofile/?name=System-WAF-Profile",
-	"tenant_ref": "/api/tenant/?name=admin",
-	"mode": "WAF_MODE_DETECTION_ONLY",
-	"paranoia_level": "WAF_PARANOIA_LEVEL_LOW",
-	"name": "System-WAF-Policy"
+    "patch_file": "./vs-1-waf-policy-patches.json",
+    "base_waf_policy": "System-WAF-Policy",
+    "name": "vs1-waf-policy"
 }
 
 Applicationpersisteceprofile = {
@@ -878,7 +876,6 @@ ServiceengineGroup = {
 	"se_tunnel_mode": 0,
 	"ignore_rtt_threshold": 5000,
 	"extra_shared_config_memory": 0,
-	"enable_vip_on_all_interfaces": True,
 	"se_tunnel_udp_port": 1550,
 	"disable_gro": False,
 	"vs_scalein_timeout": 30,
@@ -905,8 +902,6 @@ ServiceengineGroup = {
 	"vs_scalein_timeout_for_upgrade": 30,
 	"vcenter_folder": "AviSeFolder",
 	"os_reserved_memory": 0,
-	"enable_routing": False,
-	"se_bandwidth_type": "SE_BANDWIDTH_UNLIMITED",
 	"waf_mempool": True,
 	"se_thread_multiplier": 1,
 	"se_deprovision_delay": 120,
@@ -914,7 +909,6 @@ ServiceengineGroup = {
 	"per_app": False,
 	"se_vs_hb_max_vs_in_pkt": 256,
 	"vcenter_datastores_include": False,
-	"advertise_backend_networks": False,
 	"realtime_se_metrics": {
 		"duration": 0,
 		"enabled": True
@@ -936,7 +930,6 @@ ServiceengineGroup = {
 	"license_type": "LIC_CORES",
 	"algo": "PLACEMENT_ALGO_DISTRIBUTED",
 	"memory_per_se": 2048,
-	"enable_vmac": False,
 	"vs_host_redundancy": True
 }
 
@@ -976,7 +969,6 @@ ErrorPageProfile = {
 import os
 Gslb = {
 	"clear_on_max_retries": 20,
-	"leader_cluster_uuid": "cluster-87aefc9d-d206-4c06-a693-eadda5e61766",
 	"client_ip_addr_group": {
 		"type": "GSLB_IP_PUBLIC"
 	},
@@ -991,7 +983,6 @@ Gslb = {
 	"send_interval": 15,
 	"sites": [
 		{
-			"cluster_uuid": "cluster-87aefc9d-d206-4c06-a693-eadda5e61766",
 			"enabled": True,
 			"ip_addresses": [
 				{
