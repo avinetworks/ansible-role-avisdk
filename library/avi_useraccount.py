@@ -131,44 +131,30 @@ def main():
         'password': api_creds.password
     }
     if full_name:
-        data.update({'full_name': full_name})
+        data['full_name'] = full_name
     if email:
-        data.update({'email': email})
-    # First try old password if 'force_change' is set to true
-    if force_change:
-        first_pwd = old_password
-        second_pwd = api_creds.password
-    # First try new password if 'force_change' is set to false or not specified in playbook.
-    else:
-        first_pwd = api_creds.password
-        second_pwd = old_password
-    password_changed = False
-    try:
+        data['email'] = email
+    api = None
+    if not force_change:
+        # check if the new password is already set.
+        try:
+            api = ApiSession.get_session(
+                api_creds.controller, api_creds.username,
+                password=api_creds.password, timeout=api_creds.timeout,
+                tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
+                token=api_creds.token, port=api_creds.port)
+            data['old_password'] = api_creds.password
+        except Exception:
+            # create a new session using the old password.
+            pass
+    if not api:
         api = ApiSession.get_session(
             api_creds.controller, api_creds.username,
-            password=first_pwd, timeout=api_creds.timeout,
+            password=old_password, timeout=api_creds.timeout,
             tenant=api_creds.tenant, tenant_uuid=api_creds.tenant_uuid,
             token=api_creds.token, port=api_creds.port)
-        if force_change:
-            rsp = api.put('useraccount', data=data)
-            if rsp:
-                password_changed = True
-    except Exception:
-        pass
-    if not password_changed:
-        api = ApiSession.get_session(
-            api_creds.controller, api_creds.username, password=second_pwd,
-            timeout=api_creds.timeout, tenant=api_creds.tenant,
-            tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
-            port=api_creds.port)
-        if not force_change:
-            rsp = api.put('useraccount', data=data)
-            if rsp:
-                password_changed = True
-    if password_changed:
-        return ansible_return(module, rsp, True, req=data)
-    else:
-        return ansible_return(module, rsp, False, req=data)
+    rsp = api.put('useraccount', data=data)
+    return ansible_return(module, rsp, True, req=data)
 
 
 if __name__ == '__main__':
