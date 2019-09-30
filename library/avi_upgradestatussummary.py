@@ -14,15 +14,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_serviceengine
+module: avi_upgradestatussummary
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of ServiceEngine Avi RESTful Object
+short_description: Module for setup of UpgradeStatusSummary Avi RESTful Object
 description:
-    - This module is used to configure ServiceEngine object
+    - This module is used to configure UpgradeStatusSummary object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.7"
 options:
     state:
         description:
@@ -44,75 +44,83 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    availability_zone:
+    enable_patch_rollback:
         description:
-            - Availability_zone of serviceengine.
-        type: str
-    cloud_ref:
-        description:
-            - It is a reference to an object of type cloud.
-        type: str
-    container_mode:
-        description:
-            - Boolean flag to set container_mode.
+            - Check if the patch rollback is possible on this node.
+            - Field introduced in 18.2.6.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    container_type:
+    enable_rollback:
         description:
-            - Enum options - container_type_bridge, container_type_host, container_type_host_dpdk.
-            - Default value when not specified in API or module is interpreted by Avi Controller as CONTAINER_TYPE_HOST.
-        type: str
-    controller_created:
-        description:
-            - Boolean flag to set controller_created.
+            - Check if the rollback is possible on this node.
+            - Field introduced in 18.2.6.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    controller_ip:
+    end_time:
         description:
-            - Controller_ip of serviceengine.
+            - End time of upgrade operations.
+            - Field introduced in 18.2.6.
         type: str
-    data_vnics:
+    image_ref:
         description:
-            - List of vnic.
-        type: list
-    enable_state:
-        description:
-            - Inorder to disable se set this field appropriately.
-            - Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED, SE_STATE_DISABLED_FORCE.
-            - Default value when not specified in API or module is interpreted by Avi Controller as SE_STATE_ENABLED.
+            - Image uuid for identifying the current base image.
+            - It is a reference to an object of type image.
+            - Field introduced in 18.2.6.
         type: str
-    flavor:
-        description:
-            - Flavor of serviceengine.
-        type: str
-    host_ref:
-        description:
-            - It is a reference to an object of type vimgrhostruntime.
-        type: str
-    hypervisor:
-        description:
-            - Enum options - default, vmware_esx, kvm, vmware_vsan, xen.
-        type: str
-    mgmt_vnic:
-        description:
-            - Vnic settings for serviceengine.
-        type: dict
     name:
         description:
-            - Name of the object.
-            - Default value when not specified in API or module is interpreted by Avi Controller as VM name unknown.
+            - Name of the system such as cluster name, se group name and se name.
+            - Field introduced in 18.2.6.
         type: str
-    resources:
+    node_type:
         description:
-            - Seresources settings for serviceengine.
+            - Type of the system such as controller_cluster, se_group or se.
+            - Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE.
+            - Field introduced in 18.2.6.
+        type: str
+    obj_cloud_ref:
+        description:
+            - Cloud that this object belongs to.
+            - It is a reference to an object of type cloud.
+            - Field introduced in 18.2.6.
+        type: str
+    obj_state:
+        description:
+            - Current status of the upgrade operations.
+            - Field introduced in 18.2.6.
         type: dict
-    se_group_ref:
+    patch_image_ref:
         description:
-            - It is a reference to an object of type serviceenginegroup.
+            - Image uuid for identifying the current patch.
+            - It is a reference to an object of type image.
+            - Field introduced in 18.2.6.
         type: str
+    start_time:
+        description:
+            - Start time of upgrade operations.
+            - Field introduced in 18.2.6.
+        type: str
+    tasks_completed:
+        description:
+            - Upgrade tasks completed.
+            - Field introduced in 18.2.6.
+        type: int
     tenant_ref:
         description:
+            - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
+            - Field introduced in 18.2.6.
+        type: str
+    total_tasks:
+        description:
+            - Total upgrade tasks.
+            - Field introduced in 18.2.6.
+        type: int
+    upgrade_ops:
+        description:
+            - Upgrade operations requested.
+            - Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME.
+            - Field introduced in 18.2.6.
         type: str
     url:
         description:
@@ -120,7 +128,13 @@ options:
         type: str
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid identifier for the system such as cluster, se group and se.
+            - Field introduced in 18.2.6.
+        type: str
+    version:
+        description:
+            - Current base image applied to this node.
+            - Field introduced in 18.2.6.
         type: str
 
 
@@ -129,18 +143,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create ServiceEngine object
-  avi_serviceengine:
+- name: Example to create UpgradeStatusSummary object
+  avi_upgradestatussummary:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_serviceengine
+    name: sample_upgradestatussummary
 """
 
 RETURN = '''
 obj:
-    description: ServiceEngine (api/serviceengine) object
+    description: UpgradeStatusSummary (api/upgradestatussummary) object
     returned: success, changed
     type: dict
 '''
@@ -162,24 +176,23 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        availability_zone=dict(type='str',),
-        cloud_ref=dict(type='str',),
-        container_mode=dict(type='bool',),
-        container_type=dict(type='str',),
-        controller_created=dict(type='bool',),
-        controller_ip=dict(type='str',),
-        data_vnics=dict(type='list',),
-        enable_state=dict(type='str',),
-        flavor=dict(type='str',),
-        host_ref=dict(type='str',),
-        hypervisor=dict(type='str',),
-        mgmt_vnic=dict(type='dict',),
+        enable_patch_rollback=dict(type='bool',),
+        enable_rollback=dict(type='bool',),
+        end_time=dict(type='str',),
+        image_ref=dict(type='str',),
         name=dict(type='str',),
-        resources=dict(type='dict',),
-        se_group_ref=dict(type='str',),
+        node_type=dict(type='str',),
+        obj_cloud_ref=dict(type='str',),
+        obj_state=dict(type='dict',),
+        patch_image_ref=dict(type='str',),
+        start_time=dict(type='str',),
+        tasks_completed=dict(type='int',),
         tenant_ref=dict(type='str',),
+        total_tasks=dict(type='int',),
+        upgrade_ops=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        version=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -188,7 +201,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'serviceengine',
+    return avi_ansible_api(module, 'upgradestatussummary',
                            set([]))
 
 

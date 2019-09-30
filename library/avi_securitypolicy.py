@@ -30,6 +30,7 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent", "present"]
+        type: str
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -37,63 +38,78 @@ options:
         version_added: "2.5"
         default: put
         choices: ["put", "patch"]
+        type: str
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+        type: str
     description:
         description:
             - Security policy is used to specify various configuration information used to perform distributed denial of service (ddos) attacks detection and
             - mitigation.
             - Field introduced in 18.2.1.
+        type: str
     dns_attacks:
         description:
             - Attacks utilizing the dns protocol operations.
             - Field introduced in 18.2.1.
+        type: dict
     dns_policy_index:
         description:
             - Index of the dns policy to use for the mitigation rules applied to the dns attacks.
             - Field introduced in 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         required: true
+        type: int
     name:
         description:
             - The name of the security policy.
             - Field introduced in 18.2.1.
         required: true
+        type: str
     network_security_policy_index:
         description:
             - Index of the network security policy to use for the mitigation rules applied to the attacks.
             - Field introduced in 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         required: true
+        type: int
     oper_mode:
         description:
             - Mode of dealing with the attacks - perform detection only, or detect and mitigate the attacks.
             - Enum options - DETECTION, MITIGATION.
             - Field introduced in 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as DETECTION.
+        type: str
     tcp_attacks:
         description:
             - Attacks utilizing the tcp protocol operations.
             - Field introduced in 18.2.1.
+        type: dict
     tenant_ref:
         description:
             - Tenancy of the security policy.
             - It is a reference to an object of type tenant.
             - Field introduced in 18.2.1.
+        type: str
     udp_attacks:
         description:
             - Attacks utilizing the udp protocol operations.
             - Field introduced in 18.2.1.
+        type: dict
     url:
         description:
             - Avi controller URL of the object.
+        type: str
     uuid:
         description:
             - The uuid of the security policy.
             - Field introduced in 18.2.1.
+        type: str
+
+
 extends_documentation_fragment:
     - avi
 '''

@@ -33,25 +33,33 @@ options:
         description:
             - Allowed upload flag false for download and true for upload.
         required: true
+        type: bool
     force_mode:
         description:
             - Allowed force mode for upload forcefully.
         default: true
+        type: bool
     file_path:
         description:
             - Local file path of file to be uploaded or downloaded file
         required: true
+        type: str
     params:
         description:
             - Query parameters passed to the HTTP API.
+        type: dict
     path:
         description:
             - 'Path for Avi API resource. For example, C(path: seova) will translate to C(api/fileservice/seova).'
         required: true
+        type: str
     timeout:
         description:
             - Timeout (in seconds) for Avi API calls.
         default: 60
+        type: int
+
+
 extends_documentation_fragment:
     - avi
 '''

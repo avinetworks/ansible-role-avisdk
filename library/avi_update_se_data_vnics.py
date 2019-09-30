@@ -26,12 +26,16 @@ options:
         description:
             - Name of the Service Engine for which data vnics to be updated
         required: true
+        type: str
     data_vnics_config:
         description:
             - Placeholder for description of property data_vnics of obj type ServiceEngine field.
               Here you can specify configuration for data_vnics property of a service engine.
               For more details you can refer to swagger specs https://{controller_ip}/swagger/
               From above link you can find configurable fields under data_vnics property of a service engine.
+        type: list
+
+
 extends_documentation_fragment:
     - avi
 '''

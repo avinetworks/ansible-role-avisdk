@@ -41,13 +41,19 @@ options:
     password:
         description:
             - New password to initialize controller password.
+        required: true
+        type: str
     ssh_key_pair:
         description:
             - AWS/Azure ssh key pair to login on the controller instance.
+        required: true
+        type: str
     force_mode:
         description:
             - Avoid check for login with given password and re-initialise controller
               with given password even if controller password is initialised before
+        type: bool
+
 
 extends_documentation_fragment:
     - avi

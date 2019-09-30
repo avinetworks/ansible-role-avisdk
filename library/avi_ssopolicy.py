@@ -29,6 +29,7 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent", "present"]
+        type: str
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -36,30 +37,36 @@ options:
         version_added: "2.5"
         default: put
         choices: ["put", "patch"]
+        type: str
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+        type: str
     authentication_policy:
         description:
             - Authentication policy settings.
             - Field introduced in 18.2.1.
         required: true
+        type: dict
     authorization_policy:
         description:
             - Authorization policy settings.
             - Field introduced in 18.2.5.
+        type: dict
     name:
         description:
             - Name of the sso policy.
             - Field introduced in 18.2.3.
         required: true
+        type: str
     tenant_ref:
         description:
             - Uuid of the tenant.
             - It is a reference to an object of type tenant.
             - Field introduced in 18.2.3.
+        type: str
     type:
         description:
             - Sso policy type.
@@ -67,13 +74,18 @@ options:
             - Field introduced in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as SSO_TYPE_SAML.
         required: true
+        type: str
     url:
         description:
             - Avi controller URL of the object.
+        type: str
     uuid:
         description:
             - Uuid of the sso policy.
             - Field introduced in 18.2.3.
+        type: str
+
+
 extends_documentation_fragment:
     - avi
 '''
