@@ -2,71 +2,93 @@ interactions:
 - request:
     body: null
     headers:
-      Content-Type:
-      - application/json
-      Cookie:
-      - csrftoken=gFyjGQECYRjTY9L9BT71461JgZoQ8vQb; sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui;
-        avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; csrftoken=gFyjGQECYRjTY9L9BT71461JgZoQ8vQb;
-        sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui
-      Referer:
-      - https://10.10.29.206
-      X-Avi-Tenant:
-      - admin
-      X-Avi-Version:
-      - 18.2.5
-      X-CSRFToken:
-      - gFyjGQECYRjTY9L9BT71461JgZoQ8vQb
-      timeout:
-      - '300'
+      Content-Type: [application/json]
+      Cookie: [csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd; sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd;
+          sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd]
+      timeout: ['300']
     method: GET
-    uri: https://10.10.29.206/api/backupconfiguration?include_refs=&include_name=&name=Backup-Configuration
+    uri: https://10.10.28.130/api/backupconfiguration?include_refs=&include_name=&name=Backup-Configuration
   response:
-    body:
-      string: !!python/unicode '{"count": 1, "results": [{"_last_modified": "1561638133873809",
-        "url": "https://10.10.29.206/api/backupconfiguration/backupconfiguration-4146986d-3187-4a56-8d69-d48108b339f0#Backup-Configuration",
-        "tenant_ref": "https://10.10.29.206/api/tenant/admin#admin", "uuid": "backupconfiguration-4146986d-3187-4a56-8d69-d48108b339f0",
-        "save_local": true, "maximum_backups_stored": 3, "name": "Backup-Configuration"}]}'
+    body: {string: !!python/unicode '{"count": 1, "results": [{"url": "https://10.10.28.130/api/backupconfiguration/backupconfiguration-7cde39d7-ce1d-45d8-b049-4785b1ddc57e#Backup-Configuration",
+        "uuid": "backupconfiguration-7cde39d7-ce1d-45d8-b049-4785b1ddc57e", "name":
+        "Backup-Configuration", "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin",
+        "_last_modified": "1569834795188563", "save_local": true, "maximum_backups_stored":
+        4}]}'}
     headers:
-      access-control-allow-credentials:
-      - 'true'
-      access-control-allow-headers:
-      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken
-      access-control-allow-methods:
-      - GET, POST, PUT, DELETE, OPTIONS
-      allow:
-      - HEAD, GET, POST, OPTIONS
-      avi_api_version:
-      - 18.2.5
-      cache-control:
-      - private, no-cache, must-revalidate
-      connection:
-      - keep-alive
-      content-security-policy:
-      - default-src 'self'; style-src 'self' 'unsafe-inline'
-      content-type:
-      - application/json
-      date:
-      - Thu, 27 Jun 2019 12:58:19 GMT
-      referrer-policy:
-      - strict-origin
-      set-cookie:
-      - sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; expires=Fri, 28-Jun-2019 12:58:19
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      - avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; expires=Fri, 28-Jun-2019 12:58:19
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      strict-transport-security:
-      - max-age=31536000; includeSubdomains
-      transfer-encoding:
-      - chunked
-      vary:
-      - Accept, Cookie
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:23 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; expires=Tue, 01-Oct-2019
+          09:17:23 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          expires=Tue, 01-Oct-2019 09:17:23 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{"save_local": true, "name": "Backup-Configuration", "tenant_ref":
+      "/api/tenant?name=admin", "maximum_backups_stored": 3}'
+    headers:
+      Content-Length: ['121']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd; sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd;
+          sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd]
+      timeout: ['300']
+    method: PUT
+    uri: https://10.10.28.130/api/backupconfiguration/backupconfiguration-7cde39d7-ce1d-45d8-b049-4785b1ddc57e
+  response:
+    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/backupconfiguration/backupconfiguration-7cde39d7-ce1d-45d8-b049-4785b1ddc57e#Backup-Configuration",
+        "uuid": "backupconfiguration-7cde39d7-ce1d-45d8-b049-4785b1ddc57e", "name":
+        "Backup-Configuration", "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin",
+        "_last_modified": "1569835044187582", "save_local": true, "maximum_backups_stored":
+        3}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS, DELETE']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:24 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; expires=Tue, 01-Oct-2019
+          09:17:24 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          expires=Tue, 01-Oct-2019 09:17:24 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
 version: 1

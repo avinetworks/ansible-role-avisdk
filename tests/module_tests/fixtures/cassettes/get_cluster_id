@@ -1,162 +1,113 @@
 interactions:
 - request:
-    body: !!python/unicode '{"username": "admin", "password": "admin"}'
+    body: !!python/unicode '{"username": "admin", "password": "avi123$%"}'
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate, compress
-      Content-Length:
-      - '42'
-      Content-Type:
-      - application/json
-      User-Agent:
-      - python-requests/2.2.1 CPython/2.7.6 Linux/4.4.0-151-generic
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['45']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.21.0]
     method: POST
-    uri: https://10.10.29.206/login
+    uri: https://10.10.28.130/login
   response:
-    body:
-      string: !!python/unicode '{"user_initialized": true, "system_config": {"url":
-        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1561640145630085",
-        "email_configuration": {"disable_tls": false, "from_email": "admin@avi.com",
+    body: {string: !!python/unicode '{"user_initialized": true, "system_config": {"url":
+        "/api/systemconfiguration", "uuid": "default", "_last_modified": "1569835011151505",
+        "email_configuration": {"disable_tls": false, "from_email": "admin@avicontroller.net",
         "mail_server_port": 25, "smtp_type": "SMTP_LOCAL_HOST", "mail_server_name":
         "localhost"}, "global_tenant_config": {"se_in_provider_context": true, "tenant_access_to_provider_se":
-        true, "tenant_vrf": false}, "welcome_workflow_complete": false, "secure_channel_configuration":
-        {"sslkeyandcertificate_refs": ["/api/sslkeyandcertificate/sslkeyandcertificate-a5cfff40-5e37-442c-9fd9-c08783816632"]},
-        "dns_configuration": {"search_domain": "", "server_list": [{"type": "V4",
-        "addr": "10.10.0.100"}]}, "ssh_hmacs": ["hmac-sha2-512-etm@openssh.com", "hmac-sha2-256-etm@openssh.com",
-        "umac-128-etm@openssh.com", "hmac-sha2-512"], "docker_mode": false, "portal_configuration":
-        {"use_uuid_from_input": false, "redirect_to_https": true, "sslprofile_ref":
-        "/api/sslprofile/sslprofile-ea24240b-b31a-411e-b2a0-6a315c074b6e", "sslkeyandcertificate_refs":
-        ["/api/sslkeyandcertificate/sslkeyandcertificate-bbf15bf0-5060-48de-9479-821c0901d829",
-        "/api/sslkeyandcertificate/sslkeyandcertificate-253cf5b1-ad43-4a29-8799-f6c81e597e08"],
+        true, "tenant_vrf": false}, "welcome_workflow_complete": true, "secure_channel_configuration":
+        {"sslkeyandcertificate_refs": ["/api/sslkeyandcertificate/sslkeyandcertificate-095599f2-cf87-4699-a955-884bf326da39"]},
+        "dns_configuration": {"search_domain": ""}, "ssh_hmacs": ["hmac-sha2-512-etm@openssh.com",
+        "hmac-sha2-256-etm@openssh.com", "umac-128-etm@openssh.com", "hmac-sha2-512"],
+        "docker_mode": false, "portal_configuration": {"use_uuid_from_input": false,
+        "redirect_to_https": true, "sslprofile_ref": "/api/sslprofile/sslprofile-dc696aca-76c8-41d3-a60f-f6f44cc71846",
+        "sslkeyandcertificate_refs": ["/api/sslkeyandcertificate/sslkeyandcertificate-b6b96275-314e-4ef3-87a1-e8c0a38213b4",
+        "/api/sslkeyandcertificate/sslkeyandcertificate-20d8a36f-032d-401f-948e-f59d8a7b3b6d"],
         "enable_clickjacking_protection": true, "enable_https": true, "disable_remote_cli_shell":
-        false, "password_strength_check": false, "disable_swagger": false, "enable_http":
-        false, "api_force_timeout": 24, "allow_basic_authentication": true}, "ntp_configuration":
+        false, "password_strength_check": true, "disable_swagger": false, "enable_http":
+        true, "api_force_timeout": 24, "allow_basic_authentication": false}, "ntp_configuration":
         {"ntp_servers": [{"server": {"type": "DNS", "addr": "0.us.pool.ntp.org"}},
         {"server": {"type": "DNS", "addr": "1.us.pool.ntp.org"}}, {"server": {"type":
         "DNS", "addr": "2.us.pool.ntp.org"}}, {"server": {"type": "DNS", "addr": "3.us.pool.ntp.org"}}]},
         "ssh_ciphers": ["aes128-ctr", "aes256-ctr", "arcfour256", "arcfour128"], "default_license_tier":
         "ENTERPRISE_18"}, "controller": {"api_idle_timeout": 15}, "version": {"Product":
-        "controller", "Version": "18.2.5", "build": 5078, "Tag": "18.2.5-5078-20190625.135113",
-        "Date": "2019-06-25T13:51:13+00:00", "min_version": 15.2, "ProductName": "Avi
+        "controller", "Version": "18.2.6", "build": 9034, "Tag": "18.2.6-9034-20190925.043322",
+        "Date": "2019-09-25T04:33:22+00:00", "min_version": 15.2, "ProductName": "Avi
         Cloud Controller"}, "user": {"username": "admin", "name": "admin", "is_superuser":
         true, "full_name": "System Administrator", "ui_property": "{\"defaultTimeframe\":\"6h\",\"valuesToDisplay\":\"avg\",\"sideRailOpen\":true,\"logs\":{\"savedSearch\":[],\"sidebarActiveTab\":\"1\"},\"appDashboard\":{\"viewType\":\"list\"},\"grid\":{}}",
-        "local": true, "email": "", "default_tenant_ref": "https://10.10.29.206/api/tenant/admin"},
-        "tenants": [{"url": "https://10.10.29.206/api/tenant/admin", "uuid": "admin",
-        "name": "admin", "local": true}], "session_cookie_name": "avi-sessionid"}'
+        "local": true, "email": "", "default_tenant_ref": "https://10.10.28.130/api/tenant/admin",
+        "uuid": "user-1"}, "tenants": [{"url": "https://10.10.28.130/api/tenant/admin",
+        "uuid": "admin", "name": "admin", "local": true}], "session_cookie_name":
+        "avi-sessionid"}'}
     headers:
-      access-control-allow-credentials:
-      - 'true'
-      access-control-allow-headers:
-      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken
-      access-control-allow-methods:
-      - GET, POST, PUT, DELETE, OPTIONS
-      allow:
-      - POST, OPTIONS
-      avi_api_version:
-      - '16_4_2'
-      cache-control:
-      - private, no-cache, must-revalidate
-      connection:
-      - keep-alive
-      content-security-policy:
-      - default-src 'self'; style-src 'self' 'unsafe-inline'
-      content-type:
-      - application/json
-      date:
-      - Thu, 27 Jun 2019 12:58:07 GMT
-      referrer-policy:
-      - strict-origin
-      set-cookie:
-      - csrftoken=uWqLk3isCWM6iwwjwTkyIj0lDWT4Vvhw; expires=Thu, 25-Jun-2020 12:58:06
-        GMT; Max-Age=31449600; Path=/; secure
-      - sessionid=hyh74xmy5fy1czljobouy8ax2v9vv6j4; expires=Fri, 28-Jun-2019 12:58:07
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      - avi-sessionid=hyh74xmy5fy1czljobouy8ax2v9vv6j4; expires=Fri, 28-Jun-2019 12:58:07
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      strict-transport-security:
-      - max-age=31536000; includeSubdomains
-      transfer-encoding:
-      - chunked
-      vary:
-      - Accept, Cookie
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['POST, OPTIONS']
+      avi_api_version: ['16_4_2']
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:47 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['csrftoken=M63aOaH5jndE5hAs1bfg6GsPry8SAWft; expires=Mon, 28-Sep-2020
+          09:17:47 GMT; Max-Age=31449600; Path=/; secure', 'sessionid=i5lncuf0t10hlc45oq3j3e32uy7vbz6i;
+          expires=Tue, 01-Oct-2019 09:17:47 GMT; httponly; Max-Age=86400; Path=/;
+          secure', 'avi-sessionid=i5lncuf0t10hlc45oq3j3e32uy7vbz6i; expires=Tue, 01-Oct-2019
+          09:17:47 GMT; httponly; Max-Age=86400; Path=/; secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
 - request:
     body: null
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate, compress
-      Content-Type:
-      - application/json
-      Cookie:
-      - csrftoken=uWqLk3isCWM6iwwjwTkyIj0lDWT4Vvhw; sessionid=hyh74xmy5fy1czljobouy8ax2v9vv6j4;
-        avi-sessionid=hyh74xmy5fy1czljobouy8ax2v9vv6j4
-      Referer:
-      - https://10.10.29.206/
-      User-Agent:
-      - python-requests/2.2.1 CPython/2.7.6 Linux/4.4.0-151-generic
-      X-CSRFToken:
-      - uWqLk3isCWM6iwwjwTkyIj0lDWT4Vvhw
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Cookie: [csrftoken=M63aOaH5jndE5hAs1bfg6GsPry8SAWft; sessionid=i5lncuf0t10hlc45oq3j3e32uy7vbz6i;
+          avi-sessionid=i5lncuf0t10hlc45oq3j3e32uy7vbz6i]
+      Referer: ['https://10.10.28.130/']
+      User-Agent: [python-requests/2.21.0]
+      X-CSRFToken: [M63aOaH5jndE5hAs1bfg6GsPry8SAWft]
     method: GET
-    uri: https://10.10.29.206/api/cluster
+    uri: https://10.10.28.130/api/cluster
   response:
-    body:
-      string: !!python/unicode '{"nodes": [{"ip": {"type": "V4", "addr": "10.10.29.206"},
-        "vm_hostname": "node1.controller.local", "vm_uuid": "005056b0ccbd", "name":
-        "10.10.29.206", "vm_mor": "vm-244193"}], "tenant_uuid": "admin", "uuid": "cluster-87aefc9d-d206-4c06-a693-eadda5e61766",
-        "name": "cluster-0-1"}'
+    body: {string: !!python/unicode '{"nodes": [{"ip": {"type": "V4", "addr": "10.10.28.130"},
+        "vm_hostname": "node1.controller.local", "vm_uuid": "005056b0259e", "name":
+        "node01", "vm_mor": "vm-245864"}], "rejoin_nodes_automatically": true, "tenant_uuid":
+        "admin", "uuid": "cluster-64b5db7a-4f3e-4092-9441-70b7d4ae5254", "name": "cluster-0-1"}'}
     headers:
-      access-control-allow-credentials:
-      - 'true'
-      access-control-allow-headers:
-      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken
-      access-control-allow-methods:
-      - GET, POST, PUT, DELETE, OPTIONS
-      allow:
-      - HEAD, GET, PATCH, PUT, OPTIONS
-      avi_api_version:
-      - '16_4_2'
-      cache-control:
-      - private, no-cache, must-revalidate
-      connection:
-      - keep-alive
-      content-security-policy:
-      - default-src 'self'; style-src 'self' 'unsafe-inline'
-      content-type:
-      - application/json
-      date:
-      - Thu, 27 Jun 2019 12:58:07 GMT
-      referrer-policy:
-      - strict-origin
-      set-cookie:
-      - sessionid=hyh74xmy5fy1czljobouy8ax2v9vv6j4; expires=Fri, 28-Jun-2019 12:58:07
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      - avi-sessionid=hyh74xmy5fy1czljobouy8ax2v9vv6j4; expires=Fri, 28-Jun-2019 12:58:07
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      strict-transport-security:
-      - max-age=31536000; includeSubdomains
-      transfer-encoding:
-      - chunked
-      vary:
-      - Accept, Cookie
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
+      avi_api_version: ['16_4_2']
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:47 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=i5lncuf0t10hlc45oq3j3e32uy7vbz6i; expires=Tue, 01-Oct-2019
+          09:17:47 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=i5lncuf0t10hlc45oq3j3e32uy7vbz6i;
+          expires=Tue, 01-Oct-2019 09:17:47 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
 version: 1
