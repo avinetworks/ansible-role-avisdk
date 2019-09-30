@@ -2,77 +2,99 @@ interactions:
 - request:
     body: null
     headers:
-      Content-Type:
-      - application/json
-      Cookie:
-      - csrftoken=gFyjGQECYRjTY9L9BT71461JgZoQ8vQb; sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui;
-        avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; csrftoken=gFyjGQECYRjTY9L9BT71461JgZoQ8vQb;
-        sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui
-      Referer:
-      - https://10.10.29.206
-      X-Avi-Tenant:
-      - admin
-      X-Avi-Version:
-      - 18.2.5
-      X-CSRFToken:
-      - gFyjGQECYRjTY9L9BT71461JgZoQ8vQb
-      timeout:
-      - '300'
+      Content-Type: [application/json]
+      Cookie: [csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd; sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd;
+          sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd]
+      timeout: ['300']
     method: GET
-    uri: https://10.10.29.206/api/alertconfig?include_refs=&include_name=&name=Test-System-SSL-Alert
+    uri: https://10.10.28.130/api/alertconfig?include_refs=&include_name=&name=Test-System-SSL-Alert
   response:
-    body:
-      string: !!python/unicode '{"count": 1, "results": [{"category": "REALTIME",
-        "expiry_time": 86400, "_last_modified": "1561638121880687", "url": "https://10.10.29.206/api/alertconfig/alertconfig-6012ef65-bc00-4134-a11a-cc5c07f2c4e0#Test-System-SSL-Alert",
-        "enabled": true, "tenant_ref": "https://10.10.29.206/api/tenant/admin#admin",
-        "uuid": "alertconfig-6012ef65-bc00-4134-a11a-cc5c07f2c4e0", "summary": "System-SSL-Alert
-        System Alert Triggered", "rolling_window": 300, "source": "EVENT_LOGS", "alert_rule":
-        {"operator": "OPERATOR_OR", "sys_event_rule": [{"event_id": "SSL_CERT_EXPIRE",
-        "not_cond": false}, {"event_id": "SSL_CERT_RENEW", "not_cond": false}, {"event_id":
-        "SSL_CERT_RENEW_FAILED", "not_cond": false}]}, "threshold": 1, "throttle":
-        0, "action_group_ref": "https://10.10.29.206/api/actiongroupconfig/actiongroupconfig-c7101bcb-9be0-4a67-8381-f3d4e369bc63#System-Alert-Level-Medium",
-        "name": "Test-System-SSL-Alert"}]}'
+    body: {string: !!python/unicode '{"count": 0, "results": []}'}
     headers:
-      access-control-allow-credentials:
-      - 'true'
-      access-control-allow-headers:
-      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken
-      access-control-allow-methods:
-      - GET, POST, PUT, DELETE, OPTIONS
-      allow:
-      - HEAD, GET, POST, OPTIONS
-      avi_api_version:
-      - 18.2.5
-      cache-control:
-      - private, no-cache, must-revalidate
-      connection:
-      - keep-alive
-      content-security-policy:
-      - default-src 'self'; style-src 'self' 'unsafe-inline'
-      content-type:
-      - application/json
-      date:
-      - Thu, 27 Jun 2019 12:58:10 GMT
-      referrer-policy:
-      - strict-origin
-      set-cookie:
-      - sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; expires=Fri, 28-Jun-2019 12:58:10
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      - avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; expires=Fri, 28-Jun-2019 12:58:10
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      strict-transport-security:
-      - max-age=31536000; includeSubdomains
-      transfer-encoding:
-      - chunked
-      vary:
-      - Accept, Cookie
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:11 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; expires=Tue, 01-Oct-2019
+          09:17:11 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          expires=Tue, 01-Oct-2019 09:17:11 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{"enabled": true, "threshold": 1, "category": "REALTIME",
+      "expiry_time": 86400, "source": "EVENT_LOGS", "alert_rule": {"operator": "OPERATOR_OR",
+      "sys_event_rule": [{"event_id": "SSL_CERT_EXPIRE", "not_cond": false}, {"event_id":
+      "SSL_CERT_RENEW", "not_cond": false}, {"event_id": "SSL_CERT_RENEW_FAILED",
+      "not_cond": false}]}, "throttle": 0, "name": "Test-System-SSL-Alert", "tenant_ref":
+      "/api/tenant/?name=admin", "summary": "System-SSL-Alert System Alert Triggered",
+      "rolling_window": 300, "action_group_ref": "/api/actiongroupconfig/?name=System-Alert-Level-Medium"}'
+    headers:
+      Content-Length: ['571']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd; sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; csrftoken=tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd;
+          sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [tWiLFbb3zySq9mTPNj5Bz390YmdrhrVd]
+      timeout: ['300']
+    method: POST
+    uri: https://10.10.28.130/api/alertconfig
+  response:
+    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/alertconfig/alertconfig-e2cf84d0-889e-496c-8eed-e87a9800a51c#Test-System-SSL-Alert",
+        "uuid": "alertconfig-e2cf84d0-889e-496c-8eed-e87a9800a51c", "name": "Test-System-SSL-Alert",
+        "enabled": true, "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin",
+        "_last_modified": "1569835031770132", "category": "REALTIME", "expiry_time":
+        86400, "summary": "System-SSL-Alert System Alert Triggered", "rolling_window":
+        300, "source": "EVENT_LOGS", "alert_rule": {"operator": "OPERATOR_OR", "sys_event_rule":
+        [{"event_id": "SSL_CERT_EXPIRE", "not_cond": false}, {"event_id": "SSL_CERT_RENEW",
+        "not_cond": false}, {"event_id": "SSL_CERT_RENEW_FAILED", "not_cond": false}]},
+        "threshold": 1, "throttle": 0, "action_group_ref": "https://10.10.28.130/api/actiongroupconfig/actiongroupconfig-27742e01-1dc7-4e1b-a983-b4ff2331a830#System-Alert-Level-Medium"}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:11 GMT']
+      location: ['https://10.10.28.130/api/alertconfig/alertconfig-e2cf84d0-889e-496c-8eed-e87a9800a51c#Test-System-SSL-Alert']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=h1v2xo84p3m1nodstkm7j778so06bqif; expires=Tue, 01-Oct-2019
+          09:17:11 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=h1v2xo84p3m1nodstkm7j778so06bqif;
+          expires=Tue, 01-Oct-2019 09:17:11 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 201, message: CREATED}
 version: 1

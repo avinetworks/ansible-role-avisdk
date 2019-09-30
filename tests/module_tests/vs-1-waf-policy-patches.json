@@ -1,0 +1,22 @@
+{
+  "name": "vs1-waf-policy",
+  "paranoia_level": "WAF_PARANOIA_LEVEL_LOW",
+  "crs_groups": [
+    {
+      "rules": [
+        {
+          "enable": true,
+          "name": "Initialize inbound_anomaly_score_threshold",
+          "rule_id": "901100"
+        }
+      ],
+      "index": 0,
+      "enable": true,
+      "name": "CRS_901_Initialization"
+    }
+  ],
+  "mode": "WAF_MODE_DETECTION_ONLY",
+  "enable_app_learning": false,
+  "failure_mode": "WAF_FAILURE_MODE_OPEN"
+}
+

@@ -29,6 +29,7 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent", "present"]
+        type: str
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -36,33 +37,42 @@ options:
         version_added: "2.5"
         default: put
         choices: ["put", "patch"]
+        type: str
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+        type: str
     description:
         description:
             - User defined description for the object.
+        type: str
     image_id:
         description:
             - Unique id of the amazon machine image (ami)  or openstack vm id.
+        type: str
     mesos:
         description:
             - Autoscalemesossettings settings for autoscalelaunchconfig.
+        type: dict
     name:
         description:
             - Name of the object.
         required: true
+        type: str
     openstack:
         description:
             - Autoscaleopenstacksettings settings for autoscalelaunchconfig.
+        type: dict
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+        type: str
     url:
         description:
             - Avi controller URL of the object.
+        type: str
     use_external_asg:
         description:
             - If set to true, serverautoscalepolicy will use the autoscaling group (external_autoscaling_groups) from pool to perform scale up and scale down.
@@ -73,6 +83,9 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
+        type: str
+
+
 extends_documentation_fragment:
     - avi
 '''

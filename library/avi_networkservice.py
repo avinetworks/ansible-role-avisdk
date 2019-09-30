@@ -29,6 +29,7 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent", "present"]
+        type: str
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -36,53 +37,66 @@ options:
         version_added: "2.5"
         default: put
         choices: ["put", "patch"]
+        type: str
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+        type: str
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
             - Field introduced in 18.2.5.
+        type: str
     name:
         description:
             - Name of the networkservice.
             - Field introduced in 18.2.5.
         required: true
+        type: str
     routing_service:
         description:
             - Routing information of the networkservice.
             - Field introduced in 18.2.5.
+        type: dict
     se_group_ref:
         description:
             - Service engine group to which the service is applied.
             - It is a reference to an object of type serviceenginegroup.
             - Field introduced in 18.2.5.
         required: true
+        type: str
     service_type:
         description:
             - Indicates the type of networkservice.
             - Enum options - ROUTING_SERVICE.
             - Field introduced in 18.2.5.
         required: true
+        type: str
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
             - Field introduced in 18.2.5.
+        type: str
     url:
         description:
             - Avi controller URL of the object.
+        type: str
     uuid:
         description:
             - Uuid of the networkservice.
             - Field introduced in 18.2.5.
+        type: str
     vrf_ref:
         description:
             - Vrf context to which the service is scoped.
             - It is a reference to an object of type vrfcontext.
             - Field introduced in 18.2.5.
         required: true
+        type: str
+
+
 extends_documentation_fragment:
     - avi
 '''

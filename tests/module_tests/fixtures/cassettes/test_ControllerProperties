@@ -2,90 +2,144 @@ interactions:
 - request:
     body: null
     headers:
-      Content-Type:
-      - application/json
-      Cookie:
-      - csrftoken=gFyjGQECYRjTY9L9BT71461JgZoQ8vQb; sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui;
-        avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; csrftoken=gFyjGQECYRjTY9L9BT71461JgZoQ8vQb;
-        sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui
-      Referer:
-      - https://10.10.29.206
-      X-Avi-Tenant:
-      - admin
-      X-Avi-Version:
-      - 18.2.5
-      X-CSRFToken:
-      - gFyjGQECYRjTY9L9BT71461JgZoQ8vQb
-      timeout:
-      - '300'
+      Content-Type: [application/json]
+      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
+          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
+          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
+      timeout: ['300']
     method: GET
-    uri: https://10.10.29.206/api/controllerproperties/?include_refs=&include_name=
+    uri: https://10.10.28.130/api/controllerproperties/?include_refs=&include_name=
   response:
-    body:
-      string: !!python/unicode '{"url": "https://10.10.29.206/api/controllerproperties",
-        "uuid": "global", "_last_modified": "1561638152473521", "vs_se_ping_fail":
-        60, "vs_se_create_fail": 1500, "cluster_ip_gratuitous_arp_period": 60, "persistence_key_rotate_period":
-        60, "unresponsive_se_reboot": 300, "attach_ip_retry_interval": 360, "vs_se_vnic_fail":
-        300, "api_idle_timeout": 15, "attach_ip_retry_limit": 4, "se_vnic_cooldown":
-        120, "vnic_op_fail_time": 180, "max_pcap_per_tenant": 4, "enable_memory_balancer":
-        true, "max_dead_se_in_grp": 1, "seupgrade_fabric_pool_size": 20, "cleanup_expired_authtoken_timeout_period":
-        60, "vs_key_rotate_period": 60, "seupgrade_segroup_min_dead_timeout": 360,
-        "upgrade_lease_time": 360, "warmstart_vs_resync_wait_time": 300, "se_create_timeout":
-        900, "query_host_fail": 180, "vs_apic_scaleout_timeout": 360, "bm_use_ansible":
-        true, "process_pki_profile_timeout_period": 1440, "se_offline_del": 172000,
-        "vs_se_bootup_fail": 300, "upgrade_dns_ttl": 5, "fatal_error_lease_time":
-        120, "api_perf_logging_threshold": 10000, "allow_ip_forwarding": false, "vs_se_attach_ip_fail":
-        600, "max_seq_vnic_failures": 3, "allow_unauthenticated_nodes": false, "allow_unauthenticated_apis":
-        false, "vs_scaleout_ready_check_interval": 60, "vs_awaiting_se_timeout": 60,
-        "se_from_marketplace": "IMAGE", "warmstart_se_reconnect_wait_time": 300, "process_locked_useraccounts_timeout_period":
-        1, "consistency_check_timeout_period": 60, "dns_refresh_period": 60, "max_seq_attach_ip_failures":
-        3, "cleanup_sessions_timeout_period": 60, "secure_channel_cleanup_timeout":
-        60, "vs_se_vnic_ip_fail": 120, "ssl_certificate_expiry_warning_days": [30,
-        7, 2], "secure_channel_se_token_timeout": 60, "secure_channel_controller_token_timeout":
+    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/controllerproperties",
+        "uuid": "global", "_last_modified": "1569834794669574", "vs_se_ping_fail":
+        60, "vs_se_create_fail": 1500, "shared_ssl_certificates": false, "cluster_ip_gratuitous_arp_period":
+        60, "persistence_key_rotate_period": 0, "unresponsive_se_reboot": 300, "attach_ip_retry_interval":
+        360, "vs_se_vnic_fail": 300, "api_idle_timeout": 15, "attach_ip_retry_limit":
+        4, "se_vnic_cooldown": 120, "vnic_op_fail_time": 180, "max_pcap_per_tenant":
+        4, "enable_memory_balancer": true, "max_dead_se_in_grp": 1, "seupgrade_fabric_pool_size":
+        20, "cleanup_expired_authtoken_timeout_period": 60, "vs_key_rotate_period":
+        360, "seupgrade_segroup_min_dead_timeout": 360, "upgrade_lease_time": 360,
+        "warmstart_vs_resync_wait_time": 300, "se_create_timeout": 900, "query_host_fail":
+        180, "vs_apic_scaleout_timeout": 360, "bm_use_ansible": true, "process_pki_profile_timeout_period":
+        1440, "se_offline_del": 172000, "vs_se_bootup_fail": 480, "upgrade_dns_ttl":
+        5, "fatal_error_lease_time": 120, "dns_refresh_period": 60, "api_perf_logging_threshold":
+        10000, "allow_ip_forwarding": false, "vs_se_attach_ip_fail": 600, "max_seq_vnic_failures":
+        3, "allow_unauthenticated_nodes": false, "allow_unauthenticated_apis": false,
+        "vs_scaleout_ready_check_interval": 60, "vs_awaiting_se_timeout": 60, "se_from_marketplace":
+        "IMAGE", "warmstart_se_reconnect_wait_time": 480, "process_locked_useraccounts_timeout_period":
+        1, "consistency_check_timeout_period": 60, "default_minimum_api_timeout":
+        60, "max_seq_attach_ip_failures": 3, "cleanup_sessions_timeout_period": 60,
+        "secure_channel_cleanup_timeout": 60, "vs_se_vnic_ip_fail": 120, "ssl_certificate_expiry_warning_days":
+        [30, 7, 1], "secure_channel_se_token_timeout": 60, "secure_channel_controller_token_timeout":
         60, "cloud_reconcile": true, "crashed_se_reboot": 900, "appviewx_compat_mode":
         false, "enable_api_sharding": true, "se_failover_attempt_interval": 300, "dead_se_detection_timer":
-        360}'
+        360}'}
     headers:
-      access-control-allow-credentials:
-      - 'true'
-      access-control-allow-headers:
-      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken
-      access-control-allow-methods:
-      - GET, POST, PUT, DELETE, OPTIONS
-      allow:
-      - HEAD, GET, PATCH, PUT, OPTIONS
-      avi_api_version:
-      - 18.2.5
-      cache-control:
-      - private, no-cache, must-revalidate
-      connection:
-      - keep-alive
-      content-security-policy:
-      - default-src 'self'; style-src 'self' 'unsafe-inline'
-      content-type:
-      - application/json
-      date:
-      - Thu, 27 Jun 2019 12:58:26 GMT
-      referrer-policy:
-      - strict-origin
-      set-cookie:
-      - sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; expires=Fri, 28-Jun-2019 12:58:26
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      - avi-sessionid=rkf9e2akvhokesyd50l6rlur1wqrn3ui; expires=Fri, 28-Jun-2019 12:58:26
-        GMT; httponly; Max-Age=86400; Path=/; secure
-      strict-transport-security:
-      - max-age=31536000; includeSubdomains
-      transfer-encoding:
-      - chunked
-      vary:
-      - Accept, Cookie
-      x-content-type-options:
-      - nosniff
-      x-frame-options:
-      - SAMEORIGIN
-      x-xss-protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:39 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
+          09:17:39 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
+          expires=Tue, 01-Oct-2019 09:17:39 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{"vs_se_ping_fail": 60, "warmstart_se_reconnect_wait_time":
+      300, "persistence_key_rotate_period": 60, "unresponsive_se_reboot": 300, "attach_ip_retry_interval":
+      360, "vs_se_vnic_fail": 300, "secure_channel_se_token_timeout": 60, "attach_ip_retry_limit":
+      4, "se_vnic_cooldown": 120, "vnic_op_fail_time": 180, "vs_key_rotate_period":
+      60, "max_dead_se_in_grp": 1, "seupgrade_fabric_pool_size": 20, "max_pcap_per_tenant":
+      4, "seupgrade_segroup_min_dead_timeout": 360, "dns_refresh_period": 60, "upgrade_lease_time":
+      360, "se_create_timeout": 900, "query_host_fail": 180, "vs_apic_scaleout_timeout":
+      360, "se_offline_del": 172000, "vs_se_bootup_fail": 300, "upgrade_dns_ttl":
+      5, "fatal_error_lease_time": 120, "api_idle_timeout": 15, "se_failover_attempt_interval":
+      300, "allow_ip_forwarding": false, "max_seq_vnic_failures": 3, "allow_unauthenticated_nodes":
+      false, "allow_unauthenticated_apis": false, "vs_awaiting_se_timeout": 60, "cluster_ip_gratuitous_arp_period":
+      60, "secure_channel_cleanup_timeout": 60, "vs_se_vnic_ip_fail": 120, "ssl_certificate_expiry_warning_days":
+      [30, 7, 2], "secure_channel_controller_token_timeout": 60, "vs_se_create_fail":
+      1500, "crashed_se_reboot": 900, "appviewx_compat_mode": false, "dead_se_detection_timer":
+      360}'
+    headers:
+      Content-Length: ['1247']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
+          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
+          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
+      Referer: ['https://10.10.28.130']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.6]
+      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
+      timeout: ['300']
+    method: PUT
+    uri: https://10.10.28.130/api/controllerproperties/
+  response:
+    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/controllerproperties",
+        "uuid": "global", "_last_modified": "1569835059636030", "vs_se_ping_fail":
+        60, "shared_ssl_certificates": false, "warmstart_se_reconnect_wait_time":
+        300, "persistence_key_rotate_period": 60, "unresponsive_se_reboot": 300, "attach_ip_retry_interval":
+        360, "vs_se_vnic_fail": 300, "secure_channel_se_token_timeout": 60, "attach_ip_retry_limit":
+        4, "se_vnic_cooldown": 120, "vnic_op_fail_time": 180, "vs_key_rotate_period":
+        60, "enable_memory_balancer": true, "max_dead_se_in_grp": 1, "seupgrade_fabric_pool_size":
+        20, "cleanup_expired_authtoken_timeout_period": 60, "max_pcap_per_tenant":
+        4, "seupgrade_segroup_min_dead_timeout": 360, "upgrade_lease_time": 360, "warmstart_vs_resync_wait_time":
+        300, "se_create_timeout": 900, "query_host_fail": 180, "vs_apic_scaleout_timeout":
+        360, "bm_use_ansible": true, "process_pki_profile_timeout_period": 1440, "se_offline_del":
+        172000, "vs_se_bootup_fail": 300, "upgrade_dns_ttl": 5, "fatal_error_lease_time":
+        120, "api_perf_logging_threshold": 10000, "allow_ip_forwarding": false, "vs_se_attach_ip_fail":
+        600, "max_seq_vnic_failures": 3, "allow_unauthenticated_nodes": false, "allow_unauthenticated_apis":
+        false, "cloud_reconcile": true, "vs_scaleout_ready_check_interval": 60, "vs_awaiting_se_timeout":
+        60, "se_from_marketplace": "IMAGE", "cluster_ip_gratuitous_arp_period": 60,
+        "process_locked_useraccounts_timeout_period": 1, "consistency_check_timeout_period":
+        60, "dns_refresh_period": 60, "default_minimum_api_timeout": 60, "max_seq_attach_ip_failures":
+        3, "cleanup_sessions_timeout_period": 60, "secure_channel_cleanup_timeout":
+        60, "ssl_certificate_expiry_warning_days": [30, 7, 2], "vs_se_vnic_ip_fail":
+        120, "secure_channel_controller_token_timeout": 60, "vs_se_create_fail": 1500,
+        "api_idle_timeout": 15, "crashed_se_reboot": 900, "appviewx_compat_mode":
+        false, "enable_api_sharding": true, "se_failover_attempt_interval": 300, "dead_se_detection_timer":
+        360}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      access-control-allow-origin: ['https://portal.avinetworks.com']
+      access-control-expose-headers: [X-NEXT-CALL]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
+      avi_api_version: [18.2.6]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Mon, 30 Sep 2019 09:17:39 GMT']
+      referrer-policy: [strict-origin]
+      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
+          09:17:39 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
+          expires=Tue, 01-Oct-2019 09:17:39 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      transfer-encoding: [chunked]
+      vary: ['Accept, Cookie', Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
 version: 1
