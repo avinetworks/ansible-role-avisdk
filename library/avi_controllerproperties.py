@@ -279,6 +279,12 @@ options:
             - Number of secure_channel_se_token_timeout.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         type: int
+    seupgrade_copy_pool_size:
+        description:
+            - Pool of scp connections used in copy task during serviceenginegroup upgrade.
+            - Field introduced in 18.2.6.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 5.
+        type: int
     seupgrade_fabric_pool_size:
         description:
             - Pool size used for all fabric commands during se upgrade.
@@ -478,6 +484,7 @@ def main():
         secure_channel_cleanup_timeout=dict(type='int',),
         secure_channel_controller_token_timeout=dict(type='int',),
         secure_channel_se_token_timeout=dict(type='int',),
+        seupgrade_copy_pool_size=dict(type='int',),
         seupgrade_fabric_pool_size=dict(type='int',),
         seupgrade_segroup_min_dead_timeout=dict(type='int',),
         shared_ssl_certificates=dict(type='bool',),
