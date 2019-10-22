@@ -1207,9 +1207,9 @@ options:
     vs_se_scaleout_ready_timeout:
         description:
             - Timeout in seconds for service engine to sendscaleout ready notification of a virtual service.
-            - Allowed values are 0-60.
+            - Allowed values are 0-90.
             - Field introduced in 18.1.5,18.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 25.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.9"
         type: int
     vs_switchover_timeout:
