@@ -784,6 +784,14 @@ options:
         description:
             - Dosthresholdprofile settings for serviceenginegroup.
         type: dict
+    se_dp_max_hb_version:
+        description:
+            - The highest supported se-se heartbeat protocol version.
+            - This version is reported by secondary se to primary se in heartbeat response messages.
+            - Allowed values are 1-2.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+        type: int
     se_dp_vnic_queue_stall_event_sleep:
         description:
             - Time (in seconds) service engine waits for after generating a vnic transmit queue stall event before resetting thenic.
@@ -948,6 +956,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 1501.
         version_added: "2.4"
         type: int
+    se_rl_prop:
+        description:
+            - Rate limiter properties.
+            - Field introduced in 20.1.1.
+        type: dict
     se_routing:
         description:
             - Enable routing via service engine datapath.
@@ -1416,6 +1429,7 @@ def main():
         se_bandwidth_type=dict(type='str',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
+        se_dp_max_hb_version=dict(type='int',),
         se_dp_vnic_queue_stall_event_sleep=dict(type='int',),
         se_dp_vnic_queue_stall_threshold=dict(type='int',),
         se_dp_vnic_queue_stall_timeout=dict(type='int',),
@@ -1437,6 +1451,7 @@ def main():
         se_pcap_reinit_threshold=dict(type='int',),
         se_probe_port=dict(type='int',),
         se_remote_punt_udp_port=dict(type='int',),
+        se_rl_prop=dict(type='dict',),
         se_routing=dict(type='bool',),
         se_rum_sampling_nav_interval=dict(type='int',),
         se_rum_sampling_nav_percent=dict(type='int',),

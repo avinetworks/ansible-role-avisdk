@@ -44,6 +44,12 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    crs_auto_deploy:
+        description:
+            - Placeholder to decide if user has opted in for auto deployment of crs data on controller.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     polling_interval:
         description:
             - Time interval in minutes.
@@ -105,6 +111,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        crs_auto_deploy=dict(type='bool',),
         polling_interval=dict(type='int',),
         portal_url=dict(type='str', required=True),
         url=dict(type='str',),
