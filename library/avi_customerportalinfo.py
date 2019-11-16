@@ -44,12 +44,17 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    crs_auto_deploy:
+    asset_contact:
         description:
-            - Placeholder to decide if user has opted in for auto deployment of crs data on controller.
+            - Information about the default contact for this asset.
             - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
+        type: dict
+    feature_opt_in_status:
+        description:
+            - Information about the portal features opted in for controller.
+            - Field introduced in 20.1.1.
+        required: true
+        type: dict
     polling_interval:
         description:
             - Time interval in minutes.
@@ -111,7 +116,8 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        crs_auto_deploy=dict(type='bool',),
+        asset_contact=dict(type='dict',),
+        feature_opt_in_status=dict(type='dict', required=True),
         polling_interval=dict(type='int',),
         portal_url=dict(type='str', required=True),
         url=dict(type='str',),
