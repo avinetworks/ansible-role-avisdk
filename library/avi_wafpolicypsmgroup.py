@@ -15,7 +15,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_wafpolicypsmgroup
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of WafPolicyPSMGroup Avi RESTful Object
 description:
@@ -29,6 +29,7 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent", "present"]
+        type: str
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -36,15 +37,18 @@ options:
         version_added: "2.5"
         default: put
         choices: ["put", "patch"]
+        type: str
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+        type: str
     description:
         description:
-            - Freetext comment about this group.
+            - Free-text comment about this group.
             - Field introduced in 18.2.3.
+        type: str
     enable:
         description:
             - Enable or disable this waf rule group.
@@ -54,9 +58,11 @@ options:
     hit_action:
         description:
             - If a rule in this group matches the match_value pattern, this action will be executed.
+            - Allowed actions are waf_action_no_op and waf_action_allow_parameter.
             - Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER.
             - Field introduced in 18.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as WAF_ACTION_NO_OP.
+            - Default value when not specified in API or module is interpreted by Avi Controller as WAF_ACTION_ALLOW_PARAMETER.
+        type: str
     is_learning_group:
         description:
             - This field indicates that this group is used for learning.
@@ -68,29 +74,38 @@ options:
             - Positive security model locations.
             - These are used to partition the application name space.
             - Field introduced in 18.2.3.
+        type: list
     miss_action:
         description:
             - If a rule in this group does not match the match_value pattern, this action will be executed.
+            - Allowed actions are waf_action_no_op and waf_action_block.
             - Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER.
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as WAF_ACTION_NO_OP.
+        type: str
     name:
         description:
             - User defined name of the group.
             - Field introduced in 18.2.3.
         required: true
+        type: str
     tenant_ref:
         description:
             - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
             - Field introduced in 18.2.3.
+        type: str
     url:
         description:
             - Avi controller URL of the object.
+        type: str
     uuid:
         description:
             - Uuid of this object.
             - Field introduced in 18.2.3.
+        type: str
+
+
 extends_documentation_fragment:
     - avi
 '''
@@ -115,15 +130,8 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -152,7 +160,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'wafpolicypsmgroup',
                            set([]))
