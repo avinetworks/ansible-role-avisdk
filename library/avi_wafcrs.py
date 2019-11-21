@@ -15,7 +15,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_wafcrs
-author: Gaurav Rastogi (grastogi@avinetworks.com)
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
 short_description: Module for setup of WafCRS Avi RESTful Object
 description:
@@ -29,6 +29,7 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent", "present"]
+        type: str
     avi_api_update_method:
         description:
             - Default method for object update is HTTP PUT.
@@ -36,51 +37,64 @@ options:
         version_added: "2.5"
         default: put
         choices: ["put", "patch"]
+        type: str
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
+        type: str
     description:
         description:
             - A short description of this ruleset.
             - Field introduced in 18.1.1.
         required: true
+        type: str
     groups:
         description:
             - Waf rules are sorted in groups based on their characterization.
             - Field introduced in 18.1.1.
+        type: list
     integrity:
         description:
             - Integrity protection value.
             - Field introduced in 18.2.1.
         required: true
+        type: str
     name:
         description:
             - The name of this ruleset object.
             - Field introduced in 18.2.1.
         required: true
+        type: str
     release_date:
         description:
             - The release date of this version in rfc 3339 / iso 8601 format.
             - Field introduced in 18.1.1.
         required: true
+        type: str
     tenant_ref:
         description:
             - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
             - Field introduced in 18.2.1.
+        type: str
     url:
         description:
             - Avi controller URL of the object.
+        type: str
     uuid:
         description:
             - Field introduced in 18.1.1.
+        type: str
     version:
         description:
             - The version of this ruleset object.
             - Field introduced in 18.1.1.
         required: true
+        type: str
+
+
 extends_documentation_fragment:
     - avi
 '''
@@ -105,15 +119,8 @@ obj:
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-    from pkg_resources import parse_version
-    import avi.sdk
-    sdk_version = getattr(avi.sdk, '__version__', None)
-    if ((sdk_version is None) or
-            (sdk_version and
-             (parse_version(sdk_version) < parse_version('17.1')))):
-        # It allows the __version__ to be '' as that value is used in development builds
-        raise ImportError
-    from avi.sdk.utils.ansible_utils import avi_ansible_api
+    from avi.sdk.utils.ansible_utils import (
+        avi_ansible_api, avi_common_argument_spec)
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
@@ -141,7 +148,7 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=17.1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'wafcrs',
                            set([]))

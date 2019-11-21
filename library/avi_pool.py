@@ -218,12 +218,6 @@ options:
             - If enabled and no explicit domain name is specified, avi will use the incoming host header to do the match.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    http2:
-        description:
-            - Enable http/2 for traffic from virtualservice to all backend servers in this pool.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     inline_health_monitor:
         description:
             - The passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.
@@ -524,7 +518,6 @@ def main():
         gslb_sp_enabled=dict(type='bool',),
         health_monitor_refs=dict(type='list',),
         host_check_enabled=dict(type='bool',),
-        http2=dict(type='bool',),
         inline_health_monitor=dict(type='bool',),
         ipaddrgroup_ref=dict(type='str',),
         lb_algorithm=dict(type='str',),
