@@ -1,5 +1,4 @@
 FROM ubuntu:14.04
-RUN ua attach C149piFZzxFLXGanAAXHPdWDvvJDpS
 RUN apt-get update
 
 # Install Ansible
