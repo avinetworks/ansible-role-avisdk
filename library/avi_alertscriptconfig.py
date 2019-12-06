@@ -80,7 +80,7 @@ EXAMPLES = """
       password: '{{ password }}'
       action_script: "echo Hello"
       name: AWS-Launch-Script
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''

@@ -132,7 +132,7 @@ EXAMPLES = """
           user_search_dn: dc=avi,dc=local
           user_search_scope: AUTH_LDAP_SCOPE_ONE
       name: ProdAuth
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       type: AUTH_PROFILE_LDAP
 """
 

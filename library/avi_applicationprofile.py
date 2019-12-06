@@ -185,7 +185,7 @@ EXAMPLES = """
         xff_alternate_name: X-Forwarded-For
         xff_enabled: true
       name: System-HTTP
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       type: APPLICATION_PROFILE_TYPE_HTTP
 """
 

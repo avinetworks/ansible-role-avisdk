@@ -98,7 +98,7 @@ EXAMPLES = """
       password: '{{ password }}'
       image_id: default
       name: default-autoscalelaunchconfig
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
 """
 
 RETURN = '''
