@@ -23,12 +23,17 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'status': ['deprecated'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
 module: avi_nsxsectioninfo
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: No alternative for this module.
 
 short_description: Module for setup of NsxSectionInfo Avi RESTful Object
 description:

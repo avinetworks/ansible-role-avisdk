@@ -10,13 +10,18 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
 module: avi_serviceenginepolicy
 author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
+
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: No alternative for this module.
 
 short_description: Module for setup of ServiceEnginePolicy Avi RESTful Object
 description:
