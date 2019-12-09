@@ -95,7 +95,7 @@ options:
         description:
             - The object type to which the alert config is associated with.
             - Valid object types are - virtual service, pool, service engine.
-            - Enum options - VIRTUALSERVICE,  POOL,  HEALTHMONITOR...
+            - Enum options - VIRTUALSERVICE, POOL, HEALTHMONITOR...
         type: str
     recommendation:
         description:
@@ -110,7 +110,7 @@ options:
     source:
         description:
             - Signifies system events or the type of client logsused in this alert configuration.
-            - Enum options - CONN_LOGS,  APP_LOGS,  EVENT_LOGS...
+            - Enum options - CONN_LOGS, APP_LOGS, EVENT_LOGS...
         required: true
         type: str
     summary:

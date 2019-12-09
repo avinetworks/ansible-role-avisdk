@@ -86,7 +86,7 @@ options:
     type:
         description:
             - Type of the auth profile.
-            - Enum options - AUTH_PROFILE_LDAP,  AUTH_PROFILE_TACACS_PLUS,  AUTH_PROFILE_SAML...
+            - Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML...
         required: true
         type: str
     url:

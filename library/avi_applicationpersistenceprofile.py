@@ -82,7 +82,7 @@ options:
     persistence_type:
         description:
             - Method used to persist clients to the same server for a duration of time or a session.
-            - Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS,  PERSISTENCE_TYPE_HTTP_COOKIE,  PERSISTENCE_TYPE_TLS...
+            - Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS...
             - Default value when not specified in API or module is interpreted by Avi Controller as PERSISTENCE_TYPE_CLIENT_IP_ADDRESS.
         required: true
         type: str

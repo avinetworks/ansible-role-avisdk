@@ -135,7 +135,7 @@ options:
     type:
         description:
             - Type of the health monitor.
-            - Enum options - HEALTH_MONITOR_PING,  HEALTH_MONITOR_TCP,  HEALTH_MONITOR_HTTP...
+            - Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP...
         required: true
         type: str
     udp_monitor:

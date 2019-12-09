@@ -68,7 +68,7 @@ options:
     status:
         description:
             - Status to check if the image is present.
-            - Enum options - SYSERR_SUCCESS,  SYSERR_FAILURE,  SYSERR_OUT_OF_MEMORY...
+            - Enum options - SYSERR_SUCCESS, SYSERR_FAILURE, SYSERR_OUT_OF_MEMORY...
             - Field introduced in 18.2.6.
         type: str
     tenant_ref:

@@ -78,7 +78,7 @@ options:
     enable_state:
         description:
             - Inorder to disable se set this field appropriately.
-            - Enum options - SE_STATE_ENABLED,  SE_STATE_DISABLED_FOR_PLACEMENT,  SE_STATE_DISABLED...
+            - Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED...
             - Default value when not specified in API or module is interpreted by Avi Controller as SE_STATE_ENABLED.
         type: str
     flavor:
@@ -91,7 +91,7 @@ options:
         type: str
     hypervisor:
         description:
-            - Enum options - DEFAULT,  VMWARE_ESX,  KVM...
+            - Enum options - DEFAULT, VMWARE_ESX, KVM...
         type: str
     mgmt_vnic:
         description:

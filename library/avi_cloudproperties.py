@@ -52,7 +52,7 @@ options:
     cc_vtypes:
         description:
             - Cloud types supported by cloudconnector.
-            - Enum options - CLOUD_NONE,  CLOUD_VCENTER,  CLOUD_OPENSTACK...
+            - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK...
         type: list
     hyp_props:
         description:

@@ -238,7 +238,7 @@ options:
     lb_algorithm:
         description:
             - The load balancing algorithm will pick a server within the pool's list of available servers.
-            - Enum options - LB_ALGORITHM_LEAST_CONNECTIONS,  LB_ALGORITHM_ROUND_ROBIN,  LB_ALGORITHM_FASTEST_RESPONSE...
+            - Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE...
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_LEAST_CONNECTIONS.
         type: str
     lb_algorithm_consistent_hash_hdr:
@@ -256,7 +256,7 @@ options:
     lb_algorithm_hash:
         description:
             - Criteria used as a key for determining the hash between the client and  server.
-            - Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS,  LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT,
+            - Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT,
             - LB_ALGORITHM_CONSISTENT_HASH_URI...
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS.
         type: str

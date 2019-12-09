@@ -159,7 +159,7 @@ options:
         type: str
     cloud_type:
         description:
-            - Enum options - CLOUD_NONE,  CLOUD_VCENTER,  CLOUD_OPENSTACK...
+            - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK...
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         type: str
     connections_rate_limit:

@@ -109,7 +109,7 @@ options:
     type:
         description:
             - Specifies which application layer proxy is enabled for the virtual service.
-            - Enum options - APPLICATION_PROFILE_TYPE_L4,  APPLICATION_PROFILE_TYPE_HTTP,  APPLICATION_PROFILE_TYPE_SYSLOG...
+            - Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG...
         required: true
         type: str
     url:

@@ -141,7 +141,7 @@ options:
     auto_rebalance_criteria:
         description:
             - Set of criteria for se auto rebalance.
-            - Enum options - SE_AUTO_REBALANCE_CPU,  SE_AUTO_REBALANCE_PPS,  SE_AUTO_REBALANCE_MBPS...
+            - Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS...
             - Field introduced in 17.2.3.
         version_added: "2.5"
         type: list
@@ -459,7 +459,7 @@ options:
     hypervisor:
         description:
             - Override default hypervisor.
-            - Enum options - DEFAULT,  VMWARE_ESX,  KVM...
+            - Enum options - DEFAULT, VMWARE_ESX, KVM...
         type: str
     ignore_rtt_threshold:
         description:
@@ -508,7 +508,7 @@ options:
     license_type:
         description:
             - If no license type is specified then default license enforcement for the cloud type is chosen.
-            - Enum options - LIC_BACKEND_SERVERS,  LIC_SOCKETS,  LIC_CORES...
+            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES...
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
@@ -768,7 +768,7 @@ options:
     se_bandwidth_type:
         description:
             - Select the se bandwidth for the bandwidth license.
-            - Enum options - SE_BANDWIDTH_UNLIMITED,  SE_BANDWIDTH_25M,  SE_BANDWIDTH_200M...
+            - Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M...
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str

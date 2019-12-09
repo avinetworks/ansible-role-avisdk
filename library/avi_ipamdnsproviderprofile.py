@@ -111,7 +111,7 @@ options:
     type:
         description:
             - Provider type for the ipam/dns provider profile.
-            - Enum options - IPAMDNS_TYPE_INFOBLOX,  IPAMDNS_TYPE_AWS,  IPAMDNS_TYPE_OPENSTACK...
+            - Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK...
         required: true
         type: str
     url:
