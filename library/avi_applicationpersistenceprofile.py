@@ -131,7 +131,7 @@ EXAMPLES = """
       name: My-HTTP-Cookie
       persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
       server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''

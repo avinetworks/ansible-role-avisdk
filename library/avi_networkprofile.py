@@ -98,7 +98,7 @@ EXAMPLES = """
           per_pkt_loadbalance: false
           session_idle_timeout: 10
           snat: true
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
 """
 
 RETURN = '''

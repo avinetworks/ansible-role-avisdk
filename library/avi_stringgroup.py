@@ -100,7 +100,7 @@ EXAMPLES = """
       - key: application/xml
       - key: application/pdf
       name: System-Compressible-Content-Types
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       type: SG_TYPE_STRING
 """
 

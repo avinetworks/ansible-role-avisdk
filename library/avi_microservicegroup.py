@@ -88,7 +88,7 @@ EXAMPLES = """
       password: '{{ password }}'
       description: Group created by my Secure My App UI.
       name: vs-msg-marketing
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
 """
 
 RETURN = '''

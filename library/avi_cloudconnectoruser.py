@@ -119,7 +119,7 @@ EXAMPLES = """
         -----BEGIN RSA PRIVATE KEY-----
         -----END RSA PRIVATE KEY-----'
       public_key: 'ssh-rsa ...'
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       username: '{{ username }}'
 """
 
