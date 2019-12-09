@@ -59,7 +59,7 @@ options:
         type: bool
     container_type:
         description:
-            - Enum options - container_type_bridge, container_type_host, container_type_host_dpdk.
+            - Enum options - CONTAINER_TYPE_BRIDGE, CONTAINER_TYPE_HOST, CONTAINER_TYPE_HOST_DPDK.
             - Default value when not specified in API or module is interpreted by Avi Controller as CONTAINER_TYPE_HOST.
         type: str
     controller_created:
@@ -78,7 +78,7 @@ options:
     enable_state:
         description:
             - Inorder to disable se set this field appropriately.
-            - Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED, SE_STATE_DISABLED_FORCE.
+            - Enum options - SE_STATE_ENABLED,  SE_STATE_DISABLED_FOR_PLACEMENT,  SE_STATE_DISABLED...
             - Default value when not specified in API or module is interpreted by Avi Controller as SE_STATE_ENABLED.
         type: str
     flavor:
@@ -91,7 +91,7 @@ options:
         type: str
     hypervisor:
         description:
-            - Enum options - default, vmware_esx, kvm, vmware_vsan, xen.
+            - Enum options - DEFAULT,  VMWARE_ESX,  KVM...
         type: str
     mgmt_vnic:
         description:

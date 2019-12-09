@@ -109,8 +109,7 @@ options:
     type:
         description:
             - Specifies which application layer proxy is enabled for the virtual service.
-            - Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS,
-            - APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP.
+            - Enum options - APPLICATION_PROFILE_TYPE_L4,  APPLICATION_PROFILE_TYPE_HTTP,  APPLICATION_PROFILE_TYPE_SYSLOG...
         required: true
         type: str
     url:
@@ -185,7 +184,7 @@ EXAMPLES = """
         xff_alternate_name: X-Forwarded-For
         xff_enabled: true
       name: System-HTTP
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       type: APPLICATION_PROFILE_TYPE_HTTP
 """
 

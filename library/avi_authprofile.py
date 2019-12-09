@@ -86,7 +86,7 @@ options:
     type:
         description:
             - Type of the auth profile.
-            - Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML, AUTH_PROFILE_PINGACCESS.
+            - Enum options - AUTH_PROFILE_LDAP,  AUTH_PROFILE_TACACS_PLUS,  AUTH_PROFILE_SAML...
         required: true
         type: str
     url:
@@ -132,7 +132,7 @@ EXAMPLES = """
           user_search_dn: dc=avi,dc=local
           user_search_scope: AUTH_LDAP_SCOPE_ONE
       name: ProdAuth
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       type: AUTH_PROFILE_LDAP
 """
 

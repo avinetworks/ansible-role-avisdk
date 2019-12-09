@@ -44,6 +44,17 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    asset_contact:
+        description:
+            - Information about the default contact for this asset.
+            - Field introduced in 20.1.1.
+        type: dict
+    feature_opt_in_status:
+        description:
+            - Information about the portal features opted in for controller.
+            - Field introduced in 20.1.1.
+        required: true
+        type: dict
     polling_interval:
         description:
             - Time interval in minutes.
@@ -57,6 +68,12 @@ options:
             - Field introduced in 18.2.6.
         required: true
         type: str
+    proactive_support_defaults:
+        description:
+            - Default values to be used during proactive case creation and techsupport attachment.
+            - Field introduced in 20.1.1.
+        required: true
+        type: dict
     url:
         description:
             - Avi controller URL of the object.
@@ -105,8 +122,11 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        asset_contact=dict(type='dict',),
+        feature_opt_in_status=dict(type='dict', required=True),
         polling_interval=dict(type='int',),
         portal_url=dict(type='str', required=True),
+        proactive_support_defaults=dict(type='dict', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )

@@ -66,8 +66,7 @@ options:
     frequency_unit:
         description:
             - Unit at which custom scheduler will run.
-            - Enum options - SCHEDULER_FREQUENCY_UNIT_MIN, SCHEDULER_FREQUENCY_UNIT_HOUR, SCHEDULER_FREQUENCY_UNIT_DAY, SCHEDULER_FREQUENCY_UNIT_WEEK,
-            - SCHEDULER_FREQUENCY_UNIT_MONTH.
+            - Enum options - SCHEDULER_FREQUENCY_UNIT_MIN,  SCHEDULER_FREQUENCY_UNIT_HOUR,  SCHEDULER_FREQUENCY_UNIT_DAY...
         type: str
     name:
         description:

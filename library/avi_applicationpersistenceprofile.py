@@ -82,8 +82,7 @@ options:
     persistence_type:
         description:
             - Method used to persist clients to the same server for a duration of time or a session.
-            - Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS, PERSISTENCE_TYPE_CLIENT_IPV6_ADDRESS,
-            - PERSISTENCE_TYPE_CUSTOM_HTTP_HEADER, PERSISTENCE_TYPE_APP_COOKIE, PERSISTENCE_TYPE_GSLB_SITE.
+            - Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS,  PERSISTENCE_TYPE_HTTP_COOKIE,  PERSISTENCE_TYPE_TLS...
             - Default value when not specified in API or module is interpreted by Avi Controller as PERSISTENCE_TYPE_CLIENT_IP_ADDRESS.
         required: true
         type: str
@@ -131,7 +130,7 @@ EXAMPLES = """
       name: My-HTTP-Cookie
       persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
       server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''

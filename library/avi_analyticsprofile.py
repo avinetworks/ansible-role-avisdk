@@ -576,7 +576,7 @@ EXAMPLES = """
       hs_security_tls12_score: 5.0
       hs_security_weak_signature_algo_penalty: 1.0
       name: jason-analytics-profile
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''

@@ -105,7 +105,7 @@ EXAMPLES = """
     username: admin
     password: AviNetworks123!
     name: test-HTTP-Policy-Set
-    tenant_ref: admin
+    tenant_ref: /api/tenant?name=admin
     http_request_policy:
     rules:
       - index: 1

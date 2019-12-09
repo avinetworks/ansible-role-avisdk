@@ -181,7 +181,7 @@ options:
     upgrade_ops:
         description:
             - Upgrade operations requested.
-            - Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME.
+            - Enum options - UPGRADE,  PATCH,  ROLLBACK...
             - Field introduced in 18.2.6.
         type: str
     url:

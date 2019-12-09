@@ -56,12 +56,7 @@ options:
         type: list
     cipher_enums:
         description:
-            - Enum options - tls_ecdhe_ecdsa_with_aes_128_gcm_sha256, tls_ecdhe_ecdsa_with_aes_256_gcm_sha384, tls_ecdhe_rsa_with_aes_128_gcm_sha256,
-            - tls_ecdhe_rsa_with_aes_256_gcm_sha384, tls_ecdhe_ecdsa_with_aes_128_cbc_sha256, tls_ecdhe_ecdsa_with_aes_256_cbc_sha384,
-            - tls_ecdhe_rsa_with_aes_128_cbc_sha256, tls_ecdhe_rsa_with_aes_256_cbc_sha384, tls_rsa_with_aes_128_gcm_sha256, tls_rsa_with_aes_256_gcm_sha384,
-            - tls_rsa_with_aes_128_cbc_sha256, tls_rsa_with_aes_256_cbc_sha256, tls_ecdhe_ecdsa_with_aes_128_cbc_sha, tls_ecdhe_ecdsa_with_aes_256_cbc_sha,
-            - tls_ecdhe_rsa_with_aes_128_cbc_sha, tls_ecdhe_rsa_with_aes_256_cbc_sha, tls_rsa_with_aes_128_cbc_sha, tls_rsa_with_aes_256_cbc_sha,
-            - tls_rsa_with_3des_ede_cbc_sha, tls_rsa_with_rc4_128_sha, tls_aes_256_gcm_sha384, tls_chacha20_poly1305_sha256, tls_aes_128_gcm_sha256.
+            - Enum options - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,  TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256...
         type: list
     ciphersuites:
         description:
@@ -186,7 +181,7 @@ EXAMPLES = """
         compatibility_rating: SSL_SCORE_EXCELLENT
         performance_rating: SSL_SCORE_EXCELLENT
         security_score: '100.0'
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''

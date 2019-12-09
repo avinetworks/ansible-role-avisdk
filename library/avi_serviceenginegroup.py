@@ -141,7 +141,7 @@ options:
     auto_rebalance_criteria:
         description:
             - Set of criteria for se auto rebalance.
-            - Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS.
+            - Enum options - SE_AUTO_REBALANCE_CPU,  SE_AUTO_REBALANCE_PPS,  SE_AUTO_REBALANCE_MBPS...
             - Field introduced in 17.2.3.
         version_added: "2.5"
         type: list
@@ -459,7 +459,7 @@ options:
     hypervisor:
         description:
             - Override default hypervisor.
-            - Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
+            - Enum options - DEFAULT,  VMWARE_ESX,  KVM...
         type: str
     ignore_rtt_threshold:
         description:
@@ -508,7 +508,7 @@ options:
     license_type:
         description:
             - If no license type is specified then default license enforcement for the cloud type is chosen.
-            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH.
+            - Enum options - LIC_BACKEND_SERVERS,  LIC_SOCKETS,  LIC_CORES...
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
@@ -768,7 +768,7 @@ options:
     se_bandwidth_type:
         description:
             - Select the se bandwidth for the bandwidth license.
-            - Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M.
+            - Enum options - SE_BANDWIDTH_UNLIMITED,  SE_BANDWIDTH_25M,  SE_BANDWIDTH_200M...
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
@@ -784,6 +784,14 @@ options:
         description:
             - Dosthresholdprofile settings for serviceenginegroup.
         type: dict
+    se_dp_max_hb_version:
+        description:
+            - The highest supported se-se heartbeat protocol version.
+            - This version is reported by secondary se to primary se in heartbeat response messages.
+            - Allowed values are 1-2.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+        type: int
     se_dp_vnic_queue_stall_event_sleep:
         description:
             - Time (in seconds) service engine waits for after generating a vnic transmit queue stall event before resetting thenic.
@@ -948,6 +956,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 1501.
         version_added: "2.4"
         type: int
+    se_rl_prop:
+        description:
+            - Rate limiter properties.
+            - Field introduced in 20.1.1.
+        type: dict
     se_routing:
         description:
             - Enable routing via service engine datapath.
@@ -1142,7 +1155,7 @@ options:
         type: dict
     vcenter_datastore_mode:
         description:
-            - Enum options - vcenter_datastore_any, vcenter_datastore_local, vcenter_datastore_shared.
+            - Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED.
             - Default value when not specified in API or module is interpreted by Avi Controller as VCENTER_DATASTORE_ANY.
         type: str
     vcenter_datastores:
@@ -1416,6 +1429,7 @@ def main():
         se_bandwidth_type=dict(type='str',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
+        se_dp_max_hb_version=dict(type='int',),
         se_dp_vnic_queue_stall_event_sleep=dict(type='int',),
         se_dp_vnic_queue_stall_threshold=dict(type='int',),
         se_dp_vnic_queue_stall_timeout=dict(type='int',),
@@ -1437,6 +1451,7 @@ def main():
         se_pcap_reinit_threshold=dict(type='int',),
         se_probe_port=dict(type='int',),
         se_remote_punt_udp_port=dict(type='int',),
+        se_rl_prop=dict(type='dict',),
         se_routing=dict(type='bool',),
         se_rum_sampling_nav_interval=dict(type='int',),
         se_rum_sampling_nav_percent=dict(type='int',),

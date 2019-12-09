@@ -45,6 +45,11 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    bfd_profile:
+        description:
+            - Bfd configuration profile.
+            - Field introduced in 20.1.1.
+        type: dict
     bgp_profile:
         description:
             - Bgp local and peer info.
@@ -137,6 +142,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        bfd_profile=dict(type='dict',),
         bgp_profile=dict(type='dict',),
         cloud_ref=dict(type='str',),
         debugvrfcontext=dict(type='dict',),
