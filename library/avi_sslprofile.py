@@ -186,7 +186,7 @@ EXAMPLES = """
         compatibility_rating: SSL_SCORE_EXCELLENT
         performance_rating: SSL_SCORE_EXCELLENT
         security_score: '100.0'
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''

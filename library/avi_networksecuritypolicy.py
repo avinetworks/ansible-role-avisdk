@@ -103,7 +103,7 @@ EXAMPLES = """
             - Demo:known_attackers
             match_criteria: IS_IN
         name: Rule 1
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''

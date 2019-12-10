@@ -85,7 +85,7 @@ EXAMPLES = """
       - syslog_server: 10.10.0.100
         syslog_server_port: 514
         udp: true
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       username: '{{ username }}'
 """
 
