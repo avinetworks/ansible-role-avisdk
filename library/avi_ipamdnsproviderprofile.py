@@ -148,7 +148,7 @@ EXAMPLES = """
           record_ttl: 200
         ttl: 300
       name: Ashish-DNS
-      tenant_ref: Demo
+      tenant_ref: /api/tenant?name=Demo
       type: IPAMDNS_TYPE_INTERNAL
 """
 

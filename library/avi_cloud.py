@@ -263,7 +263,7 @@ EXAMPLES = """
       mtu: 1500
       name: VCenter Cloud
       prefer_static_routes: false
-      tenant_ref: admin
+      tenant_ref: /api/tenant?name=admin
       vcenter_configuration:
         datacenter_ref: /api/vimgrdcruntime/datacenter-2-10.10.20.100
         management_network: /api/vimgrnwruntime/dvportgroup-103-10.10.20.100
