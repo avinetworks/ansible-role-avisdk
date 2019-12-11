@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrclusterruntime
+module: avi_vimgrnwruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VIMgrClusterRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of VIMgrNWRuntime Avi RESTful Object
 description:
-    - This module is used to configure VIMgrClusterRuntime object
+    - This module is used to configure VIMgrNWRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,26 +49,53 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
+    apic_vrf_context:
+        description:
+            - Apic_vrf_context of vimgrnwruntime.
+    auto_expand:
+        description:
+            - Boolean flag to set auto_expand.
+    availability_zone:
+        description:
+            - Availability_zone of vimgrnwruntime.
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
-    datacenter_managed_object_id:
-        description:
-            - Datacenter_managed_object_id of vimgrclusterruntime.
     datacenter_uuid:
         description:
             - Unique object identifier of datacenter.
+    dvs:
+        description:
+            - Boolean flag to set dvs.
     host_refs:
         description:
             - It is a reference to an object of type vimgrhostruntime.
+    interested_nw:
+        description:
+            - Boolean flag to set interested_nw.
+    ip_subnet:
+        description:
+            - List of vimgripsubnetruntime.
     managed_object_id:
         description:
-            - Managed_object_id of vimgrclusterruntime.
+            - Managed_object_id of vimgrnwruntime.
         required: true
+    MgmtNW:
+        description:
+            - Boolean flag to set mgmtnw.
     name:
         description:
             - Name of the object.
         required: true
+    num_ports:
+        description:
+            - Number of num_ports.
+    switch_name:
+        description:
+            - Switch_name of vimgrnwruntime.
+    tenant_name:
+        description:
+            - Tenant_name of vimgrnwruntime.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -78,23 +110,35 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
+    vlan:
+        description:
+            - Number of vlan.
+    vlan_range:
+        description:
+            - List of vlanrange.
+    vm_refs:
+        description:
+            - It is a reference to an object of type vimgrvmruntime.
+    vrf_context_ref:
+        description:
+            - It is a reference to an object of type vrfcontext.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrClusterRuntime object
-  avi_vimgrclusterruntime:
+- name: Example to create VIMgrNWRuntime object
+  avi_vimgrnwruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrclusterruntime
+    name: sample_vimgrnwruntime
 """
 
 RETURN = '''
 obj:
-    description: VIMgrClusterRuntime (api/vimgrclusterruntime) object
+    description: VIMgrNWRuntime (api/vimgrnwruntime) object
     returned: success, changed
     type: dict
 '''
@@ -119,16 +163,29 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        apic_vrf_context=dict(type='str',),
+        auto_expand=dict(type='bool',),
+        availability_zone=dict(type='str',),
         cloud_ref=dict(type='str',),
-        datacenter_managed_object_id=dict(type='str',),
         datacenter_uuid=dict(type='str',),
+        dvs=dict(type='bool',),
         host_refs=dict(type='list',),
+        interested_nw=dict(type='bool',),
+        ip_subnet=dict(type='list',),
         managed_object_id=dict(type='str', required=True),
+        MgmtNW=dict(type='bool',),
         name=dict(type='str', required=True),
+        num_ports=dict(type='int',),
+        switch_name=dict(type='str',),
+        tenant_name=dict(type='str',),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        vlan=dict(type='int',),
+        vlan_range=dict(type='list',),
+        vm_refs=dict(type='list',),
+        vrf_context_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -137,7 +194,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrclusterruntime',
+    return avi_ansible_api(module, 'vimgrnwruntime',
                            set([]))
 
 if __name__ == '__main__':
