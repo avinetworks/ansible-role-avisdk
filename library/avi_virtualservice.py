@@ -56,14 +56,6 @@ options:
             - Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2.
             - Default value when not specified in API or module is interpreted by Avi Controller as ACTIVE_STANDBY_SE_1.
         type: str
-    advertise_down_vs:
-        description:
-            - Keep advertising virtual service via bgp even if it is marked down by health monitor.
-            - This setting takes effect for future virtual service flaps.
-            - To advertise current vses that are down, please disable and re-enable the virtual service.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     allow_invalid_client_cert:
         description:
             - Process request even if invalid client certificate is presented.
@@ -159,7 +151,8 @@ options:
         type: str
     cloud_type:
         description:
-            - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK...
+            - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         type: str
     connections_rate_limit:
@@ -664,7 +657,6 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         active_standby_se_tag=dict(type='str',),
-        advertise_down_vs=dict(type='bool',),
         allow_invalid_client_cert=dict(type='bool',),
         analytics_policy=dict(type='dict',),
         analytics_profile_ref=dict(type='str',),

@@ -151,7 +151,7 @@ options:
         description:
             - If no license type is specified then default license enforcement for the cloud type is chosen.
             - The default mappings are container cloud is max ses, openstack and vmware is cores and linux it is sockets.
-            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES...
+            - Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH.
         type: str
     linuxserver_configuration:
         description:
@@ -239,7 +239,8 @@ options:
     vtype:
         description:
             - Cloud type.
-            - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK...
+            - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         required: true
         type: str

@@ -218,12 +218,6 @@ options:
             - If enabled and no explicit domain name is specified, avi will use the incoming host header to do the match.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    http2:
-        description:
-            - Enable http/2 for traffic from virtualservice to all backend servers in this pool.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     inline_health_monitor:
         description:
             - The passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.
@@ -238,7 +232,9 @@ options:
     lb_algorithm:
         description:
             - The load balancing algorithm will pick a server within the pool's list of available servers.
-            - Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE...
+            - Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH,
+            - LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER,
+            - LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY.
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_LEAST_CONNECTIONS.
         type: str
     lb_algorithm_consistent_hash_hdr:
@@ -257,7 +253,8 @@ options:
         description:
             - Criteria used as a key for determining the hash between the client and  server.
             - Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT,
-            - LB_ALGORITHM_CONSISTENT_HASH_URI...
+            - LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING,
+            - LB_ALGORITHM_CONSISTENT_HASH_CALLID.
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS.
         type: str
     lookup_server_by_name:
@@ -521,7 +518,6 @@ def main():
         gslb_sp_enabled=dict(type='bool',),
         health_monitor_refs=dict(type='list',),
         host_check_enabled=dict(type='bool',),
-        http2=dict(type='bool',),
         inline_health_monitor=dict(type='bool',),
         ipaddrgroup_ref=dict(type='str',),
         lb_algorithm=dict(type='str',),
