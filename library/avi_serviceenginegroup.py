@@ -243,7 +243,7 @@ options:
             - By default, avi creates and manages security groups along with custom sg provided by user.
             - Set this to true to disallow avi to create and manage new security groups.
             - Avi will only make use of custom security groups provided by user.
-            - This option is only supported for aws cloud type.
+            - This option is supported for aws and openstack cloud types.
             - Field introduced in 17.2.13,18.1.4,18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
@@ -539,6 +539,13 @@ options:
             - Field introduced in 17.2.12, 18.1.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         version_added: "2.9"
+        type: int
+    max_queues_per_vnic:
+        description:
+            - Maximum number of queues per vnic setting to '0' utilises all queues that are distributed across dispatcher cores.
+            - Allowed values are 0,1,2,4,8,16.
+            - Field introduced in 18.2.7.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     max_rules_per_lb:
         description:
@@ -1142,7 +1149,7 @@ options:
         type: dict
     vcenter_datastore_mode:
         description:
-            - Enum options - vcenter_datastore_any, vcenter_datastore_local, vcenter_datastore_shared.
+            - Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED.
             - Default value when not specified in API or module is interpreted by Avi Controller as VCENTER_DATASTORE_ANY.
         type: str
     vcenter_datastores:
@@ -1378,6 +1385,7 @@ def main():
         max_cpu_usage=dict(type='int',),
         max_memory_per_mempool=dict(type='int',),
         max_public_ips_per_lb=dict(type='int',),
+        max_queues_per_vnic=dict(type='int',),
         max_rules_per_lb=dict(type='int',),
         max_scaleout_per_vs=dict(type='int',),
         max_se=dict(type='int',),

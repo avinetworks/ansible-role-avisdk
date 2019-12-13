@@ -70,6 +70,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
+    labels:
+        description:
+            - Key/value labels which can be used for object access policy permission scoping.
+            - Field introduced in 18.2.7.
+        type: list
     name:
         description:
             - Name of the object.
@@ -150,6 +155,7 @@ def main():
         dhcp_enabled=dict(type='bool',),
         exclude_discovered_subnets=dict(type='bool',),
         ip6_autocfg_enabled=dict(type='bool',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         synced_from_se=dict(type='bool',),
         tenant_ref=dict(type='str',),

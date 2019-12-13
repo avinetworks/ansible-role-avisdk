@@ -45,6 +45,12 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    allow_admin_network_updates:
+        description:
+            - Allow non-admin tenants to update admin vrfcontext and network objects.
+            - Field introduced in 18.2.7.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     allow_ip_forwarding:
         description:
             - Field introduced in 17.1.1.
@@ -197,6 +203,12 @@ options:
             - Number of max_seq_vnic_failures.
             - Default value when not specified in API or module is interpreted by Avi Controller as 3.
         type: int
+    permission_scoped_shared_admin_networks:
+        description:
+            - Network and vrfcontext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted.
+            - Field introduced in 18.2.7.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     persistence_key_rotate_period:
         description:
             - Period for rotate app persistence keys job.
@@ -444,6 +456,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        allow_admin_network_updates=dict(type='bool',),
         allow_ip_forwarding=dict(type='bool',),
         allow_unauthenticated_apis=dict(type='bool',),
         allow_unauthenticated_nodes=dict(type='bool',),
@@ -470,6 +483,7 @@ def main():
         max_pcap_per_tenant=dict(type='int',),
         max_seq_attach_ip_failures=dict(type='int',),
         max_seq_vnic_failures=dict(type='int',),
+        permission_scoped_shared_admin_networks=dict(type='bool',),
         persistence_key_rotate_period=dict(type='int',),
         portal_token=dict(type='str', no_log=True,),
         process_locked_useraccounts_timeout_period=dict(type='int',),
