@@ -119,7 +119,7 @@ options:
         type: str
     status:
         description:
-            - Enum options - ssl_certificate_finished, ssl_certificate_pending.
+            - Enum options - SSL_CERTIFICATE_FINISHED, SSL_CERTIFICATE_PENDING.
             - Default value when not specified in API or module is interpreted by Avi Controller as SSL_CERTIFICATE_FINISHED.
         type: str
     tenant_ref:
@@ -128,7 +128,7 @@ options:
         type: str
     type:
         description:
-            - Enum options - ssl_certificate_type_virtualservice, ssl_certificate_type_system, ssl_certificate_type_ca.
+            - Enum options - SSL_CERTIFICATE_TYPE_VIRTUALSERVICE, SSL_CERTIFICATE_TYPE_SYSTEM, SSL_CERTIFICATE_TYPE_CA.
         type: str
     url:
         description:

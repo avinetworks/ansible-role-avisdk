@@ -3,7 +3,6 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1.2
 #
 # Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
@@ -15,15 +14,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_vrfcontext
+module: avi_objectaccesspolicy
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of VrfContext Avi RESTful Object
+short_description: Module for setup of ObjectAccessPolicy Avi RESTful Object
 description:
-    - This module is used to configure VrfContext object
+    - This module is used to configure ObjectAccessPolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.7"
 options:
     state:
         description:
@@ -45,54 +44,23 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    bgp_profile:
-        description:
-            - Bgp local and peer info.
-        type: dict
-    cloud_ref:
-        description:
-            - It is a reference to an object of type cloud.
-        type: str
-    debugvrfcontext:
-        description:
-            - Configure debug flags for vrf.
-            - Field introduced in 17.1.1.
-        type: dict
-    description:
-        description:
-            - User defined description for the object.
-        type: str
-    gateway_mon:
-        description:
-            - Configure ping based heartbeat check for gateway in service engines of vrf.
-        type: list
-    internal_gateway_monitor:
-        description:
-            - Configure ping based heartbeat check for all default gateways in service engines of vrf.
-            - Field introduced in 17.1.1.
-        type: dict
-    labels:
-        description:
-            - Key/value labels which can be used for object access policy permission scoping.
-            - Field introduced in 18.2.7.
-        type: list
     name:
         description:
-            - Name of the object.
+            - Name of the object access policy.
+            - Field introduced in 18.2.7.
         required: true
         type: str
-    static_routes:
+    rules:
         description:
-            - List of staticroute.
+            - Rules which grant access to specific objects.
+            - Field introduced in 18.2.7.
+        required: true
         type: list
-    system_default:
-        description:
-            - Boolean flag to set system_default.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     tenant_ref:
         description:
+            - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
+            - Field introduced in 18.2.7.
         type: str
     url:
         description:
@@ -100,7 +68,8 @@ options:
         type: str
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid of the object access policy.
+            - Field introduced in 18.2.7.
         type: str
 
 
@@ -109,18 +78,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create VrfContext object
-  avi_vrfcontext:
+- name: Example to create ObjectAccessPolicy object
+  avi_objectaccesspolicy:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vrfcontext
+    name: sample_objectaccesspolicy
 """
 
 RETURN = '''
 obj:
-    description: VrfContext (api/vrfcontext) object
+    description: ObjectAccessPolicy (api/objectaccesspolicy) object
     returned: success, changed
     type: dict
 '''
@@ -142,16 +111,8 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        bgp_profile=dict(type='dict',),
-        cloud_ref=dict(type='str',),
-        debugvrfcontext=dict(type='dict',),
-        description=dict(type='str',),
-        gateway_mon=dict(type='list',),
-        internal_gateway_monitor=dict(type='dict',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
-        static_routes=dict(type='list',),
-        system_default=dict(type='bool',),
+        rules=dict(type='list', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -163,7 +124,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vrfcontext',
+    return avi_ansible_api(module, 'objectaccesspolicy',
                            set([]))
 
 
