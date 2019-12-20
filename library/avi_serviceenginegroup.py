@@ -518,6 +518,13 @@ options:
             - This is exclusively used for debug and log data.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10000.
         type: int
+    max_concurrent_external_hm:
+        description:
+            - Maximum number of external health monitors that can run concurrently in a service engine.
+            - This helps control the cpu and memory use by external health monitors.
+            - Special values are 0- 'value will be internally calculated based on cpu and memory'.
+            - Field introduced in 18.2.7.
+        type: int
     max_cpu_usage:
         description:
             - When cpu usage on an se exceeds this threshold, virtual services hosted on this se may be rebalanced to other ses to reduce load.
@@ -1382,6 +1389,7 @@ def main():
         license_tier=dict(type='str',),
         license_type=dict(type='str',),
         log_disksz=dict(type='int',),
+        max_concurrent_external_hm=dict(type='int',),
         max_cpu_usage=dict(type='int',),
         max_memory_per_mempool=dict(type='int',),
         max_public_ips_per_lb=dict(type='int',),

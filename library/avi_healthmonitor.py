@@ -49,6 +49,13 @@ options:
         description:
             - User defined description for the object.
         type: str
+    disable_quickstart:
+        description:
+            - During addition of a server or healthmonitors or during bootup, avi performs sequential health checks rather than waiting for send-interval to
+            - kick in, to mark the server up as soon as possible.
+            - This knob may be used to turn this feature off.
+            - Field introduced in 18.2.7.
+        type: bool
     dns_monitor:
         description:
             - Healthmonitordns settings for healthmonitor.
@@ -201,6 +208,7 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
+        disable_quickstart=dict(type='bool',),
         dns_monitor=dict(type='dict',),
         external_monitor=dict(type='dict',),
         failed_checks=dict(type='int',),
