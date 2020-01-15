@@ -46,7 +46,7 @@ options:
         type: str
     duration:
         description:
-            - Duration of upgrade operations in seconds.
+            - Duration of upgrade operation in seconds.
             - Field introduced in 18.2.6.
         type: int
     enable_patch_rollback:
@@ -63,12 +63,12 @@ options:
         type: bool
     end_time:
         description:
-            - End time of upgrade operations.
+            - End time of upgrade operation.
             - Field introduced in 18.2.6.
         type: str
     enqueue_time:
         description:
-            - Enqueue time of upgrade operations.
+            - Enqueue time of upgrade operation.
             - Field introduced in 18.2.6.
         type: str
     image_ref:
@@ -96,45 +96,53 @@ options:
         type: str
     obj_state:
         description:
-            - Current status of the upgrade operations.
+            - Current status of the upgrade operation.
             - Field introduced in 18.2.6.
         type: dict
     params:
         description:
-            - Parameters associated with the current upgrade ops.
+            - Parameters associated with the upgrade operation.
             - Field introduced in 18.2.6.
         type: dict
     patch_image_ref:
         description:
-            - Image uuid for identifying the current patch.
+            - Image uuid for identifying the current patch.example  base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1
+            - value.
             - It is a reference to an object of type image.
             - Field introduced in 18.2.6.
         type: str
     patch_version:
         description:
             - Current patch version applied to this node.
+            - Example  base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value.
             - Field introduced in 18.2.6.
         type: str
     previous_image_ref:
         description:
-            - Image uuid for identifying previous base image.
+            - Image uuid for identifying previous base image.example  base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate
+            - the 18.2.5 value.
             - It is a reference to an object of type image.
             - Field introduced in 18.2.6.
         type: str
     previous_patch_image_ref:
         description:
-            - Image uuid for identifying previous patch.
+            - Image uuid for identifying previous patch.example  base-image was 18.2.6 with a patch 6p1.
+            - Upgrade was initiated to 18.2.8 with patch 8p1.
+            - The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value.
             - It is a reference to an object of type image.
             - Field introduced in 18.2.6.
         type: str
     previous_patch_version:
         description:
-            - Previous patch version applied to this node.
+            - Previous patch version applied to this node.example  base-image was 18.2.6 with a patch 6p1.
+            - Upgrade was initiated to 18.2.8 with patch 8p1.
+            - The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value.
             - Field introduced in 18.2.6.
         type: str
     previous_version:
         description:
-            - Previous version prior to upgrade.
+            - Previous version prior to upgrade.example  base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5
+            - value.
             - Field introduced in 18.2.6.
         type: str
     se_upgrade_events:
@@ -149,17 +157,17 @@ options:
         type: dict
     start_time:
         description:
-            - Start time of upgrade operations.
+            - Start time of upgrade operation.
             - Field introduced in 18.2.6.
         type: str
     system:
         description:
-            - Flag is set only in the cluster node entry if the upgrade is initiated as a system-upgrade.
+            - Flag is set only in the cluster if the upgrade is initiated as a system-upgrade.
             - Field introduced in 18.2.6.
         type: bool
     tasks_completed:
         description:
-            - Upgrade tasks completed.
+            - Completed set of tasks in the upgrade operation.
             - Field introduced in 18.2.6.
         type: int
     tenant_ref:
@@ -170,12 +178,12 @@ options:
         type: str
     total_tasks:
         description:
-            - Total upgrade tasks.
+            - Total number of tasks in the upgrade operation.
             - Field introduced in 18.2.6.
         type: int
     upgrade_events:
         description:
-            - Events performed for upgrade operations.
+            - Events performed for upgrade operation.
             - Field introduced in 18.2.6.
         type: list
     upgrade_ops:
