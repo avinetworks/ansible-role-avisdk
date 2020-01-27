@@ -293,7 +293,9 @@ options:
         type: int
     seupgrade_copy_pool_size:
         description:
-            - Pool of scp connections used in copy task during serviceenginegroup upgrade.
+            - This parameter defines the number of simultaneous se image downloads in a segroup.
+            - It is used to pace the se downloads so that controller network/cpu bandwidth is a bounded operation.
+            - A value of 0 will disable the pacing scheme and all the se(s) in the segroup will attempt to download the image.
             - Field introduced in 18.2.6.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5.
         type: int
