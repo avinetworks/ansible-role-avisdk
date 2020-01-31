@@ -261,7 +261,6 @@ EXAMPLES = """
     avi_api_patch_op: delete
     dns_configs:
     sites:
-      dns_vses: 
       - ip_addresses: "10.10.28.83"
       - ip_addresses: "10.10.28.86"
 
@@ -271,7 +270,7 @@ EXAMPLES = """
     api_version: 18.2.8
     avi_api_update_method: patch
     avi_api_patch_op: delete
-    patch_level: site
+    patch_level: '/site'
     name: gslb.lab2.local
     leader_cluster_uuid: "cluster-84aa795f-8f09-42bb-97a4-5103f4a53da9"
     dns_configs:
@@ -295,7 +294,6 @@ try:
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
-
 
 def patch_add_gslb(module, gslb_obj):
     sites = module.params['sites']
@@ -438,8 +436,10 @@ def main():
                     'state': 'present'
                 }
             )
-    return avi_ansible_api(module, 'gslb', set([]))
+
+    return avi_ansible_api(module, 'gslb',
+                           set([]))
+
 
 if __name__ == '__main__':
     main()
-
