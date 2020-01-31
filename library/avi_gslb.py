@@ -261,6 +261,7 @@ EXAMPLES = """
     avi_api_patch_op: delete
     dns_configs:
     sites:
+      dns_vses: 
       - ip_addresses: "10.10.28.83"
       - ip_addresses: "10.10.28.86"
 
@@ -363,11 +364,12 @@ def patch_delete_gslb(module, gslb_obj):
             current_gslb_sites = gslb_obj.get('sites', [])
             for current_gslb_site in current_gslb_sites:
                 if site_ips == current_gslb_site['ip_addresses'][0]['addr']:
-                    if module.params['patch_level'] == 'site':
+                    if module.params['patch_level'] == '/site':
                         gslb_obj['sites'].remove(current_gslb_site)
-                    else:
+                    elif '/site/dns_vses':
                         current_gslb_site['dns_vses'] = []
         return gslb_obj
+
 
 def main():
     argument_specs = dict(
@@ -376,8 +378,8 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        patch_level=dict(default='dns_vs',
-                         choices=['dns_vs', 'site']),
+        patch_level=dict(type='str', default='/site/dns_vses',
+                         choices=['/site/dns_vses', '/site']),
         async_interval=dict(type='int',),
         clear_on_max_retries=dict(type='int',),
         client_ip_addr_group=dict(type='dict',),
@@ -440,3 +442,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
