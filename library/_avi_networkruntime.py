@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_gslbapplicationpersistenceprofile
+module: avi_networkruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of GslbApplicationPersistenceProfile Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of NetworkRuntime Avi RESTful Object
 description:
-    - This module is used to configure GslbApplicationPersistenceProfile object
+    - This module is used to configure NetworkRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,42 +49,42 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    description:
-        description:
-            - Field introduced in 17.1.1.
     name:
         description:
-            - A user-friendly name for the persistence profile.
-            - Field introduced in 17.1.1.
+            - Name of the object.
         required: true
+    se_uuid:
+        description:
+            - Unique object identifier of se.
+    subnet_runtime:
+        description:
+            - List of subnetruntime.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-            - Field introduced in 17.1.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Uuid of the persistence profile.
-            - Field introduced in 17.1.1.
+            - Unique object identifier of the object.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create GslbApplicationPersistenceProfile object
-  avi_gslbapplicationpersistenceprofile:
+- name: Example to create NetworkRuntime object
+  avi_networkruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_gslbapplicationpersistenceprofile
+    name: sample_networkruntime
 """
 
 RETURN = '''
 obj:
-    description: GslbApplicationPersistenceProfile (api/gslbapplicationpersistenceprofile) object
+    description: NetworkRuntime (api/networkruntime) object
     returned: success, changed
     type: dict
 '''
@@ -104,8 +109,9 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        description=dict(type='str',),
         name=dict(type='str', required=True),
+        se_uuid=dict(type='list',),
+        subnet_runtime=dict(type='list',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -117,7 +123,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'gslbapplicationpersistenceprofile',
+    return avi_ansible_api(module, 'networkruntime',
                            set([]))
 
 if __name__ == '__main__':

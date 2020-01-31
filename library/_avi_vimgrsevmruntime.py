@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrnwruntime
+module: avi_vimgrsevmruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VIMgrNWRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of VIMgrSEVMRuntime Avi RESTful Object
 description:
-    - This module is used to configure VIMgrNWRuntime object
+    - This module is used to configure VIMgrSEVMRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,53 +49,81 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    apic_vrf_context:
-        description:
-            - Apic_vrf_context of vimgrnwruntime.
-    auto_expand:
-        description:
-            - Boolean flag to set auto_expand.
     availability_zone:
         description:
-            - Availability_zone of vimgrnwruntime.
+            - Availability_zone of vimgrsevmruntime.
+    cloud_name:
+        description:
+            - Cloud_name of vimgrsevmruntime.
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
-    datacenter_uuid:
+    connection_state:
         description:
-            - Unique object identifier of datacenter.
-    dvs:
+            - Connection_state of vimgrsevmruntime.
+    controller_cluster_uuid:
         description:
-            - Boolean flag to set dvs.
-    host_refs:
+            - Unique object identifier of controller_cluster.
+    controller_ip_addr:
+        description:
+            - Controller_ip_addr of vimgrsevmruntime.
+    creation_in_progress:
+        description:
+            - Boolean flag to set creation_in_progress.
+    deletion_in_progress:
+        description:
+            - Boolean flag to set deletion_in_progress.
+    discovery_response:
+        description:
+            - Discovery_response of vimgrsevmruntime.
+    discovery_status:
+        description:
+            - Number of discovery_status.
+    flavor:
+        description:
+            - Flavor of vimgrsevmruntime.
+            - Default value when not specified in API or module is interpreted by Avi Controller as .
+    guest_nic:
+        description:
+            - List of vimgrguestnicruntime.
+    host:
+        description:
+            - Host of vimgrsevmruntime.
+    host_ref:
         description:
             - It is a reference to an object of type vimgrhostruntime.
-    interested_nw:
+    hostid:
         description:
-            - Boolean flag to set interested_nw.
-    ip_subnet:
+            - Hostid of vimgrsevmruntime.
+    hypervisor:
         description:
-            - List of vimgripsubnetruntime.
+            - Enum options - default, vmware_esx, kvm, vmware_vsan, xen.
+    init_vnics:
+        description:
+            - Number of init_vnics.
+    last_discovery:
+        description:
+            - Number of last_discovery.
     managed_object_id:
         description:
-            - Managed_object_id of vimgrnwruntime.
+            - Managed_object_id of vimgrsevmruntime.
         required: true
-    MgmtNW:
-        description:
-            - Boolean flag to set mgmtnw.
     name:
         description:
             - Name of the object.
         required: true
-    num_ports:
+    powerstate:
         description:
-            - Number of num_ports.
-    switch_name:
+            - Powerstate of vimgrsevmruntime.
+    security_group_uuid:
         description:
-            - Switch_name of vimgrnwruntime.
-    tenant_name:
+            - Unique object identifier of security_group.
+    segroup_ref:
         description:
-            - Tenant_name of vimgrnwruntime.
+            - It is a reference to an object of type serviceenginegroup.
+    server_group_uuid:
+        description:
+            - Unique object identifier of server_group.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -105,35 +138,44 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
-    vlan:
+    vcenter_datacenter_uuid:
         description:
-            - Number of vlan.
-    vlan_range:
+            - Unique object identifier of vcenter_datacenter.
+    vcenter_rm_cookie:
         description:
-            - List of vlanrange.
-    vm_refs:
+            - Vcenter_rm_cookie of vimgrsevmruntime.
+    vcenter_se_type:
         description:
-            - It is a reference to an object of type vimgrvmruntime.
-    vrf_context_ref:
+            - Enum options - vimgr_se_network_admin, vimgr_se_unified_admin.
+    vcenter_template_vm:
         description:
-            - It is a reference to an object of type vrfcontext.
+            - Boolean flag to set vcenter_template_vm.
+    vcenter_vAppName:
+        description:
+            - Vcenter_vappname of vimgrsevmruntime.
+    vcenter_vAppVendor:
+        description:
+            - Vcenter_vappvendor of vimgrsevmruntime.
+    vcenter_vm_type:
+        description:
+            - Enum options - vmtype_se_vm, vmtype_pool_srvr.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrNWRuntime object
-  avi_vimgrnwruntime:
+- name: Example to create VIMgrSEVMRuntime object
+  avi_vimgrsevmruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrnwruntime
+    name: sample_vimgrsevmruntime
 """
 
 RETURN = '''
 obj:
-    description: VIMgrNWRuntime (api/vimgrnwruntime) object
+    description: VIMgrSEVMRuntime (api/vimgrsevmruntime) object
     returned: success, changed
     type: dict
 '''
@@ -158,29 +200,41 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        apic_vrf_context=dict(type='str',),
-        auto_expand=dict(type='bool',),
         availability_zone=dict(type='str',),
+        cloud_name=dict(type='str',),
         cloud_ref=dict(type='str',),
-        datacenter_uuid=dict(type='str',),
-        dvs=dict(type='bool',),
-        host_refs=dict(type='list',),
-        interested_nw=dict(type='bool',),
-        ip_subnet=dict(type='list',),
+        connection_state=dict(type='str',),
+        controller_cluster_uuid=dict(type='str',),
+        controller_ip_addr=dict(type='str',),
+        creation_in_progress=dict(type='bool',),
+        deletion_in_progress=dict(type='bool',),
+        discovery_response=dict(type='str',),
+        discovery_status=dict(type='int',),
+        flavor=dict(type='str',),
+        guest_nic=dict(type='list',),
+        host=dict(type='str',),
+        host_ref=dict(type='str',),
+        hostid=dict(type='str',),
+        hypervisor=dict(type='str',),
+        init_vnics=dict(type='int',),
+        last_discovery=dict(type='int',),
         managed_object_id=dict(type='str', required=True),
-        MgmtNW=dict(type='bool',),
         name=dict(type='str', required=True),
-        num_ports=dict(type='int',),
-        switch_name=dict(type='str',),
-        tenant_name=dict(type='str',),
+        powerstate=dict(type='str',),
+        security_group_uuid=dict(type='str',),
+        segroup_ref=dict(type='str',),
+        server_group_uuid=dict(type='str',),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vlan=dict(type='int',),
-        vlan_range=dict(type='list',),
-        vm_refs=dict(type='list',),
-        vrf_context_ref=dict(type='str',),
+        vcenter_datacenter_uuid=dict(type='str',),
+        vcenter_rm_cookie=dict(type='str',),
+        vcenter_se_type=dict(type='str',),
+        vcenter_template_vm=dict(type='bool',),
+        vcenter_vAppName=dict(type='str',),
+        vcenter_vAppVendor=dict(type='str',),
+        vcenter_vm_type=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -189,7 +243,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrnwruntime',
+    return avi_ansible_api(module, 'vimgrsevmruntime',
                            set([]))
 
 if __name__ == '__main__':

@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrhostruntime
+module: avi_vimgrvmruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VIMgrHostRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of VIMgrVMRuntime Avi RESTful Object
 description:
-    - This module is used to configure VIMgrHostRuntime object
+    - This module is used to configure VIMgrVMRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,78 +49,69 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
+    availability_zone:
+        description:
+            - Availability_zone of vimgrvmruntime.
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
-    cluster_name:
-        description:
-            - Cluster_name of vimgrhostruntime.
-    cluster_uuid:
-        description:
-            - Unique object identifier of cluster.
-    cntlr_accessible:
-        description:
-            - Boolean flag to set cntlr_accessible.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
     connection_state:
         description:
-            - Connection_state of vimgrhostruntime.
-            - Default value when not specified in API or module is interpreted by Avi Controller as connected.
-    cpu_hz:
+            - Connection_state of vimgrvmruntime.
+    controller_cluster_uuid:
         description:
-            - Number of cpu_hz.
-    maintenance_mode:
+            - Unique object identifier of controller_cluster.
+    controller_ip_addr:
         description:
-            - Boolean flag to set maintenance_mode.
+            - Controller_ip_addr of vimgrvmruntime.
+    controller_vm:
+        description:
+            - Boolean flag to set controller_vm.
+    cpu_reservation:
+        description:
+            - Number of cpu_reservation.
+    cpu_shares:
+        description:
+            - Number of cpu_shares.
+    creation_in_progress:
+        description:
+            - Boolean flag to set creation_in_progress.
+    guest_nic:
+        description:
+            - List of vimgrguestnicruntime.
+    host:
+        description:
+            - Host of vimgrvmruntime.
+    init_vnics:
+        description:
+            - Number of init_vnics.
     managed_object_id:
         description:
-            - Managed_object_id of vimgrhostruntime.
+            - Managed_object_id of vimgrvmruntime.
         required: true
-    mem:
+    mem_shares:
         description:
-            - Number of mem.
-    mgmt_portgroup:
+            - Number of mem_shares.
+    memory:
         description:
-            - Mgmt_portgroup of vimgrhostruntime.
-            - Default value when not specified in API or module is interpreted by Avi Controller as .
+            - Number of memory.
+    memory_reservation:
+        description:
+            - Number of memory_reservation.
     name:
         description:
             - Name of the object.
         required: true
-    network_uuids:
+    num_cpu:
         description:
-            - Unique object identifiers of networks.
-    num_cpu_cores:
-        description:
-            - Number of num_cpu_cores.
-    num_cpu_packages:
-        description:
-            - Number of num_cpu_packages.
-    num_cpu_threads:
-        description:
-            - Number of num_cpu_threads.
-    pnics:
-        description:
-            - List of cdplldpinfo.
+            - Number of num_cpu.
     powerstate:
         description:
-            - Powerstate of vimgrhostruntime.
-    quarantine_start_ts:
+            - Powerstate of vimgrvmruntime.
+    se_ver:
         description:
-            - Quarantine_start_ts of vimgrhostruntime.
-    quarantined:
-        description:
-            - Boolean flag to set quarantined.
-    quarantined_periods:
-        description:
-            - Number of quarantined_periods.
+            - Number of se_ver.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
-    se_fail_cnt:
-        description:
-            - Number of se_fail_cnt.
-    se_success_cnt:
-        description:
-            - Number of se_success_cnt.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -130,26 +126,50 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
-    vm_refs:
+    vcenter_datacenter_uuid:
         description:
-            - It is a reference to an object of type vimgrvmruntime.
+            - Unique object identifier of vcenter_datacenter.
+    vcenter_rm_cookie:
+        description:
+            - Vcenter_rm_cookie of vimgrvmruntime.
+    vcenter_se_type:
+        description:
+            - Enum options - vimgr_se_network_admin, vimgr_se_unified_admin.
+    vcenter_template_vm:
+        description:
+            - Boolean flag to set vcenter_template_vm.
+    vcenter_vAppName:
+        description:
+            - Vcenter_vappname of vimgrvmruntime.
+    vcenter_vAppVendor:
+        description:
+            - Vcenter_vappvendor of vimgrvmruntime.
+    vcenter_vm_type:
+        description:
+            - Enum options - vmtype_se_vm, vmtype_pool_srvr.
+    vcenter_vnic_discovered:
+        description:
+            - Boolean flag to set vcenter_vnic_discovered.
+    vm_lb_weight:
+        description:
+            - Number of vm_lb_weight.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrHostRuntime object
-  avi_vimgrhostruntime:
+- name: Example to create VIMgrVMRuntime object
+  avi_vimgrvmruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrhostruntime
+    name: sample_vimgrvmruntime
 """
 
 RETURN = '''
 obj:
-    description: VIMgrHostRuntime (api/vimgrhostruntime) object
+    description: VIMgrVMRuntime (api/vimgrvmruntime) object
     returned: success, changed
     type: dict
 '''
@@ -174,33 +194,39 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        availability_zone=dict(type='str',),
         cloud_ref=dict(type='str',),
-        cluster_name=dict(type='str',),
-        cluster_uuid=dict(type='str',),
-        cntlr_accessible=dict(type='bool',),
         connection_state=dict(type='str',),
-        cpu_hz=dict(type='int',),
-        maintenance_mode=dict(type='bool',),
+        controller_cluster_uuid=dict(type='str',),
+        controller_ip_addr=dict(type='str',),
+        controller_vm=dict(type='bool',),
+        cpu_reservation=dict(type='int',),
+        cpu_shares=dict(type='int',),
+        creation_in_progress=dict(type='bool',),
+        guest_nic=dict(type='list',),
+        host=dict(type='str',),
+        init_vnics=dict(type='int',),
         managed_object_id=dict(type='str', required=True),
-        mem=dict(type='int',),
-        mgmt_portgroup=dict(type='str',),
+        mem_shares=dict(type='int',),
+        memory=dict(type='int',),
+        memory_reservation=dict(type='int',),
         name=dict(type='str', required=True),
-        network_uuids=dict(type='list',),
-        num_cpu_cores=dict(type='int',),
-        num_cpu_packages=dict(type='int',),
-        num_cpu_threads=dict(type='int',),
-        pnics=dict(type='list',),
+        num_cpu=dict(type='int',),
         powerstate=dict(type='str',),
-        quarantine_start_ts=dict(type='str',),
-        quarantined=dict(type='bool',),
-        quarantined_periods=dict(type='int',),
-        se_fail_cnt=dict(type='int',),
-        se_success_cnt=dict(type='int',),
+        se_ver=dict(type='int',),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vm_refs=dict(type='list',),
+        vcenter_datacenter_uuid=dict(type='str',),
+        vcenter_rm_cookie=dict(type='str',),
+        vcenter_se_type=dict(type='str',),
+        vcenter_template_vm=dict(type='bool',),
+        vcenter_vAppName=dict(type='str',),
+        vcenter_vAppVendor=dict(type='str',),
+        vcenter_vm_type=dict(type='str',),
+        vcenter_vnic_discovered=dict(type='bool',),
+        vm_lb_weight=dict(type='int',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -209,7 +235,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrhostruntime',
+    return avi_ansible_api(module, 'vimgrvmruntime',
                            set([]))
 
 if __name__ == '__main__':

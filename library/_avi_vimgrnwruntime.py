@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrvcenterruntime
+module: avi_vimgrnwruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VIMgrVcenterRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of VIMgrNWRuntime Avi RESTful Object
 description:
-    - This module is used to configure VIMgrVcenterRuntime object
+    - This module is used to configure VIMgrNWRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,67 +49,53 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    api_version:
+    apic_vrf_context:
         description:
-            - Api_version of vimgrvcenterruntime.
-    apic_mode:
+            - Apic_vrf_context of vimgrnwruntime.
+    auto_expand:
         description:
-            - Boolean flag to set apic_mode.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - Boolean flag to set auto_expand.
+    availability_zone:
+        description:
+            - Availability_zone of vimgrnwruntime.
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
-    datacenter_refs:
+    datacenter_uuid:
         description:
-            - It is a reference to an object of type vimgrdcruntime.
-    disc_end_time:
+            - Unique object identifier of datacenter.
+    dvs:
         description:
-            - Disc_end_time of vimgrvcenterruntime.
-    disc_start_time:
+            - Boolean flag to set dvs.
+    host_refs:
         description:
-            - Disc_start_time of vimgrvcenterruntime.
-    discovered_datacenter:
+            - It is a reference to an object of type vimgrhostruntime.
+    interested_nw:
         description:
-            - Discovered_datacenter of vimgrvcenterruntime.
-    inventory_progress:
+            - Boolean flag to set interested_nw.
+    ip_subnet:
         description:
-            - Inventory_progress of vimgrvcenterruntime.
-    inventory_state:
+            - List of vimgripsubnetruntime.
+    managed_object_id:
         description:
-            - Enum options - vcenter_discovery_bad_credentials, vcenter_discovery_retrieving_dc, vcenter_discovery_waiting_dc, vcenter_discovery_retrieving_nw,
-            - vcenter_discovery_ongoing, vcenter_discovery_resyncing, vcenter_discovery_complete, vcenter_discovery_deleting_vcenter, vcenter_discovery_failure,
-            - vcenter_discovery_complete_no_mgmt_nw, vcenter_discovery_complete_per_tenant_ip_route, vcenter_discovery_making_se_ova.
-    management_network:
+            - Managed_object_id of vimgrnwruntime.
+        required: true
+    MgmtNW:
         description:
-            - Management_network of vimgrvcenterruntime.
+            - Boolean flag to set mgmtnw.
     name:
         description:
             - Name of the object.
         required: true
-    num_clusters:
+    num_ports:
         description:
-            - Number of num_clusters.
-    num_dcs:
+            - Number of num_ports.
+    switch_name:
         description:
-            - Number of num_dcs.
-    num_hosts:
+            - Switch_name of vimgrnwruntime.
+    tenant_name:
         description:
-            - Number of num_hosts.
-    num_nws:
-        description:
-            - Number of num_nws.
-    num_vcenter_req_pending:
-        description:
-            - Number of num_vcenter_req_pending.
-    num_vms:
-        description:
-            - Number of num_vms.
-    privilege:
-        description:
-            - Enum options - no_access, read_access, write_access.
-    progress:
-        description:
-            - Number of progress.
+            - Tenant_name of vimgrnwruntime.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -119,37 +110,35 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
-    vcenter_connected:
+    vlan:
         description:
-            - Boolean flag to set vcenter_connected.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-    vcenter_fullname:
+            - Number of vlan.
+    vlan_range:
         description:
-            - Vcenter_fullname of vimgrvcenterruntime.
-    vcenter_template_se_location:
+            - List of vlanrange.
+    vm_refs:
         description:
-            - Vcenter_template_se_location of vimgrvcenterruntime.
-    vcenter_url:
+            - It is a reference to an object of type vimgrvmruntime.
+    vrf_context_ref:
         description:
-            - Vcenter_url of vimgrvcenterruntime.
-        required: true
+            - It is a reference to an object of type vrfcontext.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrVcenterRuntime object
-  avi_vimgrvcenterruntime:
+- name: Example to create VIMgrNWRuntime object
+  avi_vimgrnwruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrvcenterruntime
+    name: sample_vimgrnwruntime
 """
 
 RETURN = '''
 obj:
-    description: VIMgrVcenterRuntime (api/vimgrvcenterruntime) object
+    description: VIMgrNWRuntime (api/vimgrnwruntime) object
     returned: success, changed
     type: dict
 '''
@@ -174,33 +163,29 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        api_version=dict(type='str',),
-        apic_mode=dict(type='bool',),
+        apic_vrf_context=dict(type='str',),
+        auto_expand=dict(type='bool',),
+        availability_zone=dict(type='str',),
         cloud_ref=dict(type='str',),
-        datacenter_refs=dict(type='list',),
-        disc_end_time=dict(type='str',),
-        disc_start_time=dict(type='str',),
-        discovered_datacenter=dict(type='str',),
-        inventory_progress=dict(type='str',),
-        inventory_state=dict(type='str',),
-        management_network=dict(type='str',),
+        datacenter_uuid=dict(type='str',),
+        dvs=dict(type='bool',),
+        host_refs=dict(type='list',),
+        interested_nw=dict(type='bool',),
+        ip_subnet=dict(type='list',),
+        managed_object_id=dict(type='str', required=True),
+        MgmtNW=dict(type='bool',),
         name=dict(type='str', required=True),
-        num_clusters=dict(type='int',),
-        num_dcs=dict(type='int',),
-        num_hosts=dict(type='int',),
-        num_nws=dict(type='int',),
-        num_vcenter_req_pending=dict(type='int',),
-        num_vms=dict(type='int',),
-        privilege=dict(type='str',),
-        progress=dict(type='int',),
+        num_ports=dict(type='int',),
+        switch_name=dict(type='str',),
+        tenant_name=dict(type='str',),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_connected=dict(type='bool',),
-        vcenter_fullname=dict(type='str',),
-        vcenter_template_se_location=dict(type='str',),
-        vcenter_url=dict(type='str', required=True),
+        vlan=dict(type='int',),
+        vlan_range=dict(type='list',),
+        vm_refs=dict(type='list',),
+        vrf_context_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -209,7 +194,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrvcenterruntime',
+    return avi_ansible_api(module, 'vimgrnwruntime',
                            set([]))
 
 if __name__ == '__main__':

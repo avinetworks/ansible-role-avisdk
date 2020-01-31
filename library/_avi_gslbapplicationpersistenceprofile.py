@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_cloudruntime
+module: avi_gslbapplicationpersistenceprofile
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of CloudRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: No alternative for this module.
+
+short_description: Module for setup of GslbApplicationPersistenceProfile Avi RESTful Object
 description:
-    - This module is used to configure CloudRuntime object
+    - This module is used to configure GslbApplicationPersistenceProfile object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,40 +49,42 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
+    description:
+        description:
+            - Field introduced in 17.1.1.
     name:
         description:
-            - Name of the object.
+            - A user-friendly name for the persistence profile.
+            - Field introduced in 17.1.1.
         required: true
-    network_sync_complete:
-        description:
-            - Boolean flag to set network_sync_complete.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+            - Field introduced in 17.1.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid of the persistence profile.
+            - Field introduced in 17.1.1.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create CloudRuntime object
-  avi_cloudruntime:
+- name: Example to create GslbApplicationPersistenceProfile object
+  avi_gslbapplicationpersistenceprofile:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_cloudruntime
+    name: sample_gslbapplicationpersistenceprofile
 """
 
 RETURN = '''
 obj:
-    description: CloudRuntime (api/cloudruntime) object
+    description: GslbApplicationPersistenceProfile (api/gslbapplicationpersistenceprofile) object
     returned: success, changed
     type: dict
 '''
@@ -102,8 +109,8 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        description=dict(type='str',),
         name=dict(type='str', required=True),
-        network_sync_complete=dict(type='bool',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -115,7 +122,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'cloudruntime',
+    return avi_ansible_api(module, 'gslbapplicationpersistenceprofile',
                            set([]))
 
 if __name__ == '__main__':

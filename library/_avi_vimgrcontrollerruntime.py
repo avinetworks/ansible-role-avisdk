@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_networkruntime
+module: avi_vimgrcontrollerruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of NetworkRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of VIMgrControllerRuntime Avi RESTful Object
 description:
-    - This module is used to configure NetworkRuntime object
+    - This module is used to configure VIMgrControllerRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -48,38 +53,40 @@ options:
         description:
             - Name of the object.
         required: true
-    se_uuid:
-        description:
-            - Unique object identifier of se.
-    subnet_runtime:
-        description:
-            - List of subnetruntime.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+    type:
+        description:
+            - Enum options - cloud_none, cloud_vcenter, cloud_openstack, cloud_aws, cloud_vca, cloud_apic, cloud_mesos, cloud_linuxserver, cloud_docker_ucp,
+            - cloud_rancher, cloud_oshift_k8s.
+        required: true
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
             - Unique object identifier of the object.
+    vnics:
+        description:
+            - List of vicontrollervnicinfo.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create NetworkRuntime object
-  avi_networkruntime:
+- name: Example to create VIMgrControllerRuntime object
+  avi_vimgrcontrollerruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_networkruntime
+    name: sample_vimgrcontrollerruntime
 """
 
 RETURN = '''
 obj:
-    description: NetworkRuntime (api/networkruntime) object
+    description: VIMgrControllerRuntime (api/vimgrcontrollerruntime) object
     returned: success, changed
     type: dict
 '''
@@ -105,11 +112,11 @@ def main():
         state=dict(default='present',
                    choices=['absent', 'present']),
         name=dict(type='str', required=True),
-        se_uuid=dict(type='list',),
-        subnet_runtime=dict(type='list',),
         tenant_ref=dict(type='str',),
+        type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        vnics=dict(type='list',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -118,7 +125,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'networkruntime',
+    return avi_ansible_api(module, 'vimgrcontrollerruntime',
                            set([]))
 
 if __name__ == '__main__':

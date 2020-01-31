@@ -23,16 +23,21 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['preview'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'status': ['deprecated'], 'supported_by': 'community', 'version': '1.0'}
 
 DOCUMENTATION = '''
 ---
-module: avi_nsxapplicationinfo
+module: avi_nsxipsetinfo
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of NsxApplicationInfo Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: No alternative for this module.
+
+short_description: Module for setup of NsxIpsetInfo Avi RESTful Object
 description:
-    - This module is used to configure NsxApplicationInfo object
+    - This module is used to configure NsxIpsetInfo object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -42,47 +47,48 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    applicationProtocol:
+    cloud_ref:
         description:
-            - Applicationprotocol of nsxapplicationinfo.
+            - It is a reference to an object of type cloud.
+    ip_addresses:
+        description:
+            - Ip_addresses of nsxipsetinfo.
     name:
         description:
             - Name of the object.
         required: true
     nsx_object_id:
         description:
-            - Nsx_object_id of nsxapplicationinfo.
+            - Nsx_object_id of nsxipsetinfo.
+        required: true
     obj_uuid:
         description:
-    typeName:
+    tenant_ref:
         description:
-            - Typename of nsxapplicationinfo.
+            - It is a reference to an object of type tenant.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
             - Unique object identifier of the object.
-    value:
-        description:
-            - Value of nsxapplicationinfo.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create NsxApplicationInfo object
-  avi_nsxapplicationinfo:
+- name: Example to create NsxIpsetInfo object
+  avi_nsxipsetinfo:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_nsxapplicationinfo
+    name: sample_nsxipsetinfo
 """
 
 RETURN = '''
 obj:
-    description: NsxApplicationInfo (api/nsxapplicationinfo) object
+    description: NsxIpsetInfo (api/nsxipsetinfo) object
     returned: success, changed
     type: dict
 '''
@@ -108,14 +114,14 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        applicationProtocol=dict(type='str',),
+        cloud_ref=dict(type='str',),
+        ip_addresses=dict(type='list',),
         name=dict(type='str', required=True),
-        nsx_object_id=dict(type='str',),
+        nsx_object_id=dict(type='str', required=True),
         obj_uuid=dict(type='str',),
-        typeName=dict(type='str',),
+        tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        value=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -124,7 +130,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=16.3.5.post1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'nsxapplicationinfo',
+    return avi_ansible_api(module, 'nsxipsetinfo',
                            set([]))
 
 

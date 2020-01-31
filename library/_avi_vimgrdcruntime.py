@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrcontrollerruntime
+module: avi_vimgrdcruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VIMgrControllerRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of VIMgrDCRuntime Avi RESTful Object
 description:
-    - This module is used to configure VIMgrControllerRuntime object
+    - This module is used to configure VIMgrDCRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,10 +49,44 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
+    cloud_ref:
+        description:
+            - It is a reference to an object of type cloud.
+    cluster_refs:
+        description:
+            - It is a reference to an object of type vimgrclusterruntime.
+    host_refs:
+        description:
+            - It is a reference to an object of type vimgrhostruntime.
+    interested_hosts:
+        description:
+            - List of vimgrinterestedentity.
+    interested_nws:
+        description:
+            - List of vimgrinterestedentity.
+    interested_vms:
+        description:
+            - List of vimgrinterestedentity.
+    inventory_state:
+        description:
+            - Number of inventory_state.
+    managed_object_id:
+        description:
+            - Managed_object_id of vimgrdcruntime.
+        required: true
     name:
         description:
             - Name of the object.
         required: true
+    nw_refs:
+        description:
+            - It is a reference to an object of type vimgrnwruntime.
+    pending_vcenter_reqs:
+        description:
+            - Number of pending_vcenter_reqs.
+    sevm_refs:
+        description:
+            - It is a reference to an object of type vimgrsevmruntime.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -62,26 +101,29 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
-    vnics:
+    vcenter_uuid:
         description:
-            - List of vicontrollervnicinfo.
+            - Unique object identifier of vcenter.
+    vm_refs:
+        description:
+            - It is a reference to an object of type vimgrvmruntime.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrControllerRuntime object
-  avi_vimgrcontrollerruntime:
+- name: Example to create VIMgrDCRuntime object
+  avi_vimgrdcruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrcontrollerruntime
+    name: sample_vimgrdcruntime
 """
 
 RETURN = '''
 obj:
-    description: VIMgrControllerRuntime (api/vimgrcontrollerruntime) object
+    description: VIMgrDCRuntime (api/vimgrdcruntime) object
     returned: success, changed
     type: dict
 '''
@@ -106,12 +148,24 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
+        cloud_ref=dict(type='str',),
+        cluster_refs=dict(type='list',),
+        host_refs=dict(type='list',),
+        interested_hosts=dict(type='list',),
+        interested_nws=dict(type='list',),
+        interested_vms=dict(type='list',),
+        inventory_state=dict(type='int',),
+        managed_object_id=dict(type='str', required=True),
         name=dict(type='str', required=True),
+        nw_refs=dict(type='list',),
+        pending_vcenter_reqs=dict(type='int',),
+        sevm_refs=dict(type='list',),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vnics=dict(type='list',),
+        vcenter_uuid=dict(type='str',),
+        vm_refs=dict(type='list',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -120,7 +174,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrcontrollerruntime',
+    return avi_ansible_api(module, 'vimgrdcruntime',
                            set([]))
 
 if __name__ == '__main__':

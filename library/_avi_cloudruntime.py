@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_apiclifsruntime
+module: avi_cloudruntime
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of APICLifsRuntime Avi RESTful Object
+deprecated:
+  removed_in: '2.13'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of CloudRuntime Avi RESTful Object
 description:
-    - This module is used to configure APICLifsRuntime object
+    - This module is used to configure CloudRuntime object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,68 +49,40 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    auto_allocated:
-        description:
-            - Boolean flag to set auto_allocated.
-    cifs:
-        description:
-            - List of cif.
-    lif_label:
-        description:
-            - Lif_label of apiclifsruntime.
-        required: true
-    multi_vrf:
-        description:
-            - Boolean flag to set multi_vrf.
     name:
         description:
             - Name of the object.
         required: true
-    network:
+    network_sync_complete:
         description:
-            - Network of apiclifsruntime.
-    se_uuid:
-        description:
-            - Unique object identifier of se.
-    subnet:
-        description:
-            - Subnet of apiclifsruntime.
-    tenant_name:
-        description:
-            - Tenant_name of apiclifsruntime.
-        required: true
+            - Boolean flag to set network_sync_complete.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-    transaction_uuid:
-        description:
-            - Unique object identifier of transaction.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
             - Unique object identifier of the object.
-    vs_uuid:
-        description:
-            - Unique object identifier of vs.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create APICLifsRuntime object
-  avi_apiclifsruntime:
+- name: Example to create CloudRuntime object
+  avi_cloudruntime:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_apiclifsruntime
+    name: sample_cloudruntime
 """
 
 RETURN = '''
 obj:
-    description: APICLifsRuntime (api/apiclifsruntime) object
+    description: CloudRuntime (api/cloudruntime) object
     returned: success, changed
     type: dict
 '''
@@ -130,20 +107,11 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        auto_allocated=dict(type='bool',),
-        cifs=dict(type='list',),
-        lif_label=dict(type='str', required=True),
-        multi_vrf=dict(type='bool',),
         name=dict(type='str', required=True),
-        network=dict(type='str',),
-        se_uuid=dict(type='list',),
-        subnet=dict(type='str',),
-        tenant_name=dict(type='str', required=True),
+        network_sync_complete=dict(type='bool',),
         tenant_ref=dict(type='str',),
-        transaction_uuid=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vs_uuid=dict(type='list',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -152,7 +120,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'apiclifsruntime',
+    return avi_ansible_api(module, 'cloudruntime',
                            set([]))
 
 if __name__ == '__main__':
