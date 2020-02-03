@@ -45,6 +45,14 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    allow_duplicate_monitors:
+        description:
+            - By default, multiple instances of the same healthmonitor to the same server are suppressed intelligently.
+            - In rare cases, the monitor may have specific constructs that go beyond the server keys (ip, port, etc.) during which such suppression is not
+            - desired.
+            - Use this knob to allow duplicates.
+            - Field introduced in 18.2.8.
+        type: bool
     description:
         description:
             - User defined description for the object.
@@ -207,6 +215,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        allow_duplicate_monitors=dict(type='bool',),
         description=dict(type='str',),
         disable_quickstart=dict(type='bool',),
         dns_monitor=dict(type='dict',),
