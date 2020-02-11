@@ -890,6 +890,12 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
+    se_mtu:
+        description:
+            - Mtu for the vnics of ses in the se group.
+            - Allowed values are 512-9000.
+            - Field introduced in 18.2.8.
+        type: int
     se_name_prefix:
         description:
             - Prefix to use for virtual machine name of service engines.
@@ -1444,6 +1450,7 @@ def main():
         se_ipc_udp_port=dict(type='int',),
         se_kni_burst_factor=dict(type='int',),
         se_lro=dict(type='bool',),
+        se_mtu=dict(type='int',),
         se_name_prefix=dict(type='str',),
         se_pcap_lookahead=dict(type='bool',),
         se_pcap_pkt_count=dict(type='int',),
