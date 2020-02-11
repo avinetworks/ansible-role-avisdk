@@ -191,7 +191,7 @@ def main():
 
     # API methods not allowed
     api_get_not_allowed = ["cluster", "gslbsiteops", "server"]
-    sub_api_get_not_allowed = ["scaleout"]
+    sub_api_get_not_allowed = ["scaleout", "scalein"]
     api_post_not_allowed = ["alert", "fileservice"]
     api_put_not_allowed = ["backup"]
 
