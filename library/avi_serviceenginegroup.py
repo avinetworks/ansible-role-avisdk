@@ -187,6 +187,18 @@ options:
             - Allowed values are 10-90.
             - Default value when not specified in API or module is interpreted by Avi Controller as 50.
         type: int
+    core_shm_app_cache:
+        description:
+            - Include shared memory for app cache in core file.requires se reboot.
+            - Field introduced in 18.2.8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    core_shm_app_learning:
+        description:
+            - Include shared memory for app learning in core file.requires se reboot.
+            - Field introduced in 18.2.8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     cpu_reserve:
         description:
             - Boolean flag to set cpu_reserve.
@@ -290,7 +302,9 @@ options:
         type: bool
     distribute_queues:
         description:
-            - Distributes queue ownership among cores so multiple cores handle dispatcher duties.requires se reboot.
+            - Distributes queue ownership among cores so multiple cores handle dispatcher duties.
+            - Requires se reboot.
+            - Deprecated from 18.2.8, instead use max_queues_per_vnic.
             - Field introduced in 17.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
@@ -1344,6 +1358,8 @@ def main():
         cloud_ref=dict(type='str',),
         config_debugs_on_all_cores=dict(type='bool',),
         connection_memory_percentage=dict(type='int',),
+        core_shm_app_cache=dict(type='bool',),
+        core_shm_app_learning=dict(type='bool',),
         cpu_reserve=dict(type='bool',),
         cpu_socket_affinity=dict(type='bool',),
         custom_securitygroups_data=dict(type='list',),
