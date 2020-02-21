@@ -145,6 +145,13 @@ options:
             - value.
             - Field introduced in 18.2.6.
         type: str
+    progress:
+        description:
+            - Upgrade operations progress which holds value between 0-100.
+            - Allowed values are 0-100.
+            - Field introduced in 18.2.8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
     se_upgrade_events:
         description:
             - Serviceenginegroup upgrade errors.
@@ -263,6 +270,7 @@ def main():
         previous_patch_image_ref=dict(type='str',),
         previous_patch_version=dict(type='str',),
         previous_version=dict(type='str',),
+        progress=dict(type='int',),
         se_upgrade_events=dict(type='list',),
         seg_status=dict(type='dict',),
         start_time=dict(type='str',),
