@@ -343,9 +343,10 @@ options:
     enable_pcap_tx_ring:
         description:
             - Enable tx ring support in pcap mode of operation.
-            - Tso feature is not supported with tx ring enabled.requires se reboot.
+            - Tso feature is not supported with tx ring enabled.
+            - Deprecated from 18.2.8, instead use pcap_tx_mode.
+            - Requires se reboot.
             - Field introduced in 18.2.5.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
     enable_routing:
@@ -763,6 +764,14 @@ options:
             - Amount of extra memory to be reserved for use by the operating system on a service engine.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
+    pcap_tx_mode:
+        description:
+            - Determines the pcap transmit mode of operation.
+            - Requires se reboot.
+            - Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING.
+            - Field introduced in 18.2.8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as PCAP_TX_AUTO.
+        type: str
     per_app:
         description:
             - Per-app se mode is designed for deploying dedicated load balancers per app (vs).
@@ -1446,6 +1455,7 @@ def main():
         openstack_mgmt_network_name=dict(type='str',),
         openstack_mgmt_network_uuid=dict(type='str',),
         os_reserved_memory=dict(type='int',),
+        pcap_tx_mode=dict(type='str',),
         per_app=dict(type='bool',),
         placement_mode=dict(type='str',),
         realtime_se_metrics=dict(type='dict',),

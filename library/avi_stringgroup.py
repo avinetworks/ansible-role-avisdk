@@ -53,6 +53,12 @@ options:
         description:
             - Configure key value in the string group.
         type: list
+    longest_match:
+        description:
+            - Enable the longest match, default is the shortest match.
+            - Field introduced in 18.2.8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     name:
         description:
             - Name of the string group.
@@ -130,6 +136,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         kv=dict(type='list',),
+        longest_match=dict(type='bool',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),
