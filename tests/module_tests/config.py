@@ -448,15 +448,6 @@ Wafprofile = {
 	}
 }
 
-
-Wafpolicy = {
-	"name": "Test-WAF-Policy",
-	"tenant_ref": "/api/tenant?name=admin",
-	"mode": "WAF_MODE_DETECTION_ONLY",
-	"paranoia_level": "WAF_PARANOIA_LEVEL_LOW",
-	"waf_profile_ref": "/api/wafprofile?name=Test-WAF-Profile"
-}
-
 Ipaddrgroup = {
 	"name": "New-Internal",
 	"prefixes": [

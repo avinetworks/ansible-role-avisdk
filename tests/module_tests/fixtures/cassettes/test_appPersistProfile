@@ -3,18 +3,23 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
-          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
-      Referer: ['https://10.10.28.130']
+      Cookie: [csrftoken=Q07FEwH0F9UK09Aa4ZtkUgEmU245BvRB; sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo;
+          avi-sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo; csrftoken=Q07FEwH0F9UK09Aa4ZtkUgEmU245BvRB;
+          sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo; avi-sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo]
+      Referer: ['https://10.79.169.56']
       X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.6]
-      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
+      X-Avi-Version: [18.2.8]
+      X-CSRFToken: [Q07FEwH0F9UK09Aa4ZtkUgEmU245BvRB]
       timeout: ['300']
     method: GET
-    uri: https://10.10.28.130/api/applicationpersistenceprofile?include_refs=&include_name=&name=Test-persistance-profile
+    uri: https://10.79.169.56/api/applicationpersistenceprofile?include_refs=&include_name=&name=Test-persistance-profile
   response:
-    body: {string: !!python/unicode '{"count": 0, "results": []}'}
+    body: {string: !!python/unicode '{"count": 1, "results": [{"uuid": "applicationpersistenceprofile-42ddc076-30fb-41b8-a282-67933a4952f0",
+        "_last_modified": "1582532014892334", "url": "https://10.79.169.56/api/applicationpersistenceprofile/applicationpersistenceprofile-42ddc076-30fb-41b8-a282-67933a4952f0#Test-persistance-profile",
+        "tenant_ref": "https://10.79.169.56/api/tenant/admin#admin", "is_federated":
+        false, "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER", "persistence_type":
+        "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS", "ip_persistence_profile": {"ip_persistent_timeout":
+        24}, "name": "Test-persistance-profile"}]}'}
     headers:
       access-control-allow-credentials: ['true']
       access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
@@ -22,16 +27,16 @@ interactions:
       access-control-allow-origin: ['https://portal.avinetworks.com']
       access-control-expose-headers: [X-NEXT-CALL]
       allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.2.6]
+      avi_api_version: [18.2.8]
       cache-control: ['private, no-cache, must-revalidate']
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Mon, 30 Sep 2019 09:18:42 GMT']
+      date: ['Mon, 24 Feb 2020 10:15:33 GMT']
       referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
-          09:18:42 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          expires=Tue, 01-Oct-2019 09:18:42 GMT; httponly; Max-Age=86400; Path=/;
+      set-cookie: ['sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo; expires=Tue, 25-Feb-2020
+          10:15:33 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo;
+          expires=Tue, 25-Feb-2020 10:15:33 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
@@ -40,55 +45,4 @@ interactions:
       x-frame-options: [SAMEORIGIN]
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
-- request:
-    body: !!python/unicode '{"server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-      "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS", "ip_persistence_profile":
-      {"ip_persistent_timeout": 24}, "name": "Test-persistance-profile", "tenant_ref":
-      "/api/tenant/?name=admin"}'
-    headers:
-      Content-Length: ['246']
-      Content-Type: [application/json]
-      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
-          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
-      Referer: ['https://10.10.28.130']
-      X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.6]
-      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
-      timeout: ['300']
-    method: POST
-    uri: https://10.10.28.130/api/applicationpersistenceprofile
-  response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/applicationpersistenceprofile/applicationpersistenceprofile-6da59796-47c3-4440-a562-d303b6b91e14#Test-persistance-profile",
-        "uuid": "applicationpersistenceprofile-6da59796-47c3-4440-a562-d303b6b91e14",
-        "name": "Test-persistance-profile", "is_federated": false, "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin",
-        "_last_modified": "1569835123116788", "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
-        "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER", "ip_persistence_profile":
-        {"ip_persistent_timeout": 24}}'}
-    headers:
-      access-control-allow-credentials: ['true']
-      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
-      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
-      access-control-allow-origin: ['https://portal.avinetworks.com']
-      access-control-expose-headers: [X-NEXT-CALL]
-      allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.2.6]
-      cache-control: ['private, no-cache, must-revalidate']
-      connection: [keep-alive]
-      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
-      content-type: [application/json]
-      date: ['Mon, 30 Sep 2019 09:18:43 GMT']
-      location: ['https://10.10.28.130/api/applicationpersistenceprofile/applicationpersistenceprofile-6da59796-47c3-4440-a562-d303b6b91e14#Test-persistance-profile']
-      referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
-          09:18:43 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          expires=Tue, 01-Oct-2019 09:18:43 GMT; httponly; Max-Age=86400; Path=/;
-          secure']
-      strict-transport-security: [max-age=31536000; includeSubdomains]
-      transfer-encoding: [chunked]
-      vary: ['Accept, Cookie', Origin]
-      x-content-type-options: [nosniff]
-      x-frame-options: [SAMEORIGIN]
-      x-xss-protection: [1; mode=block]
-    status: {code: 201, message: CREATED}
 version: 1

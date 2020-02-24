@@ -3,18 +3,29 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
-          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
-      Referer: ['https://10.10.28.130']
+      Cookie: [csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq; sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
+          avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq;
+          sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio]
+      Referer: ['https://10.79.169.56']
       X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.6]
-      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
+      X-Avi-Version: [18.2.8]
+      X-CSRFToken: [6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq]
       timeout: ['300']
     method: GET
-    uri: https://10.10.28.130/api/gslb?include_refs=&include_name=&name=Default
+    uri: https://10.79.169.56/api/gslb?include_refs=&include_name=&name=Default
   response:
-    body: {string: !!python/unicode '{"count": 0, "results": []}'}
+    body: {string: !!python/unicode '{"count": 1, "results": [{"uuid": "gslb-3c052fc1-fe16-4fbe-ba0b-5133c8c3825a",
+        "_last_modified": "1582536607060945", "url": "https://10.79.169.56/api/gslb/gslb-3c052fc1-fe16-4fbe-ba0b-5133c8c3825a#Default",
+        "maintenance_mode": false, "view_id": 0, "tenant_ref": "https://10.79.169.56/api/tenant/admin#admin",
+        "is_federated": true, "sites": [{"username": "admin", "name": "Test1", "ip_addresses":
+        [{"type": "V4", "addr": "10.79.169.56"}], "enabled": true, "member_type":
+        "GSLB_ACTIVE_MEMBER", "location": {"source": "GSLB_LOCATION_SRC_USER_CONFIGURED",
+        "location": {"latitude": 18.5204296112, "tag": "Pune", "name": "pune", "longitude":
+        73.8567428589}}, "cluster_uuid": "cluster-daa7799d-6c8b-4df0-bb42-45ab8d764058",
+        "hm_shard_enabled": false, "password": "<sensitive>", "port": 443}], "error_resync_interval":
+        300, "send_interval": 15, "dns_configs": [{"domain_name": "com"}], "leader_cluster_uuid":
+        "cluster-daa7799d-6c8b-4df0-bb42-45ab8d764058", "async_interval": 0, "client_ip_addr_group":
+        {"type": "GSLB_IP_PUBLIC"}, "clear_on_max_retries": 20, "name": "Default"}]}'}
     headers:
       access-control-allow-credentials: ['true']
       access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
@@ -22,16 +33,16 @@ interactions:
       access-control-allow-origin: ['https://portal.avinetworks.com']
       access-control-expose-headers: [X-NEXT-CALL]
       allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.2.6]
+      avi_api_version: [18.2.8]
       cache-control: ['private, no-cache, must-revalidate']
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Mon, 30 Sep 2019 09:17:49 GMT']
+      date: ['Mon, 24 Feb 2020 10:14:53 GMT']
       referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
-          09:17:49 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          expires=Tue, 01-Oct-2019 09:17:49 GMT; httponly; Max-Age=86400; Path=/;
+      set-cookie: ['sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; expires=Tue, 25-Feb-2020
+          10:14:53 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
+          expires=Tue, 25-Feb-2020 10:14:53 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
@@ -41,41 +52,42 @@ interactions:
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
 - request:
-    body: !!python/unicode '{"maintenance_mode": false, "sites": [{"username": "admin",
-      "name": "Test1", "ip_addresses": [{"type": "V4", "addr": "10.10.28.130"}], "enabled":
-      true, "member_type": "GSLB_ACTIVE_MEMBER", "location": {"source": "GSLB_LOCATION_SRC_USER_CONFIGURED",
-      "location": {"latitude": 18.520429611206055, "tag": "Pune", "name": "pune",
-      "longitude": 73.85674285888672}}, "cluster_uuid": "cluster-64b5db7a-4f3e-4092-9441-70b7d4ae5254",
-      "password": "avi123$%", "port": 443}], "send_interval": 15, "view_id": 0, "dns_configs":
-      [{"domain_name": "com"}], "leader_cluster_uuid": "cluster-64b5db7a-4f3e-4092-9441-70b7d4ae5254",
+    body: !!python/unicode '{"maintenance_mode": false, "patch_level": "/site/dns_vses",
+      "sites": [{"username": "admin", "name": "Test1", "ip_addresses": [{"type": "V4",
+      "addr": "10.79.169.56"}], "enabled": true, "member_type": "GSLB_ACTIVE_MEMBER",
+      "location": {"source": "GSLB_LOCATION_SRC_USER_CONFIGURED", "location": {"latitude":
+      18.520429611206055, "tag": "Pune", "name": "pune", "longitude": 73.85674285888672}},
+      "cluster_uuid": "cluster-daa7799d-6c8b-4df0-bb42-45ab8d764058", "password":
+      "avi123$%", "port": 443}], "send_interval": 15, "view_id": 0, "dns_configs":
+      [{"domain_name": "com"}], "leader_cluster_uuid": "cluster-daa7799d-6c8b-4df0-bb42-45ab8d764058",
       "name": "Default", "tenant_ref": "/api/tenant?name=admin", "is_federated": true,
       "clear_on_max_retries": 20, "client_ip_addr_group": {"type": "GSLB_IP_PUBLIC"}}'
     headers:
-      Content-Length: ['769']
+      Content-Length: ['802']
       Content-Type: [application/json]
-      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
-          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
-      Referer: ['https://10.10.28.130']
+      Cookie: [csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq; sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
+          avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq;
+          sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio]
+      Referer: ['https://10.79.169.56']
       X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.6]
-      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
+      X-Avi-Version: [18.2.8]
+      X-CSRFToken: [6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq]
       timeout: ['300']
-    method: POST
-    uri: https://10.10.28.130/api/gslb
+    method: PUT
+    uri: https://10.79.169.56/api/gslb/gslb-3c052fc1-fe16-4fbe-ba0b-5133c8c3825a
   response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/gslb/gslb-a2d9c097-6ed7-4a4a-9be1-70124da1b598#Default",
-        "uuid": "gslb-a2d9c097-6ed7-4a4a-9be1-70124da1b598", "name": "Default", "is_federated":
-        true, "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin", "_last_modified":
-        "1569835069483113", "maintenance_mode": false, "view_id": 0, "sites": [{"username":
-        "admin", "name": "Test1", "ip_addresses": [{"type": "V4", "addr": "10.10.28.130"}],
+    body: {string: !!python/unicode '{"url": "https://10.79.169.56/api/gslb/gslb-3c052fc1-fe16-4fbe-ba0b-5133c8c3825a#Default",
+        "uuid": "gslb-3c052fc1-fe16-4fbe-ba0b-5133c8c3825a", "name": "Default", "is_federated":
+        true, "tenant_ref": "https://10.79.169.56/api/tenant/admin#admin", "_last_modified":
+        "1582539293590212", "maintenance_mode": false, "view_id": 0, "sites": [{"username":
+        "admin", "name": "Test1", "ip_addresses": [{"type": "V4", "addr": "10.79.169.56"}],
         "enabled": true, "member_type": "GSLB_ACTIVE_MEMBER", "location": {"source":
         "GSLB_LOCATION_SRC_USER_CONFIGURED", "location": {"latitude": 18.520429611206055,
         "tag": "Pune", "name": "pune", "longitude": 73.85674285888672}}, "cluster_uuid":
-        "cluster-64b5db7a-4f3e-4092-9441-70b7d4ae5254", "hm_shard_enabled": false,
+        "cluster-daa7799d-6c8b-4df0-bb42-45ab8d764058", "hm_shard_enabled": false,
         "password": "<sensitive>", "port": 443}], "client_ip_addr_group": {"type":
         "GSLB_IP_PUBLIC"}, "error_resync_interval": 300, "send_interval": 15, "dns_configs":
-        [{"domain_name": "com"}], "leader_cluster_uuid": "cluster-64b5db7a-4f3e-4092-9441-70b7d4ae5254",
+        [{"domain_name": "com"}], "leader_cluster_uuid": "cluster-daa7799d-6c8b-4df0-bb42-45ab8d764058",
         "async_interval": 0, "clear_on_max_retries": 20}'}
     headers:
       access-control-allow-credentials: ['true']
@@ -83,19 +95,18 @@ interactions:
       access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
       access-control-allow-origin: ['https://portal.avinetworks.com']
       access-control-expose-headers: [X-NEXT-CALL]
-      allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.2.6]
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS, DELETE']
+      avi_api_version: [18.2.8]
       cache-control: ['private, no-cache, must-revalidate']
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Mon, 30 Sep 2019 09:17:50 GMT']
-      location: ['https://10.10.28.130/api/gslb/gslb-a2d9c097-6ed7-4a4a-9be1-70124da1b598#Default']
+      date: ['Mon, 24 Feb 2020 10:14:53 GMT']
       referrer-policy: [strict-origin]
-      server-timing: ['create;dur=448.423147202,semantic_check;dur=418.525934219,total;dur=702.71897316,']
-      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
-          09:17:50 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          expires=Tue, 01-Oct-2019 09:17:50 GMT; httponly; Max-Age=86400; Path=/;
+      server-timing: ['semantic_check;dur=361.332893372,update;dur=393.378973007,total;dur=438.443183899,']
+      set-cookie: ['sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; expires=Tue, 25-Feb-2020
+          10:14:53 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
+          expires=Tue, 25-Feb-2020 10:14:53 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
@@ -103,5 +114,5 @@ interactions:
       x-content-type-options: [nosniff]
       x-frame-options: [SAMEORIGIN]
       x-xss-protection: [1; mode=block]
-    status: {code: 201, message: CREATED}
+    status: {code: 200, message: OK}
 version: 1
