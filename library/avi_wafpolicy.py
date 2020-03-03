@@ -144,13 +144,35 @@ def update_patch(base_policy, patch):
 
 def main():
 
-    argument_specs = dict(
-        base_waf_policy=dict(type='str', required=True),
-        name=dict(type='str', required=True),
-        patch_file=dict(type='str', required=True),
-        state=dict(default='present', choices=['absent', 'present']),
-    )
 
+    argument_specs = dict(
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        avi_api_update_method=dict(default='put',
+                                   choices=['put', 'patch']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        allow_mode_delegation=dict(type='bool',),
+        created_by=dict(type='str',),
+        crs_groups=dict(type='list',),
+        description=dict(type='str',),
+        enable_app_learning=dict(type='bool',),
+        failure_mode=dict(type='str',),
+        learning=dict(type='dict',),
+        mode=dict(type='str'),
+        name=dict(type='str', required=True),
+        paranoia_level=dict(type='str',),
+        positive_security_model=dict(type='dict',),
+        post_crs_groups=dict(type='list',),
+        pre_crs_groups=dict(type='list',),
+        tenant_ref=dict(type='str',),
+        url=dict(type='str',),
+        uuid=dict(type='str',),
+        waf_crs_ref=dict(type='str',),
+        waf_profile_ref=dict(type='str'),
+        whitelist=dict(type='dict',),
+        base_waf_policy=dict(type='str', required=True),
+        patch_file=dict(type='str', required=True),
+    )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(argument_spec=argument_specs,
                            supports_check_mode=True)
@@ -168,7 +190,8 @@ def main():
 
     obj_uuid = None
     existing_obj = api.get_object_by_name(
-        'wafpolicy', module.params.get('name'))
+        'wafpolicy', module.params.get('name'),
+        params={"include_name": True})
     if existing_obj:
         obj_uuid = existing_obj.pop('uuid', None)
 
@@ -186,15 +209,16 @@ def main():
 
     if not existing_obj:
         existing_obj = api.get_object_by_name(
-            'wafpolicy', module.params.get('base_waf_policy'))
+            'wafpolicy', module.params.get('base_waf_policy'),
+            params={"include_name": True})
 
     with open(module.params.get('patch_file'), "r+") as f:
         waf_patch = json.loads(f.read())
+        waf_patch.update((k,v) for k,v in module.params.items()
+                         if v and k not in waf_patch)
         new_obj = deepcopy(existing_obj)
         update_patch(new_obj, waf_patch)
-
         changed = not avi_obj_cmp(new_obj, existing_obj)
-
         if module.check_mode:
             ansible_return(
                 module, None, changed, existing_obj=existing_obj,

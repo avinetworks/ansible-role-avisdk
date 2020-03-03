@@ -3,18 +3,35 @@ interactions:
     body: null
     headers:
       Content-Type: [application/json]
-      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
-          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
-      Referer: ['https://10.10.28.130']
+      Cookie: [csrftoken=Q07FEwH0F9UK09Aa4ZtkUgEmU245BvRB; sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo;
+          avi-sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo; csrftoken=Q07FEwH0F9UK09Aa4ZtkUgEmU245BvRB;
+          sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo; avi-sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo]
+      Referer: ['https://10.79.169.56']
       X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.6]
-      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
+      X-Avi-Version: [18.2.8]
+      X-CSRFToken: [Q07FEwH0F9UK09Aa4ZtkUgEmU245BvRB]
       timeout: ['300']
     method: GET
-    uri: https://10.10.28.130/api/pool?include_refs=&include_name=&name=storage1ed1svc1.cs.qai-8080-pool
+    uri: https://10.79.169.56/api/pool?include_refs=&include_name=&name=storage1ed1svc1.cs.qai-8080-pool
   response:
-    body: {string: !!python/unicode '{"count": 0, "results": []}'}
+    body: {string: !!python/unicode '{"count": 1, "results": [{"lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+        "use_service_port": false, "rewrite_host_header_to_server_name": false, "host_check_enabled":
+        false, "enabled": true, "rewrite_host_header_to_sni": false, "delete_server_on_dns_refresh":
+        true, "capacity_estimation": false, "servers": [{"ratio": 1, "ip": {"type":
+        "V4", "addr": "10.229.68.71"}, "hostname": "storage1ed1svc1.cs.qai", "enabled":
+        true, "verify_network": false, "static": false, "resolve_server_by_dns": false,
+        "rewrite_host_header": false, "port": 8080}], "fewest_tasks_feedback_delay":
+        10, "capacity_estimation_ttfb_thresh": 0, "lookup_server_by_name": false,
+        "lb_algorithm_hash": "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS", "analytics_profile_ref":
+        "https://10.79.169.56/api/analyticsprofile/analyticsprofile-8d62d94e-0a95-449c-8f22-6399adf579cc#System-Analytics-Profile",
+        "_last_modified": "1582532016321615", "cloud_ref": "https://10.79.169.56/api/cloud/cloud-7c48a3b6-749b-4cb0-b225-c47eed12c8bf#Default-Cloud",
+        "lb_algorithm_core_nonaffinity": 2, "vrf_ref": "https://10.79.169.56/api/vrfcontext/vrfcontext-eb6bf218-b3e9-4b82-86e2-372d31481d6c#global",
+        "inline_health_monitor": true, "default_server_port": 80, "request_queue_depth":
+        128, "graceful_disable_timeout": 1, "sni_enabled": true, "server_timeout":
+        0, "request_queue_enabled": false, "name": "storage1ed1svc1.cs.qai-8080-pool",
+        "max_concurrent_connections_per_server": 0, "url": "https://10.79.169.56/api/pool/pool-02c0f96c-7e41-4a96-81ee-28602f8573f0#storage1ed1svc1.cs.qai-8080-pool",
+        "tenant_ref": "https://10.79.169.56/api/tenant/admin#admin", "uuid": "pool-02c0f96c-7e41-4a96-81ee-28602f8573f0",
+        "connection_ramp_duration": 10}]}'}
     headers:
       access-control-allow-credentials: ['true']
       access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
@@ -22,16 +39,16 @@ interactions:
       access-control-allow-origin: ['https://portal.avinetworks.com']
       access-control-expose-headers: [X-NEXT-CALL]
       allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.2.6]
+      avi_api_version: [18.2.8]
       cache-control: ['private, no-cache, must-revalidate']
       connection: [keep-alive]
       content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
       content-type: [application/json]
-      date: ['Mon, 30 Sep 2019 09:18:52 GMT']
+      date: ['Mon, 24 Feb 2020 10:15:41 GMT']
       referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
-          09:18:52 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          expires=Tue, 01-Oct-2019 09:18:52 GMT; httponly; Max-Age=86400; Path=/;
+      set-cookie: ['sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo; expires=Tue, 25-Feb-2020
+          10:15:41 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=g28qytyxkytc8mwz9nkdfy831we4bkoo;
+          expires=Tue, 25-Feb-2020 10:15:41 GMT; httponly; Max-Age=86400; Path=/;
           secure']
       strict-transport-security: [max-age=31536000; includeSubdomains]
       transfer-encoding: [chunked]
@@ -40,68 +57,4 @@ interactions:
       x-frame-options: [SAMEORIGIN]
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
-- request:
-    body: !!python/unicode '{"lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS", "servers":
-      [{"ip": {"type": "V4", "addr": "10.229.68.71"}, "hostname": "storage1ed1svc1.cs.qai",
-      "enabled": "True", "port": "8080"}], "health_monitor_refs": [], "tenant_ref":
-      "/api/tenant/?name=admin", "name": "storage1ed1svc1.cs.qai-8080-pool"}'
-    headers:
-      Content-Length: ['296']
-      Content-Type: [application/json]
-      Cookie: [csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8; sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; csrftoken=Gh13n7b68t978yWAjxm1AYLoVabSmeU8;
-          sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j]
-      Referer: ['https://10.10.28.130']
-      X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.6]
-      X-CSRFToken: [Gh13n7b68t978yWAjxm1AYLoVabSmeU8]
-      timeout: ['300']
-    method: POST
-    uri: https://10.10.28.130/api/pool
-  response:
-    body: {string: !!python/unicode '{"url": "https://10.10.28.130/api/pool/pool-ac621294-5d29-47b0-b7e3-a2a83d0e76f9#storage1ed1svc1.cs.qai-8080-pool",
-        "uuid": "pool-ac621294-5d29-47b0-b7e3-a2a83d0e76f9", "name": "storage1ed1svc1.cs.qai-8080-pool",
-        "enabled": true, "tenant_ref": "https://10.10.28.130/api/tenant/admin#admin",
-        "cloud_ref": "https://10.10.28.130/api/cloud/cloud-48c5fe7b-ecd0-4def-a247-9482fb497568#Default-Cloud",
-        "_last_modified": "1569835133286435", "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
-        "use_service_port": false, "rewrite_host_header_to_server_name": false, "host_check_enabled":
-        false, "rewrite_host_header_to_sni": false, "delete_server_on_dns_refresh":
-        true, "capacity_estimation": false, "servers": [{"ratio": 1, "ip": {"type":
-        "V4", "addr": "10.229.68.71"}, "hostname": "storage1ed1svc1.cs.qai", "enabled":
-        true, "verify_network": false, "static": false, "resolve_server_by_dns": false,
-        "rewrite_host_header": false, "port": 8080}], "fewest_tasks_feedback_delay":
-        10, "capacity_estimation_ttfb_thresh": 0, "lookup_server_by_name": false,
-        "lb_algorithm_hash": "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS", "analytics_profile_ref":
-        "https://10.10.28.130/api/analyticsprofile/analyticsprofile-f60f4f79-f2e5-4612-a108-e06dc7813001#System-Analytics-Profile",
-        "lb_algorithm_core_nonaffinity": 2, "vrf_ref": "https://10.10.28.130/api/vrfcontext/vrfcontext-63a62f45-688d-4f7d-b70d-26cbc7b53851#global",
-        "inline_health_monitor": true, "default_server_port": 80, "request_queue_depth":
-        128, "graceful_disable_timeout": 1, "sni_enabled": true, "server_timeout":
-        0, "request_queue_enabled": false, "max_concurrent_connections_per_server":
-        0, "connection_ramp_duration": 10}'}
-    headers:
-      access-control-allow-credentials: ['true']
-      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
-      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
-      access-control-allow-origin: ['https://portal.avinetworks.com']
-      access-control-expose-headers: [X-NEXT-CALL]
-      allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.2.6]
-      cache-control: ['private, no-cache, must-revalidate']
-      connection: [keep-alive]
-      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
-      content-type: [application/json]
-      date: ['Mon, 30 Sep 2019 09:18:53 GMT']
-      location: ['https://10.10.28.130/api/pool/pool-ac621294-5d29-47b0-b7e3-a2a83d0e76f9#storage1ed1svc1.cs.qai-8080-pool']
-      referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j; expires=Tue, 01-Oct-2019
-          09:18:53 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=1k0miq82w5smbom49wrnqzyjekqodb8j;
-          expires=Tue, 01-Oct-2019 09:18:53 GMT; httponly; Max-Age=86400; Path=/;
-          secure']
-      strict-transport-security: [max-age=31536000; includeSubdomains]
-      transfer-encoding: [chunked]
-      vary: ['Accept, Cookie', Origin]
-      x-content-type-options: [nosniff]
-      x-frame-options: [SAMEORIGIN]
-      x-xss-protection: [1; mode=block]
-    status: {code: 201, message: CREATED}
 version: 1
