@@ -111,6 +111,13 @@ options:
             - It is a reference to an object of type image.
             - Field introduced in 18.2.6.
         type: str
+    patch_list:
+        description:
+            - List of patches applied to this node.
+            - Example  base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'},
+            - {'6p5', '6p5_image_uuid'}] value.
+            - Field introduced in 18.2.8.
+        type: list
     patch_version:
         description:
             - Current patch version applied to this node.
@@ -132,6 +139,11 @@ options:
             - It is a reference to an object of type image.
             - Field introduced in 18.2.6.
         type: str
+    previous_patch_list:
+        description:
+            - List of patches applied to this node on previous major version.
+            - Field introduced in 18.2.8.
+        type: list
     previous_patch_version:
         description:
             - Previous patch version applied to this node.example  base-image was 18.2.6 with a patch 6p1.
@@ -265,9 +277,11 @@ def main():
         obj_state=dict(type='dict',),
         params=dict(type='dict',),
         patch_image_ref=dict(type='str',),
+        patch_list=dict(type='list',),
         patch_version=dict(type='str',),
         previous_image_ref=dict(type='str',),
         previous_patch_image_ref=dict(type='str',),
+        previous_patch_list=dict(type='list',),
         previous_patch_version=dict(type='str',),
         previous_version=dict(type='str',),
         progress=dict(type='int',),
