@@ -49,6 +49,11 @@ options:
             - Controller package details.
             - Field introduced in 18.2.6.
         type: dict
+    controller_patch_uuid:
+        description:
+            - It references the controller-patch associated with the uber image.
+            - Field introduced in 18.2.8.
+        type: str
     migrations:
         description:
             - This field describes the api migration related information.
@@ -65,6 +70,11 @@ options:
             - Se package details.
             - Field introduced in 18.2.6.
         type: dict
+    se_patch_uuid:
+        description:
+            - It references the service engine patch associated with the uber image.
+            - Field introduced in 18.2.8.
+        type: str
     status:
         description:
             - Status to check if the image is present.
@@ -85,6 +95,12 @@ options:
             - Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM.
             - Field introduced in 18.2.6.
         type: str
+    uber_bundle:
+        description:
+            - Status to check if the image is an uber bundle.
+            - Field introduced in 18.2.8.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     url:
         description:
             - Avi controller URL of the object.
@@ -135,12 +151,15 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         controller_info=dict(type='dict',),
+        controller_patch_uuid=dict(type='str',),
         migrations=dict(type='dict',),
         name=dict(type='str', required=True),
         se_info=dict(type='dict',),
+        se_patch_uuid=dict(type='str',),
         status=dict(type='str',),
         tenant_ref=dict(type='str',),
         type=dict(type='str',),
+        uber_bundle=dict(type='bool',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
