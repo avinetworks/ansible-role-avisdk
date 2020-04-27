@@ -454,6 +454,49 @@ class test_ansible_modules(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+    def test_SystemConfiguration_Patch1(self):
+        '''
+        Replace sslprofile ref in systemconfiguration using patch replace and expect no change
+        '''
+        configure.SystemConfigurationPatchReplace.update(ControllerCredentials)
+        set_module_args(configure.SystemConfigurationPatchReplace)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_systemconfiguration.main()
+            self.assertTrue(result.exception.args[0]['changed'])
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_SystemConfiguration_Patch2(self):
+        '''
+        Delete sslprofile ref from systemconfiguration and expect change
+        '''
+        configure.SystemConfigurationPatchDelete.update(ControllerCredentials)
+        set_module_args(configure.SystemConfigurationPatchDelete)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_systemconfiguration.main()
+            self.assertTrue(result.exception.args[0]['changed'])
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_SystemConfiguration_Patch3(self):
+        '''
+        Delete deleted sslprofile ref from systemconfiguration and expect no change  
+        '''
+        configure.SslProfile.update(ControllerCredentials)
+        configure.SslProfile['state'] = 'absent'
+        set_module_args(configure.SslProfile)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_sslprofile.main()
+            self.assertTrue(result.exception.args[0]['changed'])
+ 
+        configure.SystemConfigurationPatchDelete.update(ControllerCredentials)
+        set_module_args(configure.SystemConfigurationPatchDelete)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_systemconfiguration.main()
+            self.assertFalse(result.exception.args[0]['changed'])
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
     def test_ServerautoscalePolicy(self):
         configure.ServerautoscalePolicy.update(ControllerCredentials)
         set_module_args(configure.ServerautoscalePolicy)

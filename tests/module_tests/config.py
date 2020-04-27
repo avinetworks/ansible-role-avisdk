@@ -148,6 +148,7 @@ SslProfile = {
 			"type": "SSL_VERSION_TLS1_2"
 		}
 	],
+    "type": "SSL_PROFILE_TYPE_SYSTEM",
 	"enable_ssl_session_reuse": False
 }
 
@@ -801,6 +802,23 @@ SystemConfiguration = {
 }
 
 
+SystemConfigurationPatchReplace = {
+	"avi_api_patch_op": "replace",
+	"avi_api_update_method": "patch",
+	"portal_configuration": {
+		"sslprofile_ref": "/api/sslprofile/?name=Test-ssl_profile-cEE"
+	},
+	"state": "present"
+}
+
+SystemConfigurationPatchDelete = {
+	"avi_api_patch_op": "delete",
+	"avi_api_update_method": "patch",
+	"portal_configuration": {
+		"sslprofile_ref": "/api/sslprofile/?name=Test-ssl_profile-cEE"
+	},
+	"state": "present"
+}
 
 IpamdnsProviderProfile = {
 	"name": "test",
