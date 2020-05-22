@@ -173,6 +173,13 @@ options:
         description:
             - It is a reference to an object of type cloud.
         type: str
+    compress_ip_rules_for_each_ns_subnet:
+        description:
+            - Compress ip rules into a single subnet based ip rule for each north-south ipam subnet configured in pcap mode in openshift/kubernetes node.
+            - Requires se reboot.
+            - Field introduced in 18.2.9.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     config_debugs_on_all_cores:
         description:
             - Enable config debugs on all cores of se.
@@ -991,6 +998,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 1501.
         version_added: "2.4"
         type: int
+    se_rl_prop:
+        description:
+            - Rate limiter properties.
+            - Field introduced in 18.2.9.
+        type: dict
     se_routing:
         description:
             - Enable routing via service engine datapath.
@@ -1365,6 +1377,7 @@ def main():
         bgp_state_update_interval=dict(type='int',),
         buffer_se=dict(type='int',),
         cloud_ref=dict(type='str',),
+        compress_ip_rules_for_each_ns_subnet=dict(type='bool',),
         config_debugs_on_all_cores=dict(type='bool',),
         connection_memory_percentage=dict(type='int',),
         core_shm_app_cache=dict(type='bool',),
@@ -1486,6 +1499,7 @@ def main():
         se_pcap_reinit_threshold=dict(type='int',),
         se_probe_port=dict(type='int',),
         se_remote_punt_udp_port=dict(type='int',),
+        se_rl_prop=dict(type='dict',),
         se_routing=dict(type='bool',),
         se_rum_sampling_nav_interval=dict(type='int',),
         se_rum_sampling_nav_percent=dict(type='int',),

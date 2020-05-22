@@ -116,6 +116,12 @@ options:
             - Hence, it should not be used in this profile.
             - It is a reference to an object of type ipamdnsproviderprofile.
         type: str
+    enable_vip_on_all_interfaces:
+        description:
+            - Enable vip on all data interfaces for the cloud.
+            - Field introduced in 18.2.9.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     enable_vip_static_routes:
         description:
             - Use static routes for vip side network resolution during virtualservice placement.
@@ -311,6 +317,7 @@ def main():
         docker_configuration=dict(type='dict',),
         east_west_dns_provider_ref=dict(type='str',),
         east_west_ipam_provider_ref=dict(type='str',),
+        enable_vip_on_all_interfaces=dict(type='bool',),
         enable_vip_static_routes=dict(type='bool',),
         gcp_configuration=dict(type='dict',),
         ip6_autocfg_enabled=dict(type='bool',),
