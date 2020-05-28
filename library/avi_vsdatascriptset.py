@@ -86,6 +86,12 @@ options:
             - Field introduced in 18.2.3.
         version_added: "2.9"
         type: list
+    rate_limiters:
+        description:
+            - The rate limit definitions needed for this datascript.
+            - The name is composed of the virtual service name and the datascript name.
+            - Field introduced in 18.2.9.
+        type: list
     string_group_refs:
         description:
             - Uuid of string groups that could be referred by vsdatascriptset objects.
@@ -151,6 +157,7 @@ def main():
         pool_group_refs=dict(type='list',),
         pool_refs=dict(type='list',),
         protocol_parser_refs=dict(type='list',),
+        rate_limiters=dict(type='list',),
         string_group_refs=dict(type='list',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
