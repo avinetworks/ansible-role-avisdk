@@ -76,6 +76,12 @@ options:
             - Key/value labels which can be used for object access policy permission scoping.
             - Field introduced in 18.2.7.
         type: list
+    lldp_enable:
+        description:
+            - Enable lldp.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     name:
         description:
             - Name of the object.
@@ -149,6 +155,7 @@ def main():
         gateway_mon=dict(type='list',),
         internal_gateway_monitor=dict(type='dict',),
         labels=dict(type='list',),
+        lldp_enable=dict(type='bool',),
         name=dict(type='str', required=True),
         static_routes=dict(type='list',),
         system_default=dict(type='bool',),
