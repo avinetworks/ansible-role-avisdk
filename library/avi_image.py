@@ -49,6 +49,11 @@ options:
             - Controller package details.
             - Field introduced in 18.2.6.
         type: dict
+    controller_patch_name:
+        description:
+            - Mandatory controller patch name that is applied along with this base image.
+            - Field introduced in 18.2.10.
+        type: str
     controller_patch_uuid:
         description:
             - It references the controller-patch associated with the uber image.
@@ -70,6 +75,11 @@ options:
             - Se package details.
             - Field introduced in 18.2.6.
         type: dict
+    se_patch_name:
+        description:
+            - Mandatory serviceengine patch name that is applied along with this base image.
+            - Field introduced in 18.2.10.
+        type: str
     se_patch_uuid:
         description:
             - It references the service engine patch associated with the uber image.
@@ -151,10 +161,12 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         controller_info=dict(type='dict',),
+        controller_patch_name=dict(type='str',),
         controller_patch_uuid=dict(type='str',),
         migrations=dict(type='dict',),
         name=dict(type='str', required=True),
         se_info=dict(type='dict',),
+        se_patch_name=dict(type='str',),
         se_patch_uuid=dict(type='str',),
         status=dict(type='str',),
         tenant_ref=dict(type='str',),

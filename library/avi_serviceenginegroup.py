@@ -176,7 +176,6 @@ options:
     compress_ip_rules_for_each_ns_subnet:
         description:
             - Compress ip rules into a single subnet based ip rule for each north-south ipam subnet configured in pcap mode in openshift/kubernetes node.
-            - Requires se reboot.
             - Field introduced in 18.2.9.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
