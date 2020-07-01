@@ -332,10 +332,17 @@ options:
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5.
         type: int
+    upgrade_fat_se_lease_time:
+        description:
+            - Amount of time controller waits for a large-sized se (>=128gb memory) to reconnect after it is rebooted during upgrade.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1200.
+        type: int
     upgrade_lease_time:
         description:
-            - Number of upgrade_lease_time.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
+            - Amount of time controller waits for a regular-sized se (<128gb memory) to reconnect after it is rebooted during upgrade.
+            - Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 600.
         type: int
     url:
         description:
@@ -507,6 +514,7 @@ def main():
         ssl_certificate_expiry_warning_days=dict(type='list',),
         unresponsive_se_reboot=dict(type='int',),
         upgrade_dns_ttl=dict(type='int',),
+        upgrade_fat_se_lease_time=dict(type='int',),
         upgrade_lease_time=dict(type='int',),
         url=dict(type='str',),
         uuid=dict(type='str',),
