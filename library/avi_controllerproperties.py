@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -48,7 +48,7 @@ options:
     allow_admin_network_updates:
         description:
             - Allow non-admin tenants to update admin vrfcontext and network objects.
-            - Field introduced in 18.2.7.
+            - Field introduced in 18.2.7, 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     allow_ip_forwarding:
@@ -162,6 +162,15 @@ options:
         description:
             - Number of dummy.
         type: int
+    edit_system_limits:
+        description:
+            - Allow editing of system limits.
+            - Keep in mind that these system limits have been carefully selected based on rigorous testing in our testig environments.
+            - Modifying these limits could destabilize your cluster.
+            - Do this at your own risk!.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     enable_api_sharding:
         description:
             - This setting enables the controller leader to shard api requests to the followers (if any).
@@ -181,6 +190,18 @@ options:
             - Number of fatal_error_lease_time.
             - Default value when not specified in API or module is interpreted by Avi Controller as 120.
         type: int
+    federated_datastore_cleanup_duration:
+        description:
+            - Federated datastore will not cleanup diffs unless they are at least this duration in the past.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 120.
+        type: int
+    file_object_cleanup_period:
+        description:
+            - Period for file object cleanup job.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1440.
+        type: int
     max_dead_se_in_grp:
         description:
             - Number of max_dead_se_in_grp.
@@ -190,6 +211,12 @@ options:
         description:
             - Maximum number of pcap files stored per tenant.
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.
+        type: int
+    max_se_spawn_interval_delay:
+        description:
+            - Maximum delay possible to add to se_spawn_retry_interval after successive se spawn failure.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1800.
         type: int
     max_seq_attach_ip_failures:
         description:
@@ -206,7 +233,7 @@ options:
     permission_scoped_shared_admin_networks:
         description:
             - Network and vrfcontext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted.
-            - Field introduced in 18.2.7.
+            - Field introduced in 18.2.7, 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     persistence_key_rotate_period:
@@ -214,6 +241,18 @@ options:
             - Period for rotate app persistence keys job.
             - Allowed values are 1-1051200.
             - Special values are 0 - 'disabled'.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
+    portal_request_burst_limit:
+        description:
+            - Burst limit on number of incoming requests0 to disable.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
+    portal_request_rate_limit:
+        description:
+            - Maximum average number of requests allowed per second0 to disable.
+            - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     portal_token:
@@ -270,6 +309,12 @@ options:
         description:
             - Number of se_offline_del.
             - Default value when not specified in API or module is interpreted by Avi Controller as 172000.
+        type: int
+    se_spawn_retry_interval:
+        description:
+            - Default retry period before attempting another service engine spawn in se group.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
     se_vnic_cooldown:
         description:
@@ -335,7 +380,7 @@ options:
     upgrade_fat_se_lease_time:
         description:
             - Amount of time controller waits for a large-sized se (>=128gb memory) to reconnect after it is rebooted during upgrade.
-            - Field introduced in 18.2.10.
+            - Field introduced in 18.2.10, 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1200.
         type: int
     upgrade_lease_time:
@@ -343,6 +388,14 @@ options:
             - Amount of time controller waits for a regular-sized se (<128gb memory) to reconnect after it is rebooted during upgrade.
             - Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 600.
+        type: int
+    upgrade_se_per_vs_scale_ops_txn_time:
+        description:
+            - This parameter defines the upper-bound value of the vs scale-in or vs scale-out operation executed in the sescalein and sescale context.
+            - User can tweak this parameter to a higher value if the segroup gets suspended due to sescalein or sescaleout timeout failure typically associated
+            - with high number of vs(es) scaled out.
+            - Field introduced in 18.2.10, 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3.
         type: int
     url:
         description:
@@ -485,15 +538,21 @@ def main():
         default_minimum_api_timeout=dict(type='int',),
         dns_refresh_period=dict(type='int',),
         dummy=dict(type='int',),
+        edit_system_limits=dict(type='bool',),
         enable_api_sharding=dict(type='bool',),
         enable_memory_balancer=dict(type='bool',),
         fatal_error_lease_time=dict(type='int',),
+        federated_datastore_cleanup_duration=dict(type='int',),
+        file_object_cleanup_period=dict(type='int',),
         max_dead_se_in_grp=dict(type='int',),
         max_pcap_per_tenant=dict(type='int',),
+        max_se_spawn_interval_delay=dict(type='int',),
         max_seq_attach_ip_failures=dict(type='int',),
         max_seq_vnic_failures=dict(type='int',),
         permission_scoped_shared_admin_networks=dict(type='bool',),
         persistence_key_rotate_period=dict(type='int',),
+        portal_request_burst_limit=dict(type='int',),
+        portal_request_rate_limit=dict(type='int',),
         portal_token=dict(type='str', no_log=True,),
         process_locked_useraccounts_timeout_period=dict(type='int',),
         process_pki_profile_timeout_period=dict(type='int',),
@@ -503,6 +562,7 @@ def main():
         se_failover_attempt_interval=dict(type='int',),
         se_from_marketplace=dict(type='str',),
         se_offline_del=dict(type='int',),
+        se_spawn_retry_interval=dict(type='int',),
         se_vnic_cooldown=dict(type='int',),
         secure_channel_cleanup_timeout=dict(type='int',),
         secure_channel_controller_token_timeout=dict(type='int',),
@@ -516,6 +576,7 @@ def main():
         upgrade_dns_ttl=dict(type='int',),
         upgrade_fat_se_lease_time=dict(type='int',),
         upgrade_lease_time=dict(type='int',),
+        upgrade_se_per_vs_scale_ops_txn_time=dict(type='int',),
         url=dict(type='str',),
         uuid=dict(type='str',),
         vnic_op_fail_time=dict(type='int',),
@@ -540,7 +601,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'controllerproperties',
-                           set(['portal_token']))
+                           {'portal_token'})
 
 
 if __name__ == '__main__':

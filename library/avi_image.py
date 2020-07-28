@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -44,6 +44,11 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    cloud_info_values:
+        description:
+            - This field describes the cloud info specific to the base image.
+            - Field introduced in 20.1.1.
+        type: list
     controller_info:
         description:
             - Controller package details.
@@ -52,12 +57,12 @@ options:
     controller_patch_name:
         description:
             - Mandatory controller patch name that is applied along with this base image.
-            - Field introduced in 18.2.10.
+            - Field introduced in 18.2.10, 20.1.1.
         type: str
     controller_patch_uuid:
         description:
             - It references the controller-patch associated with the uber image.
-            - Field introduced in 18.2.8.
+            - Field introduced in 18.2.8, 20.1.1.
         type: str
     migrations:
         description:
@@ -78,12 +83,12 @@ options:
     se_patch_name:
         description:
             - Mandatory serviceengine patch name that is applied along with this base image.
-            - Field introduced in 18.2.10.
+            - Field introduced in 18.2.10, 20.1.1.
         type: str
     se_patch_uuid:
         description:
             - It references the service engine patch associated with the uber image.
-            - Field introduced in 18.2.8.
+            - Field introduced in 18.2.8, 20.1.1.
         type: str
     status:
         description:
@@ -108,7 +113,7 @@ options:
     uber_bundle:
         description:
             - Status to check if the image is an uber bundle.
-            - Field introduced in 18.2.8.
+            - Field introduced in 18.2.8, 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     url:
@@ -160,6 +165,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        cloud_info_values=dict(type='list',),
         controller_info=dict(type='dict',),
         controller_patch_name=dict(type='str',),
         controller_patch_uuid=dict(type='str',),
@@ -183,7 +189,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'image',
-                           set([]))
+                           set())
 
 
 if __name__ == '__main__':
