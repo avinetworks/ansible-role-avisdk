@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -52,9 +52,9 @@ options:
     default_license_tier:
         description:
             - Specifies the default license tier which would be used by new clouds.
-            - Enum options - ENTERPRISE_16, ENTERPRISE_18.
+            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
             - Field introduced in 17.2.5.
-            - Default value when not specified in API or module is interpreted by Avi Controller as ENTERPRISE_18.
+            - Default value when not specified in API or module is interpreted by Avi Controller as ENTERPRISE.
         version_added: "2.5"
         type: str
     dns_configuration:
@@ -77,6 +77,12 @@ options:
         description:
             - Emailconfiguration settings for systemconfiguration.
         type: dict
+    fips_mode:
+        description:
+            - Enable fips mode.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     global_tenant_config:
         description:
             - Tenantconfiguration settings for systemconfiguration.
@@ -182,6 +188,7 @@ def main():
         dns_virtualservice_refs=dict(type='list',),
         docker_mode=dict(type='bool',),
         email_configuration=dict(type='dict',),
+        fips_mode=dict(type='bool',),
         global_tenant_config=dict(type='dict',),
         linux_configuration=dict(type='dict',),
         mgmt_ip_access_control=dict(type='dict',),
@@ -204,7 +211,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'systemconfiguration',
-                           set([]))
+                           set())
 
 
 if __name__ == '__main__':

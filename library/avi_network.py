@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -45,6 +45,11 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    attrs:
+        description:
+            - Key/value network attributes.
+            - Field introduced in 20.1.1.
+        type: list
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
@@ -73,7 +78,7 @@ options:
     labels:
         description:
             - Key/value labels which can be used for object access policy permission scoping.
-            - Field introduced in 18.2.7.
+            - Field introduced in 18.2.7, 20.1.1.
         type: list
     name:
         description:
@@ -150,6 +155,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        attrs=dict(type='list',),
         cloud_ref=dict(type='str',),
         configured_subnets=dict(type='list',),
         dhcp_enabled=dict(type='bool',),
@@ -173,7 +179,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'network',
-                           set([]))
+                           set())
 
 
 if __name__ == '__main__':

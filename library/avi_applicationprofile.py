@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -91,6 +91,12 @@ options:
             - Field introduced in 17.2.7.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.6"
+        type: bool
+    preserve_dest_ip_port:
+        description:
+            - Specifies if destination ip and port needs to be preserved for backend connection.
+            - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     sip_service_profile:
         description:
@@ -222,6 +228,7 @@ def main():
         name=dict(type='str', required=True),
         preserve_client_ip=dict(type='bool',),
         preserve_client_port=dict(type='bool',),
+        preserve_dest_ip_port=dict(type='bool',),
         sip_service_profile=dict(type='dict',),
         tcp_app_profile=dict(type='dict',),
         tenant_ref=dict(type='str',),
@@ -237,7 +244,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'applicationprofile',
-                           set([]))
+                           set())
 
 
 if __name__ == '__main__':

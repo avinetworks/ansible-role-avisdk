@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -53,6 +53,11 @@ options:
             - Use this knob to allow duplicates.
             - Field introduced in 18.2.8.
         type: bool
+    authentication:
+        description:
+            - Authentication information for username/password.
+            - Field introduced in 20.1.1.
+        type: dict
     description:
         description:
             - User defined description for the object.
@@ -216,6 +221,7 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         allow_duplicate_monitors=dict(type='bool',),
+        authentication=dict(type='dict',),
         description=dict(type='str',),
         disable_quickstart=dict(type='bool',),
         dns_monitor=dict(type='dict',),
@@ -246,7 +252,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'healthmonitor',
-                           set([]))
+                           set())
 
 
 if __name__ == '__main__':
