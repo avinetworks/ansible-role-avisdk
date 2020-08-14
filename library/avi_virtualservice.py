@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -56,14 +56,6 @@ options:
             - Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2.
             - Default value when not specified in API or module is interpreted by Avi Controller as ACTIVE_STANDBY_SE_1.
         type: str
-    advertise_down_vs:
-        description:
-            - Keep advertising virtual service via bgp even if it is marked down by health monitor.
-            - This setting takes effect for future virtual service flaps.
-            - To advertise current vses that are down, please disable and re-enable the virtual service.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     allow_invalid_client_cert:
         description:
             - Process request even if invalid client certificate is presented.
@@ -160,7 +152,7 @@ options:
     cloud_type:
         description:
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
-            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         type: str
     connections_rate_limit:
@@ -282,12 +274,6 @@ options:
     http_policies:
         description:
             - Http policies applied on the data traffic of the virtual service.
-        type: list
-    icap_request_profile_refs:
-        description:
-            - The config settings for the icap server when checking the http request.
-            - It is a reference to an object of type icapprofile.
-            - Field introduced in 20.1.1.
         type: list
     ign_pool_net_reach:
         description:
@@ -671,7 +657,6 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         active_standby_se_tag=dict(type='str',),
-        advertise_down_vs=dict(type='bool',),
         allow_invalid_client_cert=dict(type='bool',),
         analytics_policy=dict(type='dict',),
         analytics_profile_ref=dict(type='str',),
@@ -712,7 +697,6 @@ def main():
         fqdn=dict(type='str',),
         host_name_xlate=dict(type='str',),
         http_policies=dict(type='list',),
-        icap_request_profile_refs=dict(type='list',),
         ign_pool_net_reach=dict(type='bool',),
         ip_address=dict(type='dict',),
         ipam_network_subnet=dict(type='dict',),
@@ -780,7 +764,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'virtualservice',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

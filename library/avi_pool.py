@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -167,12 +167,6 @@ options:
         description:
             - Inherited config from virtualservice.
         type: bool
-    enable_http2:
-        description:
-            - Enable http/2 for traffic from virtualservice to all backend servers in this pool.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     enabled:
         description:
             - Enable or disable the pool.
@@ -224,13 +218,6 @@ options:
             - If enabled and no explicit domain name is specified, avi will use the incoming host header to do the match.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    ignore_server_port:
-        description:
-            - Ignore the server port in building the load balancing state.applicable only for consistent hash load balancing algorithm or disable port
-            - translation (use_service_port) use cases.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     inline_health_monitor:
         description:
             - The passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.
@@ -256,7 +243,7 @@ options:
         type: str
     lb_algorithm_core_nonaffinity:
         description:
-            - Degree of non-affinity for core affinity based server selection.
+            - Degree of non-affinity for core afffinity based server selection.
             - Allowed values are 1-65535.
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
@@ -325,7 +312,7 @@ options:
         description:
             - Manually select the networks and subnets used to provide reachability to the pool's servers.
             - Specify the subnet using the following syntax  10-1-1-0/24.
-            - Use static routes in vrf configuration when pool servers are not directly connected but routable from the service engine.
+            - Use static routes in vrf configuration when pool servers are not directly connected butroutable from the service engine.
         type: list
     prst_hdr_name:
         description:
@@ -342,6 +329,12 @@ options:
             - Enable request queue when pool is full.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    resolve_pool_by_dns:
+        description:
+            - This field is used as a flag to create a job for jobmanager.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     rewrite_host_header_to_server_name:
         description:
             - Rewrite incoming host header to server name of the server to which the request is proxied.
@@ -351,13 +344,6 @@ options:
     rewrite_host_header_to_sni:
         description:
             - If sni server name is specified, rewrite incoming host header to the sni server name.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
-    routing_pool:
-        description:
-            - Enable to do routing when this pool is selected to send traffic.
-            - No servers present in routing pool.
-            - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     server_auto_scale:
@@ -422,11 +408,6 @@ options:
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-        type: str
-    tier1_lr:
-        description:
-            - This tier1_lr field should be set same as virtualservice associated for nsx-t.
-            - Field introduced in 20.1.1.
         type: str
     url:
         description:
@@ -535,7 +516,6 @@ def main():
         description=dict(type='str',),
         domain_name=dict(type='list',),
         east_west=dict(type='bool',),
-        enable_http2=dict(type='bool',),
         enabled=dict(type='bool',),
         external_autoscale_groups=dict(type='list',),
         fail_action=dict(type='dict',),
@@ -544,7 +524,6 @@ def main():
         gslb_sp_enabled=dict(type='bool',),
         health_monitor_refs=dict(type='list',),
         host_check_enabled=dict(type='bool',),
-        ignore_server_port=dict(type='bool',),
         inline_health_monitor=dict(type='bool',),
         ipaddrgroup_ref=dict(type='str',),
         lb_algorithm=dict(type='str',),
@@ -564,9 +543,9 @@ def main():
         prst_hdr_name=dict(type='str',),
         request_queue_depth=dict(type='int',),
         request_queue_enabled=dict(type='bool',),
+        resolve_pool_by_dns=dict(type='bool',),
         rewrite_host_header_to_server_name=dict(type='bool',),
         rewrite_host_header_to_sni=dict(type='bool',),
-        routing_pool=dict(type='bool',),
         server_auto_scale=dict(type='bool',),
         server_count=dict(type='int',),
         server_name=dict(type='str',),
@@ -578,7 +557,6 @@ def main():
         ssl_key_and_certificate_ref=dict(type='str',),
         ssl_profile_ref=dict(type='str',),
         tenant_ref=dict(type='str',),
-        tier1_lr=dict(type='str',),
         url=dict(type='str',),
         use_service_port=dict(type='bool',),
         uuid=dict(type='str',),
@@ -592,7 +570,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'pool',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

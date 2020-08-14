@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -206,12 +206,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
-    enable_adaptive_config:
-        description:
-            - Enable adaptive configuration for optimizing resource usage.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
     enable_advanced_analytics:
         description:
             - Enables advanced analytics features like anomaly detection.
@@ -253,12 +247,6 @@ options:
             - Exclude invalid dns queries from the list of errors.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    exclude_issuer_revoked_ocsp_responses_as_error:
-        description:
-            - Exclude the issuer-revoked ocsp responses from the list of errors.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
     exclude_no_dns_record_as_error:
         description:
             - Exclude queries to domains that did not have configured services/records from the list of errors.
@@ -273,12 +261,6 @@ options:
         description:
             - Exclude persistence server changed while load balancing' from the list of errors.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
-    exclude_revoked_ocsp_responses_as_error:
-        description:
-            - Exclude the revoked ocsp certificate status responses from the list of errors.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     exclude_server_dns_error_as_error:
         description:
@@ -297,12 +279,6 @@ options:
             - Field introduced in 17.2.13, 18.1.5, 18.2.1.
         version_added: "2.9"
         type: list
-    exclude_stale_ocsp_responses_as_error:
-        description:
-            - Exclude the stale ocsp certificate status responses from the list of errors.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
     exclude_syn_retransmit_as_error:
         description:
             - Exclude 'server unanswered syns' from the list of errors.
@@ -312,12 +288,6 @@ options:
         description:
             - Exclude tcp resets by client from the list of potential errors.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
-    exclude_unavailable_ocsp_responses_as_error:
-        description:
-            - Exclude the unavailable ocsp responses from the list of errors.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     exclude_unsupported_dns_query_as_error:
         description:
@@ -449,13 +419,6 @@ options:
             - Penalty for allowing non-pfs handshakes.
             - Allowed values are 0-5.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.0.
-        type: float
-    hs_security_ocsp_revoked_score:
-        description:
-            - Score assigned when ocsp certificate status is set to revoked or issuer revoked.
-            - Allowed values are 0.0-5.0.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.0.
         type: float
     hs_security_selfsignedcert_penalty:
         description:
@@ -665,7 +628,6 @@ def main():
         disable_se_analytics=dict(type='bool',),
         disable_server_analytics=dict(type='bool',),
         disable_vs_analytics=dict(type='bool',),
-        enable_adaptive_config=dict(type='bool',),
         enable_advanced_analytics=dict(type='bool',),
         exclude_client_close_before_request_as_error=dict(type='bool',),
         exclude_dns_policy_drop_as_significant=dict(type='bool',),
@@ -673,18 +635,14 @@ def main():
         exclude_http_error_codes=dict(type='list',),
         exclude_invalid_dns_domain_as_error=dict(type='bool',),
         exclude_invalid_dns_query_as_error=dict(type='bool',),
-        exclude_issuer_revoked_ocsp_responses_as_error=dict(type='bool',),
         exclude_no_dns_record_as_error=dict(type='bool',),
         exclude_no_valid_gs_member_as_error=dict(type='bool',),
         exclude_persistence_change_as_error=dict(type='bool',),
-        exclude_revoked_ocsp_responses_as_error=dict(type='bool',),
         exclude_server_dns_error_as_error=dict(type='bool',),
         exclude_server_tcp_reset_as_error=dict(type='bool',),
         exclude_sip_error_codes=dict(type='list',),
-        exclude_stale_ocsp_responses_as_error=dict(type='bool',),
         exclude_syn_retransmit_as_error=dict(type='bool',),
         exclude_tcp_reset_as_error=dict(type='bool',),
-        exclude_unavailable_ocsp_responses_as_error=dict(type='bool',),
         exclude_unsupported_dns_query_as_error=dict(type='bool',),
         healthscore_max_server_limit=dict(type='int',),
         hs_event_throttle_window=dict(type='int',),
@@ -707,7 +665,6 @@ def main():
         hs_security_encalgo_score_rc4=dict(type='float',),
         hs_security_hsts_penalty=dict(type='float',),
         hs_security_nonpfs_penalty=dict(type='float',),
-        hs_security_ocsp_revoked_score=dict(type='float',),
         hs_security_selfsignedcert_penalty=dict(type='float',),
         hs_security_ssl30_score=dict(type='float',),
         hs_security_tls10_score=dict(type='float',),
@@ -733,7 +690,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'analyticsprofile',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

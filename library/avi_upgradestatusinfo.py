@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -47,17 +47,17 @@ options:
     after_reboot_rollback_fnc:
         description:
             - Backward compatible abort function name.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     after_reboot_task_name:
         description:
             - Backward compatible task dict name.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     clean:
         description:
             - Flag for clean installation.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: bool
     duration:
         description:
@@ -89,7 +89,7 @@ options:
     image_path:
         description:
             - Image path of current base image.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     image_ref:
         description:
@@ -127,7 +127,7 @@ options:
     patch_image_path:
         description:
             - Image path of current patch image.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     patch_image_ref:
         description:
@@ -141,12 +141,12 @@ options:
             - List of patches applied to this node.
             - Example  base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'},
             - {'6p5', '6p5_image_uuid'}] value.
-            - Field introduced in 18.2.8, 20.1.1.
+            - Field introduced in 18.2.8.
         type: list
     patch_reboot:
         description:
             - Flag for patch op with reboot.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: bool
     patch_version:
         description:
@@ -157,12 +157,12 @@ options:
     prev_image_path:
         description:
             - Image path of previous base image.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     prev_patch_image_path:
         description:
             - Image path of previous patch image.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     previous_image_ref:
         description:
@@ -182,7 +182,7 @@ options:
     previous_patch_list:
         description:
             - List of patches applied to this node on previous major version.
-            - Field introduced in 18.2.8, 20.1.1.
+            - Field introduced in 18.2.8.
         type: list
     previous_patch_version:
         description:
@@ -201,19 +201,19 @@ options:
         description:
             - Upgrade operations progress which holds value between 0-100.
             - Allowed values are 0-100.
-            - Field introduced in 18.2.8, 20.1.1.
+            - Field introduced in 18.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     se_patch_image_path:
         description:
             - Image path of se patch image.(required in case of reimage and upgrade + patch).
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     se_patch_image_ref:
         description:
             - Image uuid for identifying the current se patch required in case of system upgrade(re-image) with se patch.
             - It is a reference to an object of type image.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: str
     se_upgrade_events:
         description:
@@ -225,7 +225,7 @@ options:
             - Se_patch may be different from the controller_patch.
             - It has to be saved in the journal for subsequent consumption.
             - The segroup params will be saved in the controller entry as seg_params.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
         type: dict
     seg_status:
         description:
@@ -375,7 +375,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'upgradestatusinfo',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

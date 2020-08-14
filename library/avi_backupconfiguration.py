@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -69,7 +69,7 @@ options:
         type: str
     backup_passphrase:
         description:
-            - Default passphrase for configuration export and periodic backup.
+            - Passphrase of backup configuration.
         type: str
     maximum_backups_stored:
         description:
@@ -186,7 +186,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'backupconfiguration',
-                           {'aws_access_key', 'backup_passphrase', 'aws_secret_access'})
+                           set(['backup_passphrase', 'aws_access_key', 'aws_secret_access']))
 
 
 if __name__ == '__main__':
