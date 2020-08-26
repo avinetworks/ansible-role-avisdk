@@ -820,6 +820,13 @@ options:
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
+    se_delayed_flow_delete:
+        description:
+            - Delay the cleanup of flowtable entry.
+            - To be used under surveillance of avi support.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     se_deprovision_delay:
         description:
             - Duration to preserve unused service engine virtual machines before deleting them.
@@ -1089,6 +1096,14 @@ options:
             - Field introduced in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as 64.
         version_added: "2.9"
+        type: int
+    se_txq_threshold:
+        description:
+            - Once the tx queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets.
+            - To be used under surveillance of avi support.
+            - Allowed values are 512-32768.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2048.
         type: int
     se_udp_encap_ipc:
         description:
@@ -1487,6 +1502,7 @@ def main():
         reboot_on_panic=dict(type='bool',),
         reboot_on_stop=dict(type='bool',),
         se_bandwidth_type=dict(type='str',),
+        se_delayed_flow_delete=dict(type='bool',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
         se_dp_vnic_queue_stall_event_sleep=dict(type='int',),
@@ -1524,6 +1540,7 @@ def main():
         se_tunnel_mode=dict(type='int',),
         se_tunnel_udp_port=dict(type='int',),
         se_tx_batch_size=dict(type='int',),
+        se_txq_threshold=dict(type='int',),
         se_udp_encap_ipc=dict(type='int',),
         se_use_dpdk=dict(type='int',),
         se_vs_hb_max_pkts_in_batch=dict(type='int',),
