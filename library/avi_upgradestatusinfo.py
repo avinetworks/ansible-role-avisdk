@@ -44,6 +44,21 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    after_reboot_rollback_fnc:
+        description:
+            - Backward compatible abort function name.
+            - Field introduced in 18.2.10.
+        type: str
+    after_reboot_task_name:
+        description:
+            - Backward compatible task dict name.
+            - Field introduced in 18.2.10.
+        type: str
+    clean:
+        description:
+            - Flag for clean installation.
+            - Field introduced in 18.2.10.
+        type: bool
     duration:
         description:
             - Duration of upgrade operation in seconds.
@@ -70,6 +85,11 @@ options:
         description:
             - Enqueue time of upgrade operation.
             - Field introduced in 18.2.6.
+        type: str
+    image_path:
+        description:
+            - Image path of current base image.
+            - Field introduced in 18.2.10.
         type: str
     image_ref:
         description:
@@ -104,6 +124,11 @@ options:
             - Parameters associated with the upgrade operation.
             - Field introduced in 18.2.6.
         type: dict
+    patch_image_path:
+        description:
+            - Image path of current patch image.
+            - Field introduced in 18.2.10.
+        type: str
     patch_image_ref:
         description:
             - Image uuid for identifying the current patch.example  base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1
@@ -118,11 +143,26 @@ options:
             - {'6p5', '6p5_image_uuid'}] value.
             - Field introduced in 18.2.8.
         type: list
+    patch_reboot:
+        description:
+            - Flag for patch op with reboot.
+            - Field introduced in 18.2.10.
+        type: bool
     patch_version:
         description:
             - Current patch version applied to this node.
             - Example  base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value.
             - Field introduced in 18.2.6.
+        type: str
+    prev_image_path:
+        description:
+            - Image path of previous base image.
+            - Field introduced in 18.2.10.
+        type: str
+    prev_patch_image_path:
+        description:
+            - Image path of previous patch image.
+            - Field introduced in 18.2.10.
         type: str
     previous_image_ref:
         description:
@@ -164,11 +204,29 @@ options:
             - Field introduced in 18.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
+    se_patch_image_path:
+        description:
+            - Image path of se patch image.(required in case of reimage and upgrade + patch).
+            - Field introduced in 18.2.10.
+        type: str
+    se_patch_image_ref:
+        description:
+            - Image uuid for identifying the current se patch required in case of system upgrade(re-image) with se patch.
+            - It is a reference to an object of type image.
+            - Field introduced in 18.2.10.
+        type: str
     se_upgrade_events:
         description:
             - Serviceenginegroup upgrade errors.
             - Field introduced in 18.2.6.
         type: list
+    seg_params:
+        description:
+            - Se_patch may be different from the controller_patch.
+            - It has to be saved in the journal for subsequent consumption.
+            - The segroup params will be saved in the controller entry as seg_params.
+            - Field introduced in 18.2.10.
+        type: dict
     seg_status:
         description:
             - Detailed segroup status.
@@ -265,27 +323,38 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        after_reboot_rollback_fnc=dict(type='str',),
+        after_reboot_task_name=dict(type='str',),
+        clean=dict(type='bool',),
         duration=dict(type='int',),
         enable_patch_rollback=dict(type='bool',),
         enable_rollback=dict(type='bool',),
         end_time=dict(type='str',),
         enqueue_time=dict(type='str',),
+        image_path=dict(type='str',),
         image_ref=dict(type='str',),
         name=dict(type='str',),
         node_type=dict(type='str',),
         obj_cloud_ref=dict(type='str',),
         obj_state=dict(type='dict',),
         params=dict(type='dict',),
+        patch_image_path=dict(type='str',),
         patch_image_ref=dict(type='str',),
         patch_list=dict(type='list',),
+        patch_reboot=dict(type='bool',),
         patch_version=dict(type='str',),
+        prev_image_path=dict(type='str',),
+        prev_patch_image_path=dict(type='str',),
         previous_image_ref=dict(type='str',),
         previous_patch_image_ref=dict(type='str',),
         previous_patch_list=dict(type='list',),
         previous_patch_version=dict(type='str',),
         previous_version=dict(type='str',),
         progress=dict(type='int',),
+        se_patch_image_path=dict(type='str',),
+        se_patch_image_ref=dict(type='str',),
         se_upgrade_events=dict(type='list',),
+        seg_params=dict(type='dict',),
         seg_status=dict(type='dict',),
         start_time=dict(type='str',),
         system=dict(type='bool',),

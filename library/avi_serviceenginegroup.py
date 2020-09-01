@@ -513,6 +513,11 @@ options:
         description:
             - Iptable rules.
         type: list
+    labels:
+        description:
+            - Labels associated with this se group.
+            - Field introduced in 18.2.10.
+        type: list
     least_load_core_selection:
         description:
             - Select core with least load for new flow.
@@ -1165,6 +1170,13 @@ options:
         description:
             - It is a reference to an object of type tenant.
         type: str
+    transient_shared_memory_max:
+        description:
+            - The threshold for the transient shared config memory in the se.
+            - Allowed values are 0-100.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 30.
+        type: int
     udf_log_throttle:
         description:
             - This setting limits the number of udf logs generated per second per core on this se.
@@ -1428,6 +1440,7 @@ def main():
         ingress_access_mgmt=dict(type='str',),
         instance_flavor=dict(type='str',),
         iptables=dict(type='list',),
+        labels=dict(type='list',),
         least_load_core_selection=dict(type='bool',),
         license_tier=dict(type='str',),
         license_type=dict(type='str',),
@@ -1522,6 +1535,7 @@ def main():
         significant_log_throttle=dict(type='int',),
         ssl_preprocess_sni_hostname=dict(type='bool',),
         tenant_ref=dict(type='str',),
+        transient_shared_memory_max=dict(type='int',),
         udf_log_throttle=dict(type='int',),
         url=dict(type='str',),
         use_standard_alb=dict(type='bool',),
