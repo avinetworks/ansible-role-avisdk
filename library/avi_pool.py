@@ -329,6 +329,12 @@ options:
             - Enable request queue when pool is full.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    resolve_pool_by_dns:
+        description:
+            - This field is used as a flag to create a job for jobmanager.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     rewrite_host_header_to_server_name:
         description:
             - Rewrite incoming host header to server name of the server to which the request is proxied.
@@ -537,6 +543,7 @@ def main():
         prst_hdr_name=dict(type='str',),
         request_queue_depth=dict(type='int',),
         request_queue_enabled=dict(type='bool',),
+        resolve_pool_by_dns=dict(type='bool',),
         rewrite_host_header_to_server_name=dict(type='bool',),
         rewrite_host_header_to_sni=dict(type='bool',),
         server_auto_scale=dict(type='bool',),

@@ -332,10 +332,25 @@ options:
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5.
         type: int
+    upgrade_fat_se_lease_time:
+        description:
+            - Amount of time controller waits for a large-sized se (>=128gb memory) to reconnect after it is rebooted during upgrade.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1200.
+        type: int
     upgrade_lease_time:
         description:
-            - Number of upgrade_lease_time.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
+            - Amount of time controller waits for a regular-sized se (<128gb memory) to reconnect after it is rebooted during upgrade.
+            - Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 600.
+        type: int
+    upgrade_se_per_vs_scale_ops_txn_time:
+        description:
+            - This parameter defines the upper-bound value of the vs scale-in or vs scale-out operation executed in the sescalein and sescale context.
+            - User can tweak this parameter to a higher value if the segroup gets suspended due to sescalein or sescaleout timeout failure typically associated
+            - with high number of vs(es) scaled out.
+            - Field introduced in 18.2.10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3.
         type: int
     url:
         description:
@@ -507,7 +522,9 @@ def main():
         ssl_certificate_expiry_warning_days=dict(type='list',),
         unresponsive_se_reboot=dict(type='int',),
         upgrade_dns_ttl=dict(type='int',),
+        upgrade_fat_se_lease_time=dict(type='int',),
         upgrade_lease_time=dict(type='int',),
+        upgrade_se_per_vs_scale_ops_txn_time=dict(type='int',),
         url=dict(type='str',),
         uuid=dict(type='str',),
         vnic_op_fail_time=dict(type='int',),
