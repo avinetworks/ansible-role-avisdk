@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -115,11 +115,6 @@ options:
             - Name for the gslb object.
         required: true
         type: str
-    replication_policy:
-        description:
-            - Policy for replicating configuration to the active follower sites.
-            - Field introduced in 20.1.1.
-        type: dict
     send_interval:
         description:
             - Frequency with which group members communicate.
@@ -396,7 +391,6 @@ def main():
         leader_cluster_uuid=dict(type='str', required=True),
         maintenance_mode=dict(type='bool',),
         name=dict(type='str', required=True),
-        replication_policy=dict(type='dict',),
         send_interval=dict(type='int',),
         send_interval_prior_to_maintenance_mode=dict(type='int',),
         sites=dict(type='list',),
@@ -447,7 +441,7 @@ def main():
             )
 
     return avi_ansible_api(module, 'gslb',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

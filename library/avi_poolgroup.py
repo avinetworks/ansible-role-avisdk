@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -67,12 +67,6 @@ options:
         description:
             - Description of pool group.
         type: str
-    enable_http2:
-        description:
-            - Enable http/2 for traffic from virtualservice to all the backend servers in all the pools configured under this poolgroup.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     fail_action:
         description:
             - Enable an action - close connection, http redirect, or local http response - when a pool group failure happens.
@@ -172,7 +166,6 @@ def main():
         created_by=dict(type='str',),
         deployment_policy_ref=dict(type='str',),
         description=dict(type='str',),
-        enable_http2=dict(type='bool',),
         fail_action=dict(type='dict',),
         implicit_priority_labels=dict(type='bool',),
         members=dict(type='list',),
@@ -192,7 +185,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'poolgroup',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

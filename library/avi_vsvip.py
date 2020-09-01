@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -71,11 +71,6 @@ options:
         description:
             - It is a reference to an object of type tenant.
             - Field introduced in 17.1.1.
-        type: str
-    tier1_lr:
-        description:
-            - This sets the placement scope of virtualservice to given tier1 logical router in nsx-t.
-            - Field introduced in 20.1.1.
         type: str
     url:
         description:
@@ -170,7 +165,6 @@ def main():
         east_west_placement=dict(type='bool',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        tier1_lr=dict(type='str',),
         url=dict(type='str',),
         use_standard_alb=dict(type='bool',),
         uuid=dict(type='str',),
@@ -186,7 +180,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'vsvip',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

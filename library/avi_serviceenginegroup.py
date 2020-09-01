@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -95,16 +95,8 @@ options:
             - Allowed values are 0 - 100.
             - Special values are 0- 'disable'.
             - Field introduced in 18.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
-        type: int
-    app_cache_threshold:
-        description:
-            - The max memory that can be allocated for the app cache.
-            - This value will act as an upper bound on the cache size specified in app_cache_percent.
-            - Special values are 0- 'disable'.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 5.
         type: int
     app_learning_memory_percent:
         description:
@@ -164,12 +156,6 @@ options:
             - If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to rest api.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    availability_zone_refs:
-        description:
-            - Availability zones for virtual service high availability.
-            - It is a reference to an object of type availabilityzone.
-            - Field introduced in 20.1.1.
-        type: list
     bgp_state_update_interval:
         description:
             - Bgp peer state update interval.
@@ -190,7 +176,7 @@ options:
     compress_ip_rules_for_each_ns_subnet:
         description:
             - Compress ip rules into a single subnet based ip rule for each north-south ipam subnet configured in pcap mode in openshift/kubernetes node.
-            - Field introduced in 18.2.9, 20.1.1.
+            - Field introduced in 18.2.9.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     config_debugs_on_all_cores:
@@ -210,13 +196,13 @@ options:
     core_shm_app_cache:
         description:
             - Include shared memory for app cache in core file.requires se reboot.
-            - Field introduced in 18.2.8, 20.1.1.
+            - Field introduced in 18.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     core_shm_app_learning:
         description:
             - Include shared memory for app learning in core file.requires se reboot.
-            - Field introduced in 18.2.8, 20.1.1.
+            - Field introduced in 18.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     cpu_reserve:
@@ -313,7 +299,7 @@ options:
     disk_per_se:
         description:
             - Amount of disk space for each of the service engine virtual machines.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 15.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
     distribute_load_active_standby:
         description:
@@ -523,11 +509,6 @@ options:
         description:
             - Instance/flavor name for se instance.
         type: str
-    instance_flavor_info:
-        description:
-            - Additional information associated with instance_flavor.
-            - Field introduced in 20.1.1.
-        type: dict
     iptables:
         description:
             - Iptable rules.
@@ -535,7 +516,7 @@ options:
     labels:
         description:
             - Labels associated with this se group.
-            - Field introduced in 20.1.1.
+            - Field introduced in 18.2.10.
         type: list
     least_load_core_selection:
         description:
@@ -546,7 +527,7 @@ options:
         description:
             - Specifies the license tier which would be used.
             - This field by default inherits the value from cloud.
-            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+            - Enum options - ENTERPRISE_16, ENTERPRISE_18.
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
@@ -584,14 +565,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 64.
         version_added: "2.9"
         type: int
-    max_num_se_dps:
-        description:
-            - Configures the maximum number of se_dp processes created on the se, requires se reboot.
-            - If not configured, defaults to the number of cpus on the se.
-            - This should only be used if user wants to limit the number of se_dps to less than the available cpus on the se.
-            - Allowed values are 1-128.
-            - Field introduced in 20.1.1.
-        type: int
     max_public_ips_per_lb:
         description:
             - Applicable to azure platform only.
@@ -604,7 +577,7 @@ options:
         description:
             - Maximum number of queues per vnic setting to '0' utilises all queues that are distributed across dispatcher cores.
             - Allowed values are 0,1,2,4,8,16.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Field introduced in 18.2.7.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     max_rules_per_lb:
@@ -807,7 +780,7 @@ options:
             - Determines the pcap transmit mode of operation.
             - Requires se reboot.
             - Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING.
-            - Field introduced in 18.2.8, 20.1.1.
+            - Field introduced in 18.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as PCAP_TX_AUTO.
         type: str
     per_app:
@@ -840,13 +813,6 @@ options:
             - Field deprecated in 18.2.5.
         version_added: "2.9"
         type: bool
-    resync_time_interval:
-        description:
-            - Time interval to re-sync se's time with wall clock time.
-            - Allowed values are 8-600000.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 65536.
-        type: int
     se_bandwidth_type:
         description:
             - Select the se bandwidth for the bandwidth license.
@@ -866,14 +832,6 @@ options:
         description:
             - Dosthresholdprofile settings for serviceenginegroup.
         type: dict
-    se_dp_max_hb_version:
-        description:
-            - The highest supported se-se heartbeat protocol version.
-            - This version is reported by secondary se to primary se in heartbeat response messages.
-            - Allowed values are 1-2.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
-        type: int
     se_dp_vnic_queue_stall_event_sleep:
         description:
             - Time (in seconds) service engine waits for after generating a vnic transmit queue stall event before resetting thenic.
@@ -942,21 +900,11 @@ options:
             - Field introduced in 18.1.4, 18.2.1.
         version_added: "2.9"
         type: int
-    se_hyperthreaded_mode:
-        description:
-            - Controls the distribution of se data path processes on cpus which support hyper-threading.
-            - Requires hyper-threading to be enabled at host level.
-            - Requires se reboot.
-            - For more details please refer to se placement kb.
-            - Enum options - SE_CPU_HT_AUTO, SE_CPU_HT_SPARSE_DISPATCHER_PRIORITY, SE_CPU_HT_SPARSE_PROXY_PRIORITY, SE_CPU_HT_PACKED_CORES.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as SE_CPU_HT_AUTO.
-        type: str
     se_ipc_udp_port:
         description:
             - Udp port for se_dp ipc in docker bridge mode.
-            - Field deprecated in 20.1.1.
             - Field introduced in 17.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1500.
         version_added: "2.4"
         type: int
     se_kni_burst_factor:
@@ -980,7 +928,7 @@ options:
         description:
             - Mtu for the vnics of ses in the se group.
             - Allowed values are 512-9000.
-            - Field introduced in 18.2.8, 20.1.1.
+            - Field introduced in 18.2.8.
         type: int
     se_name_prefix:
         description:
@@ -1050,14 +998,14 @@ options:
     se_remote_punt_udp_port:
         description:
             - Udp port for punted packets in docker bridge mode.
-            - Field deprecated in 20.1.1.
             - Field introduced in 17.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1501.
         version_added: "2.4"
         type: int
     se_rl_prop:
         description:
             - Rate limiter properties.
-            - Field introduced in 20.1.1.
+            - Field introduced in 18.2.9.
         type: dict
     se_routing:
         description:
@@ -1160,23 +1108,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
-    se_vnic_tx_sw_queue_flush_frequency:
-        description:
-            - Configure the frequency in milliseconds of software transmit spillover queue flush when enabled.
-            - This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation.
-            - Allowed values are 50-500.
-            - Special values are 0- 'disable'.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
-        type: int
-    se_vnic_tx_sw_queue_size:
-        description:
-            - Configure the size of software transmit spillover queue when enabled.
-            - Requires se reboot.
-            - Allowed values are 128-2048.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 256.
-        type: int
     se_vs_hb_max_pkts_in_batch:
         description:
             - Maximum number of aggregated vs heartbeat packets to send in a batch.
@@ -1243,7 +1174,7 @@ options:
         description:
             - The threshold for the transient shared config memory in the se.
             - Allowed values are 0-100.
-            - Field introduced in 20.1.1.
+            - Field introduced in 18.2.10.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         type: int
     udf_log_throttle:
@@ -1259,13 +1190,6 @@ options:
         description:
             - Avi controller URL of the object.
         type: str
-    use_hyperthreaded_cores:
-        description:
-            - Enables the use of hyper-threaded cores on se.
-            - Requires se reboot.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
     use_standard_alb:
         description:
             - Use standard sku azure load balancer.
@@ -1305,11 +1229,6 @@ options:
         description:
             - Vcenterhosts settings for serviceenginegroup.
         type: dict
-    vcenters:
-        description:
-            - Vcenter information for scoping at host/cluster level.
-            - Field introduced in 20.1.1.
-        type: list
     vcpus_per_se:
         description:
             - Number of vcpus for each of the service engine virtual machines.
@@ -1457,7 +1376,6 @@ def main():
         algo=dict(type='str',),
         allow_burst=dict(type='bool',),
         app_cache_percent=dict(type='int',),
-        app_cache_threshold=dict(type='int',),
         app_learning_memory_percent=dict(type='int',),
         archive_shm_limit=dict(type='int',),
         async_ssl=dict(type='bool',),
@@ -1467,7 +1385,6 @@ def main():
         auto_rebalance_criteria=dict(type='list',),
         auto_rebalance_interval=dict(type='int',),
         auto_redistribute_active_standby_load=dict(type='bool',),
-        availability_zone_refs=dict(type='list',),
         bgp_state_update_interval=dict(type='int',),
         buffer_se=dict(type='int',),
         cloud_ref=dict(type='str',),
@@ -1522,7 +1439,6 @@ def main():
         ingress_access_data=dict(type='str',),
         ingress_access_mgmt=dict(type='str',),
         instance_flavor=dict(type='str',),
-        instance_flavor_info=dict(type='dict',),
         iptables=dict(type='list',),
         labels=dict(type='list',),
         least_load_core_selection=dict(type='bool',),
@@ -1532,7 +1448,6 @@ def main():
         max_concurrent_external_hm=dict(type='int',),
         max_cpu_usage=dict(type='int',),
         max_memory_per_mempool=dict(type='int',),
-        max_num_se_dps=dict(type='int',),
         max_public_ips_per_lb=dict(type='int',),
         max_queues_per_vnic=dict(type='int',),
         max_rules_per_lb=dict(type='int',),
@@ -1571,11 +1486,9 @@ def main():
         realtime_se_metrics=dict(type='dict',),
         reboot_on_panic=dict(type='bool',),
         reboot_on_stop=dict(type='bool',),
-        resync_time_interval=dict(type='int',),
         se_bandwidth_type=dict(type='str',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
-        se_dp_max_hb_version=dict(type='int',),
         se_dp_vnic_queue_stall_event_sleep=dict(type='int',),
         se_dp_vnic_queue_stall_threshold=dict(type='int',),
         se_dp_vnic_queue_stall_timeout=dict(type='int',),
@@ -1585,7 +1498,6 @@ def main():
         se_flow_probe_retries=dict(type='int',),
         se_flow_probe_retry_timer=dict(type='int',),
         se_flow_probe_timer=dict(type='int',),
-        se_hyperthreaded_mode=dict(type='str',),
         se_ipc_udp_port=dict(type='int',),
         se_kni_burst_factor=dict(type='int',),
         se_lro=dict(type='bool',),
@@ -1614,8 +1526,6 @@ def main():
         se_tx_batch_size=dict(type='int',),
         se_udp_encap_ipc=dict(type='int',),
         se_use_dpdk=dict(type='int',),
-        se_vnic_tx_sw_queue_flush_frequency=dict(type='int',),
-        se_vnic_tx_sw_queue_size=dict(type='int',),
         se_vs_hb_max_pkts_in_batch=dict(type='int',),
         se_vs_hb_max_vs_in_pkt=dict(type='int',),
         self_se_election=dict(type='bool',),
@@ -1628,7 +1538,6 @@ def main():
         transient_shared_memory_max=dict(type='int',),
         udf_log_throttle=dict(type='int',),
         url=dict(type='str',),
-        use_hyperthreaded_cores=dict(type='bool',),
         use_standard_alb=dict(type='bool',),
         uuid=dict(type='str',),
         vcenter_clusters=dict(type='dict',),
@@ -1637,7 +1546,6 @@ def main():
         vcenter_datastores_include=dict(type='bool',),
         vcenter_folder=dict(type='str',),
         vcenter_hosts=dict(type='dict',),
-        vcenters=dict(type='list',),
         vcpus_per_se=dict(type='int',),
         vip_asg=dict(type='dict',),
         vs_host_redundancy=dict(type='bool',),
@@ -1662,7 +1570,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'serviceenginegroup',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -66,11 +66,6 @@ options:
             - Name of the object.
         required: true
         type: str
-    nsxt_credentials:
-        description:
-            - Credentials to talk to nsx-t manager.
-            - Field introduced in 20.1.1.
-        type: dict
     obj_password:
         description:
             - Password of cloudconnectoruser.
@@ -108,11 +103,6 @@ options:
         description:
             - Unique object identifier of the object.
         type: str
-    vcenter_credentials:
-        description:
-            - Credentials to talk to vcenter.
-            - Field introduced in 20.1.1.
-        type: dict
 
 
 extends_documentation_fragment:
@@ -161,7 +151,6 @@ def main():
         azure_userpass=dict(type='dict',),
         gcp_credentials=dict(type='dict',),
         name=dict(type='str', required=True),
-        nsxt_credentials=dict(type='dict',),
         obj_password=dict(type='str',),
         oci_credentials=dict(type='dict',),
         private_key=dict(type='str', no_log=True,),
@@ -170,7 +159,6 @@ def main():
         tencent_credentials=dict(type='dict',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_credentials=dict(type='dict',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -180,7 +168,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'cloudconnectoruser',
-                           {'password', 'private_key'})
+                           set(['private_key', 'password']))
 
 
 if __name__ == '__main__':
