@@ -67,6 +67,12 @@ options:
             - Allowed values are 1-99.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         type: int
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     max_scalein_adjustment_step:
         description:
             - Maximum number of servers to scalein simultaneously.
@@ -102,6 +108,7 @@ options:
     scalein_cooldown:
         description:
             - Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
     scaleout_alertconfig_refs:
@@ -112,6 +119,7 @@ options:
     scaleout_cooldown:
         description:
             - Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
     tenant_ref:
@@ -175,6 +183,7 @@ def main():
         intelligent_autoscale=dict(type='bool',),
         intelligent_scalein_margin=dict(type='int',),
         intelligent_scaleout_margin=dict(type='int',),
+        labels=dict(type='list',),
         max_scalein_adjustment_step=dict(type='int',),
         max_scaleout_adjustment_step=dict(type='int',),
         max_size=dict(type='int',),

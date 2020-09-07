@@ -53,6 +53,12 @@ options:
         description:
             - Configure key value in the string group.
         type: list
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     longest_match:
         description:
             - Enable the longest match, default is the shortest match.
@@ -136,6 +142,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         kv=dict(type='list',),
+        labels=dict(type='list',),
         longest_match=dict(type='bool',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),

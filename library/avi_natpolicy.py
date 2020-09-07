@@ -53,6 +53,12 @@ options:
         description:
             - Field introduced in 18.2.3.
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name of the nat policy.
@@ -119,6 +125,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         created_by=dict(type='str',),
         description=dict(type='str',),
+        labels=dict(type='list',),
         name=dict(type='str',),
         rules=dict(type='list',),
         tenant_ref=dict(type='str',),

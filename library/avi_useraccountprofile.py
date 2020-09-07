@@ -49,12 +49,14 @@ options:
         description:
             - Lock timeout period (in minutes).
             - Default is 30 minutes.
+            - Unit is min.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         type: int
     credentials_timeout_threshold:
         description:
             - The time period after which credentials expire.
             - Default is 180 days.
+            - Unit is days.
             - Default value when not specified in API or module is interpreted by Avi Controller as 180.
         type: int
     max_concurrent_sessions:

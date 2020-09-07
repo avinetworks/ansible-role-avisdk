@@ -67,6 +67,12 @@ options:
             - Name of the object.
         required: true
         type: str
+    suggested_object_labels:
+        description:
+            - Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
+            - Every entry is unique in both key and value.
+            - Field introduced in 20.1.2.
+        type: list
     url:
         description:
             - Avi controller URL of the object.
@@ -125,6 +131,7 @@ def main():
         description=dict(type='str',),
         local=dict(type='bool',),
         name=dict(type='str', required=True),
+        suggested_object_labels=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )

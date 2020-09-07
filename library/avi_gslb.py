@@ -51,6 +51,7 @@ options:
             - Value of 0 disables async behavior and rpc are sent inline.
             - Allowed values are 0-5.
             - Field introduced in 18.2.3.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
@@ -83,6 +84,7 @@ options:
             - Allowed values are 60-3600.
             - Special values are 0 - 'disable'.
             - Field introduced in 18.2.3.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         version_added: "2.9"
         type: int
@@ -124,6 +126,7 @@ options:
         description:
             - Frequency with which group members communicate.
             - Allowed values are 1-3600.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
         type: int
     send_interval_prior_to_maintenance_mode:
@@ -133,6 +136,7 @@ options:
             - When the user leaves maintenance mode, the original send-interval is reinstated.
             - This internal variable is used to store the original send-interval.
             - Field introduced in 18.2.3.
+            - Unit is sec.
         version_added: "2.9"
         type: int
     sites:

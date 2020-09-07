@@ -51,6 +51,7 @@ options:
             - It is considered tolerated if it is not satisfied and less than tolerated latency factor multiplied by the satisfactory latency threshold.
             - Greater than this number and the client's request is considered frustrated.
             - Allowed values are 1-30000.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 500.
         type: int
     apdex_response_tolerated_factor:
@@ -64,6 +65,7 @@ options:
         description:
             - Satisfactory client to avi round trip time(rtt).
             - Allowed values are 1-2000.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 250.
         type: int
     apdex_rtt_tolerated_factor:
@@ -80,6 +82,7 @@ options:
             - Greater than this number and the client's request is considered frustrated.
             - A pageload includes the time for dns lookup, download of all http objects, and page render time.
             - Allowed values are 1-30000.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5000.
         type: int
     apdex_rum_tolerated_factor:
@@ -94,6 +97,7 @@ options:
             - The response is considered tolerated when it is greater than satisfied but less than the tolerated latency factor * s_latency.
             - Greater than this number and the server response is considered frustrated.
             - Allowed values are 1-30000.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 400.
         type: int
     apdex_server_response_tolerated_factor:
@@ -107,6 +111,7 @@ options:
         description:
             - Satisfactory client to avi round trip time(rtt).
             - Allowed values are 1-2000.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 125.
         type: int
     apdex_server_rtt_tolerated_factor:
@@ -130,48 +135,56 @@ options:
         description:
             - A connection between client and avi is considered lossy when more than this percentage of out of order packets are received.
             - Allowed values are 1-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 50.
         type: int
     conn_lossy_timeo_rexmt_threshold:
         description:
             - A connection between client and avi is considered lossy when more than this percentage of packets are retransmitted due to timeout.
             - Allowed values are 1-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         type: int
     conn_lossy_total_rexmt_threshold:
         description:
             - A connection between client and avi is considered lossy when more than this percentage of packets are retransmitted.
             - Allowed values are 1-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 50.
         type: int
     conn_lossy_zero_win_size_event_threshold:
         description:
             - A client connection is considered lossy when percentage of times a packet could not be trasmitted due to tcp zero window is above this threshold.
             - Allowed values are 0-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         type: int
     conn_server_lossy_ooo_threshold:
         description:
             - A connection between avi and server is considered lossy when more than this percentage of out of order packets are received.
             - Allowed values are 1-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 50.
         type: int
     conn_server_lossy_timeo_rexmt_threshold:
         description:
             - A connection between avi and server is considered lossy when more than this percentage of packets are retransmitted due to timeout.
             - Allowed values are 1-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         type: int
     conn_server_lossy_total_rexmt_threshold:
         description:
             - A connection between avi and server is considered lossy when more than this percentage of packets are retransmitted.
             - Allowed values are 1-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 50.
         type: int
     conn_server_lossy_zero_win_size_event_threshold:
         description:
             - A server connection is considered lossy when percentage of times a packet could not be trasmitted due to tcp zero window is above this threshold.
             - Allowed values are 0-100.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         type: int
     description:
@@ -500,6 +513,12 @@ options:
             - Allowed values are 0-5.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.0.
         type: float
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - The name of the analytics profile.
@@ -510,6 +529,7 @@ options:
             - This flag sets the time duration of no live data traffic after which virtual service metrics processing is suspended.
             - It is applicable only when disable_ondemand_metrics is set to false.
             - Field introduced in 18.1.1.
+            - Unit is seconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1800.
         version_added: "2.9"
         type: int
@@ -715,6 +735,7 @@ def main():
         hs_security_tls12_score=dict(type='float',),
         hs_security_tls13_score=dict(type='float',),
         hs_security_weak_signature_algo_penalty=dict(type='float',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         ondemand_metrics_idle_timeout=dict(type='int',),
         ranges=dict(type='list',),

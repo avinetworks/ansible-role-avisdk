@@ -65,6 +65,12 @@ options:
         description:
             - Configure (ip address, port) tuple(s).
         type: list
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     marathon_app_name:
         description:
             - Populate ip addresses from tasks of this marathon app.
@@ -157,6 +163,7 @@ def main():
         country_codes=dict(type='list',),
         description=dict(type='str',),
         ip_ports=dict(type='list',),
+        labels=dict(type='list',),
         marathon_app_name=dict(type='str',),
         marathon_service_port=dict(type='int',),
         name=dict(type='str', required=True),

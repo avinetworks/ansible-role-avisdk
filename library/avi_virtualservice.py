@@ -310,6 +310,12 @@ options:
             - Field introduced in 17.2.7.
         version_added: "2.6"
         type: list
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     limit_doser:
         description:
             - Limit potential dos attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
@@ -356,7 +362,7 @@ options:
         type: str
     nsx_securitygroup:
         description:
-            - A list of nsx service groups representing the clients which can access the virtual ip of the virtual service.
+            - A list of nsx groups representing the clients which can access the virtual ip of the virtual service.
             - Field introduced in 17.1.1.
         version_added: "2.4"
         type: list
@@ -717,6 +723,7 @@ def main():
         ip_address=dict(type='dict',),
         ipam_network_subnet=dict(type='dict',),
         l4_policies=dict(type='list',),
+        labels=dict(type='list',),
         limit_doser=dict(type='bool',),
         max_cps_per_client=dict(type='int',),
         microservice_ref=dict(type='str',),

@@ -61,6 +61,12 @@ options:
             - It is a reference to an object of type fileobject.
             - Field introduced in 20.1.1.
         type: list
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Ip reputation db name.
@@ -143,6 +149,7 @@ def main():
         base_file_refs=dict(type='list',),
         description=dict(type='str',),
         incremental_file_refs=dict(type='list',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         service_status=dict(type='dict',),
         tenant_ref=dict(type='str',),

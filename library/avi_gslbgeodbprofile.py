@@ -61,6 +61,12 @@ options:
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - A user-friendly name for the geodb profile.
@@ -124,6 +130,7 @@ def main():
         description=dict(type='str',),
         entries=dict(type='list',),
         is_federated=dict(type='bool',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

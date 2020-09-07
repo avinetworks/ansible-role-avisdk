@@ -45,6 +45,13 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    filters:
+        description:
+            - Filters for granular object access control based on object labels.
+            - Multiple filters are merged using the and operator.
+            - If empty, all objects according to the privileges will be accessible to the user.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name of the object.
@@ -106,6 +113,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        filters=dict(type='list',),
         name=dict(type='str', required=True),
         privileges=dict(type='list',),
         tenant_ref=dict(type='str',),

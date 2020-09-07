@@ -113,6 +113,12 @@ options:
             - Field introduced in 17.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     min_members:
         description:
             - The minimum number of members to distribute traffic to.
@@ -164,6 +170,7 @@ options:
         description:
             - Ttl value (in seconds) for records served for this gslb service by the dns service.
             - Allowed values are 0-86400.
+            - Unit is sec.
         type: int
     url:
         description:
@@ -240,6 +247,7 @@ def main():
         health_monitor_scope=dict(type='str',),
         hm_off=dict(type='bool',),
         is_federated=dict(type='bool',),
+        labels=dict(type='list',),
         min_members=dict(type='int',),
         name=dict(type='str', required=True),
         num_dns_ip=dict(type='int',),

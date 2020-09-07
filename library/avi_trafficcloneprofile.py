@@ -53,6 +53,12 @@ options:
             - It is a reference to an object of type cloud.
             - Field introduced in 17.1.1.
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name for the traffic clone profile.
@@ -121,6 +127,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         clone_servers=dict(type='list',),
         cloud_ref=dict(type='str',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         preserve_client_ip=dict(type='bool',),
         tenant_ref=dict(type='str',),

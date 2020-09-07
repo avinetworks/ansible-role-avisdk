@@ -52,6 +52,12 @@ options:
         description:
             - Unique id of the amazon machine image (ami)  or openstack vm id.
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     mesos:
         description:
             - Autoscalemesossettings settings for autoscalelaunchconfig.
@@ -127,6 +133,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         image_id=dict(type='str',),
+        labels=dict(type='list',),
         mesos=dict(type='dict',),
         name=dict(type='str', required=True),
         openstack=dict(type='dict',),

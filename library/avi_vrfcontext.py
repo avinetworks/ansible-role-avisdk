@@ -45,6 +45,11 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    attrs:
+        description:
+            - Key/value vrfcontext attributes.
+            - Field introduced in 20.1.2.
+        type: list
     bfd_profile:
         description:
             - Bfd configuration profile.
@@ -153,6 +158,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        attrs=dict(type='list',),
         bfd_profile=dict(type='dict',),
         bgp_profile=dict(type='dict',),
         cloud_ref=dict(type='str',),

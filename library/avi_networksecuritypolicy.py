@@ -64,6 +64,12 @@ options:
             - It is a reference to an object of type ipreputationdb.
             - Field introduced in 20.1.1.
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name of the object.
@@ -140,6 +146,7 @@ def main():
         created_by=dict(type='str',),
         description=dict(type='str',),
         ip_reputation_db_ref=dict(type='str',),
+        labels=dict(type='list',),
         name=dict(type='str',),
         rules=dict(type='list',),
         tenant_ref=dict(type='str',),

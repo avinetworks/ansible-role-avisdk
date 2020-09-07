@@ -51,7 +51,7 @@ extends_documentation_fragment:
 
 EXAMPLES = '''
 
-  - name: Download se image from controller
+  - name: Upload se patch image to controller
     avi_api_image:
       controller: ""
       username: ""

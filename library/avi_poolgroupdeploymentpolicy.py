@@ -57,8 +57,15 @@ options:
         description:
             - Duration of evaluation period for automatic deployment.
             - Allowed values are 60-86400.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - The name of the pool group deployment policy.
@@ -78,6 +85,7 @@ options:
         description:
             - Target traffic ratio before pool is made production.
             - Allowed values are 1-100.
+            - Unit is ratio.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
         type: int
     tenant_ref:
@@ -149,6 +157,7 @@ def main():
         auto_disable_old_prod_pools=dict(type='bool',),
         description=dict(type='str',),
         evaluation_duration=dict(type='int',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         rules=dict(type='list',),
         scheme=dict(type='str',),
