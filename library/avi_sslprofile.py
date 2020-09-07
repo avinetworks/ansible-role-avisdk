@@ -90,6 +90,12 @@ options:
             - Enable ssl session re-use.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name of the object.
@@ -112,6 +118,7 @@ options:
     ssl_session_timeout:
         description:
             - The amount of time in seconds before an ssl session expires.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 86400.
         type: int
     tags:
@@ -221,6 +228,7 @@ def main():
         dhparam=dict(type='str',),
         enable_early_data=dict(type='bool',),
         enable_ssl_session_reuse=dict(type='bool',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         prefer_client_cipher_ordering=dict(type='bool',),
         send_close_notify=dict(type='bool',),

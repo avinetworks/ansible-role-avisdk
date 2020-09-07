@@ -74,6 +74,12 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.4"
         type: bool
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - A user-friendly name for the persistence profile.
@@ -164,6 +170,7 @@ def main():
         http_cookie_persistence_profile=dict(type='dict',),
         ip_persistence_profile=dict(type='dict',),
         is_federated=dict(type='bool',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         persistence_type=dict(type='str', required=True),
         server_hm_down_recovery=dict(type='str',),

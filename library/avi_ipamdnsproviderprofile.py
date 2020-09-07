@@ -79,6 +79,12 @@ options:
         description:
             - Provider details if type is avi.
         type: dict
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name for the ipam/dns provider profile.
@@ -183,6 +189,7 @@ def main():
         gcp_profile=dict(type='dict',),
         infoblox_profile=dict(type='dict',),
         internal_profile=dict(type='dict',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         oci_profile=dict(type='dict',),
         openstack_profile=dict(type='dict',),

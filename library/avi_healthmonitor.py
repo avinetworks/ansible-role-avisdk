@@ -124,12 +124,14 @@ options:
             - This timeout must be less than the send interval.
             - If server status is regularly flapping up and down, consider increasing this value.
             - Allowed values are 1-2400.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.
         type: int
     send_interval:
         description:
             - Frequency, in seconds, that monitors are sent to a server.
             - Allowed values are 1-3600.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
     sip_monitor:

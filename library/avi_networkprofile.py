@@ -57,6 +57,12 @@ options:
         description:
             - User defined description for the object.
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - The name of the network profile.
@@ -127,6 +133,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         connection_mirror=dict(type='bool',),
         description=dict(type='str',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         profile=dict(type='dict', required=True),
         tenant_ref=dict(type='str',),

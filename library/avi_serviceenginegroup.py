@@ -64,6 +64,7 @@ options:
             - Allowed values are 0-90.
             - Field deprecated in 18.1.2.
             - Field introduced in 18.1.1.
+            - Unit is percent.
         version_added: "2.9"
         type: int
     advertise_backend_networks:
@@ -95,6 +96,7 @@ options:
             - Allowed values are 0 - 100.
             - Special values are 0- 'disable'.
             - Field introduced in 18.2.3.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         version_added: "2.9"
         type: int
@@ -104,6 +106,7 @@ options:
             - This value will act as an upper bound on the cache size specified in app_cache_percent.
             - Special values are 0- 'disable'.
             - Field introduced in 20.1.1.
+            - Unit is gb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5.
         type: int
     app_learning_memory_percent:
@@ -112,6 +115,7 @@ options:
             - This is an se bootup property and requires se restart.
             - Allowed values are 0 - 10.
             - Field introduced in 18.2.3.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
@@ -119,6 +123,7 @@ options:
         description:
             - Amount of se memory in gb until which shared memory is collected in core archive.
             - Field introduced in 17.1.3.
+            - Unit is gb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 8.
         type: int
     async_ssl:
@@ -156,6 +161,7 @@ options:
     auto_rebalance_interval:
         description:
             - Frequency of rebalance, if 'auto rebalance' is enabled.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
     auto_redistribute_active_standby_load:
@@ -175,6 +181,7 @@ options:
             - Bgp peer state update interval.
             - Allowed values are 5-100.
             - Field introduced in 17.2.14,18.1.5,18.2.1.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.9"
         type: int
@@ -205,6 +212,7 @@ options:
             - Percentage of memory for connection state.
             - This will come at the expense of memory used for http in-memory cache.
             - Allowed values are 10-90.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 50.
         type: int
     core_shm_app_cache:
@@ -313,6 +321,7 @@ options:
     disk_per_se:
         description:
             - Amount of disk space for each of the service engine virtual machines.
+            - Unit is gb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
         type: int
     distribute_load_active_standby:
@@ -406,6 +415,7 @@ options:
         description:
             - Extra config memory to support large geo db configuration.
             - Field introduced in 17.1.1.
+            - Unit is mb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     floating_intf_ip:
@@ -441,6 +451,7 @@ options:
             - Gratarp periodicity for vip-ip.
             - Allowed values are 5-30.
             - Field introduced in 18.2.3.
+            - Unit is min.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         version_added: "2.9"
         type: int
@@ -459,6 +470,7 @@ options:
             - Minimum required heap memory to apply any configuration.
             - Allowed values are 0-100.
             - Field introduced in 18.1.2.
+            - Unit is mb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 8.
         version_added: "2.9"
         type: int
@@ -500,6 +512,7 @@ options:
         description:
             - Ignore rtt samples if it is above threshold.
             - Field introduced in 17.1.6,17.2.2.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5000.
         version_added: "2.5"
         type: int
@@ -546,7 +559,7 @@ options:
         description:
             - Specifies the license tier which would be used.
             - This field by default inherits the value from cloud.
-            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, LITE.
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
@@ -561,8 +574,15 @@ options:
         description:
             - Maximum disk capacity (in mb) to be allocated to an se.
             - This is exclusively used for debug and log data.
+            - Unit is mb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10000.
         type: int
+    log_malloc_failure:
+        description:
+            - Se will log memory allocation related failure to the se_trace file, wherever available.
+            - Field introduced in 20.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     max_concurrent_external_hm:
         description:
             - Maximum number of external health monitors that can run concurrently in a service engine.
@@ -575,12 +595,14 @@ options:
             - When cpu usage on an se exceeds this threshold, virtual services hosted on this se may be rebalanced to other ses to reduce load.
             - A new se may be created as part of this process.
             - Allowed values are 40-90.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 80.
         type: int
     max_memory_per_mempool:
         description:
             - Max bytes that can be allocated in a single mempool.
             - Field introduced in 18.1.5.
+            - Unit is mb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 64.
         version_added: "2.9"
         type: int
@@ -644,6 +666,7 @@ options:
             - Indicates the percent of memory reserved for config updates.
             - Allowed values are 0-100.
             - Field introduced in 18.1.2.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
         version_added: "2.9"
         type: int
@@ -666,6 +689,7 @@ options:
             - When cpu usage on an se falls below the minimum threshold, virtual services hosted on the se may be consolidated onto other underutilized ses.
             - After consolidation, unused service engines may then be eligible for deletion.
             - Allowed values are 20-60.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         type: int
     min_scaleout_per_vs:
@@ -687,6 +711,7 @@ options:
             - Indicates the percent of memory reserved for connections.
             - Allowed values are 0-100.
             - Field introduced in 18.1.2.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         version_added: "2.9"
         type: int
@@ -696,6 +721,7 @@ options:
             - Allowed values are 0-90.
             - Field deprecated in 18.1.2.
             - Field introduced in 18.1.1.
+            - Unit is percent.
         version_added: "2.9"
         type: int
     n_log_streaming_threads:
@@ -717,6 +743,7 @@ options:
             - Allowed values are 1-3600.
             - Field deprecated in 18.2.5.
             - Field introduced in 18.2.5.
+            - Unit is seconds.
         version_added: "2.9"
         type: int
     nat_flow_tcp_established_timeout:
@@ -725,6 +752,7 @@ options:
             - Allowed values are 1-3600.
             - Field deprecated in 18.2.5.
             - Field introduced in 18.2.5.
+            - Unit is seconds.
         version_added: "2.9"
         type: int
     nat_flow_tcp_half_closed_timeout:
@@ -733,6 +761,7 @@ options:
             - Allowed values are 1-3600.
             - Field deprecated in 18.2.5.
             - Field introduced in 18.2.5.
+            - Unit is seconds.
         version_added: "2.9"
         type: int
     nat_flow_tcp_handshake_timeout:
@@ -741,6 +770,7 @@ options:
             - Allowed values are 1-3600.
             - Field deprecated in 18.2.5.
             - Field introduced in 18.2.5.
+            - Unit is seconds.
         version_added: "2.9"
         type: int
     nat_flow_udp_noresponse_timeout:
@@ -749,6 +779,7 @@ options:
             - Allowed values are 1-3600.
             - Field deprecated in 18.2.5.
             - Field introduced in 18.2.5.
+            - Unit is seconds.
         version_added: "2.9"
         type: int
     nat_flow_udp_response_timeout:
@@ -757,6 +788,7 @@ options:
             - Allowed values are 1-3600.
             - Field deprecated in 18.2.5.
             - Field introduced in 18.2.5.
+            - Unit is seconds.
         version_added: "2.9"
         type: int
     non_significant_log_throttle:
@@ -765,6 +797,7 @@ options:
             - Default is 100 logs per second.
             - Set it to zero (0) to disable throttling.
             - Field introduced in 17.1.3.
+            - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
         type: int
     num_dispatcher_cores:
@@ -800,6 +833,7 @@ options:
     os_reserved_memory:
         description:
             - Amount of extra memory to be reserved for use by the operating system on a service engine.
+            - Unit is mb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     pcap_tx_mode:
@@ -845,6 +879,7 @@ options:
             - Time interval to re-sync se's time with wall clock time.
             - Allowed values are 8-600000.
             - Field introduced in 20.1.1.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 65536.
         type: int
     se_bandwidth_type:
@@ -854,12 +889,20 @@ options:
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
+    se_delayed_flow_delete:
+        description:
+            - Delay the cleanup of flowtable entry.
+            - To be used under surveillance of avi support.
+            - Field introduced in 20.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     se_deprovision_delay:
         description:
             - Duration to preserve unused service engine virtual machines before deleting them.
             - If traffic to a virtual service were to spike up abruptly, this se would still be available to be utilized again rather than creating a new se.
             - If this value is set to 0, controller will never delete any ses and administrator has to manually cleanup unused ses.
             - Allowed values are 0-525600.
+            - Unit is min.
             - Default value when not specified in API or module is interpreted by Avi Controller as 120.
         type: int
     se_dos_profile:
@@ -931,6 +974,7 @@ options:
             - Timeout in milliseconds for flow probe retries.requires se reboot.
             - Allowed values are 20-50.
             - Field introduced in 18.2.5.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 40.
         version_added: "2.9"
         type: int
@@ -940,6 +984,7 @@ options:
             - Allowed values are 10-200.
             - Field deprecated in 18.2.5.
             - Field introduced in 18.1.4, 18.2.1.
+            - Unit is milliseconds.
         version_added: "2.9"
         type: int
     se_hyperthreaded_mode:
@@ -976,6 +1021,13 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
+    se_mp_ring_retry_count:
+        description:
+            - The retry count for the multi-producer enqueue before yielding the cpu.
+            - To be used under surveillance of avi support.
+            - Field introduced in 20.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 500.
+        type: int
     se_mtu:
         description:
             - Mtu for the vnics of ses in the se group.
@@ -1028,6 +1080,7 @@ options:
             - Allowed values are 900-43200.
             - Special values are 0- 'disable'.
             - Field introduced in 17.2.13, 18.1.3, 18.2.1.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
@@ -1037,6 +1090,7 @@ options:
             - If not set, an unconditional reinit is performed.
             - This value is checked every pcap_reinit_frequency interval.
             - Field introduced in 17.2.13, 18.1.3, 18.2.1.
+            - Unit is metric_count.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
@@ -1072,6 +1126,7 @@ options:
         description:
             - Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client.
             - Field introduced in 18.2.6.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     se_rum_sampling_nav_percent:
@@ -1084,6 +1139,7 @@ options:
         description:
             - Minimum time to wait on server between taking sampleswhen sampling the resource timing data from the end user client.
             - Field introduced in 18.2.6.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         type: int
     se_rum_sampling_res_percent:
@@ -1142,6 +1198,14 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 64.
         version_added: "2.9"
         type: int
+    se_txq_threshold:
+        description:
+            - Once the tx queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets.
+            - To be used under surveillance of avi support.
+            - Allowed values are 512-32768.
+            - Field introduced in 20.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2048.
+        type: int
     se_udp_encap_ipc:
         description:
             - Determines if se-se ipc messages are encapsulated in a udp header  0  automatically determine based on hypervisor type.
@@ -1167,6 +1231,7 @@ options:
             - Allowed values are 50-500.
             - Special values are 0- 'disable'.
             - Field introduced in 20.1.1.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     se_vnic_tx_sw_queue_size:
@@ -1216,6 +1281,7 @@ options:
             - Minimum required shared memory to apply any configuration.
             - Allowed values are 0-100.
             - Field introduced in 18.1.2.
+            - Unit is mb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.
         version_added: "2.9"
         type: int
@@ -1225,6 +1291,7 @@ options:
             - Default is 100 logs per second.
             - Set it to zero (0) to disable throttling.
             - Field introduced in 17.1.3.
+            - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
         type: int
     ssl_preprocess_sni_hostname:
@@ -1244,6 +1311,7 @@ options:
             - The threshold for the transient shared config memory in the se.
             - Allowed values are 0-100.
             - Field introduced in 20.1.1.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         type: int
     udf_log_throttle:
@@ -1253,6 +1321,7 @@ options:
             - Default is 100 logs per second.
             - Set it to zero (0) to disable throttling.
             - Field introduced in 17.1.3.
+            - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
         type: int
     url:
@@ -1329,16 +1398,19 @@ options:
     vs_scalein_timeout:
         description:
             - Time to wait for the scaled in se to drain existing flows before marking the scalein done.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         type: int
     vs_scalein_timeout_for_upgrade:
         description:
             - During se upgrade, time to wait for the scaled-in se to drain existing flows before marking the scalein done.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         type: int
     vs_scaleout_timeout:
         description:
             - Time to wait for the scaled out se to become ready before marking the scaleout done.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 600.
         type: int
     vs_se_scaleout_additional_wait_time:
@@ -1348,6 +1420,7 @@ options:
             - For example, for bgp, some time is needed for route advertisement.
             - Allowed values are 0-20.
             - Field introduced in 18.1.5,18.2.1.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
@@ -1356,6 +1429,7 @@ options:
             - Timeout in seconds for service engine to sendscaleout ready notification of a virtual service.
             - Allowed values are 0-90.
             - Field introduced in 18.1.5,18.2.1.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.9"
         type: int
@@ -1363,6 +1437,7 @@ options:
         description:
             - During se upgrade in a legacy active/standby segroup, time to wait for the new primary se to accept flows before marking the switchover done.
             - Field introduced in 17.2.13,18.1.4,18.2.1.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         version_added: "2.9"
         type: int
@@ -1385,6 +1460,7 @@ options:
             - Allowed values are 1-43200.
             - Field deprecated in 18.2.3.
             - Field introduced in 18.1.2.
+            - Unit is min.
         version_added: "2.9"
         type: int
     waf_learning_memory:
@@ -1393,6 +1469,7 @@ options:
             - This can be atmost 5% of se memory.
             - Field deprecated in 18.2.3.
             - Field introduced in 18.1.2.
+            - Unit is mb.
         version_added: "2.9"
         type: int
     waf_mempool:
@@ -1406,6 +1483,7 @@ options:
         description:
             - Memory pool size used for waf.requires se reboot.
             - Field introduced in 17.2.3.
+            - Unit is kb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 64.
         version_added: "2.5"
         type: int
@@ -1529,6 +1607,7 @@ def main():
         license_tier=dict(type='str',),
         license_type=dict(type='str',),
         log_disksz=dict(type='int',),
+        log_malloc_failure=dict(type='bool',),
         max_concurrent_external_hm=dict(type='int',),
         max_cpu_usage=dict(type='int',),
         max_memory_per_mempool=dict(type='int',),
@@ -1573,6 +1652,7 @@ def main():
         reboot_on_stop=dict(type='bool',),
         resync_time_interval=dict(type='int',),
         se_bandwidth_type=dict(type='str',),
+        se_delayed_flow_delete=dict(type='bool',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
         se_dp_max_hb_version=dict(type='int',),
@@ -1589,6 +1669,7 @@ def main():
         se_ipc_udp_port=dict(type='int',),
         se_kni_burst_factor=dict(type='int',),
         se_lro=dict(type='bool',),
+        se_mp_ring_retry_count=dict(type='int',),
         se_mtu=dict(type='int',),
         se_name_prefix=dict(type='str',),
         se_pcap_lookahead=dict(type='bool',),
@@ -1612,6 +1693,7 @@ def main():
         se_tunnel_mode=dict(type='int',),
         se_tunnel_udp_port=dict(type='int',),
         se_tx_batch_size=dict(type='int',),
+        se_txq_threshold=dict(type='int',),
         se_udp_encap_ipc=dict(type='int',),
         se_use_dpdk=dict(type='int',),
         se_vnic_tx_sw_queue_flush_frequency=dict(type='int',),

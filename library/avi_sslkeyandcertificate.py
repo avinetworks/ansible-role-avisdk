@@ -118,6 +118,12 @@ options:
             - Passphrase used to encrypt the private key.
         version_added: "2.9"
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name of the object.
@@ -235,6 +241,7 @@ def main():
         key_base64=dict(type='bool',),
         key_params=dict(type='dict',),
         key_passphrase=dict(type='str', no_log=True,),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         ocsp_config=dict(type='dict',),
         ocsp_error_status=dict(type='str',),

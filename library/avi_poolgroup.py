@@ -85,6 +85,12 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     members:
         description:
             - List of pool group members object of type poolgroupmember.
@@ -175,6 +181,7 @@ def main():
         enable_http2=dict(type='bool',),
         fail_action=dict(type='dict',),
         implicit_priority_labels=dict(type='bool',),
+        labels=dict(type='list',),
         members=dict(type='list',),
         min_servers=dict(type='int',),
         name=dict(type='str', required=True),

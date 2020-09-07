@@ -108,6 +108,7 @@ options:
             - The maximum time-to-first-byte of a server.
             - Allowed values are 1-5000.
             - Special values are 0 - 'automatic'.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     cloud_config_cksum:
@@ -131,6 +132,7 @@ options:
             - Useful for lb algorithms that are least connection based.
             - Allowed values are 1-300.
             - Special values are 0 - 'immediate'.
+            - Unit is min.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
     created_by:
@@ -194,6 +196,7 @@ options:
         description:
             - Periodicity of feedback for fewest tasks server selection algorithm.
             - Allowed values are 1-300.
+            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
     graceful_disable_timeout:
@@ -202,6 +205,7 @@ options:
             - Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled.
             - Allowed values are 1-7200.
             - Special values are 0 - 'immediate', -1 - 'infinite'.
+            - Unit is min.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     gslb_sp_enabled:
@@ -242,6 +246,12 @@ options:
             - Use list of servers from ip address group.
             - It is a reference to an object of type ipaddrgroup.
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     lb_algorithm:
         description:
             - The load balancing algorithm will pick a server within the pool's list of available servers.
@@ -313,7 +323,7 @@ options:
         type: list
     nsx_securitygroup:
         description:
-            - A list of nsx service groups where the servers for the pool are created.
+            - A list of nsx groups where the servers for the pool are created.
             - Field introduced in 17.1.1.
         type: list
     pki_profile_ref:
@@ -340,6 +350,12 @@ options:
     request_queue_enabled:
         description:
             - Enable request queue when pool is full.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    resolve_pool_by_dns:
+        description:
+            - This field is used as a flag to create a job for jobmanager.
+            - Field introduced in 18.2.10,20.1.2.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     rewrite_host_header_to_server_name:
@@ -386,6 +402,7 @@ options:
             - Value of 0 results in using default timeout of 60 minutes.
             - Allowed values are 0-3600000.
             - Field introduced in 18.1.5,18.2.1.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
@@ -547,6 +564,7 @@ def main():
         ignore_server_port=dict(type='bool',),
         inline_health_monitor=dict(type='bool',),
         ipaddrgroup_ref=dict(type='str',),
+        labels=dict(type='list',),
         lb_algorithm=dict(type='str',),
         lb_algorithm_consistent_hash_hdr=dict(type='str',),
         lb_algorithm_core_nonaffinity=dict(type='int',),
@@ -564,6 +582,7 @@ def main():
         prst_hdr_name=dict(type='str',),
         request_queue_depth=dict(type='int',),
         request_queue_enabled=dict(type='bool',),
+        resolve_pool_by_dns=dict(type='bool',),
         rewrite_host_header_to_server_name=dict(type='bool',),
         rewrite_host_header_to_sni=dict(type='bool',),
         routing_pool=dict(type='bool',),

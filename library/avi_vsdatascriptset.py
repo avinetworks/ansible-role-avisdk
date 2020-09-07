@@ -64,6 +64,12 @@ options:
             - Uuid of ip groups that could be referred by vsdatascriptset objects.
             - It is a reference to an object of type ipaddrgroup.
         type: list
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name for the virtual service datascript collection.
@@ -153,6 +159,7 @@ def main():
         datascript=dict(type='list',),
         description=dict(type='str',),
         ipgroup_refs=dict(type='list',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         pool_group_refs=dict(type='list',),
         pool_refs=dict(type='list',),

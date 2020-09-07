@@ -59,6 +59,7 @@ options:
             - Cloudconnector polling interval in seconds for external autoscale groups, minimum 60 seconds.
             - Allowed values are 60-3600.
             - Field introduced in 18.2.2.
+            - Unit is seconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.9"
         type: int
@@ -149,7 +150,7 @@ options:
         description:
             - Specifies the default license tier which would be used by new se groups.
             - This field by default inherits the value from system configuration.
-            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, LITE.
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
@@ -170,6 +171,7 @@ options:
     mtu:
         description:
             - Mtu setting for the cloud.
+            - Unit is bytes.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1500.
         type: int
     name:

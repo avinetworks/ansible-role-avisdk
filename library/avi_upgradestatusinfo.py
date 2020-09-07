@@ -202,6 +202,7 @@ options:
             - Upgrade operations progress which holds value between 0-100.
             - Allowed values are 0-100.
             - Field introduced in 18.2.8, 20.1.1.
+            - Unit is percent.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     se_patch_image_path:

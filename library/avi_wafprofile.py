@@ -59,6 +59,12 @@ options:
             - List of data files used for waf rules.
             - Field introduced in 17.2.1.
         type: list
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Field introduced in 17.2.1.
@@ -120,6 +126,7 @@ def main():
         config=dict(type='dict', required=True),
         description=dict(type='str',),
         files=dict(type='list',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

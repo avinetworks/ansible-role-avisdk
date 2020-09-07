@@ -61,6 +61,12 @@ options:
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Name for the vsvip object.
@@ -168,6 +174,7 @@ def main():
         cloud_ref=dict(type='str',),
         dns_info=dict(type='list',),
         east_west_placement=dict(type='bool',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         tier1_lr=dict(type='str',),

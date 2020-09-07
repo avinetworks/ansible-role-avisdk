@@ -51,6 +51,7 @@ options:
             - In this case, the configured action will be executed and a significant log entry will be generated.
             - Allowed values are 1-51200.
             - Field introduced in 20.1.1.
+            - Unit is kb.
             - Default value when not specified in API or module is interpreted by Avi Controller as 51200.
         type: int
     buffer_size_exceed_action:
@@ -110,6 +111,7 @@ options:
             - To disable preview completely, set the enable-preview option to false.
             - Allowed values are 0-5000.
             - Field introduced in 20.1.1.
+            - Unit is bytes.
             - Default value when not specified in API or module is interpreted by Avi Controller as 5000.
         type: int
     response_timeout:
@@ -118,6 +120,7 @@ options:
             - If this timeout is exceeded, the request to the icap server will be aborted and the configured fail action is executed.
             - Allowed values are 50-3600000.
             - Field introduced in 20.1.1.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1000.
         type: int
     service_uri:
@@ -132,6 +135,7 @@ options:
             - If the icap request takes longer than this value, this request will generate a significant log entry.
             - Allowed values are 50-3600000.
             - Field introduced in 20.1.1.
+            - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 500.
         type: int
     tenant_ref:

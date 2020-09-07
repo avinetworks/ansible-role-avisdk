@@ -67,6 +67,12 @@ options:
             - Field deprecated in 18.1.1.
             - Field introduced in 17.2.4.
         type: str
+    labels:
+        description:
+            - Key value pairs for granular object access control.
+            - Also allows for classification and tagging of similar objects.
+            - Field introduced in 20.1.2.
+        type: list
     name:
         description:
             - Field introduced in 17.2.4.
@@ -129,6 +135,7 @@ def main():
         company_name=dict(type='str',),
         error_pages=dict(type='list',),
         host_name=dict(type='str',),
+        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
