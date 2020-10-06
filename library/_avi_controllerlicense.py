@@ -24,13 +24,18 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
 module: avi_controllerlicense
 author: Gaurav Rastogi (grastogi@avinetworks.com)
+
+deprecated:
+  removed_in: '2.11'
+  why: Removed support of this module.
+  alternative: Use M(avi_api_session) instead.
 
 short_description: Module for setup of ControllerLicense Avi RESTful Object
 description:
