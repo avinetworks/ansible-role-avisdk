@@ -619,13 +619,11 @@ class test_ansible_modules(unittest.TestCase):
             avi_user.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
-    @pytest.mark.travis
-    @my_vcr.use_cassette()
+    # TODO: add support for travis test
     def test_upload_image(self):
         configure.ImageApi.update(ControllerCredentials)
-        if ControllerCredentials.get("api_version"):
-            configure.ImageApi["file_path"] = configure.IMAGE_PATH.format(ControllerCredentials.get("api_version"))
         set_module_args(configure.ImageApi)
         with self.assertRaises(AnsibleExitJson) as result:
             avi_api_image.main()
             self.assertTrue(result.exception.args[0]['changed'])
+

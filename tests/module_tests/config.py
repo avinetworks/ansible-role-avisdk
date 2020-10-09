@@ -1332,8 +1332,8 @@ DeleteUser = {
 	"email": "testuser@avi.in",
 }
 
-IMAGE_PATH = "/mnt/builds/%s/last-good-smoke/controller.pkg"
+IMAGE_PATH = "/mnt/builds/20.1.1-2p2/last-good/controller_patch.pkg"
 
 ImageApi = {
-	"file_path": IMAGE_PATH.format("eng")
+	"file_path": IMAGE_PATH
 }
