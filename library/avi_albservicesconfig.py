@@ -61,6 +61,13 @@ options:
             - Field introduced in 20.1.1.
         required: true
         type: dict
+    mode:
+        description:
+            - Mode helps log collection and upload.
+            - Enum options - SALESFORCE, SYSTEST, MYVMWARE.
+            - Field introduced in 20.1.2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as SALESFORCE.
+        type: str
     polling_interval:
         description:
             - Time interval in minutes.
@@ -142,6 +149,7 @@ def main():
         asset_contact=dict(type='dict',),
         feature_opt_in_status=dict(type='dict', required=True),
         ip_reputation_config=dict(type='dict', required=True),
+        mode=dict(type='str',),
         polling_interval=dict(type='int',),
         portal_url=dict(type='str', required=True),
         proactive_support_defaults=dict(type='dict', required=True),

@@ -59,7 +59,7 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.2.1.
+            - Field introduced in 20.1.2.
         type: list
     name:
         description:
