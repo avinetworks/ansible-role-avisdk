@@ -52,7 +52,7 @@ options:
     default_license_tier:
         description:
             - Specifies the default license tier which would be used by new clouds.
-            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, LITE.
+            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
             - Field introduced in 17.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as ENTERPRISE.
         version_added: "2.5"

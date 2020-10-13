@@ -53,12 +53,6 @@ options:
         description:
             - Http user authentication params.
         type: dict
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     ldap:
         description:
             - Ldap server and directory settings.
@@ -168,7 +162,6 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         http=dict(type='dict',),
-        labels=dict(type='list',),
         ldap=dict(type='dict',),
         name=dict(type='str', required=True),
         pa_agent_ref=dict(type='str',),
