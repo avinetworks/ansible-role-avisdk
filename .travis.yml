@@ -3,7 +3,7 @@
 matrix:
   include:
     - language: python
-      python: "2.7"
+      python: "3.7"
       install:
         - export AVI_CONTROLLER="10.79.169.56"
         - export AVI_USERNAME="admin"
@@ -11,8 +11,8 @@ matrix:
         - export API_VERSION="18.2.8"
         - export PYTHONPATH=$PWD
         - export ANSIBLE_LIBRARY=$PWD/
-        - pip install ansible==2.8.5
-        - pip install vcrpy pytest requests avisdk
+        - pip install ansible==2.9.0
+        - pip install vcrpy pytest requests avisdk mock
       script:
         - cd $PYTHONPATH/tests/module_tests/
         - pytest ./ansible_tests.py -m travis -vvvv --color=yes
@@ -73,5 +73,5 @@ notifications:
       - grastogi@avinetworks.com
       - chaitanya.deshpande@avinetworks.com
       - shrikant.patil@avinetworks.com
-      - rohan.suryawanshi@avinetworks.com
+      - shounak.joshi@avinetworks.com
     on_failure: always
