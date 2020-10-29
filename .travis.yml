@@ -11,7 +11,7 @@ matrix:
         - export API_VERSION="18.2.8"
         - export PYTHONPATH=$PWD
         - export ANSIBLE_LIBRARY=$PWD/
-        - pip install ansible==2.9.0
+        - pip install ansible==2.9.14
         - pip install vcrpy pytest requests avisdk mock
       script:
         - cd $PYTHONPATH/tests/module_tests/
@@ -70,8 +70,9 @@ notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
   email:
     recipients:
-      - grastogi@avinetworks.com
-      - chaitanya.deshpande@avinetworks.com
-      - shrikant.patil@avinetworks.com
-      - shounak.joshi@avinetworks.com
+      - rastogiga@vmware.com
+      - deshpandech@vmware.com
+      - pshrikan@vmware.com
+      - sabandi@vmware.com
+      - shounakj@vmware.com
     on_failure: always
