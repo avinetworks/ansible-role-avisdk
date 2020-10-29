@@ -783,6 +783,15 @@ options:
             - Field introduced in 18.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as PCAP_TX_AUTO.
         type: str
+    pcap_tx_ring_rd_balancing_factor:
+        description:
+            - In pcap mode, reserve a configured portion of tx ring resources for itself and  the remaining portion for the rx ring to achieve better balance
+            - in terms of queue depth.
+            - Requires se reboot.
+            - Allowed values are 10-100.
+            - Field introduced in 18.2.11.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+        type: int
     per_app:
         description:
             - Per-app se mode is designed for deploying dedicated load balancers per app (vs).
@@ -820,6 +829,13 @@ options:
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
+    se_delayed_flow_delete:
+        description:
+            - Delay the cleanup of flowtable entry.
+            - To be used under surveillance of avi support.
+            - Field introduced in 18.2.11.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     se_deprovision_delay:
         description:
             - Duration to preserve unused service engine virtual machines before deleting them.
@@ -924,6 +940,13 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
+    se_mp_ring_retry_count:
+        description:
+            - The retry count for the multi-producer enqueue before yielding the cpu.
+            - To be used under surveillance of avi support.
+            - Field introduced in 18.2.11.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 500.
+        type: int
     se_mtu:
         description:
             - Mtu for the vnics of ses in the se group.
@@ -1089,6 +1112,14 @@ options:
             - Field introduced in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as 64.
         version_added: "2.9"
+        type: int
+    se_txq_threshold:
+        description:
+            - Once the tx queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets.
+            - To be used under surveillance of avi support.
+            - Allowed values are 512-32768.
+            - Field introduced in 18.2.11.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2048.
         type: int
     se_udp_encap_ipc:
         description:
@@ -1481,12 +1512,14 @@ def main():
         openstack_mgmt_network_uuid=dict(type='str',),
         os_reserved_memory=dict(type='int',),
         pcap_tx_mode=dict(type='str',),
+        pcap_tx_ring_rd_balancing_factor=dict(type='int',),
         per_app=dict(type='bool',),
         placement_mode=dict(type='str',),
         realtime_se_metrics=dict(type='dict',),
         reboot_on_panic=dict(type='bool',),
         reboot_on_stop=dict(type='bool',),
         se_bandwidth_type=dict(type='str',),
+        se_delayed_flow_delete=dict(type='bool',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
         se_dp_vnic_queue_stall_event_sleep=dict(type='int',),
@@ -1501,6 +1534,7 @@ def main():
         se_ipc_udp_port=dict(type='int',),
         se_kni_burst_factor=dict(type='int',),
         se_lro=dict(type='bool',),
+        se_mp_ring_retry_count=dict(type='int',),
         se_mtu=dict(type='int',),
         se_name_prefix=dict(type='str',),
         se_pcap_lookahead=dict(type='bool',),
@@ -1524,6 +1558,7 @@ def main():
         se_tunnel_mode=dict(type='int',),
         se_tunnel_udp_port=dict(type='int',),
         se_tx_batch_size=dict(type='int',),
+        se_txq_threshold=dict(type='int',),
         se_udp_encap_ipc=dict(type='int',),
         se_use_dpdk=dict(type='int',),
         se_vs_hb_max_pkts_in_batch=dict(type='int',),
