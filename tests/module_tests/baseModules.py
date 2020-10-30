@@ -13,7 +13,7 @@ class AnsibleFailJson(Exception):
 class AnsibleModules:
     def exit_json(*args, **kwargs):
         """function to patch over exit_json; package return data into an exception"""
-        print kwargs
+        print(kwargs)
         if 'changed' not in kwargs:
             kwargs['changed'] = False
         raise AnsibleExitJson(kwargs)
