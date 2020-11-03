@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 """
 # Created on Aug 12, 2016
 #
@@ -190,7 +190,7 @@ def main():
     gparams.update({'include_refs': '', 'include_name': ''})
 
     # API methods not allowed
-    api_get_not_allowed = ["cluster", "gslbsiteops", "server", "nsxt"]
+    api_get_not_allowed = ["cluster", "gslbsiteops", "server"]
     sub_api_get_not_allowed = ["scaleout", "scalein", "upgrade", "rollback"]
     api_post_not_allowed = ["alert", "fileservice"]
     api_put_not_allowed = ["backup"]

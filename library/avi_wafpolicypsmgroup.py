@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -69,12 +69,6 @@ options:
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     locations:
         description:
             - Positive security model locations.
@@ -154,7 +148,6 @@ def main():
         enable=dict(type='bool',),
         hit_action=dict(type='str',),
         is_learning_group=dict(type='bool',),
-        labels=dict(type='list',),
         locations=dict(type='list',),
         miss_action=dict(type='str',),
         name=dict(type='str', required=True),
@@ -170,7 +163,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'wafpolicypsmgroup',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

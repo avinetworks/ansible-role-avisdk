@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -64,12 +64,6 @@ options:
     ip_ports:
         description:
             - Configure (ip address, port) tuple(s).
-        type: list
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
         type: list
     marathon_app_name:
         description:
@@ -163,7 +157,6 @@ def main():
         country_codes=dict(type='list',),
         description=dict(type='str',),
         ip_ports=dict(type='list',),
-        labels=dict(type='list',),
         marathon_app_name=dict(type='str',),
         marathon_service_port=dict(type='int',),
         name=dict(type='str', required=True),
@@ -181,7 +174,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'ipaddrgroup',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

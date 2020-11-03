@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -53,11 +53,6 @@ options:
             - Use this knob to allow duplicates.
             - Field introduced in 18.2.8.
         type: bool
-    authentication:
-        description:
-            - Authentication information for username/password.
-            - Field introduced in 20.1.1.
-        type: dict
     description:
         description:
             - User defined description for the object.
@@ -124,14 +119,12 @@ options:
             - This timeout must be less than the send interval.
             - If server status is regularly flapping up and down, consider increasing this value.
             - Allowed values are 1-2400.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 4.
         type: int
     send_interval:
         description:
             - Frequency, in seconds, that monitors are sent to a server.
             - Allowed values are 1-3600.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
     sip_monitor:
@@ -223,7 +216,6 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         allow_duplicate_monitors=dict(type='bool',),
-        authentication=dict(type='dict',),
         description=dict(type='str',),
         disable_quickstart=dict(type='bool',),
         dns_monitor=dict(type='dict',),
@@ -254,7 +246,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'healthmonitor',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

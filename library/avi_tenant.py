@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -67,12 +67,6 @@ options:
             - Name of the object.
         required: true
         type: str
-    suggested_object_labels:
-        description:
-            - Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
-            - Every entry is unique in both key and value.
-            - Field introduced in 20.1.2.
-        type: list
     url:
         description:
             - Avi controller URL of the object.
@@ -131,7 +125,6 @@ def main():
         description=dict(type='str',),
         local=dict(type='bool',),
         name=dict(type='str', required=True),
-        suggested_object_labels=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -143,7 +136,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'tenant',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

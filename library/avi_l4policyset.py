@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -63,12 +63,6 @@ options:
             - Policy to apply when a new transport connection is setup.
             - Field introduced in 17.2.7.
         type: dict
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name of the l4 policy set.
@@ -133,7 +127,6 @@ def main():
         description=dict(type='str',),
         is_internal_policy=dict(type='bool',),
         l4_connection_policy=dict(type='dict',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
@@ -147,7 +140,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'l4policyset',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

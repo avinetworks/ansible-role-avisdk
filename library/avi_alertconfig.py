@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -80,7 +80,6 @@ options:
             - An alert is expired and deleted after the expiry time has elapsed.
             - The original event triggering the alert remains in the event's log.
             - Allowed values are 1-31536000.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 86400.
         type: int
     name:
@@ -108,7 +107,6 @@ options:
         description:
             - Only if the number of events is reached or exceeded within the time window will an alert be generated.
             - Allowed values are 1-31536000.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
     source:
@@ -135,7 +133,6 @@ options:
         description:
             - Alerts are suppressed (throttled) for this duration of time since the last alert was raised for this alert config.
             - Allowed values are 0-31536000.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 600.
         type: int
     url:
@@ -214,7 +211,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'alertconfig',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -63,12 +63,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         required: true
         type: int
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - The name of the security policy.
@@ -157,7 +151,6 @@ def main():
         description=dict(type='str',),
         dns_attacks=dict(type='dict',),
         dns_policy_index=dict(type='int', required=True),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         network_security_policy_index=dict(type='int', required=True),
         oper_mode=dict(type='str',),
@@ -175,7 +168,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'securitypolicy',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

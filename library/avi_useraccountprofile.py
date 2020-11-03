@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -49,14 +49,12 @@ options:
         description:
             - Lock timeout period (in minutes).
             - Default is 30 minutes.
-            - Unit is min.
             - Default value when not specified in API or module is interpreted by Avi Controller as 30.
         type: int
     credentials_timeout_threshold:
         description:
             - The time period after which credentials expire.
             - Default is 180 days.
-            - Unit is days.
             - Default value when not specified in API or module is interpreted by Avi Controller as 180.
         type: int
     max_concurrent_sessions:
@@ -147,7 +145,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'useraccountprofile',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

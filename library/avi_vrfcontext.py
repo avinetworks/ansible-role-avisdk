@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -45,16 +45,6 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    attrs:
-        description:
-            - Key/value vrfcontext attributes.
-            - Field introduced in 20.1.2.
-        type: list
-    bfd_profile:
-        description:
-            - Bfd configuration profile.
-            - Field introduced in 20.1.1.
-        type: dict
     bgp_profile:
         description:
             - Bgp local and peer info.
@@ -84,12 +74,12 @@ options:
     labels:
         description:
             - Key/value labels which can be used for object access policy permission scoping.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Field introduced in 18.2.7.
         type: list
     lldp_enable:
         description:
             - Enable lldp.
-            - Field introduced in 18.2.10, 20.1.1.
+            - Field introduced in 18.2.10.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     name:
@@ -158,8 +148,6 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        attrs=dict(type='list',),
-        bfd_profile=dict(type='dict',),
         bgp_profile=dict(type='dict',),
         cloud_ref=dict(type='str',),
         debugvrfcontext=dict(type='dict',),
@@ -183,7 +171,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'vrfcontext',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

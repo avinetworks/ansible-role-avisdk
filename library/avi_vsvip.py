@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -61,12 +61,6 @@ options:
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name for the vsvip object.
@@ -77,11 +71,6 @@ options:
         description:
             - It is a reference to an object of type tenant.
             - Field introduced in 17.1.1.
-        type: str
-    tier1_lr:
-        description:
-            - This sets the placement scope of virtualservice to given tier1 logical router in nsx-t.
-            - Field introduced in 20.1.1.
         type: str
     url:
         description:
@@ -174,10 +163,8 @@ def main():
         cloud_ref=dict(type='str',),
         dns_info=dict(type='list',),
         east_west_placement=dict(type='bool',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        tier1_lr=dict(type='str',),
         url=dict(type='str',),
         use_standard_alb=dict(type='bool',),
         uuid=dict(type='str',),
@@ -193,7 +180,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'vsvip',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

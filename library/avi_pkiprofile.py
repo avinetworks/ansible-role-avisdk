@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -77,12 +77,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.4"
         type: bool
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name of the pki profile.
@@ -152,7 +146,6 @@ def main():
         crls=dict(type='list',),
         ignore_peer_chain=dict(type='bool',),
         is_federated=dict(type='bool',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
@@ -167,7 +160,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'pkiprofile',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

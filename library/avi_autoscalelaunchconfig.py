@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -52,12 +52,6 @@ options:
         description:
             - Unique id of the amazon machine image (ami)  or openstack vm id.
         type: str
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     mesos:
         description:
             - Autoscalemesossettings settings for autoscalelaunchconfig.
@@ -133,7 +127,6 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         image_id=dict(type='str',),
-        labels=dict(type='list',),
         mesos=dict(type='dict',),
         name=dict(type='str', required=True),
         openstack=dict(type='dict',),
@@ -150,7 +143,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'autoscalelaunchconfig',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

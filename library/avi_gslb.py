@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -51,7 +51,6 @@ options:
             - Value of 0 disables async behavior and rpc are sent inline.
             - Allowed values are 0-5.
             - Field introduced in 18.2.3.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         version_added: "2.9"
         type: int
@@ -84,7 +83,6 @@ options:
             - Allowed values are 60-3600.
             - Special values are 0 - 'disable'.
             - Field introduced in 18.2.3.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         version_added: "2.9"
         type: int
@@ -117,16 +115,10 @@ options:
             - Name for the gslb object.
         required: true
         type: str
-    replication_policy:
-        description:
-            - Policy for replicating configuration to the active follower sites.
-            - Field introduced in 20.1.1.
-        type: dict
     send_interval:
         description:
             - Frequency with which group members communicate.
             - Allowed values are 1-3600.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 15.
         type: int
     send_interval_prior_to_maintenance_mode:
@@ -136,7 +128,6 @@ options:
             - When the user leaves maintenance mode, the original send-interval is reinstated.
             - This internal variable is used to store the original send-interval.
             - Field introduced in 18.2.3.
-            - Unit is sec.
         version_added: "2.9"
         type: int
     sites:
@@ -400,7 +391,6 @@ def main():
         leader_cluster_uuid=dict(type='str', required=True),
         maintenance_mode=dict(type='bool',),
         name=dict(type='str', required=True),
-        replication_policy=dict(type='dict',),
         send_interval=dict(type='int',),
         send_interval_prior_to_maintenance_mode=dict(type='int',),
         sites=dict(type='list',),
@@ -451,7 +441,7 @@ def main():
             )
 
     return avi_ansible_api(module, 'gslb',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -79,12 +79,6 @@ options:
         description:
             - Provider details if type is avi.
         type: dict
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name for the ipam/dns provider profile.
@@ -189,7 +183,6 @@ def main():
         gcp_profile=dict(type='dict',),
         infoblox_profile=dict(type='dict',),
         internal_profile=dict(type='dict',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         oci_profile=dict(type='dict',),
         openstack_profile=dict(type='dict',),
@@ -208,7 +201,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'ipamdnsproviderprofile',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

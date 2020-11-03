@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -61,7 +61,7 @@ options:
             - TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_GCM_SHA384,
             - TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
             - TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_256_CBC_SHA,
-            - TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_AES_256_GCM_SHA384...
+            - TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_RC4_128_SHA...
         type: list
     ciphersuites:
         description:
@@ -90,12 +90,6 @@ options:
             - Enable ssl session re-use.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name of the object.
@@ -118,7 +112,6 @@ options:
     ssl_session_timeout:
         description:
             - The amount of time in seconds before an ssl session expires.
-            - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 86400.
         type: int
     tags:
@@ -228,7 +221,6 @@ def main():
         dhparam=dict(type='str',),
         enable_early_data=dict(type='bool',),
         enable_ssl_session_reuse=dict(type='bool',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         prefer_client_cipher_ordering=dict(type='bool',),
         send_close_notify=dict(type='bool',),
@@ -248,7 +240,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'sslprofile',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

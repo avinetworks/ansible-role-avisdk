@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -49,12 +49,6 @@ options:
             - It is a reference to an object of type cloud.
             - Field introduced in 18.2.5.
         type: str
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name of the networkservice.
@@ -142,7 +136,6 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         cloud_ref=dict(type='str',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         routing_service=dict(type='dict',),
         se_group_ref=dict(type='str', required=True),
@@ -160,7 +153,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'networkservice',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -47,20 +47,20 @@ options:
     name:
         description:
             - Name of the object access policy.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Field introduced in 18.2.7.
         required: true
         type: str
     rules:
         description:
             - Rules which grant access to specific objects.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Field introduced in 18.2.7.
         required: true
         type: list
     tenant_ref:
         description:
             - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Field introduced in 18.2.7.
         type: str
     url:
         description:
@@ -69,7 +69,7 @@ options:
     uuid:
         description:
             - Uuid of the object access policy.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Field introduced in 18.2.7.
         type: str
 
 
@@ -125,7 +125,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'objectaccesspolicy',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

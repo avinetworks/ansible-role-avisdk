@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -59,7 +59,6 @@ options:
             - Cloudconnector polling interval in seconds for external autoscale groups, minimum 60 seconds.
             - Allowed values are 60-3600.
             - Field introduced in 18.2.2.
-            - Unit is seconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.9"
         type: int
@@ -120,7 +119,7 @@ options:
     enable_vip_on_all_interfaces:
         description:
             - Enable vip on all data interfaces for the cloud.
-            - Field introduced in 18.2.9, 20.1.1.
+            - Field introduced in 18.2.9.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     enable_vip_static_routes:
@@ -150,7 +149,7 @@ options:
         description:
             - Specifies the default license tier which would be used by new se groups.
             - This field by default inherits the value from system configuration.
-            - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
+            - Enum options - ENTERPRISE_16, ENTERPRISE_18.
             - Field introduced in 17.2.5.
         version_added: "2.5"
         type: str
@@ -171,7 +170,6 @@ options:
     mtu:
         description:
             - Mtu setting for the cloud.
-            - Unit is bytes.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1500.
         type: int
     name:
@@ -184,11 +182,6 @@ options:
             - Configuration parameters for nsx manager.
             - Field introduced in 17.1.1.
         type: dict
-    nsxt_configuration:
-        description:
-            - Nsx-t cloud platform configuration.
-            - Field introduced in 20.1.1.
-        type: dict
     obj_name_prefix:
         description:
             - Default prefix for all automatically created objects in this cloud.
@@ -200,7 +193,7 @@ options:
         type: dict
     oshiftk8s_configuration:
         description:
-            - Field deprecated in 20.1.1.
+            - Oshiftk8sconfiguration settings for cloud.
         type: dict
     prefer_static_routes:
         description:
@@ -253,7 +246,7 @@ options:
         description:
             - Cloud type.
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
-            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
+            - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         required: true
         type: str
@@ -336,7 +329,6 @@ def main():
         mtu=dict(type='int',),
         name=dict(type='str', required=True),
         nsx_configuration=dict(type='dict',),
-        nsxt_configuration=dict(type='dict',),
         obj_name_prefix=dict(type='str',),
         openstack_configuration=dict(type='dict',),
         oshiftk8s_configuration=dict(type='dict',),
@@ -360,7 +352,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'cloud',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

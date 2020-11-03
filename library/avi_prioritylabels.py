@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -55,12 +55,6 @@ options:
     equivalent_labels:
         description:
             - Equivalent priority labels in descending order.
-        type: list
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
         type: list
     name:
         description:
@@ -122,7 +116,6 @@ def main():
         cloud_ref=dict(type='str',),
         description=dict(type='str',),
         equivalent_labels=dict(type='list',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
@@ -136,7 +129,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'prioritylabels',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':

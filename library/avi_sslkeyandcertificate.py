@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -72,12 +72,6 @@ options:
         description:
             - Dynamic parameters needed for certificate management profile.
         type: list
-    enable_ocsp_stapling:
-        description:
-            - Enables ocsp stapling.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     enckey_base64:
         description:
             - Encrypted private key corresponding to the private key (e.g.
@@ -118,43 +112,11 @@ options:
             - Passphrase used to encrypt the private key.
         version_added: "2.9"
         type: str
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name of the object.
         required: true
         type: str
-    ocsp_config:
-        description:
-            - Configuration related to ocsp.
-            - Field introduced in 20.1.1.
-        type: dict
-    ocsp_error_status:
-        description:
-            - Error reported during ocsp status query.
-            - Enum options - OCSP_ERR_CERTSTATUS_GOOD, OCSP_ERR_CERTSTATUS_REVOKED, OCSP_ERR_CERTSTATUS_UNKNOWN, OCSP_ERR_CERTSTATUS_SERVERFAIL_ERR,
-            - OCSP_ERR_CERTSTATUS_JOBDB, OCSP_ERR_CERTSTATUS_DISABLED, OCSP_ERR_CERTSTATUS_GETCERT, OCSP_ERR_CERTSTATUS_NONVSCERT,
-            - OCSP_ERR_CERTSTATUS_SELFSIGNED, OCSP_ERR_CERTSTATUS_CERTFINISH, OCSP_ERR_CERTSTATUS_CACERT, OCSP_ERR_CERTSTATUS_REQUEST,
-            - OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST,
-            - OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP.
-            - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as OCSP_ERR_CERTSTATUS_DISABLED.
-        type: str
-    ocsp_responder_url_list_from_certs:
-        description:
-            - This is an internal field to store the ocsp responder urls contained in the certificate.
-            - Field introduced in 20.1.1.
-        type: list
-    ocsp_response_info:
-        description:
-            - Information related to ocsp response.
-            - Field introduced in 20.1.1.
-        type: dict
     status:
         description:
             - Enum options - SSL_CERTIFICATE_FINISHED, SSL_CERTIFICATE_PENDING.
@@ -232,7 +194,6 @@ def main():
         certificate_management_profile_ref=dict(type='str',),
         created_by=dict(type='str',),
         dynamic_params=dict(type='list',),
-        enable_ocsp_stapling=dict(type='bool',),
         enckey_base64=dict(type='str',),
         enckey_name=dict(type='str',),
         format=dict(type='str',),
@@ -241,12 +202,7 @@ def main():
         key_base64=dict(type='bool',),
         key_params=dict(type='dict',),
         key_passphrase=dict(type='str', no_log=True,),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
-        ocsp_config=dict(type='dict',),
-        ocsp_error_status=dict(type='str',),
-        ocsp_responder_url_list_from_certs=dict(type='list',),
-        ocsp_response_info=dict(type='dict',),
         status=dict(type='str',),
         tenant_ref=dict(type='str',),
         type=dict(type='str',),
@@ -261,7 +217,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'sslkeyandcertificate',
-                           {'key_passphrase', 'key'})
+                           set(['key_passphrase', 'key']))
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
@@ -75,12 +75,6 @@ options:
             - Boolean flag to set is_internal_policy.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-        type: list
     name:
         description:
             - Name of the http policy set.
@@ -174,7 +168,6 @@ def main():
         http_response_policy=dict(type='dict',),
         http_security_policy=dict(type='dict',),
         is_internal_policy=dict(type='bool',),
-        labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
@@ -188,7 +181,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'httppolicyset',
-                           set())
+                           set([]))
 
 
 if __name__ == '__main__':
