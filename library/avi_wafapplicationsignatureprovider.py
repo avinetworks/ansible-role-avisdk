@@ -52,16 +52,19 @@ options:
     last_check_for_updates_error:
         description:
             - The error message indicating why the last update check failed.
+            - Field deprecated in 20.1.3.
             - Field introduced in 20.1.1.
         type: str
     last_failed_check_for_updates:
         description:
             - The last time that we checked for updates but did not get a result because of an error.
+            - Field deprecated in 20.1.3.
             - Field introduced in 20.1.1.
         type: dict
     last_successful_check_for_updates:
         description:
             - The last time that we checked for updates sucessfully.
+            - Field deprecated in 20.1.3.
             - Field introduced in 20.1.1.
         type: dict
     name:
@@ -74,6 +77,11 @@ options:
             - Version of signatures.
             - Field introduced in 20.1.1.
         type: str
+    service_status:
+        description:
+            - If this object is managed by the application signatures update  service, this field contain the status of this syncronization.
+            - Field introduced in 20.1.3.
+        type: dict
     signatures:
         description:
             - The waf rules.
@@ -139,6 +147,7 @@ def main():
         last_successful_check_for_updates=dict(type='dict',),
         name=dict(type='str',),
         ruleset_version=dict(type='str',),
+        service_status=dict(type='dict',),
         signatures=dict(type='list',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

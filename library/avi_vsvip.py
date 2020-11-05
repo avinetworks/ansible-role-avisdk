@@ -61,6 +61,12 @@ options:
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    ipam_selector:
+        description:
+            - Determines the set of ipam networks to use for this vsvip.
+            - Selector type must be selector_ipam and only one label is supported.
+            - Field introduced in 20.1.3.
+        type: dict
     labels:
         description:
             - Key value pairs for granular object access control.
@@ -174,6 +180,7 @@ def main():
         cloud_ref=dict(type='str',),
         dns_info=dict(type='list',),
         east_west_placement=dict(type='bool',),
+        ipam_selector=dict(type='dict',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),

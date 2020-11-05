@@ -29,17 +29,17 @@ ANSIBLE_METADATA = {'metadata_version': '1.0',
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrdcruntime
+module: avi_alert
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 deprecated:
-  removed_in: '2.13'
-  why: Removed support of this module.
-  alternative: Use M(avi_api_session) instead.
+    removed_in: '2.11'
+    why: Removed support for this module.
+    alternative: Use M(avi_api_session) instead.
 
-short_description: Module for setup of VIMgrDCRuntime Avi RESTful Object
+short_description: Module for setup of Alert Avi RESTful Object
 description:
-    - This module is used to configure VIMgrDCRuntime object
+    - This module is used to configure Alert object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -49,51 +49,81 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    cloud_ref:
+    action_script_output:
         description:
-            - It is a reference to an object of type cloud.
-    cluster_refs:
+            - Output of the alert action script.
+    alert_config_ref:
         description:
-            - It is a reference to an object of type vimgrclusterruntime.
-    host_refs:
-        description:
-            - It is a reference to an object of type vimgrhostruntime.
-    interested_hosts:
-        description:
-            - List of vimgrinterestedentity.
-    interested_nws:
-        description:
-            - List of vimgrinterestedentity.
-    interested_vms:
-        description:
-            - List of vimgrinterestedentity.
-    inventory_state:
-        description:
-            - Number of inventory_state.
-    managed_object_id:
-        description:
-            - Managed_object_id of vimgrdcruntime.
+            - It is a reference to an object of type alertconfig.
         required: true
+    app_events:
+        description:
+            - List of applicationlog.
+    conn_events:
+        description:
+            - List of connectionlog.
+    description:
+        description:
+            - Alert generation criteria.
+    event_pages:
+        description:
+            - List of event pages this alert is associated with.
+    events:
+        description:
+            - List of eventlog.
+    last_throttle_timestamp:
+        description:
+            - Unix timestamp of the last throttling in seconds.
+    level:
+        description:
+            - Resolved alert type.
+            - Enum options - ALERT_LOW, ALERT_MEDIUM, ALERT_HIGH.
+        required: true
+    metric_info:
+        description:
+            - List of metriclog.
     name:
         description:
             - Name of the object.
         required: true
-    nw_refs:
+    obj_key:
         description:
-            - It is a reference to an object of type vimgrnwruntime.
-    pending_vcenter_reqs:
+            - Uuid of the resource.
+        required: true
+    obj_name:
         description:
-            - Number of pending_vcenter_reqs.
-    sevm_refs:
+            - Name of the resource.
+    obj_uuid:
         description:
-            - It is a reference to an object of type vimgrsevmruntime.
+            - Uuid of the resource.
+        required: true
+    reason:
+        description:
+            - Reason of alert.
+        required: true
+    related_uuids:
+        description:
+            - Related uuids for the connection log.
+            - Only log agent needs to fill this.
+            - Server uuid should be in formatpool_uuid-ip-port.
+            - In case of no port is set for server it shouldstill be operational port for the server.
+    summary:
+        description:
+            - Summary of alert based on alert config.
+        required: true
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-    type:
+    threshold:
         description:
-            - Enum options - cloud_none, cloud_vcenter, cloud_openstack, cloud_aws, cloud_vca, cloud_apic, cloud_mesos, cloud_linuxserver, cloud_docker_ucp,
-            - cloud_rancher, cloud_oshift_k8s.
+            - Number of threshold.
+    throttle_count:
+        description:
+            - Number of times it was throttled.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    timestamp:
+        description:
+            - Unix timestamp of the last throttling in seconds.
         required: true
     url:
         description:
@@ -101,29 +131,23 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
-    vcenter_uuid:
-        description:
-            - Unique object identifier of vcenter.
-    vm_refs:
-        description:
-            - It is a reference to an object of type vimgrvmruntime.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrDCRuntime object
-  avi_vimgrdcruntime:
+- name: Example to create Alert object
+  avi_alert:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrdcruntime
+    name: sample_alert
 """
 
 RETURN = '''
 obj:
-    description: VIMgrDCRuntime (api/vimgrdcruntime) object
+    description: Alert (api/alert) object
     returned: success, changed
     type: dict
 '''
@@ -148,24 +172,29 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        cloud_ref=dict(type='str',),
-        cluster_refs=dict(type='list',),
-        host_refs=dict(type='list',),
-        interested_hosts=dict(type='list',),
-        interested_nws=dict(type='list',),
-        interested_vms=dict(type='list',),
-        inventory_state=dict(type='int',),
-        managed_object_id=dict(type='str', required=True),
+        action_script_output=dict(type='str',),
+        alert_config_ref=dict(type='str', required=True),
+        app_events=dict(type='list',),
+        conn_events=dict(type='list',),
+        description=dict(type='str',),
+        event_pages=dict(type='list',),
+        events=dict(type='list',),
+        last_throttle_timestamp=dict(type='float',),
+        level=dict(type='str', required=True),
+        metric_info=dict(type='list',),
         name=dict(type='str', required=True),
-        nw_refs=dict(type='list',),
-        pending_vcenter_reqs=dict(type='int',),
-        sevm_refs=dict(type='list',),
+        obj_key=dict(type='str', required=True),
+        obj_name=dict(type='str',),
+        obj_uuid=dict(type='str', required=True),
+        reason=dict(type='str', required=True),
+        related_uuids=dict(type='list',),
+        summary=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        type=dict(type='str', required=True),
+        threshold=dict(type='int',),
+        throttle_count=dict(type='int',),
+        timestamp=dict(type='float', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_uuid=dict(type='str',),
-        vm_refs=dict(type='list',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -174,7 +203,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrdcruntime',
+    return avi_ansible_api(module, 'alert',
                            set([]))
 
 if __name__ == '__main__':

@@ -29,17 +29,17 @@ ANSIBLE_METADATA = {'metadata_version': '1.0',
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrcontrollerruntime
+module: avi_scpoolserverstateinfo
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 deprecated:
-  removed_in: '2.13'
-  why: Removed support of this module.
-  alternative: Use M(avi_api_session) instead.
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
 
-short_description: Module for setup of VIMgrControllerRuntime Avi RESTful Object
+short_description: Module for setup of SCPoolServerStateInfo Avi RESTful Object
 description:
-    - This module is used to configure VIMgrControllerRuntime object
+    - This module is used to configure SCPoolServerStateInfo object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -49,44 +49,47 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    name:
+    is_server:
         description:
-            - Name of the object.
-        required: true
+            - Field introduced in 17.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    oper_status:
+        description:
+            - Field introduced in 17.1.1.
+    pool_ref:
+        description:
+            - It is a reference to an object of type pool.
+            - Field introduced in 17.1.1.
+    server_states:
+        description:
+            - Field introduced in 17.1.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-    type:
-        description:
-            - Enum options - cloud_none, cloud_vcenter, cloud_openstack, cloud_aws, cloud_vca, cloud_apic, cloud_mesos, cloud_linuxserver, cloud_docker_ucp,
-            - cloud_rancher, cloud_oshift_k8s.
-        required: true
+            - Field introduced in 17.1.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Unique object identifier of the object.
-    vnics:
-        description:
-            - List of vicontrollervnicinfo.
+            - Field introduced in 17.1.1.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrControllerRuntime object
-  avi_vimgrcontrollerruntime:
+- name: Example to create SCPoolServerStateInfo object
+  avi_scpoolserverstateinfo:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrcontrollerruntime
+    name: sample_scpoolserverstateinfo
 """
 
 RETURN = '''
 obj:
-    description: VIMgrControllerRuntime (api/vimgrcontrollerruntime) object
+    description: SCPoolServerStateInfo (api/scpoolserverstateinfo) object
     returned: success, changed
     type: dict
 '''
@@ -111,12 +114,13 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        name=dict(type='str', required=True),
+        is_server=dict(type='bool',),
+        oper_status=dict(type='dict',),
+        pool_ref=dict(type='str',),
+        server_states=dict(type='list',),
         tenant_ref=dict(type='str',),
-        type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vnics=dict(type='list',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -125,7 +129,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrcontrollerruntime',
+    return avi_ansible_api(module, 'scpoolserverstateinfo',
                            set([]))
 
 if __name__ == '__main__':

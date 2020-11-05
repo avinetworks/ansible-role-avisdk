@@ -195,29 +195,27 @@ options:
         description:
             - Virtual service (vs) metrics are processed only when there is live data traffic on the vs.
             - In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
+            - Field deprecated in 20.1.3.
             - Field introduced in 18.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.9"
         type: bool
     disable_se_analytics:
         description:
             - Disable node (service engine) level analytics forvs metrics.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - Field deprecated in 20.1.3.
         type: bool
     disable_server_analytics:
         description:
             - Disable analytics on backend servers.
             - This may be desired in container environment when there are large number of ephemeral servers.
             - Additionally, no healthscore of servers is computed when server analytics is disabled.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - Field deprecated in 20.1.3.
         type: bool
     disable_vs_analytics:
         description:
             - Disable virtualservice (frontend) analytics.
             - This flag disables metrics and healthscore for virtualservice.
+            - Field deprecated in 20.1.3.
             - Field introduced in 18.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        version_added: "2.9"
         type: bool
     enable_adaptive_config:
         description:
@@ -228,9 +226,39 @@ options:
     enable_advanced_analytics:
         description:
             - Enables advanced analytics features like anomaly detection.
-            - If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be disabled.
+            - If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be deactivated.
             - However, setting it to false reduces cpu and memory requirements for analytics subsystem.
             - Field introduced in 17.2.13, 18.1.5, 18.2.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        version_added: "2.9"
+        type: bool
+    enable_ondemand_metrics:
+        description:
+            - Virtual service (vs) metrics are processed only when there is live data traffic on the vs.
+            - In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        version_added: "2.9"
+        type: bool
+    enable_se_analytics:
+        description:
+            - Enable node (service engine) level analytics forvs metrics.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
+    enable_server_analytics:
+        description:
+            - Enables analytics on backend servers.
+            - This may be desired in container environment when there are large number of ephemeral servers.
+            - Additionally, no healthscore of servers is computed when server analytics is enabled.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
+    enable_vs_analytics:
+        description:
+            - Enable virtualservice (frontend) analytics.
+            - This flag enables metrics and healthscore for virtualservice.
+            - Field introduced in 20.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
@@ -341,7 +369,7 @@ options:
         description:
             - Skips health score computation of pool servers when number of servers in a pool is more than this setting.
             - Allowed values are 0-5000.
-            - Special values are 0- 'server health score is disabled'.
+            - Special values are 0- 'server health score is deactivated'.
             - Field introduced in 17.2.13, 18.1.4.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         version_added: "2.9"
@@ -527,7 +555,7 @@ options:
     ondemand_metrics_idle_timeout:
         description:
             - This flag sets the time duration of no live data traffic after which virtual service metrics processing is suspended.
-            - It is applicable only when disable_ondemand_metrics is set to false.
+            - It is applicable only when enable_ondemand_metrics is set to false.
             - Field introduced in 18.1.1.
             - Unit is seconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1800.
@@ -599,8 +627,8 @@ EXAMPLES = """
       conn_server_lossy_timeo_rexmt_threshold: 20
       conn_server_lossy_total_rexmt_threshold: 50
       conn_server_lossy_zero_win_size_event_threshold: 2
-      disable_se_analytics: false
-      disable_server_analytics: false
+      enable_se_analytics: true
+      enable_server_analytics: true
       exclude_client_close_before_request_as_error: false
       exclude_persistence_change_as_error: false
       exclude_server_tcp_reset_as_error: false
@@ -687,6 +715,10 @@ def main():
         disable_vs_analytics=dict(type='bool',),
         enable_adaptive_config=dict(type='bool',),
         enable_advanced_analytics=dict(type='bool',),
+        enable_ondemand_metrics=dict(type='bool',),
+        enable_se_analytics=dict(type='bool',),
+        enable_server_analytics=dict(type='bool',),
+        enable_vs_analytics=dict(type='bool',),
         exclude_client_close_before_request_as_error=dict(type='bool',),
         exclude_dns_policy_drop_as_significant=dict(type='bool',),
         exclude_gs_down_as_error=dict(type='bool',),

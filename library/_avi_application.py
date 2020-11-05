@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_vipgnameinfo
+module: avi_application
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VIPGNameInfo Avi RESTful Object
+deprecated:
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of Application Avi RESTful Object
 description:
-    - This module is used to configure VIPGNameInfo object
+    - This module is used to configure Application object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,10 +49,9 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    managed_object_id:
+    description:
         description:
-            - Managed_object_id of vipgnameinfo.
-        required: true
+            - User defined description for the object.
     name:
         description:
             - Name of the object.
@@ -61,23 +65,26 @@ options:
     uuid:
         description:
             - Unique object identifier of the object.
+    virtualservice_refs:
+        description:
+            - It is a reference to an object of type virtualservice.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIPGNameInfo object
-  avi_vipgnameinfo:
+- name: Example to create Application object
+  avi_application:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vipgnameinfo
+    name: sample_application
 """
 
 RETURN = '''
 obj:
-    description: VIPGNameInfo (api/vipgnameinfo) object
+    description: Application (api/application) object
     returned: success, changed
     type: dict
 '''
@@ -102,11 +109,12 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        managed_object_id=dict(type='str', required=True),
+        description=dict(type='str',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        virtualservice_refs=dict(type='list',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -115,7 +123,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vipgnameinfo',
+    return avi_ansible_api(module, 'application',
                            set([]))
 
 if __name__ == '__main__':

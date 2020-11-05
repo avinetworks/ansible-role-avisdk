@@ -87,6 +87,23 @@ options:
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    async_patch_merge_period:
+        description:
+            - Period for which asynchronous patch requests are queued.
+            - Allowed values are 30-120.
+            - Special values are 0 - 'deactivated'.
+            - Field introduced in 18.2.11, 20.1.3.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
+    async_patch_request_cleanup_duration:
+        description:
+            - Duration for which asynchronous patch requests should be kept, after being marked as success or fail.
+            - Allowed values are 5-120.
+            - Field introduced in 18.2.11, 20.1.3.
+            - Unit is min.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
+        type: int
     attach_ip_retry_interval:
         description:
             - Unit is sec.
@@ -240,6 +257,13 @@ options:
         description:
             - Number of max_seq_vnic_failures.
             - Default value when not specified in API or module is interpreted by Avi Controller as 3.
+        type: int
+    max_threads_cc_vip_bg_worker:
+        description:
+            - Maximum number of threads in threadpool used by cloud connector ccvipbgworker.
+            - Allowed values are 1-100.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         type: int
     permission_scoped_shared_admin_networks:
         description:
@@ -554,6 +578,8 @@ def main():
         api_idle_timeout=dict(type='int',),
         api_perf_logging_threshold=dict(type='int',),
         appviewx_compat_mode=dict(type='bool',),
+        async_patch_merge_period=dict(type='int',),
+        async_patch_request_cleanup_duration=dict(type='int',),
         attach_ip_retry_interval=dict(type='int',),
         attach_ip_retry_limit=dict(type='int',),
         bm_use_ansible=dict(type='bool',),
@@ -578,6 +604,7 @@ def main():
         max_se_spawn_interval_delay=dict(type='int',),
         max_seq_attach_ip_failures=dict(type='int',),
         max_seq_vnic_failures=dict(type='int',),
+        max_threads_cc_vip_bg_worker=dict(type='int',),
         permission_scoped_shared_admin_networks=dict(type='bool',),
         persistence_key_rotate_period=dict(type='int',),
         portal_request_burst_limit=dict(type='int',),

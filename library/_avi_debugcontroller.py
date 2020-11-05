@@ -29,17 +29,17 @@ ANSIBLE_METADATA = {'metadata_version': '1.0',
 
 DOCUMENTATION = '''
 ---
-module: avi_vimgrclusterruntime
+module: avi_debugcontroller
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 deprecated:
-  removed_in: '2.13'
-  why: Removed support of this module.
-  alternative: Use M(avi_api_session) instead.
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
 
-short_description: Module for setup of VIMgrClusterRuntime Avi RESTful Object
+short_description: Module for setup of DebugController Avi RESTful Object
 description:
-    - This module is used to configure VIMgrClusterRuntime object
+    - This module is used to configure DebugController object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -49,33 +49,29 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    cloud_ref:
+    filters:
         description:
-            - It is a reference to an object of type cloud.
-    datacenter_managed_object_id:
+            - Debugfilterunion settings for debugcontroller.
+    log_level:
         description:
-            - Datacenter_managed_object_id of vimgrclusterruntime.
-    datacenter_uuid:
-        description:
-            - Unique object identifier of datacenter.
-    host_refs:
-        description:
-            - It is a reference to an object of type vimgrhostruntime.
-    managed_object_id:
-        description:
-            - Managed_object_id of vimgrclusterruntime.
+            - Enum options - log_level_disabled, log_level_info, log_level_warning, log_level_error.
         required: true
     name:
         description:
             - Name of the object.
         required: true
+    sub_module:
+        description:
+            - Enum options - task_queue_debug, rpc_infra_debug, job_mgr_debug, transaction_debug, se_agent_debug, se_agent_metrics_debug, virtualservice_debug,
+            - res_mgr_debug, se_mgr_debug, vi_mgr_debug, metrics_manager_debug, metrics_mgr_debug, event_api_debug, hs_mgr_debug, alert_mgr_debug,
+            - autoscale_mgr_debug, apic_agent_debug, redis_infra_debug, cloud_connector_debug, mesos_metrics_debug, statecache_mgr_debug, nsx_agent_debug.
+        required: true
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-    type:
+    trace_level:
         description:
-            - Enum options - cloud_none, cloud_vcenter, cloud_openstack, cloud_aws, cloud_vca, cloud_apic, cloud_mesos, cloud_linuxserver, cloud_docker_ucp,
-            - cloud_rancher, cloud_oshift_k8s.
+            - Enum options - trace_level_disabled, trace_level_error, trace_level_debug, trace_level_debug_detail.
         required: true
     url:
         description:
@@ -88,18 +84,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create VIMgrClusterRuntime object
-  avi_vimgrclusterruntime:
+- name: Example to create DebugController object
+  avi_debugcontroller:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vimgrclusterruntime
+    name: sample_debugcontroller
 """
 
 RETURN = '''
 obj:
-    description: VIMgrClusterRuntime (api/vimgrclusterruntime) object
+    description: DebugController (api/debugcontroller) object
     returned: success, changed
     type: dict
 '''
@@ -124,14 +120,12 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        cloud_ref=dict(type='str',),
-        datacenter_managed_object_id=dict(type='str',),
-        datacenter_uuid=dict(type='str',),
-        host_refs=dict(type='list',),
-        managed_object_id=dict(type='str', required=True),
+        filters=dict(type='dict',),
+        log_level=dict(type='str', required=True),
         name=dict(type='str', required=True),
+        sub_module=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        type=dict(type='str', required=True),
+        trace_level=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -142,7 +136,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vimgrclusterruntime',
+    return avi_ansible_api(module, 'debugcontroller',
                            set([]))
 
 if __name__ == '__main__':

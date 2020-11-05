@@ -226,13 +226,22 @@ def main():
 
     if method == 'put' and not any(path.startswith(uri) for uri in api_put_not_allowed):
         # put can happen with when full path is specified or it is put + post
+        get_path = path
+        data_for_cmp = data
         if existing_obj is None:
             using_collection = False
             if ((len(path.split('/')) == 1) and ('name' in data) and
                     (not any(path.startswith(uri) for uri in api_get_not_allowed))):
                 gparams['name'] = data['name']
                 using_collection = True
-            rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
+
+            if path.startswith('wafpolicy') and path.endswith('update-crs-rules'):
+                get_path = path.rstrip('/update-crs-rules')
+                data_for_cmp = deepcopy(data) if data else {}
+                _ = data_for_cmp.pop("commit", None)
+
+
+            rsp = api.get(get_path, tenant=tenant, tenant_uuid=tenant_uuid,
                           params=gparams, api_version=api_version)
             rsp_data = rsp.json()
             if using_collection:
@@ -247,7 +256,7 @@ def main():
                 else:
                     existing_obj = rsp_data
         if existing_obj:
-            changed = not avi_obj_cmp(data, existing_obj)
+            changed = not avi_obj_cmp(data_for_cmp, existing_obj)
             cleanup_absent_fields(data)
     if method == 'patch':
         rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,

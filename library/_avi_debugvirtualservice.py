@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_alert
+module: avi_debugvirtualservice
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of Alert Avi RESTful Object
+deprecated:
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of DebugVirtualService Avi RESTful Object
 description:
-    - This module is used to configure Alert object
+    - This module is used to configure DebugVirtualService object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,82 +49,36 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    action_script_output:
+    capture:
         description:
-            - Output of the alert action script.
-    alert_config_ref:
+            - Boolean flag to set capture.
+    capture_params:
         description:
-            - It is a reference to an object of type alertconfig.
-        required: true
-    app_events:
+            - Debugvirtualservicecapture settings for debugvirtualservice.
+    cloud_ref:
         description:
-            - List of applicationlog.
-    conn_events:
+            - It is a reference to an object of type cloud.
+    debug_hm:
         description:
-            - List of connectionlog.
-    description:
+            - This option controls the capture of health monitor flows.
+            - Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.
+            - Default value when not specified in API or module is interpreted by Avi Controller as DEBUG_VS_HM_NONE.
+    debug_ip:
         description:
-            - Alert generation criteria.
-    event_pages:
+            - Debugipaddr settings for debugvirtualservice.
+    flags:
         description:
-            - List of event pages this alert is associated with.
-    events:
-        description:
-            - List of eventlog.
-    last_throttle_timestamp:
-        description:
-            - Unix timestamp of the last throttling in seconds.
-    level:
-        description:
-            - Resolved alert type.
-            - Enum options - ALERT_LOW, ALERT_MEDIUM, ALERT_HIGH.
-        required: true
-    metric_info:
-        description:
-            - List of metriclog.
+            - List of debugvsdataplane.
     name:
         description:
             - Name of the object.
         required: true
-    obj_key:
+    se_params:
         description:
-            - Uuid of the resource.
-        required: true
-    obj_name:
-        description:
-            - Name of the resource.
-    obj_uuid:
-        description:
-            - Uuid of the resource.
-        required: true
-    reason:
-        description:
-            - Reason of alert.
-        required: true
-    related_uuids:
-        description:
-            - Related uuids for the connection log.
-            - Only log agent needs to fill this.
-            - Server uuid should be in formatpool_uuid-ip-port.
-            - In case of no port is set for server it shouldstill be operational port for the server.
-    summary:
-        description:
-            - Summary of alert based on alert config.
-        required: true
+            - Debugvirtualserviceseparams settings for debugvirtualservice.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-    threshold:
-        description:
-            - Number of threshold.
-    throttle_count:
-        description:
-            - Number of times it was throttled.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
-    timestamp:
-        description:
-            - Unix timestamp of the last throttling in seconds.
-        required: true
     url:
         description:
             - Avi controller URL of the object.
@@ -131,18 +90,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create Alert object
-  avi_alert:
+- name: Example to create DebugVirtualService object
+  avi_debugvirtualservice:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_alert
+    name: sample_debugvirtualservice
 """
 
 RETURN = '''
 obj:
-    description: Alert (api/alert) object
+    description: DebugVirtualService (api/debugvirtualservice) object
     returned: success, changed
     type: dict
 '''
@@ -167,27 +126,15 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        action_script_output=dict(type='str',),
-        alert_config_ref=dict(type='str', required=True),
-        app_events=dict(type='list',),
-        conn_events=dict(type='list',),
-        description=dict(type='str',),
-        event_pages=dict(type='list',),
-        events=dict(type='list',),
-        last_throttle_timestamp=dict(type='float',),
-        level=dict(type='str', required=True),
-        metric_info=dict(type='list',),
+        capture=dict(type='bool',),
+        capture_params=dict(type='dict',),
+        cloud_ref=dict(type='str',),
+        debug_hm=dict(type='str',),
+        debug_ip=dict(type='dict',),
+        flags=dict(type='list',),
         name=dict(type='str', required=True),
-        obj_key=dict(type='str', required=True),
-        obj_name=dict(type='str',),
-        obj_uuid=dict(type='str', required=True),
-        reason=dict(type='str', required=True),
-        related_uuids=dict(type='list',),
-        summary=dict(type='str', required=True),
+        se_params=dict(type='dict',),
         tenant_ref=dict(type='str',),
-        threshold=dict(type='int',),
-        throttle_count=dict(type='int',),
-        timestamp=dict(type='float', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -198,7 +145,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'alert',
+    return avi_ansible_api(module, 'debugvirtualservice',
                            set([]))
 
 if __name__ == '__main__':

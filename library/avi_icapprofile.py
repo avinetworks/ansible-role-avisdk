@@ -44,6 +44,15 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    allow_204:
+        description:
+            - Allow icap server to send 204 response as described in rfc 3507 section 4.5.service engine will buffer the complete request if alllow_204 is
+            - enabled.
+            - If disabled, preview_size request body will be buffered if enable_preview is set to true, and rest of the request body will be streamed to the
+            - icap server.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     buffer_size:
         description:
             - The maximum buffer size for the http request body.
@@ -116,12 +125,12 @@ options:
         type: int
     response_timeout:
         description:
-            - How long do we wait for a request to the icap server to finish.
+            - Maximum time, client's request will be paused for icap processing.
             - If this timeout is exceeded, the request to the icap server will be aborted and the configured fail action is executed.
             - Allowed values are 50-3600000.
             - Field introduced in 20.1.1.
             - Unit is milliseconds.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 1000.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60000.
         type: int
     service_uri:
         description:
@@ -136,7 +145,7 @@ options:
             - Allowed values are 50-3600000.
             - Field introduced in 20.1.1.
             - Unit is milliseconds.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 500.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10000.
         type: int
     tenant_ref:
         description:
@@ -200,6 +209,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        allow_204=dict(type='bool',),
         buffer_size=dict(type='int',),
         buffer_size_exceed_action=dict(type='str',),
         cloud_ref=dict(type='str',),

@@ -4,7 +4,7 @@
 # @author: Gaurav Rastogi (grastogi@avinetworks.com)
 #          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-# Avi Version: 17.1
+# Avi Version: 17.1.1
 #
 #
 # This file is part of Ansible
@@ -23,21 +23,23 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'status': ['deprecated'], 'supported_by': 'community', 'version': '1.0'}
+ANSIBLE_METADATA = {'metadata_version': '1.0',
+                    'status': ['deprecated'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_nsxipsetinfo
+module: avi_vipgnameinfo
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 deprecated:
-  removed_in: '2.13'
-  why: Removed support of this module.
-  alternative: No alternative for this module.
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
 
-short_description: Module for setup of NsxIpsetInfo Avi RESTful Object
+short_description: Module for setup of VIPGNameInfo Avi RESTful Object
 description:
-    - This module is used to configure NsxIpsetInfo object
+    - This module is used to configure VIPGNameInfo object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -47,22 +49,14 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    cloud_ref:
+    managed_object_id:
         description:
-            - It is a reference to an object of type cloud.
-    ip_addresses:
-        description:
-            - Ip_addresses of nsxipsetinfo.
+            - Managed_object_id of vipgnameinfo.
+        required: true
     name:
         description:
             - Name of the object.
         required: true
-    nsx_object_id:
-        description:
-            - Nsx_object_id of nsxipsetinfo.
-        required: true
-    obj_uuid:
-        description:
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -77,35 +71,34 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create NsxIpsetInfo object
-  avi_nsxipsetinfo:
+- name: Example to create VIPGNameInfo object
+  avi_vipgnameinfo:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_nsxipsetinfo
+    name: sample_vipgnameinfo
 """
 
 RETURN = '''
 obj:
-    description: NsxIpsetInfo (api/nsxipsetinfo) object
+    description: VIPGNameInfo (api/vipgnameinfo) object
     returned: success, changed
     type: dict
 '''
 
-from pkg_resources import parse_version
 from ansible.module_utils.basic import AnsibleModule
-from avi.sdk.utils.ansible_utils import avi_common_argument_spec
-
-HAS_AVI = True
 try:
+    from avi.sdk.utils.ansible_utils import avi_common_argument_spec
+    from pkg_resources import parse_version
     import avi.sdk
     sdk_version = getattr(avi.sdk, '__version__', None)
     if ((sdk_version is None) or (sdk_version and
-            (parse_version(sdk_version) < parse_version('16.3.5.post1')))):
+            (parse_version(sdk_version) < parse_version('17.1')))):
         # It allows the __version__ to be '' as that value is used in development builds
         raise ImportError
     from avi.sdk.utils.ansible_utils import avi_ansible_api
+    HAS_AVI = True
 except ImportError:
     HAS_AVI = False
 
@@ -114,11 +107,8 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        cloud_ref=dict(type='str',),
-        ip_addresses=dict(type='list',),
+        managed_object_id=dict(type='str', required=True),
         name=dict(type='str', required=True),
-        nsx_object_id=dict(type='str', required=True),
-        obj_uuid=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -128,11 +118,10 @@ def main():
         argument_spec=argument_specs, supports_check_mode=True)
     if not HAS_AVI:
         return module.fail_json(msg=(
-            'Avi python API SDK (avisdk>=16.3.5.post1) is not installed. '
+            'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'nsxipsetinfo',
+    return avi_ansible_api(module, 'vipgnameinfo',
                            set([]))
-
 
 if __name__ == '__main__':
     main()

@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_vidcinfo
+module: avi_scvsstateinfo
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of VIDCInfo Avi RESTful Object
+deprecated:
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of SCVsStateInfo Avi RESTful Object
 description:
-    - This module is used to configure VIDCInfo object
+    - This module is used to configure SCVsStateInfo object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,40 +49,43 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    managed_object_id:
+    oper_status:
         description:
-            - Managed_object_id of vidcinfo.
-        required: true
-    name:
-        description:
-            - Name of the object.
-        required: true
+            - Field introduced in 17.1.1.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+            - Field introduced in 17.1.1.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Field introduced in 17.1.1.
+    vip_id:
+        description:
+            - Field introduced in 17.1.1.
+    vs_ref:
+        description:
+            - It is a reference to an object of type virtualservice.
+            - Field introduced in 17.1.1.
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create VIDCInfo object
-  avi_vidcinfo:
+- name: Example to create SCVsStateInfo object
+  avi_scvsstateinfo:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_vidcinfo
+    name: sample_scvsstateinfo
 """
 
 RETURN = '''
 obj:
-    description: VIDCInfo (api/vidcinfo) object
+    description: SCVsStateInfo (api/scvsstateinfo) object
     returned: success, changed
     type: dict
 '''
@@ -102,11 +110,12 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        managed_object_id=dict(type='str', required=True),
-        name=dict(type='str', required=True),
+        oper_status=dict(type='dict',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        vip_id=dict(type='str',),
+        vs_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -115,7 +124,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'vidcinfo',
+    return avi_ansible_api(module, 'scvsstateinfo',
                            set([]))
 
 if __name__ == '__main__':

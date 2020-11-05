@@ -50,14 +50,20 @@ options:
             - Name of the pki profile.
         required: true
         type: str
+    run_script_ref:
+        description:
+            - Alert script config object for certificate management profile.
+            - It is a reference to an object of type alertscriptconfig.
+            - Field introduced in 20.1.3.
+        required: true
+        type: str
     script_params:
         description:
             - List of customparams.
         type: list
     script_path:
         description:
-            - Script_path of certificatemanagementprofile.
-        required: true
+            - Field deprecated in 20.1.3.
         type: str
     tenant_ref:
         description:
@@ -112,8 +118,9 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         name=dict(type='str', required=True),
+        run_script_ref=dict(type='str', required=True),
         script_params=dict(type='list',),
-        script_path=dict(type='str', required=True),
+        script_path=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),

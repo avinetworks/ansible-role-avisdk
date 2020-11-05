@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_securechannelavailablelocalips
+module: avi_jobentry
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of SecureChannelAvailableLocalIPs Avi RESTful Object
+deprecated:
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of JobEntry Avi RESTful Object
 description:
-    - This module is used to configure SecureChannelAvailableLocalIPs object
+    - This module is used to configure JobEntry object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,22 +49,30 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    end:
+    cookie:
         description:
-            - Number of end.
-    free_controller_ips:
+            - Cookie of jobentry.
+    expires_at:
         description:
-            - Free_controller_ips of securechannelavailablelocalips.
-    free_ips:
-        description:
-            - Free_ips of securechannelavailablelocalips.
-    name:
-        description:
-            - Name of the object.
+            - Expires_at of jobentry.
         required: true
-    start:
+    obj_key:
         description:
-            - Number of start.
+            - Obj_key of jobentry.
+        required: true
+    owner:
+        description:
+            - Enum options - job_owner_virtualservice, job_owner_ssl, job_owner_debug_virtualservice, job_owner_consistency_checker,
+            - job_owner_techsupport_uploader, job_owner_pki_profile, job_owner_networksecuritypolicy, job_owner_segroup, job_owner_postgres_status.
+        required: true
+    tenant_ref:
+        description:
+            - It is a reference to an object of type tenant.
+    type:
+        description:
+            - Enum options - job_type_vs_full_logs, job_type_vs_udf, job_type_vs_metrics_rt, job_type_ssl_cert, job_type_debugvs_pkt_capture,
+            - job_type_consistency_check, job_type_techsupport, job_type_pki_profile, job_type_nsp_rule, job_type_segroup_metrics_rt, job_type_postgres_status.
+        required: true
     url:
         description:
             - Avi controller URL of the object.
@@ -71,18 +84,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create SecureChannelAvailableLocalIPs object
-  avi_securechannelavailablelocalips:
+- name: Example to create JobEntry object
+  avi_jobentry:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_securechannelavailablelocalips
+    name: sample_jobentry
 """
 
 RETURN = '''
 obj:
-    description: SecureChannelAvailableLocalIPs (api/securechannelavailablelocalips) object
+    description: JobEntry (api/jobentry) object
     returned: success, changed
     type: dict
 '''
@@ -107,11 +120,12 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        end=dict(type='int',),
-        free_controller_ips=dict(type='list',),
-        free_ips=dict(type='list',),
-        name=dict(type='str', required=True),
-        start=dict(type='int',),
+        cookie=dict(type='str',),
+        expires_at=dict(type='str', required=True),
+        obj_key=dict(type='str', required=True),
+        owner=dict(type='str', required=True),
+        tenant_ref=dict(type='str',),
+        type=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -122,7 +136,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'securechannelavailablelocalips',
+    return avi_ansible_api(module, 'jobentry',
                            set([]))
 
 if __name__ == '__main__':

@@ -70,6 +70,12 @@ options:
         description:
             - Http security policy for the virtual service.
         type: dict
+    ip_reputation_db_ref:
+        description:
+            - Ip reputation database.
+            - It is a reference to an object of type ipreputationdb.
+            - Field introduced in 20.1.3.
+        type: str
     is_internal_policy:
         description:
             - Boolean flag to set is_internal_policy.
@@ -173,6 +179,7 @@ def main():
         http_request_policy=dict(type='dict',),
         http_response_policy=dict(type='dict',),
         http_security_policy=dict(type='dict',),
+        ip_reputation_db_ref=dict(type='str',),
         is_internal_policy=dict(type='bool',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),

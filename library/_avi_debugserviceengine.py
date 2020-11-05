@@ -29,17 +29,17 @@ ANSIBLE_METADATA = {'metadata_version': '1.0',
 
 DOCUMENTATION = '''
 ---
-module: avi_cloudruntime
+module: avi_debugserviceengine
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 deprecated:
-  removed_in: '2.13'
-  why: Removed support of this module.
-  alternative: Use M(avi_api_session) instead.
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
 
-short_description: Module for setup of CloudRuntime Avi RESTful Object
+short_description: Module for setup of DebugServiceEngine Avi RESTful Object
 description:
-    - This module is used to configure CloudRuntime object
+    - This module is used to configure DebugServiceEngine object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -49,14 +49,19 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
+    cpu_shares:
+        description:
+            - List of debugsecpushares.
+    flags:
+        description:
+            - List of debugsedataplane.
     name:
         description:
             - Name of the object.
-        required: true
-    network_sync_complete:
+            - Default value when not specified in API or module is interpreted by Avi Controller as VM name unknown.
+    seagent_debug:
         description:
-            - Boolean flag to set network_sync_complete.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - List of debugseagent.
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -71,18 +76,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create CloudRuntime object
-  avi_cloudruntime:
+- name: Example to create DebugServiceEngine object
+  avi_debugserviceengine:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_cloudruntime
+    name: sample_debugserviceengine
 """
 
 RETURN = '''
 obj:
-    description: CloudRuntime (api/cloudruntime) object
+    description: DebugServiceEngine (api/debugserviceengine) object
     returned: success, changed
     type: dict
 '''
@@ -107,8 +112,10 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        name=dict(type='str', required=True),
-        network_sync_complete=dict(type='bool',),
+        cpu_shares=dict(type='list',),
+        flags=dict(type='list',),
+        name=dict(type='str',),
+        seagent_debug=dict(type='list',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -120,7 +127,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'cloudruntime',
+    return avi_ansible_api(module, 'debugserviceengine',
                            set([]))
 
 if __name__ == '__main__':
