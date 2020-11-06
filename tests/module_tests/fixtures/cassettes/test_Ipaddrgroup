@@ -2,47 +2,155 @@ interactions:
 - request:
     body: null
     headers:
-      Content-Type: [application/json]
-      Cookie: [csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq; sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
-          avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq;
-          sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio]
-      Referer: ['https://10.79.169.56']
-      X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.8]
-      X-CSRFToken: [6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq]
-      timeout: ['300']
+      Content-Type:
+      - application/json
+      Cookie:
+      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
+        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
+        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      Referer:
+      - https://10.79.171.103
+      X-Avi-Tenant:
+      - admin
+      X-Avi-Version:
+      - 20.1.3
+      X-CSRFToken:
+      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      timeout:
+      - '300'
     method: GET
-    uri: https://10.79.169.56/api/ipaddrgroup?include_refs=&include_name=&name=New-Internal
+    uri: https://10.79.171.103/api/ipaddrgroup?include_refs=&include_name=&name=New-Internal
   response:
-    body: {string: !!python/unicode '{"count": 1, "results": [{"uuid": "ipaddrgroup-af237b47-e98a-4c41-8e3e-cf033fbbf835",
-        "url": "https://10.79.169.56/api/ipaddrgroup/ipaddrgroup-af237b47-e98a-4c41-8e3e-cf033fbbf835#New-Internal",
-        "tenant_ref": "https://10.79.169.56/api/tenant/admin#admin", "name": "New-Internal",
-        "prefixes": [{"mask": 8, "ip_addr": {"type": "V4", "addr": "10.0.0.0"}}, {"mask":
-        16, "ip_addr": {"type": "V4", "addr": "192.168.0.10"}}, {"mask": 14, "ip_addr":
-        {"type": "V4", "addr": "172.16.0.1"}}], "_last_modified": "1582532009800540"}]}'}
+    body:
+      string: !!python/unicode '{"count": 0, "results": []}'
     headers:
-      access-control-allow-credentials: ['true']
-      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
-      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
-      access-control-allow-origin: ['https://portal.avinetworks.com']
-      access-control-expose-headers: [X-NEXT-CALL]
-      allow: ['HEAD, GET, POST, OPTIONS']
-      avi_api_version: [18.2.8]
-      cache-control: ['private, no-cache, must-revalidate']
-      connection: [keep-alive]
-      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
-      content-type: [application/json]
-      date: ['Mon, 24 Feb 2020 10:15:00 GMT']
-      referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; expires=Tue, 25-Feb-2020
-          10:15:00 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
-          expires=Tue, 25-Feb-2020 10:15:00 GMT; httponly; Max-Age=86400; Path=/;
-          secure']
-      strict-transport-security: [max-age=31536000; includeSubdomains]
-      transfer-encoding: [chunked]
-      vary: ['Accept, Cookie', Origin]
-      x-content-type-options: [nosniff]
-      x-frame-options: [SAMEORIGIN]
-      x-xss-protection: [1; mode=block]
-    status: {code: 200, message: OK}
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-headers:
+      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
+      access-control-allow-methods:
+      - GET
+      access-control-expose-headers:
+      - X-NEXT-CALL
+      allow:
+      - POST, GET, HEAD, OPTIONS
+      avi_api_version:
+      - 20.1.3
+      cache-control:
+      - private, no-cache, must-revalidate
+      connection:
+      - keep-alive
+      content-security-policy:
+      - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
+        img-src 'self' data:;
+      content-type:
+      - application/json
+      date:
+      - Fri, 06 Nov 2020 05:52:25 GMT
+      referrer-policy:
+      - strict-origin
+      set-cookie:
+      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:25
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:25
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      strict-transport-security:
+      - max-age=31536000; includeSubdomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept, Cookie
+      - Origin
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: !!python/unicode '{"prefixes": [{"ip_addr": {"type": "V4", "addr": "10.0.0.0"},
+      "mask": 8}, {"ip_addr": {"type": "V4", "addr": "192.168.0.10"}, "mask": 16},
+      {"ip_addr": {"type": "V4", "addr": "172.16.0.1"}, "mask": 14}], "name": "New-Internal",
+      "tenant_ref": "/api/tenant/?name=admin"}'
+    headers:
+      Content-Length:
+      - '267'
+      Content-Type:
+      - application/json
+      Cookie:
+      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
+        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
+        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      Referer:
+      - https://10.79.171.103
+      X-Avi-Tenant:
+      - admin
+      X-Avi-Version:
+      - 20.1.3
+      X-CSRFToken:
+      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      timeout:
+      - '300'
+    method: POST
+    uri: https://10.79.171.103/api/ipaddrgroup
+  response:
+    body:
+      string: !!python/unicode '{"url": "https://10.79.171.103/api/ipaddrgroup/ipaddrgroup-154d12e7-287f-4bcb-9572-d7e2cb46583a#New-Internal",
+        "uuid": "ipaddrgroup-154d12e7-287f-4bcb-9572-d7e2cb46583a", "name": "New-Internal",
+        "tenant_ref": "https://10.79.171.103/api/tenant/admin#admin", "_last_modified":
+        "1604641945407187", "prefixes": [{"ip_addr": {"addr": "10.0.0.0", "type":
+        "V4"}, "mask": 8}, {"ip_addr": {"addr": "192.168.0.10", "type": "V4"}, "mask":
+        16}, {"ip_addr": {"addr": "172.16.0.1", "type": "V4"}, "mask": 14}]}'
+    headers:
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-headers:
+      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
+      access-control-allow-methods:
+      - GET
+      access-control-expose-headers:
+      - X-NEXT-CALL
+      allow:
+      - POST, GET, HEAD, OPTIONS
+      avi_api_version:
+      - 20.1.3
+      cache-control:
+      - private, no-cache, must-revalidate
+      connection:
+      - keep-alive
+      content-security-policy:
+      - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
+        img-src 'self' data:;
+      content-type:
+      - application/json
+      date:
+      - Fri, 06 Nov 2020 05:52:25 GMT
+      location:
+      - https://10.79.171.103/api/ipaddrgroup/ipaddrgroup-154d12e7-287f-4bcb-9572-d7e2cb46583a#New-Internal
+      referrer-policy:
+      - strict-origin
+      set-cookie:
+      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:25
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:25
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      strict-transport-security:
+      - max-age=31536000; includeSubdomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept, Cookie
+      - Origin
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 201
+      message: CREATED
 version: 1

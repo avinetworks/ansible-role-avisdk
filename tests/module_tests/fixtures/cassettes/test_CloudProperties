@@ -2,72 +2,667 @@ interactions:
 - request:
     body: null
     headers:
-      Content-Type: [application/json]
-      Cookie: [csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq; sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
-          avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; csrftoken=6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq;
-          sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio]
-      Referer: ['https://10.79.169.56']
-      X-Avi-Tenant: [admin]
-      X-Avi-Version: [18.2.8]
-      X-CSRFToken: [6SPKNaQjDEUMo1Hci2qbeKNygRm31wQq]
-      timeout: ['300']
+      Content-Type:
+      - application/json
+      Cookie:
+      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
+        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
+        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      Referer:
+      - https://10.79.171.103
+      X-Avi-Tenant:
+      - admin
+      X-Avi-Version:
+      - 20.1.3
+      X-CSRFToken:
+      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      timeout:
+      - '300'
     method: GET
-    uri: https://10.79.169.56/api/cloudproperties/?include_refs=&include_name=
+    uri: https://10.79.171.103/api/cloudproperties/?include_refs=&include_name=
   response:
-    body: {string: !!python/unicode '{"url": "https://10.79.169.56/api/cloudproperties",
-        "uuid": "global", "_last_modified": "1582532006095078", "info": [{"vtype":
-        "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK", "flavor_props":
-        [{"max_ips_per_nic": 11, "public": true, "name": "all", "id": "all"}], "htypes":
-        ["KVM", "VMWARE_ESX", "VMWARE_VSAN"]}, {"vtype": "CLOUD_AWS", "flavor_regex_filter":
-        "[ctmr][0-9]+\\..*", "flavor_props": [{"max_nics": 2, "name": "t2.micro",
-        "disk_gb": 0, "max_ips_per_nic": 2, "ram_mb": 1024, "public": true, "vcpus":
-        1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.008'',
-        u''yrTerm3Convertible.allUpfront'': u''0.005'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.005'', u''yrTerm1Convertible.partialUpfront'': u''0.008'', u''yrTerm1Standard.partialUpfront'':
-        u''0.007'', u''yrTerm3Standard.noUpfront'': u''0.005'', u''yrTerm3Convertible.noUpfront'':
-        u''0.006'', u''yrTerm3Standard.allUpfront'': u''0.004'', u''yrTerm1Convertible.allUpfront'':
-        u''0.008'', u''yrTerm1Standard.allUpfront'': u''0.007'', u''yrTerm3Standard.partialUpfront'':
-        u''0.005'', u''yrTerm1Standard.noUpfront'': u''0.007''}, u''ondemand'': u''0.0116''}",
-        "id": "t2.micro"}, {"max_nics": 2, "name": "t2.small", "disk_gb": 0, "max_ips_per_nic":
-        4, "ram_mb": 2048, "public": true, "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-        u''0.017'', u''yrTerm3Convertible.allUpfront'': u''0.011'', u''yrTerm3Convertible.partialUpfront'':
+    body:
+      string: !!python/unicode '{"url": "https://10.79.171.103/api/cloudproperties",
+        "uuid": "global", "_last_modified": "1604640849024599", "cc_vtypes": ["CLOUD_OPENSTACK",
+        "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER",
+        "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER", "CLOUD_AZURE", "CLOUD_GCP", "CLOUD_NSXT"],
+        "hyp_props": [{"htype": "VMWARE_ESX", "max_nics": 10}, {"htype": "VMWARE_VSAN",
+        "max_nics": 10}, {"htype": "KVM", "max_nics": 24}, {"htype": "XEN"}], "info":
+        [{"vtype": "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK",
+        "htypes": ["KVM", "VMWARE_ESX", "VMWARE_VSAN"], "flavor_props": [{"id": "all",
+        "name": "all", "public": true, "max_ips_per_nic": 11}]}, {"vtype": "CLOUD_AWS",
+        "htypes": ["XEN"], "flavor_regex_filter": "[ctmr][0-9]+[n]?\\..*", "flavor_props":
+        [{"id": "t3.micro", "name": "t3.micro", "ram_mb": 1024, "disk_gb": 0, "vcpus":
+        2, "public": true, "max_nics": 2, "max_ips_per_nic": 2, "cost": "{''ondemand'':
+        ''0.0104'', ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.006963'',
+        ''yrTerm1Convertible.noUpfront'': ''0.0075'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.007139'', ''yrTerm1Standard.allUpfront'': ''0.00605'', ''yrTerm1Standard.noUpfront'':
+        ''0.0065'', ''yrTerm1Standard.partialUpfront'': ''0.006182'', ''yrTerm3Convertible.allUpfront'':
+        ''0.00468'', ''yrTerm3Convertible.noUpfront'': ''0.0052'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.004797'', ''yrTerm3Standard.allUpfront'': ''0.003919'', ''yrTerm3Standard.noUpfront'':
+        ''0.0045'', ''yrTerm3Standard.partialUpfront'': ''0.004193''}}"}, {"id": "t2.micro",
+        "name": "t2.micro", "ram_mb": 1024, "disk_gb": 0, "vcpus": 1, "public": true,
+        "max_nics": 2, "max_ips_per_nic": 2, "cost": "{''ondemand'': ''0.0116'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.007763'', ''yrTerm1Convertible.noUpfront'':
+        ''0.0083'', ''yrTerm1Convertible.partialUpfront'': ''0.007781'', ''yrTerm1Standard.allUpfront'':
+        ''0.006735'', ''yrTerm1Standard.noUpfront'': ''0.0072'', ''yrTerm1Standard.partialUpfront'':
+        ''0.006825'', ''yrTerm3Convertible.allUpfront'': ''0.005213'', ''yrTerm3Convertible.noUpfront'':
+        ''0.0058'', ''yrTerm3Convertible.partialUpfront'': ''0.005364'', ''yrTerm3Standard.allUpfront'':
+        ''0.004376'', ''yrTerm3Standard.noUpfront'': ''0.005'', ''yrTerm3Standard.partialUpfront'':
+        ''0.004511''}}"}, {"id": "t3.small", "name": "t3.small", "ram_mb": 2048, "disk_gb":
+        0, "vcpus": 2, "public": true, "max_nics": 3, "max_ips_per_nic": 4, "cost":
+        "{''ondemand'': ''0.0208'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.014041'', ''yrTerm1Convertible.noUpfront'': ''0.015'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.014292'', ''yrTerm1Standard.allUpfront'': ''0.012215'', ''yrTerm1Standard.noUpfront'':
+        ''0.013'', ''yrTerm1Standard.partialUpfront'': ''0.012364'', ''yrTerm3Convertible.allUpfront'':
+        ''0.009361'', ''yrTerm3Convertible.noUpfront'': ''0.0103'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.009595'', ''yrTerm3Standard.allUpfront'': ''0.007839'', ''yrTerm3Standard.noUpfront'':
+        ''0.009'', ''yrTerm3Standard.partialUpfront'': ''0.008348''}}"}, {"id": "t2.small",
+        "name": "t2.small", "ram_mb": 2048, "disk_gb": 0, "vcpus": 1, "public": true,
+        "max_nics": 3, "max_ips_per_nic": 4, "cost": "{''ondemand'': ''0.023'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.015411'', ''yrTerm1Convertible.noUpfront'':
+        ''0.0165'', ''yrTerm1Convertible.partialUpfront'': ''0.015777'', ''yrTerm1Standard.allUpfront'':
+        ''0.01347'', ''yrTerm1Standard.noUpfront'': ''0.0144'', ''yrTerm1Standard.partialUpfront'':
+        ''0.013649'', ''yrTerm3Convertible.allUpfront'': ''0.010464'', ''yrTerm3Convertible.noUpfront'':
+        ''0.0115'', ''yrTerm3Convertible.partialUpfront'': ''0.010627'', ''yrTerm3Standard.allUpfront'':
+        ''0.008714'', ''yrTerm3Standard.noUpfront'': ''0.01'', ''yrTerm3Standard.partialUpfront'':
+        ''0.009242''}}"}, {"id": "t3.medium", "name": "t3.medium", "ram_mb": 4096,
+        "disk_gb": 0, "vcpus": 2, "public": true, "max_nics": 3, "max_ips_per_nic":
+        6, "cost": "{''ondemand'': ''0.0416'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.027968'', ''yrTerm1Convertible.noUpfront'': ''0.03'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.028569'', ''yrTerm1Standard.allUpfront'': ''0.024315'', ''yrTerm1Standard.noUpfront'':
+        ''0.0261'', ''yrTerm1Standard.partialUpfront'': ''0.024843'', ''yrTerm3Convertible.allUpfront'':
+        ''0.018721'', ''yrTerm3Convertible.noUpfront'': ''0.0206'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.019151'', ''yrTerm3Standard.allUpfront'': ''0.015677'', ''yrTerm3Standard.noUpfront'':
+        ''0.018'', ''yrTerm3Standard.partialUpfront'': ''0.016633''}}"}, {"id": "t2.medium",
+        "name": "t2.medium", "ram_mb": 4096, "disk_gb": 0, "vcpus": 2, "public": true,
+        "max_nics": 3, "max_ips_per_nic": 6, "cost": "{''ondemand'': ''0.0464'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.030822'', ''yrTerm1Convertible.noUpfront'':
+        ''0.0331'', ''yrTerm1Convertible.partialUpfront'': ''0.031453'', ''yrTerm1Standard.allUpfront'':
+        ''0.026826'', ''yrTerm1Standard.noUpfront'': ''0.0287'', ''yrTerm1Standard.partialUpfront'':
+        ''0.027399'', ''yrTerm3Convertible.allUpfront'': ''0.020928'', ''yrTerm3Convertible.noUpfront'':
+        ''0.0231'', ''yrTerm3Convertible.partialUpfront'': ''0.021354'', ''yrTerm3Standard.allUpfront'':
+        ''0.017428'', ''yrTerm3Standard.noUpfront'': ''0.02'', ''yrTerm3Standard.partialUpfront'':
+        ''0.018585''}}"}, {"id": "t3.large", "name": "t3.large", "ram_mb": 8192, "disk_gb":
+        0, "vcpus": 2, "public": true, "max_nics": 3, "max_ips_per_nic": 12, "cost":
+        "{''ondemand'': ''0.0832'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.055936'', ''yrTerm1Convertible.noUpfront'': ''0.06'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.057139'', ''yrTerm1Standard.allUpfront'': ''0.04863'', ''yrTerm1Standard.noUpfront'':
+        ''0.0522'', ''yrTerm1Standard.partialUpfront'': ''0.049686'', ''yrTerm3Convertible.allUpfront'':
+        ''0.037481'', ''yrTerm3Convertible.noUpfront'': ''0.0413'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.038202'', ''yrTerm3Standard.allUpfront'': ''0.031317'', ''yrTerm3Standard.noUpfront'':
+        ''0.036'', ''yrTerm3Standard.partialUpfront'': ''0.033367''}}"}, {"id": "c5.large",
+        "name": "c5.large", "ram_mb": 4096, "disk_gb": 0, "vcpus": 2, "public": true,
+        "max_nics": 3, "max_ips_per_nic": 10, "cost": "{''ondemand'': ''0.085'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.05742'', ''yrTerm1Convertible.noUpfront'':
+        ''0.062'', ''yrTerm1Convertible.partialUpfront'': ''0.058338'', ''yrTerm1Standard.allUpfront'':
+        ''0.05'', ''yrTerm1Standard.noUpfront'': ''0.054'', ''yrTerm1Standard.partialUpfront'':
+        ''0.051457'', ''yrTerm3Convertible.allUpfront'': ''0.037253'', ''yrTerm3Convertible.noUpfront'':
+        ''0.041'', ''yrTerm3Convertible.partialUpfront'': ''0.037988'', ''yrTerm3Standard.allUpfront'':
+        ''0.031012'', ''yrTerm3Standard.noUpfront'': ''0.036'', ''yrTerm3Standard.partialUpfront'':
+        ''0.032476''}}"}, {"id": "t2.large", "name": "t2.large", "ram_mb": 8192, "disk_gb":
+        0, "vcpus": 2, "public": true, "max_nics": 3, "max_ips_per_nic": 12, "cost":
+        "{''ondemand'': ''0.0928'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.061758'', ''yrTerm1Convertible.noUpfront'': ''0.0661'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.063007'', ''yrTerm1Standard.allUpfront'': ''0.053653'', ''yrTerm1Standard.noUpfront'':
+        ''0.0575'', ''yrTerm1Standard.partialUpfront'': ''0.054797'', ''yrTerm3Convertible.allUpfront'':
+        ''0.041819'', ''yrTerm3Convertible.noUpfront'': ''0.0461'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.042647'', ''yrTerm3Standard.allUpfront'': ''0.034893'', ''yrTerm3Standard.noUpfront'':
+        ''0.0401'', ''yrTerm3Standard.partialUpfront'': ''0.037169''}}"}, {"id": "m5.large",
+        "name": "m5.large", "ram_mb": 8192, "disk_gb": 0, "vcpus": 2, "public": true,
+        "max_nics": 3, "max_ips_per_nic": 10, "cost": "{''ondemand'': ''0.096'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.065868'', ''yrTerm1Convertible.noUpfront'':
+        ''0.071'', ''yrTerm1Convertible.partialUpfront'': ''0.067562'', ''yrTerm1Standard.allUpfront'':
+        ''0.057192'', ''yrTerm1Standard.noUpfront'': ''0.061'', ''yrTerm1Standard.partialUpfront'':
+        ''0.058224'', ''yrTerm3Convertible.allUpfront'': ''0.044178'', ''yrTerm3Convertible.noUpfront'':
+        ''0.049'', ''yrTerm3Convertible.partialUpfront'': ''0.045527'', ''yrTerm3Standard.allUpfront'':
+        ''0.036834'', ''yrTerm3Standard.noUpfront'': ''0.042'', ''yrTerm3Standard.partialUpfront'':
+        ''0.039597''}}"}, {"id": "m4.large", "name": "m4.large", "ram_mb": 8192, "disk_gb":
+        0, "vcpus": 2, "public": true, "max_nics": 2, "max_ips_per_nic": 10, "cost":
+        "{''ondemand'': ''0.1'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.066438'', ''yrTerm1Convertible.noUpfront'': ''0.0712'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.067804'', ''yrTerm1Standard.allUpfront'': ''0.057877'', ''yrTerm1Standard.noUpfront'':
+        ''0.062'', ''yrTerm1Standard.partialUpfront'': ''0.058952'', ''yrTerm3Convertible.allUpfront'':
+        ''0.045091'', ''yrTerm3Convertible.noUpfront'': ''0.0497'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.045983'', ''yrTerm3Standard.allUpfront'': ''0.037595'', ''yrTerm3Standard.noUpfront'':
+        ''0.0432'', ''yrTerm3Standard.partialUpfront'': ''0.040015''}}"}, {"id": "c4.large",
+        "name": "c4.large", "ram_mb": 3840, "disk_gb": 0, "vcpus": 2, "public": true,
+        "max_nics": 3, "max_ips_per_nic": 10, "cost": "{''ondemand'': ''0.1'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.06758'', ''yrTerm1Convertible.noUpfront'':
+        ''0.072'', ''yrTerm1Convertible.partialUpfront'': ''0.069475'', ''yrTerm1Standard.allUpfront'':
+        ''0.05879'', ''yrTerm1Standard.noUpfront'': ''0.063'', ''yrTerm1Standard.partialUpfront'':
+        ''0.060023'', ''yrTerm3Convertible.allUpfront'': ''0.046195'', ''yrTerm3Convertible.noUpfront'':
+        ''0.051'', ''yrTerm3Convertible.partialUpfront'': ''0.047592'', ''yrTerm3Standard.allUpfront'':
+        ''0.038546'', ''yrTerm3Standard.noUpfront'': ''0.044'', ''yrTerm3Standard.partialUpfront'':
+        ''0.04151''}}"}, {"id": "c5n.large", "name": "c5n.large", "ram_mb": 5376,
+        "disk_gb": 0, "vcpus": 2, "public": true, "max_nics": 3, "max_ips_per_nic":
+        10, "cost": "{''ondemand'': ''0.108'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.073059'', ''yrTerm1Convertible.noUpfront'': ''0.078'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.074215'', ''yrTerm1Standard.allUpfront'': ''0.06347'', ''yrTerm1Standard.noUpfront'':
+        ''0.068'', ''yrTerm1Standard.partialUpfront'': ''0.06442'', ''yrTerm3Convertible.allUpfront'':
+        ''0.040982'', ''yrTerm3Convertible.noUpfront'': ''0.045'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.04189'', ''yrTerm3Standard.allUpfront'': ''0.034132'', ''yrTerm3Standard.noUpfront'':
+        ''0.039'', ''yrTerm3Standard.partialUpfront'': ''0.036151''}}"}, {"id": "r5.large",
+        "name": "r5.large", "ram_mb": 16384, "disk_gb": 0, "vcpus": 2, "public": true,
+        "max_nics": 3, "max_ips_per_nic": 10, "cost": "{''ondemand'': ''0.126'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.08516'', ''yrTerm1Convertible.noUpfront'':
+        ''0.091'', ''yrTerm1Convertible.partialUpfront'': ''0.086493'', ''yrTerm1Standard.allUpfront'':
+        ''0.074087'', ''yrTerm1Standard.noUpfront'': ''0.079'', ''yrTerm1Standard.partialUpfront'':
+        ''0.075785'', ''yrTerm3Convertible.allUpfront'': ''0.059627'', ''yrTerm3Convertible.noUpfront'':
+        ''0.066'', ''yrTerm3Convertible.partialUpfront'': ''0.060441'', ''yrTerm3Standard.allUpfront'':
+        ''0.049734'', ''yrTerm3Standard.noUpfront'': ''0.057'', ''yrTerm3Standard.partialUpfront'':
+        ''0.052446''}}"}, {"id": "r4.large", "name": "r4.large", "ram_mb": 15616,
+        "disk_gb": 0, "vcpus": 2, "public": true, "max_nics": 3, "max_ips_per_nic":
+        10, "cost": "{''ondemand'': ''0.133'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.090183'', ''yrTerm1Convertible.noUpfront'': ''0.0966'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.092005'', ''yrTerm1Standard.allUpfront'': ''0.078196'', ''yrTerm1Standard.noUpfront'':
+        ''0.084'', ''yrTerm1Standard.partialUpfront'': ''0.079954'', ''yrTerm3Convertible.allUpfront'':
+        ''0.059741'', ''yrTerm3Convertible.noUpfront'': ''0.0658'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.060979'', ''yrTerm3Standard.allUpfront'': ''0.05'', ''yrTerm3Standard.noUpfront'':
+        ''0.0572'', ''yrTerm3Standard.partialUpfront'': ''0.053598''}}"}, {"id": "t3.xlarge",
+        "name": "t3.xlarge", "ram_mb": 16384, "disk_gb": 0, "vcpus": 4, "public":
+        true, "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.1664'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.111986'', ''yrTerm1Convertible.noUpfront'':
+        ''0.12'', ''yrTerm1Convertible.partialUpfront'': ''0.114178'', ''yrTerm1Standard.allUpfront'':
+        ''0.097374'', ''yrTerm1Standard.noUpfront'': ''0.1043'', ''yrTerm1Standard.partialUpfront'':
+        ''0.099358'', ''yrTerm3Convertible.allUpfront'': ''0.074924'', ''yrTerm3Convertible.noUpfront'':
+        ''0.0826'', ''yrTerm3Convertible.partialUpfront'': ''0.076442'', ''yrTerm3Standard.allUpfront'':
+        ''0.062633'', ''yrTerm3Standard.noUpfront'': ''0.072'', ''yrTerm3Standard.partialUpfront'':
+        ''0.066633''}}"}, {"id": "c5.xlarge", "name": "c5.xlarge", "ram_mb": 8192,
+        "disk_gb": 0, "vcpus": 4, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.17'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.114954'', ''yrTerm1Convertible.noUpfront'': ''0.123'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.117676'', ''yrTerm1Standard.allUpfront'': ''0.1'', ''yrTerm1Standard.noUpfront'':
+        ''0.107'', ''yrTerm1Standard.partialUpfront'': ''0.102027'', ''yrTerm3Convertible.allUpfront'':
+        ''0.074467'', ''yrTerm3Convertible.noUpfront'': ''0.082'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.076014'', ''yrTerm3Standard.allUpfront'': ''0.061986'', ''yrTerm3Standard.noUpfront'':
+        ''0.071'', ''yrTerm3Standard.partialUpfront'': ''0.065991''}}"}, {"id": "t2.xlarge",
+        "name": "t2.xlarge", "ram_mb": 16384, "disk_gb": 0, "vcpus": 4, "public":
+        true, "max_nics": 3, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.1856'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.123402'', ''yrTerm1Convertible.noUpfront'':
+        ''0.1322'', ''yrTerm1Convertible.partialUpfront'': ''0.126014'', ''yrTerm1Standard.allUpfront'':
+        ''0.107306'', ''yrTerm1Standard.noUpfront'': ''0.115'', ''yrTerm1Standard.partialUpfront'':
+        ''0.109595'', ''yrTerm3Convertible.allUpfront'': ''0.083676'', ''yrTerm3Convertible.noUpfront'':
+        ''0.0922'', ''yrTerm3Convertible.partialUpfront'': ''0.085394'', ''yrTerm3Standard.allUpfront'':
+        ''0.069787'', ''yrTerm3Standard.noUpfront'': ''0.0802'', ''yrTerm3Standard.partialUpfront'':
+        ''0.074239''}}"}, {"id": "m5.xlarge", "name": "m5.xlarge", "ram_mb": 16384,
+        "disk_gb": 0, "vcpus": 4, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.192'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.131621'', ''yrTerm1Convertible.noUpfront'': ''0.141'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.134123'', ''yrTerm1Standard.allUpfront'': ''0.114498'', ''yrTerm1Standard.noUpfront'':
+        ''0.123'', ''yrTerm1Standard.partialUpfront'': ''0.116447'', ''yrTerm3Convertible.allUpfront'':
+        ''0.088356'', ''yrTerm3Convertible.noUpfront'': ''0.097'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.090091'', ''yrTerm3Standard.allUpfront'': ''0.073706'', ''yrTerm3Standard.noUpfront'':
+        ''0.085'', ''yrTerm3Standard.partialUpfront'': ''0.078193''}}"}, {"id": "c4.xlarge",
+        "name": "c4.xlarge", "ram_mb": 7680, "disk_gb": 0, "vcpus": 4, "public": true,
+        "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.199'', ''reserved'':
+        {''yrTerm1Convertible.allUpfront'': ''0.135274'', ''yrTerm1Convertible.noUpfront'':
+        ''0.145'', ''yrTerm1Convertible.partialUpfront'': ''0.13795'', ''yrTerm1Standard.allUpfront'':
+        ''0.118607'', ''yrTerm1Standard.noUpfront'': ''0.126'', ''yrTerm1Standard.partialUpfront'':
+        ''0.120502'', ''yrTerm3Convertible.allUpfront'': ''0.092428'', ''yrTerm3Convertible.noUpfront'':
+        ''0.102'', ''yrTerm3Convertible.partialUpfront'': ''0.094146'', ''yrTerm3Standard.allUpfront'':
+        ''0.078006'', ''yrTerm3Standard.noUpfront'': ''0.089'', ''yrTerm3Standard.partialUpfront'':
+        ''0.083514''}}"}, {"id": "m4.xlarge", "name": "m4.xlarge", "ram_mb": 16384,
+        "disk_gb": 0, "vcpus": 4, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.2'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.132991'', ''yrTerm1Convertible.noUpfront'': ''0.1425'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.135708'', ''yrTerm1Standard.allUpfront'': ''0.115639'', ''yrTerm1Standard.noUpfront'':
+        ''0.1239'', ''yrTerm1Standard.partialUpfront'': ''0.118018'', ''yrTerm3Convertible.allUpfront'':
+        ''0.090145'', ''yrTerm3Convertible.noUpfront'': ''0.0994'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.092005'', ''yrTerm3Standard.allUpfront'': ''0.07519'', ''yrTerm3Standard.noUpfront'':
+        ''0.0864'', ''yrTerm3Standard.partialUpfront'': ''0.079992''}}"}, {"id": "c5n.xlarge",
+        "name": "c5n.xlarge", "ram_mb": 10752, "disk_gb": 0, "vcpus": 4, "public":
+        true, "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.216'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.146119'', ''yrTerm1Convertible.noUpfront'':
+        ''0.157'', ''yrTerm1Convertible.partialUpfront'': ''0.149543'', ''yrTerm1Standard.allUpfront'':
+        ''0.127055'', ''yrTerm1Standard.noUpfront'': ''0.136'', ''yrTerm1Standard.partialUpfront'':
+        ''0.12984'', ''yrTerm3Convertible.allUpfront'': ''0.081963'', ''yrTerm3Convertible.noUpfront'':
+        ''0.09'', ''yrTerm3Convertible.partialUpfront'': ''0.083819'', ''yrTerm3Standard.allUpfront'':
+        ''0.068265'', ''yrTerm3Standard.noUpfront'': ''0.078'', ''yrTerm3Standard.partialUpfront'':
+        ''0.072301''}}"}, {"id": "r5.xlarge", "name": "r5.xlarge", "ram_mb": 32768,
+        "disk_gb": 0, "vcpus": 4, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.252'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.170434'', ''yrTerm1Convertible.noUpfront'': ''0.183'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.173986'', ''yrTerm1Standard.allUpfront'': ''0.148174'', ''yrTerm1Standard.noUpfront'':
+        ''0.159'', ''yrTerm1Standard.partialUpfront'': ''0.151571'', ''yrTerm3Convertible.allUpfront'':
+        ''0.119292'', ''yrTerm3Convertible.noUpfront'': ''0.131'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.121845'', ''yrTerm3Standard.allUpfront'': ''0.099505'', ''yrTerm3Standard.noUpfront'':
+        ''0.114'', ''yrTerm3Standard.partialUpfront'': ''0.10593''}}"}, {"id": "r4.xlarge",
+        "name": "r4.xlarge", "ram_mb": 31232, "disk_gb": 0, "vcpus": 4, "public":
+        true, "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.266'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.180365'', ''yrTerm1Convertible.noUpfront'':
+        ''0.1932'', ''yrTerm1Convertible.partialUpfront'': ''0.184009'', ''yrTerm1Standard.allUpfront'':
+        ''0.156393'', ''yrTerm1Standard.noUpfront'': ''0.168'', ''yrTerm1Standard.partialUpfront'':
+        ''0.159795'', ''yrTerm3Convertible.allUpfront'': ''0.119444'', ''yrTerm3Convertible.noUpfront'':
+        ''0.1317'', ''yrTerm3Convertible.partialUpfront'': ''0.121859'', ''yrTerm3Standard.allUpfront'':
+        ''0.1'', ''yrTerm3Standard.noUpfront'': ''0.1145'', ''yrTerm3Standard.partialUpfront'':
+        ''0.106196''}}"}, {"id": "t3.2xlarge", "name": "t3.2xlarge", "ram_mb": 32768,
+        "disk_gb": 0, "vcpus": 8, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.3328'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.223973'', ''yrTerm1Convertible.noUpfront'': ''0.2399'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.228569'', ''yrTerm1Standard.allUpfront'': ''0.194749'', ''yrTerm1Standard.noUpfront'':
+        ''0.2086'', ''yrTerm1Standard.partialUpfront'': ''0.198615'', ''yrTerm3Convertible.allUpfront'':
+        ''0.149886'', ''yrTerm3Convertible.noUpfront'': ''0.1652'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.152984'', ''yrTerm3Standard.allUpfront'': ''0.125304'', ''yrTerm3Standard.noUpfront'':
+        ''0.144'', ''yrTerm3Standard.partialUpfront'': ''0.133267''}}"}, {"id": "c5.2xlarge",
+        "name": "c5.2xlarge", "ram_mb": 16384, "disk_gb": 0, "vcpus": 8, "public":
+        true, "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.34'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.229909'', ''yrTerm1Convertible.noUpfront'':
+        ''0.246'', ''yrTerm1Convertible.partialUpfront'': ''0.234352'', ''yrTerm1Standard.allUpfront'':
+        ''0.199886'', ''yrTerm1Standard.noUpfront'': ''0.214'', ''yrTerm1Standard.partialUpfront'':
+        ''0.204055'', ''yrTerm3Convertible.allUpfront'': ''0.148935'', ''yrTerm3Convertible.noUpfront'':
+        ''0.164'', ''yrTerm3Convertible.partialUpfront'': ''0.151989'', ''yrTerm3Standard.allUpfront'':
+        ''0.124011'', ''yrTerm3Standard.noUpfront'': ''0.142'', ''yrTerm3Standard.partialUpfront'':
+        ''0.131944''}}"}, {"id": "t2.2xlarge", "name": "t2.2xlarge", "ram_mb": 32768,
+        "disk_gb": 0, "vcpus": 8, "public": true, "max_nics": 3, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.3712'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.246804'', ''yrTerm1Convertible.noUpfront'': ''0.2645'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.251813'', ''yrTerm1Standard.allUpfront'': ''0.214612'', ''yrTerm1Standard.noUpfront'':
+        ''0.23'', ''yrTerm1Standard.partialUpfront'': ''0.218975'', ''yrTerm3Convertible.allUpfront'':
+        ''0.167352'', ''yrTerm3Convertible.noUpfront'': ''0.1844'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.170788'', ''yrTerm3Standard.allUpfront'': ''0.139574'', ''yrTerm3Standard.noUpfront'':
+        ''0.1604'', ''yrTerm3Standard.partialUpfront'': ''0.148439''}}"}, {"id": "m5.2xlarge",
+        "name": "m5.2xlarge", "ram_mb": 32768, "disk_gb": 0, "vcpus": 8, "public":
+        true, "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.384'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.263356'', ''yrTerm1Convertible.noUpfront'':
+        ''0.282'', ''yrTerm1Convertible.partialUpfront'': ''0.268361'', ''yrTerm1Standard.allUpfront'':
+        ''0.228995'', ''yrTerm1Standard.noUpfront'': ''0.245'', ''yrTerm1Standard.partialUpfront'':
+        ''0.233781'', ''yrTerm3Convertible.allUpfront'': ''0.176712'', ''yrTerm3Convertible.noUpfront'':
+        ''0.195'', ''yrTerm3Convertible.partialUpfront'': ''0.180145'', ''yrTerm3Standard.allUpfront'':
+        ''0.147374'', ''yrTerm3Standard.noUpfront'': ''0.169'', ''yrTerm3Standard.partialUpfront'':
+        ''0.156387''}}"}, {"id": "c4.2xlarge", "name": "c4.2xlarge", "ram_mb": 15360,
+        "disk_gb": 0, "vcpus": 8, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.398'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.270434'', ''yrTerm1Convertible.noUpfront'': ''0.29'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.276014'', ''yrTerm1Standard.allUpfront'': ''0.237215'', ''yrTerm1Standard.noUpfront'':
+        ''0.252'', ''yrTerm1Standard.partialUpfront'': ''0.242005'', ''yrTerm3Convertible.allUpfront'':
+        ''0.184817'', ''yrTerm3Convertible.noUpfront'': ''0.204'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.188292'', ''yrTerm3Standard.allUpfront'': ''0.155099'', ''yrTerm3Standard.noUpfront'':
+        ''0.177'', ''yrTerm3Standard.partialUpfront'': ''0.164496''}}"}, {"id": "m4.2xlarge",
+        "name": "m4.2xlarge", "ram_mb": 32768, "disk_gb": 0, "vcpus": 8, "public":
+        true, "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.4'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.265982'', ''yrTerm1Convertible.noUpfront'':
+        ''0.285'', ''yrTerm1Convertible.partialUpfront'': ''0.271431'', ''yrTerm1Standard.allUpfront'':
+        ''0.231279'', ''yrTerm1Standard.noUpfront'': ''0.2478'', ''yrTerm1Standard.partialUpfront'':
+        ''0.236037'', ''yrTerm3Convertible.allUpfront'': ''0.180327'', ''yrTerm3Convertible.noUpfront'':
+        ''0.1987'', ''yrTerm3Convertible.partialUpfront'': ''0.184009'', ''yrTerm3Standard.allUpfront'':
+        ''0.150419'', ''yrTerm3Standard.noUpfront'': ''0.1728'', ''yrTerm3Standard.partialUpfront'':
+        ''0.159985''}}"}, {"id": "c5n.2xlarge", "name": "c5n.2xlarge", "ram_mb": 21504,
+        "disk_gb": 0, "vcpus": 8, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.432'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.292123'', ''yrTerm1Convertible.noUpfront'': ''0.313'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.298087'', ''yrTerm1Standard.allUpfront'': ''0.253995'', ''yrTerm1Standard.noUpfront'':
+        ''0.272'', ''yrTerm1Standard.partialUpfront'': ''0.259566'', ''yrTerm3Convertible.allUpfront'':
+        ''0.163927'', ''yrTerm3Convertible.noUpfront'': ''0.181'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.167638'', ''yrTerm3Standard.allUpfront'': ''0.13653'', ''yrTerm3Standard.noUpfront'':
+        ''0.157'', ''yrTerm3Standard.partialUpfront'': ''0.145603''}}"}, {"id": "r5.2xlarge",
+        "name": "r5.2xlarge", "ram_mb": 65536, "disk_gb": 0, "vcpus": 8, "public":
+        true, "max_nics": 4, "max_ips_per_nic": 15, "cost": "{''ondemand'': ''0.504'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.340753'', ''yrTerm1Convertible.noUpfront'':
+        ''0.365'', ''yrTerm1Convertible.partialUpfront'': ''0.347858'', ''yrTerm1Standard.allUpfront'':
+        ''0.296347'', ''yrTerm1Standard.noUpfront'': ''0.318'', ''yrTerm1Standard.partialUpfront'':
+        ''0.302256'', ''yrTerm3Convertible.allUpfront'': ''0.238546'', ''yrTerm3Convertible.noUpfront'':
+        ''0.263'', ''yrTerm3Convertible.partialUpfront'': ''0.243728'', ''yrTerm3Standard.allUpfront'':
+        ''0.198973'', ''yrTerm3Standard.noUpfront'': ''0.229'', ''yrTerm3Standard.partialUpfront'':
+        ''0.211822''}}"}, {"id": "r4.2xlarge", "name": "r4.2xlarge", "ram_mb": 62464,
+        "disk_gb": 0, "vcpus": 8, "public": true, "max_nics": 4, "max_ips_per_nic":
+        15, "cost": "{''ondemand'': ''0.532'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.360616'', ''yrTerm1Convertible.noUpfront'': ''0.3864'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.368018'', ''yrTerm1Standard.allUpfront'': ''0.312785'', ''yrTerm1Standard.noUpfront'':
+        ''0.336'', ''yrTerm1Standard.partialUpfront'': ''0.319589'', ''yrTerm3Convertible.allUpfront'':
+        ''0.238927'', ''yrTerm3Convertible.noUpfront'': ''0.2633'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.243818'', ''yrTerm3Standard.allUpfront'': ''0.200038'', ''yrTerm3Standard.noUpfront'':
+        ''0.229'', ''yrTerm3Standard.partialUpfront'': ''0.212393''}}"}, {"id": "c5.4xlarge",
+        "name": "c5.4xlarge", "ram_mb": 32768, "disk_gb": 0, "vcpus": 16, "public":
+        true, "max_nics": 8, "max_ips_per_nic": 30, "cost": "{''ondemand'': ''0.68'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.459817'', ''yrTerm1Convertible.noUpfront'':
+        ''0.493'', ''yrTerm1Convertible.partialUpfront'': ''0.469589'', ''yrTerm1Standard.allUpfront'':
+        ''0.399886'', ''yrTerm1Standard.noUpfront'': ''0.428'', ''yrTerm1Standard.partialUpfront'':
+        ''0.407995'', ''yrTerm3Convertible.allUpfront'': ''0.297869'', ''yrTerm3Convertible.noUpfront'':
+        ''0.328'', ''yrTerm3Convertible.partialUpfront'': ''0.303979'', ''yrTerm3Standard.allUpfront'':
+        ''0.248021'', ''yrTerm3Standard.noUpfront'': ''0.285'', ''yrTerm3Standard.partialUpfront'':
+        ''0.263925''}}"}, {"id": "m5.4xlarge", "name": "m5.4xlarge", "ram_mb": 65536,
+        "disk_gb": 0, "vcpus": 16, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''0.768'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.526598'', ''yrTerm1Convertible.noUpfront'': ''0.564'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.537721'', ''yrTerm1Standard.allUpfront'': ''0.457991'', ''yrTerm1Standard.noUpfront'':
+        ''0.491'', ''yrTerm1Standard.partialUpfront'': ''0.467676'', ''yrTerm3Convertible.allUpfront'':
+        ''0.353425'', ''yrTerm3Convertible.noUpfront'': ''0.389'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.360327'', ''yrTerm3Standard.allUpfront'': ''0.294787'', ''yrTerm3Standard.noUpfront'':
+        ''0.339'', ''yrTerm3Standard.partialUpfront'': ''0.313811''}}"}, {"id": "c4.4xlarge",
+        "name": "c4.4xlarge", "ram_mb": 30720, "disk_gb": 0, "vcpus": 16, "public":
+        true, "max_nics": 8, "max_ips_per_nic": 30, "cost": "{''ondemand'': ''0.796'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.540982'', ''yrTerm1Convertible.noUpfront'':
+        ''0.58'', ''yrTerm1Convertible.partialUpfront'': ''0.552027'', ''yrTerm1Standard.allUpfront'':
+        ''0.473288'', ''yrTerm1Standard.noUpfront'': ''0.504'', ''yrTerm1Standard.partialUpfront'':
+        ''0.483553'', ''yrTerm3Convertible.allUpfront'': ''0.369673'', ''yrTerm3Convertible.noUpfront'':
+        ''0.407'', ''yrTerm3Convertible.partialUpfront'': ''0.377584'', ''yrTerm3Standard.allUpfront'':
+        ''0.310198'', ''yrTerm3Standard.noUpfront'': ''0.354'', ''yrTerm3Standard.partialUpfront'':
+        ''0.329992''}}"}, {"id": "m4.4xlarge", "name": "m4.4xlarge", "ram_mb": 65536,
+        "disk_gb": 0, "vcpus": 16, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''0.8'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.531963'', ''yrTerm1Convertible.noUpfront'': ''0.5699'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.542747'', ''yrTerm1Standard.allUpfront'': ''0.462557'', ''yrTerm1Standard.noUpfront'':
+        ''0.4956'', ''yrTerm1Standard.partialUpfront'': ''0.471959'', ''yrTerm3Convertible.allUpfront'':
+        ''0.360654'', ''yrTerm3Convertible.noUpfront'': ''0.3974'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.368018'', ''yrTerm3Standard.allUpfront'': ''0.300799'', ''yrTerm3Standard.noUpfront'':
+        ''0.3456'', ''yrTerm3Standard.partialUpfront'': ''0.320008''}}"}, {"id": "c5n.4xlarge",
+        "name": "c5n.4xlarge", "ram_mb": 43008, "disk_gb": 0, "vcpus": 16, "public":
+        true, "max_nics": 8, "max_ips_per_nic": 30, "cost": "{''ondemand'': ''0.864'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.584361'', ''yrTerm1Convertible.noUpfront'':
+        ''0.626'', ''yrTerm1Convertible.partialUpfront'': ''0.596174'', ''yrTerm1Standard.allUpfront'':
+        ''0.507991'', ''yrTerm1Standard.noUpfront'': ''0.544'', ''yrTerm1Standard.partialUpfront'':
+        ''0.518247'', ''yrTerm3Convertible.allUpfront'': ''0.327854'', ''yrTerm3Convertible.noUpfront'':
+        ''0.361'', ''yrTerm3Convertible.partialUpfront'': ''0.334275'', ''yrTerm3Standard.allUpfront'':
+        ''0.273059'', ''yrTerm3Standard.noUpfront'': ''0.314'', ''yrTerm3Standard.partialUpfront'':
+        ''0.290244''}}"}, {"id": "r5.4xlarge", "name": "r5.4xlarge", "ram_mb": 131072,
+        "disk_gb": 0, "vcpus": 16, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''1.008'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''0.681621'', ''yrTerm1Convertible.noUpfront'': ''0.73'', ''yrTerm1Convertible.partialUpfront'':
+        ''0.695717'', ''yrTerm1Standard.allUpfront'': ''0.592694'', ''yrTerm1Standard.noUpfront'':
+        ''0.635'', ''yrTerm1Standard.partialUpfront'': ''0.604397'', ''yrTerm3Convertible.allUpfront'':
+        ''0.477131'', ''yrTerm3Convertible.noUpfront'': ''0.526'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.486417'', ''yrTerm3Standard.allUpfront'': ''0.397945'', ''yrTerm3Standard.noUpfront'':
+        ''0.457'', ''yrTerm3Standard.partialUpfront'': ''0.423682''}}"}, {"id": "r4.4xlarge",
+        "name": "r4.4xlarge", "ram_mb": 124928, "disk_gb": 0, "vcpus": 16, "public":
+        true, "max_nics": 8, "max_ips_per_nic": 30, "cost": "{''ondemand'': ''1.064'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.721233'', ''yrTerm1Convertible.noUpfront'':
+        ''0.7728'', ''yrTerm1Convertible.partialUpfront'': ''0.736037'', ''yrTerm1Standard.allUpfront'':
+        ''0.625685'', ''yrTerm1Standard.noUpfront'': ''0.672'', ''yrTerm1Standard.partialUpfront'':
+        ''0.638178'', ''yrTerm3Convertible.allUpfront'': ''0.477854'', ''yrTerm3Convertible.noUpfront'':
+        ''0.5266'', ''yrTerm3Convertible.partialUpfront'': ''0.487598'', ''yrTerm3Standard.allUpfront'':
+        ''0.400076'', ''yrTerm3Standard.noUpfront'': ''0.4579'', ''yrTerm3Standard.partialUpfront'':
+        ''0.425785''}}"}, {"id": "c5.9xlarge", "name": "c5.9xlarge", "ram_mb": 73728,
+        "disk_gb": 0, "vcpus": 36, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''1.53'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''1.034589'', ''yrTerm1Convertible.noUpfront'': ''1.108'', ''yrTerm1Convertible.partialUpfront'':
+        ''1.055854'', ''yrTerm1Standard.allUpfront'': ''0.899658'', ''yrTerm1Standard.noUpfront'':
+        ''0.964'', ''yrTerm1Standard.partialUpfront'': ''0.918018'', ''yrTerm3Convertible.allUpfront'':
+        ''0.670244'', ''yrTerm3Convertible.noUpfront'': ''0.739'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.683971'', ''yrTerm3Standard.allUpfront'': ''0.558029'', ''yrTerm3Standard.noUpfront'':
+        ''0.641'', ''yrTerm3Standard.partialUpfront'': ''0.593804''}}"}, {"id": "c4.8xlarge",
+        "name": "c4.8xlarge", "ram_mb": 61440, "disk_gb": 0, "vcpus": 36, "public":
+        true, "max_nics": 8, "max_ips_per_nic": 30, "cost": "{''ondemand'': ''1.591'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''1.081963'', ''yrTerm1Convertible.noUpfront'':
+        ''1.159'', ''yrTerm1Convertible.partialUpfront'': ''1.104055'', ''yrTerm1Standard.allUpfront'':
+        ''0.946689'', ''yrTerm1Standard.noUpfront'': ''1.008'', ''yrTerm1Standard.partialUpfront'':
+        ''0.965991'', ''yrTerm3Convertible.allUpfront'': ''0.739307'', ''yrTerm3Convertible.noUpfront'':
+        ''0.815'', ''yrTerm3Convertible.partialUpfront'': ''0.754207'', ''yrTerm3Standard.allUpfront'':
+        ''0.621347'', ''yrTerm3Standard.noUpfront'': ''0.708'', ''yrTerm3Standard.partialUpfront'':
+        ''0.660518''}}"}, {"id": "c5n.9xlarge", "name": "c5n.9xlarge", "ram_mb": 98304,
+        "disk_gb": 0, "vcpus": 36, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''1.944'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''1.314726'', ''yrTerm1Convertible.noUpfront'': ''1.409'', ''yrTerm1Convertible.partialUpfront'':
+        ''1.341776'', ''yrTerm1Standard.allUpfront'': ''1.143037'', ''yrTerm1Standard.noUpfront'':
+        ''1.225'', ''yrTerm1Standard.partialUpfront'': ''1.166219'', ''yrTerm3Convertible.allUpfront'':
+        ''0.737671'', ''yrTerm3Convertible.noUpfront'': ''0.813'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.75237'', ''yrTerm3Standard.allUpfront'': ''0.614346'', ''yrTerm3Standard.noUpfront'':
+        ''0.706'', ''yrTerm3Standard.partialUpfront'': ''0.653788''}}"}, {"id": "m4.10xlarge",
+        "name": "m4.10xlarge", "ram_mb": 163840, "disk_gb": 0, "vcpus": 40, "public":
+        true, "max_nics": 8, "max_ips_per_nic": 30, "cost": "{''ondemand'': ''2'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''1.329909'', ''yrTerm1Convertible.noUpfront'':
+        ''1.4249'', ''yrTerm1Convertible.partialUpfront'': ''1.357039'', ''yrTerm1Standard.allUpfront'':
+        ''1.156393'', ''yrTerm1Standard.noUpfront'': ''1.239'', ''yrTerm1Standard.partialUpfront'':
+        ''1.179954'', ''yrTerm3Convertible.allUpfront'': ''0.901598'', ''yrTerm3Convertible.noUpfront'':
+        ''0.9936'', ''yrTerm3Convertible.partialUpfront'': ''0.920008'', ''yrTerm3Standard.allUpfront'':
+        ''0.752017'', ''yrTerm3Standard.noUpfront'': ''0.864'', ''yrTerm3Standard.partialUpfront'':
+        ''0.8''}}"}, {"id": "r4.8xlarge", "name": "r4.8xlarge", "ram_mb": 249856,
+        "disk_gb": 0, "vcpus": 32, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''2.128'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''1.44258'', ''yrTerm1Convertible.noUpfront'': ''1.5456'', ''yrTerm1Convertible.partialUpfront'':
+        ''1.471959'', ''yrTerm1Standard.allUpfront'': ''1.251256'', ''yrTerm1Standard.noUpfront'':
+        ''1.344'', ''yrTerm1Standard.partialUpfront'': ''1.276356'', ''yrTerm3Convertible.allUpfront'':
+        ''0.955708'', ''yrTerm3Convertible.noUpfront'': ''1.0532'', ''yrTerm3Convertible.partialUpfront'':
+        ''0.975195'', ''yrTerm3Standard.allUpfront'': ''0.800114'', ''yrTerm3Standard.noUpfront'':
+        ''0.9158'', ''yrTerm3Standard.partialUpfront'': ''0.851609''}}"}, {"id": "m5.12xlarge",
+        "name": "m5.12xlarge", "ram_mb": 196608, "disk_gb": 0, "vcpus": 48, "public":
+        true, "max_nics": 8, "max_ips_per_nic": 30, "cost": "{''ondemand'': ''2.304'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''1.579909'', ''yrTerm1Convertible.noUpfront'':
+        ''1.693'', ''yrTerm1Convertible.partialUpfront'': ''1.61205'', ''yrTerm1Standard.allUpfront'':
+        ''1.373858'', ''yrTerm1Standard.noUpfront'': ''1.472'', ''yrTerm1Standard.partialUpfront'':
+        ''1.401913'', ''yrTerm3Convertible.allUpfront'': ''1.060274'', ''yrTerm3Convertible.noUpfront'':
+        ''1.168'', ''yrTerm3Convertible.partialUpfront'': ''1.081944'', ''yrTerm3Standard.allUpfront'':
+        ''0.884361'', ''yrTerm3Standard.noUpfront'': ''1.016'', ''yrTerm3Standard.partialUpfront'':
+        ''0.940396''}}"}, {"id": "r5.12xlarge", "name": "r5.12xlarge", "ram_mb": 393216,
+        "disk_gb": 0, "vcpus": 48, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''3.024'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''2.044863'', ''yrTerm1Convertible.noUpfront'': ''2.191'', ''yrTerm1Convertible.partialUpfront'':
+        ''2.086265'', ''yrTerm1Standard.allUpfront'': ''1.778082'', ''yrTerm1Standard.noUpfront'':
+        ''1.905'', ''yrTerm1Standard.partialUpfront'': ''1.814192'', ''yrTerm3Convertible.allUpfront'':
+        ''1.431393'', ''yrTerm3Convertible.noUpfront'': ''1.577'', ''yrTerm3Convertible.partialUpfront'':
+        ''1.460289'', ''yrTerm3Standard.allUpfront'': ''1.193874'', ''yrTerm3Standard.noUpfront'':
+        ''1.372'', ''yrTerm3Standard.partialUpfront'': ''1.270046''}}"}, {"id": "c5.18xlarge",
+        "name": "c5.18xlarge", "ram_mb": 147456, "disk_gb": 0, "vcpus": 72, "public":
+        true, "max_nics": 15, "max_ips_per_nic": 50, "cost": "{''ondemand'': ''3.06'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''2.069178'', ''yrTerm1Convertible.noUpfront'':
+        ''2.217'', ''yrTerm1Convertible.partialUpfront'': ''2.111708'', ''yrTerm1Standard.allUpfront'':
+        ''1.799315'', ''yrTerm1Standard.noUpfront'': ''1.928'', ''yrTerm1Standard.partialUpfront'':
+        ''1.836037'', ''yrTerm3Convertible.allUpfront'': ''1.340449'', ''yrTerm3Convertible.noUpfront'':
+        ''1.477'', ''yrTerm3Convertible.partialUpfront'': ''1.367904'', ''yrTerm3Standard.allUpfront'':
+        ''1.116058'', ''yrTerm3Standard.noUpfront'': ''1.282'', ''yrTerm3Standard.partialUpfront'':
+        ''1.187645''}}"}, {"id": "m4.16xlarge", "name": "m4.16xlarge", "ram_mb": 262144,
+        "disk_gb": 0, "vcpus": 64, "public": true, "max_nics": 8, "max_ips_per_nic":
+        30, "cost": "{''ondemand'': ''3.2'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''2.12774'', ''yrTerm1Convertible.noUpfront'': ''2.2798'', ''yrTerm1Convertible.partialUpfront'':
+        ''2.171216'', ''yrTerm1Standard.allUpfront'': ''1.850228'', ''yrTerm1Standard.noUpfront'':
+        ''1.9824'', ''yrTerm1Standard.partialUpfront'': ''1.88795'', ''yrTerm3Convertible.allUpfront'':
+        ''1.442542'', ''yrTerm3Convertible.noUpfront'': ''1.5898'', ''yrTerm3Convertible.partialUpfront'':
+        ''1.471997'', ''yrTerm3Standard.allUpfront'': ''1.203196'', ''yrTerm3Standard.noUpfront'':
+        ''1.3824'', ''yrTerm3Standard.partialUpfront'': ''1.279992''}}"}, {"id": "c5n.18xlarge",
+        "name": "c5n.18xlarge", "ram_mb": 196608, "disk_gb": 0, "vcpus": 72, "public":
+        true, "max_nics": 15, "max_ips_per_nic": 50, "cost": "{''ondemand'': ''3.888'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''2.629452'', ''yrTerm1Convertible.noUpfront'':
+        ''2.817'', ''yrTerm1Convertible.partialUpfront'': ''2.683553'', ''yrTerm1Standard.allUpfront'':
+        ''2.286187'', ''yrTerm1Standard.noUpfront'': ''2.449'', ''yrTerm1Standard.partialUpfront'':
+        ''2.332438'', ''yrTerm3Convertible.allUpfront'': ''1.475342'', ''yrTerm3Convertible.noUpfront'':
+        ''1.626'', ''yrTerm3Convertible.partialUpfront'': ''1.505702'', ''yrTerm3Standard.allUpfront'':
+        ''1.228729'', ''yrTerm3Standard.noUpfront'': ''1.412'', ''yrTerm3Standard.partialUpfront'':
+        ''1.307577''}}"}, {"id": "r4.16xlarge", "name": "r4.16xlarge", "ram_mb": 499712,
+        "disk_gb": 0, "vcpus": 64, "public": true, "max_nics": 15, "max_ips_per_nic":
+        50, "cost": "{''ondemand'': ''4.256'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''2.885046'', ''yrTerm1Convertible.noUpfront'': ''3.0912'', ''yrTerm1Convertible.partialUpfront'':
+        ''2.944032'', ''yrTerm1Standard.allUpfront'': ''2.502511'', ''yrTerm1Standard.noUpfront'':
+        ''2.688'', ''yrTerm1Standard.partialUpfront'': ''2.553826'', ''yrTerm3Convertible.allUpfront'':
+        ''1.911377'', ''yrTerm3Convertible.noUpfront'': ''2.1064'', ''yrTerm3Convertible.partialUpfront'':
+        ''1.95039'', ''yrTerm3Standard.allUpfront'': ''1.600266'', ''yrTerm3Standard.noUpfront'':
+        ''1.8317'', ''yrTerm3Standard.partialUpfront'': ''1.702218''}}"}, {"id": "m5.24xlarge",
+        "name": "m5.24xlarge", "ram_mb": 393216, "disk_gb": 0, "vcpus": 96, "public":
+        true, "max_nics": 15, "max_ips_per_nic": 50, "cost": "{''ondemand'': ''4.608'',
+        ''reserved'': {''yrTerm1Convertible.allUpfront'': ''3.159703'', ''yrTerm1Convertible.noUpfront'':
+        ''3.385'', ''yrTerm1Convertible.partialUpfront'': ''3.2241'', ''yrTerm1Standard.allUpfront'':
+        ''2.747603'', ''yrTerm1Standard.noUpfront'': ''2.944'', ''yrTerm1Standard.partialUpfront'':
+        ''2.803826'', ''yrTerm3Convertible.allUpfront'': ''2.120548'', ''yrTerm3Convertible.noUpfront'':
+        ''2.337'', ''yrTerm3Convertible.partialUpfront'': ''2.163925'', ''yrTerm3Standard.allUpfront'':
+        ''1.768721'', ''yrTerm3Standard.noUpfront'': ''2.032'', ''yrTerm3Standard.partialUpfront'':
+        ''1.881791''}}"}, {"id": "r5.24xlarge", "name": "r5.24xlarge", "ram_mb": 786432,
+        "disk_gb": 0, "vcpus": 96, "public": true, "max_nics": 15, "max_ips_per_nic":
+        50, "cost": "{''ondemand'': ''6.048'', ''reserved'': {''yrTerm1Convertible.allUpfront'':
+        ''4.089612'', ''yrTerm1Convertible.noUpfront'': ''4.382'', ''yrTerm1Convertible.partialUpfront'':
+        ''4.17353'', ''yrTerm1Standard.allUpfront'': ''3.556279'', ''yrTerm1Standard.noUpfront'':
+        ''3.81'', ''yrTerm1Standard.partialUpfront'': ''3.628384'', ''yrTerm3Convertible.allUpfront'':
+        ''2.862747'', ''yrTerm3Convertible.noUpfront'': ''3.155'', ''yrTerm3Convertible.partialUpfront'':
+        ''2.921578'', ''yrTerm3Standard.allUpfront'': ''2.387747'', ''yrTerm3Standard.noUpfront'':
+        ''2.743'', ''yrTerm3Standard.partialUpfront'': ''2.540091''}}"}]}, {"vtype":
+        "CLOUD_MESOS"}, {"vtype": "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"},
+        {"vtype": "CLOUD_OSHIFT_K8S"}, {"vtype": "CLOUD_LINUXSERVER"}, {"vtype": "CLOUD_VCA",
+        "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_AZURE", "flavor_props": [{"id":
+        "all", "name": "all", "public": true, "max_nics": 1, "max_ips_per_nic": 150}]},
+        {"vtype": "CLOUD_GCP"}, {"vtype": "CLOUD_NSXT", "htypes": ["VMWARE_ESX"]}]}'
+    headers:
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-headers:
+      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
+      access-control-allow-methods:
+      - GET
+      access-control-expose-headers:
+      - X-NEXT-CALL
+      allow:
+      - PUT, GET, HEAD, PATCH, OPTIONS
+      avi_api_version:
+      - 20.1.3
+      cache-control:
+      - private, no-cache, must-revalidate
+      connection:
+      - keep-alive
+      content-security-policy:
+      - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
+        img-src 'self' data:;
+      content-type:
+      - application/json
+      date:
+      - Fri, 06 Nov 2020 05:52:05 GMT
+      referrer-policy:
+      - strict-origin
+      set-cookie:
+      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:05
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:05
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      strict-transport-security:
+      - max-age=31536000; includeSubdomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept, Cookie
+      - Origin
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: !!python/unicode '{"info": [{"vtype": "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]},
+      {"flavor_props": [{"max_ips_per_nic": 11, "id": "all", "name": "all", "public":
+      true}], "vtype": "CLOUD_OPENSTACK", "htypes": ["KVM", "VMWARE_ESX", "VMWARE_VSAN"]},
+      {"flavor_props": [{"max_nics": 2, "name": "t2.micro", "disk_gb": 0, "max_ips_per_nic":
+      2, "ram_mb": 1024, "public": true, "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
+      u''0.008'', u''yrTerm3Convertible.allUpfront'': u''0.005'', u''yrTerm3Convertible.partialUpfront'':
+      u''0.005'', u''yrTerm1Convertible.partialUpfront'': u''0.008'', u''yrTerm1Standard.partialUpfront'':
+      u''0.007'', u''yrTerm3Standard.noUpfront'': u''0.005'', u''yrTerm3Convertible.noUpfront'':
+      u''0.006'', u''yrTerm3Standard.allUpfront'': u''0.004'', u''yrTerm1Convertible.allUpfront'':
+      u''0.008'', u''yrTerm1Standard.allUpfront'': u''0.007'', u''yrTerm3Standard.partialUpfront'':
+      u''0.005'', u''yrTerm1Standard.noUpfront'': u''0.007''}, u''ondemand'': u''0.0116''}",
+      "id": "t2.micro"}, {"max_nics": 2, "name": "t2.small", "disk_gb": 0, "max_ips_per_nic":
+      4, "ram_mb": 2048, "public": true, "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
+      u''0.017'', u''yrTerm3Convertible.allUpfront'': u''0.011'', u''yrTerm3Convertible.partialUpfront'':
+      u''0.011'', u''yrTerm1Convertible.partialUpfront'': u''0.016'', u''yrTerm1Standard.partialUpfront'':
+      u''0.014'', u''yrTerm3Standard.noUpfront'': u''0.010'', u''yrTerm3Convertible.noUpfront'':
+      u''0.012'', u''yrTerm3Standard.allUpfront'': u''0.009'', u''yrTerm1Convertible.allUpfront'':
+      u''0.015'', u''yrTerm1Standard.allUpfront'': u''0.013'', u''yrTerm3Standard.partialUpfront'':
+      u''0.009'', u''yrTerm1Standard.noUpfront'': u''0.014''}, u''ondemand'': u''0.023''}",
+      "id": "t2.small"}], "flavor_regex_filter": "[ctmr][0-9]+\\..*", "vtype": "CLOUD_AWS",
+      "htypes": ["XEN"]}, {"vtype": "CLOUD_MESOS"}, {"vtype": "CLOUD_DOCKER_UCP"},
+      {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"}, {"vtype": "CLOUD_LINUXSERVER"},
+      {"vtype": "CLOUD_VCA", "htypes": ["VMWARE_ESX"]}, {"flavor_props": [{"max_nics":
+      1, "max_ips_per_nic": 150, "id": "all", "name": "all", "public": true}], "vtype":
+      "CLOUD_AZURE"}], "hyp_props": [{"max_nics": 10, "htype": "VMWARE_ESX"}, {"max_nics":
+      10, "htype": "VMWARE_VSAN"}, {"max_nics": 24, "htype": "KVM"}, {"htype": "XEN"}],
+      "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP",
+      "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER", "CLOUD_AZURE"]}'
+    headers:
+      Content-Length:
+      - '2394'
+      Content-Type:
+      - application/json
+      Cookie:
+      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
+        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
+        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      Referer:
+      - https://10.79.171.103
+      X-Avi-Tenant:
+      - admin
+      X-Avi-Version:
+      - 20.1.3
+      X-CSRFToken:
+      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      timeout:
+      - '300'
+    method: PUT
+    uri: https://10.79.171.103/api/cloudproperties/
+  response:
+    body:
+      string: !!python/unicode '{"url": "https://10.79.171.103/api/cloudproperties",
+        "uuid": "global", "_last_modified": "1604641926463632", "cc_vtypes": ["CLOUD_OPENSTACK",
+        "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER",
+        "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER", "CLOUD_AZURE"], "hyp_props": [{"htype":
+        "VMWARE_ESX", "max_nics": 10}, {"htype": "VMWARE_VSAN", "max_nics": 10}, {"htype":
+        "KVM", "max_nics": 24}, {"htype": "XEN"}], "info": [{"vtype": "CLOUD_VCENTER",
+        "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK", "htypes": ["KVM",
+        "VMWARE_ESX", "VMWARE_VSAN"], "flavor_props": [{"id": "all", "name": "all",
+        "public": true, "max_ips_per_nic": 11}]}, {"vtype": "CLOUD_AWS", "htypes":
+        ["XEN"], "flavor_regex_filter": "[ctmr][0-9]+\\..*", "flavor_props": [{"id":
+        "t2.micro", "name": "t2.micro", "ram_mb": 1024, "disk_gb": 0, "vcpus": 1,
+        "public": true, "max_nics": 2, "max_ips_per_nic": 2, "cost": "{u''reserved'':
+        {u''yrTerm1Convertible.noUpfront'': u''0.008'', u''yrTerm3Convertible.allUpfront'':
+        u''0.005'', u''yrTerm3Convertible.partialUpfront'': u''0.005'', u''yrTerm1Convertible.partialUpfront'':
+        u''0.008'', u''yrTerm1Standard.partialUpfront'': u''0.007'', u''yrTerm3Standard.noUpfront'':
+        u''0.005'', u''yrTerm3Convertible.noUpfront'': u''0.006'', u''yrTerm3Standard.allUpfront'':
+        u''0.004'', u''yrTerm1Convertible.allUpfront'': u''0.008'', u''yrTerm1Standard.allUpfront'':
+        u''0.007'', u''yrTerm3Standard.partialUpfront'': u''0.005'', u''yrTerm1Standard.noUpfront'':
+        u''0.007''}, u''ondemand'': u''0.0116''}"}, {"id": "t2.small", "name": "t2.small",
+        "ram_mb": 2048, "disk_gb": 0, "vcpus": 1, "public": true, "max_nics": 2, "max_ips_per_nic":
+        4, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.017'',
+        u''yrTerm3Convertible.allUpfront'': u''0.011'', u''yrTerm3Convertible.partialUpfront'':
         u''0.011'', u''yrTerm1Convertible.partialUpfront'': u''0.016'', u''yrTerm1Standard.partialUpfront'':
         u''0.014'', u''yrTerm3Standard.noUpfront'': u''0.010'', u''yrTerm3Convertible.noUpfront'':
         u''0.012'', u''yrTerm3Standard.allUpfront'': u''0.009'', u''yrTerm1Convertible.allUpfront'':
         u''0.015'', u''yrTerm1Standard.allUpfront'': u''0.013'', u''yrTerm3Standard.partialUpfront'':
-        u''0.009'', u''yrTerm1Standard.noUpfront'': u''0.014''}, u''ondemand'': u''0.023''}",
-        "id": "t2.small"}], "htypes": ["XEN"]}, {"vtype": "CLOUD_MESOS"}, {"vtype":
-        "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"},
-        {"vtype": "CLOUD_LINUXSERVER"}, {"vtype": "CLOUD_VCA", "htypes": ["VMWARE_ESX"]},
-        {"vtype": "CLOUD_AZURE", "flavor_props": [{"max_nics": 1, "max_ips_per_nic":
-        150, "public": true, "name": "all", "id": "all"}]}], "hyp_props": [{"max_nics":
-        10, "htype": "VMWARE_ESX"}, {"max_nics": 10, "htype": "VMWARE_VSAN"}, {"max_nics":
-        24, "htype": "KVM"}, {"htype": "XEN"}], "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS",
-        "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S",
-        "CLOUD_LINUXSERVER", "CLOUD_AZURE"]}'}
+        u''0.009'', u''yrTerm1Standard.noUpfront'': u''0.014''}, u''ondemand'': u''0.023''}"}]},
+        {"vtype": "CLOUD_MESOS"}, {"vtype": "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"},
+        {"vtype": "CLOUD_OSHIFT_K8S"}, {"vtype": "CLOUD_LINUXSERVER"}, {"vtype": "CLOUD_VCA",
+        "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_AZURE", "flavor_props": [{"id":
+        "all", "name": "all", "public": true, "max_nics": 1, "max_ips_per_nic": 150}]}]}'
     headers:
-      access-control-allow-credentials: ['true']
-      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN']
-      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
-      access-control-allow-origin: ['https://portal.avinetworks.com']
-      access-control-expose-headers: [X-NEXT-CALL]
-      allow: ['HEAD, GET, PATCH, PUT, OPTIONS']
-      avi_api_version: [18.2.8]
-      cache-control: ['private, no-cache, must-revalidate']
-      connection: [keep-alive]
-      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
-      content-type: [application/json]
-      date: ['Mon, 24 Feb 2020 10:14:44 GMT']
-      referrer-policy: [strict-origin]
-      set-cookie: ['sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio; expires=Tue, 25-Feb-2020
-          10:14:44 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=xfdjia11c0wsz6igmqjwamo82p7hhaio;
-          expires=Tue, 25-Feb-2020 10:14:44 GMT; httponly; Max-Age=86400; Path=/;
-          secure']
-      strict-transport-security: [max-age=31536000; includeSubdomains]
-      transfer-encoding: [chunked]
-      vary: ['Accept, Cookie', Origin]
-      x-content-type-options: [nosniff]
-      x-frame-options: [SAMEORIGIN]
-      x-xss-protection: [1; mode=block]
-    status: {code: 200, message: OK}
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-headers:
+      - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
+      access-control-allow-methods:
+      - GET
+      access-control-expose-headers:
+      - X-NEXT-CALL
+      allow:
+      - PUT, GET, HEAD, PATCH, OPTIONS
+      avi_api_version:
+      - 20.1.3
+      cache-control:
+      - private, no-cache, must-revalidate
+      connection:
+      - keep-alive
+      content-security-policy:
+      - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
+        img-src 'self' data:;
+      content-type:
+      - application/json
+      date:
+      - Fri, 06 Nov 2020 05:52:06 GMT
+      referrer-policy:
+      - strict-origin
+      set-cookie:
+      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:06
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:06
+        GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
+      strict-transport-security:
+      - max-age=31536000; includeSubdomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept, Cookie
+      - Origin
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
 version: 1
