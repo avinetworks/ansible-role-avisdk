@@ -29,17 +29,17 @@ ANSIBLE_METADATA = {'metadata_version': '1.0',
 
 DOCUMENTATION = '''
 ---
-module: avi_controllerlicense
+module: avi_securechannelmapping
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
 deprecated:
-  removed_in: '2.11'
-  why: Removed support of this module.
-  alternative: Use M(avi_api_session) instead.
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
 
-short_description: Module for setup of ControllerLicense Avi RESTful Object
+short_description: Module for setup of SecureChannelMapping Avi RESTful Object
 description:
-    - This module is used to configure ControllerLicense object
+    - This module is used to configure SecureChannelMapping object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -49,70 +49,57 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    backend_servers:
+    ip:
         description:
-            - Number of backend_servers.
-    cores:
+            - Ip of securechannelmapping.
+    is_controller:
         description:
-            - Number of service engine cores in non-container clouds.
-    customer_name:
+            - Boolean flag to set is_controller.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+    local_ip:
         description:
-            - Customer_name of controllerlicense.
-        required: true
-    license_tier:
+            - Local_ip of securechannelmapping.
+    marked_for_delete:
         description:
-            - License_tier of controllerlicense.
-    licenses:
-        description:
-            - List of singlelicense.
-    max_apps:
-        description:
-            - Number of max_apps.
-    max_ses:
-        description:
-            - Number of service engines hosts in container clouds.
-    max_vses:
-        description:
-            - Deprecated.
+            - Boolean flag to set marked_for_delete.
     name:
         description:
             - Name of the object.
-    sockets:
+        required: true
+    pub_key:
         description:
-            - Number of physical cpu sockets across service engines in no access and linux server clouds.
-    start_on:
+            - Pub_key of securechannelmapping.
+    pub_key_pem:
         description:
-            - Start_on of controllerlicense.
-    throughput:
+            - Pub_key_pem of securechannelmapping.
+    status:
         description:
-            - Number of throughput.
+            - Enum options - secure_channel_none, secure_channel_connected, secure_channel_auth_ssh_success, secure_channel_auth_ssh_failed,
+            - secure_channel_auth_token_success, secure_channel_auth_token_failed, secure_channel_auth_errors, secure_channel_auth_ignored.
+            - Default value when not specified in API or module is interpreted by Avi Controller as SECURE_CHANNEL_NONE.
     url:
         description:
             - Avi controller URL of the object.
     uuid:
         description:
             - Unique object identifier of the object.
-    valid_until:
-        description:
-            - Valid_until of controllerlicense.
-        required: true
 extends_documentation_fragment:
     - avi
 '''
 
 EXAMPLES = """
-- name: Example to create ControllerLicense object
-  avi_controllerlicense:
+- name: Example to create SecureChannelMapping object
+  avi_securechannelmapping:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_controllerlicense
+    name: sample_securechannelmapping
 """
 
 RETURN = '''
 obj:
-    description: ControllerLicense (api/controllerlicense) object
+    description: SecureChannelMapping (api/securechannelmapping) object
     returned: success, changed
     type: dict
 '''
@@ -137,21 +124,16 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        backend_servers=dict(type='int',),
-        cores=dict(type='int',),
-        customer_name=dict(type='str', required=True),
-        license_tier=dict(type='list',),
-        licenses=dict(type='list',),
-        max_apps=dict(type='int',),
-        max_ses=dict(type='int',),
-        max_vses=dict(type='int',),
-        name=dict(type='str',),
-        sockets=dict(type='int',),
-        start_on=dict(type='str',),
-        throughput=dict(type='int',),
+        ip=dict(type='str',),
+        is_controller=dict(type='bool',),
+        local_ip=dict(type='str',),
+        marked_for_delete=dict(type='bool',),
+        name=dict(type='str', required=True),
+        pub_key=dict(type='str',),
+        pub_key_pem=dict(type='str',),
+        status=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        valid_until=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -160,7 +142,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'controllerlicense',
+    return avi_ansible_api(module, 'securechannelmapping',
                            set([]))
 
 if __name__ == '__main__':

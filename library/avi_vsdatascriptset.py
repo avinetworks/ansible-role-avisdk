@@ -59,6 +59,12 @@ options:
         description:
             - User defined description for the object.
         type: str
+    ip_reputation_db_ref:
+        description:
+            - Ip reputation database that can be used by datascript functions.
+            - It is a reference to an object of type ipreputationdb.
+            - Field introduced in 20.1.3.
+        type: str
     ipgroup_refs:
         description:
             - Uuid of ip groups that could be referred by vsdatascriptset objects.
@@ -158,6 +164,7 @@ def main():
         created_by=dict(type='str',),
         datascript=dict(type='list',),
         description=dict(type='str',),
+        ip_reputation_db_ref=dict(type='str',),
         ipgroup_refs=dict(type='list',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),

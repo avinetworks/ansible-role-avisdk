@@ -295,6 +295,12 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
+    disable_flow_probes:
+        description:
+            - Disable flow probes for scaled out vs'es.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     disable_gro:
         description:
             - Disable generic receive offload (gro) in dpdk poll-mode driver packet receive path.
@@ -345,6 +351,32 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
+    dp_aggressive_hb_frequency:
+        description:
+            - Frequency of se - se hb messages when aggressive failure mode detection is enabled.
+            - Field introduced in 20.1.3.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+        type: int
+    dp_aggressive_hb_timeout_count:
+        description:
+            - Consecutive hb failures after which failure is reported to controller,when aggressive failure mode detection is enabled.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+        type: int
+    dp_hb_frequency:
+        description:
+            - Frequency of se - se hb messages when aggressive failure mode detection is not enabled.
+            - Field introduced in 20.1.3.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+        type: int
+    dp_hb_timeout_count:
+        description:
+            - Consecutive hb failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+        type: int
     enable_gratarp_permanent:
         description:
             - Enable gratarp for vip_ip.
@@ -446,6 +478,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 1024.
         version_added: "2.9"
         type: int
+    gcp_config:
+        description:
+            - Google cloud platform, service engine group configuration.
+            - Field introduced in 20.1.3.
+        type: dict
     gratarp_permanent_periodicity:
         description:
             - Gratarp periodicity for vip-ip.
@@ -795,7 +832,7 @@ options:
         description:
             - This setting limits the number of non-significant logs generated per second per core on this se.
             - Default is 100 logs per second.
-            - Set it to zero (0) to disable throttling.
+            - Set it to zero (0) to deactivate throttling.
             - Field introduced in 17.1.3.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -844,6 +881,16 @@ options:
             - Field introduced in 18.2.8, 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as PCAP_TX_AUTO.
         type: str
+    pcap_tx_ring_rd_balancing_factor:
+        description:
+            - In pcap mode, reserve a configured portion of tx ring resources for itself and the remaining portion for the rx ring to achieve better balance in
+            - terms of queue depth.
+            - Requires se reboot.
+            - Allowed values are 10-100.
+            - Field introduced in 20.1.3.
+            - Unit is percent.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+        type: int
     per_app:
         description:
             - Per-app se mode is designed for deploying dedicated load balancers per app (vs).
@@ -859,7 +906,7 @@ options:
         type: str
     realtime_se_metrics:
         description:
-            - Enable or disable real time se metrics.
+            - Enable or deactivate real time se metrics.
         type: dict
     reboot_on_panic:
         description:
@@ -909,6 +956,13 @@ options:
         description:
             - Dosthresholdprofile settings for serviceenginegroup.
         type: dict
+    se_dp_hm_drops:
+        description:
+            - Internal only.
+            - Used to simulate se - se hb failure.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
     se_dp_max_hb_version:
         description:
             - The highest supported se-se heartbeat protocol version.
@@ -987,6 +1041,11 @@ options:
             - Unit is milliseconds.
         version_added: "2.9"
         type: int
+    se_group_analytics_policy:
+        description:
+            - Analytics policy for serviceenginegroup.
+            - Field introduced in 20.1.3.
+        type: dict
     se_hyperthreaded_mode:
         description:
             - Controls the distribution of se data path processes on cpus which support hyper-threading.
@@ -997,6 +1056,13 @@ options:
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as SE_CPU_HT_AUTO.
         type: str
+    se_ip_encap_ipc:
+        description:
+            - Determines if se-se ipc messages are encapsulated in an ip header       0        automatically determine based on hypervisor type    1        use
+            - ip encap unconditionally    ~[0,1]   don't use ip encaprequires se reboot.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
     se_ipc_udp_port:
         description:
             - Udp port for se_dp ipc in docker bridge mode.
@@ -1013,6 +1079,13 @@ options:
             - Field introduced in 18.2.6.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
+    se_l3_encap_ipc:
+        description:
+            - Determines if se-se ipc messages use se interface ip instead of vip        0        automatically determine based on hypervisor type    1
+            - use se interface ip unconditionally    ~[0,1]   don't use se interface iprequires se reboot.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
     se_lro:
         description:
             - Enable or disable large receive optimization for vnics.
@@ -1025,7 +1098,7 @@ options:
         description:
             - The retry count for the multi-producer enqueue before yielding the cpu.
             - To be used under surveillance of avi support.
-            - Field introduced in 20.1.2.
+            - Field introduced in 20.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 500.
         type: int
     se_mtu:
@@ -1177,9 +1250,10 @@ options:
         type: dict
     se_tunnel_mode:
         description:
-            - Determines if dsr from secondary se is active or not  0  automatically determine based on hypervisor type.
-            - 1  disable dsr unconditionally.
-            - 2  enable dsr unconditionally.
+            - Determines if direct secondary return (dsr) from secondary se is active or not  0  automatically determine based on hypervisor type.
+            - 1  enable tunnel mode - dsr is unconditionally disabled.
+            - 2  disable tunnel mode - dsr is unconditionally enabled.
+            - Tunnel mode can be enabled or disabled at run-time.
             - Allowed values are 0-2.
             - Field introduced in 17.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -1289,7 +1363,7 @@ options:
         description:
             - This setting limits the number of significant logs generated per second per core on this se.
             - Default is 100 logs per second.
-            - Set it to zero (0) to disable throttling.
+            - Set it to zero (0) to deactivate throttling.
             - Field introduced in 17.1.3.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -1319,7 +1393,7 @@ options:
             - This setting limits the number of udf logs generated per second per core on this se.
             - Udf logs are generated due to the configured client log filters or the rules with logging enabled.
             - Default is 100 logs per second.
-            - Set it to zero (0) to disable throttling.
+            - Set it to zero (0) to deactivate throttling.
             - Field introduced in 17.1.3.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -1333,6 +1407,12 @@ options:
             - Enables the use of hyper-threaded cores on se.
             - Requires se reboot.
             - Field introduced in 20.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
+    use_objsync:
+        description:
+            - Enable interse objsyc distribution framework.
+            - Field introduced in 20.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     use_standard_alb:
@@ -1565,6 +1645,7 @@ def main():
         description=dict(type='str',),
         disable_avi_securitygroups=dict(type='bool',),
         disable_csum_offloads=dict(type='bool',),
+        disable_flow_probes=dict(type='bool',),
         disable_gro=dict(type='bool',),
         disable_se_memory_check=dict(type='bool',),
         disable_tso=dict(type='bool',),
@@ -1572,6 +1653,10 @@ def main():
         distribute_load_active_standby=dict(type='bool',),
         distribute_queues=dict(type='bool',),
         distribute_vnics=dict(type='bool',),
+        dp_aggressive_hb_frequency=dict(type='int',),
+        dp_aggressive_hb_timeout_count=dict(type='int',),
+        dp_hb_frequency=dict(type='int',),
+        dp_hb_timeout_count=dict(type='int',),
         enable_gratarp_permanent=dict(type='bool',),
         enable_hsm_priming=dict(type='bool',),
         enable_multi_lb=dict(type='bool',),
@@ -1587,6 +1672,7 @@ def main():
         floating_intf_ip_se_2=dict(type='list',),
         flow_table_new_syn_max_entries=dict(type='int',),
         free_list_size=dict(type='int',),
+        gcp_config=dict(type='dict',),
         gratarp_permanent_periodicity=dict(type='int',),
         ha_mode=dict(type='str',),
         hardwaresecuritymodulegroup_ref=dict(type='str',),
@@ -1645,6 +1731,7 @@ def main():
         openstack_mgmt_network_uuid=dict(type='str',),
         os_reserved_memory=dict(type='int',),
         pcap_tx_mode=dict(type='str',),
+        pcap_tx_ring_rd_balancing_factor=dict(type='int',),
         per_app=dict(type='bool',),
         placement_mode=dict(type='str',),
         realtime_se_metrics=dict(type='dict',),
@@ -1655,6 +1742,7 @@ def main():
         se_delayed_flow_delete=dict(type='bool',),
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
+        se_dp_hm_drops=dict(type='int',),
         se_dp_max_hb_version=dict(type='int',),
         se_dp_vnic_queue_stall_event_sleep=dict(type='int',),
         se_dp_vnic_queue_stall_threshold=dict(type='int',),
@@ -1665,9 +1753,12 @@ def main():
         se_flow_probe_retries=dict(type='int',),
         se_flow_probe_retry_timer=dict(type='int',),
         se_flow_probe_timer=dict(type='int',),
+        se_group_analytics_policy=dict(type='dict',),
         se_hyperthreaded_mode=dict(type='str',),
+        se_ip_encap_ipc=dict(type='int',),
         se_ipc_udp_port=dict(type='int',),
         se_kni_burst_factor=dict(type='int',),
+        se_l3_encap_ipc=dict(type='int',),
         se_lro=dict(type='bool',),
         se_mp_ring_retry_count=dict(type='int',),
         se_mtu=dict(type='int',),
@@ -1711,6 +1802,7 @@ def main():
         udf_log_throttle=dict(type='int',),
         url=dict(type='str',),
         use_hyperthreaded_cores=dict(type='bool',),
+        use_objsync=dict(type='bool',),
         use_standard_alb=dict(type='bool',),
         uuid=dict(type='str',),
         vcenter_clusters=dict(type='dict',),

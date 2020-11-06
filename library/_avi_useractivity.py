@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_jobentry
+module: avi_useractivity
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of JobEntry Avi RESTful Object
+deprecated:
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of UserActivity Avi RESTful Object
 description:
-    - This module is used to configure JobEntry object
+    - This module is used to configure UserActivity object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,30 +49,32 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    cookie:
+    concurrent_sessions:
         description:
-            - Cookie of jobentry.
-    expires_at:
+            - Number of concurrent user sessions open.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    failed_login_attempts:
         description:
-            - Expires_at of jobentry.
-        required: true
-    obj_key:
+            - Number of failed login attempts before a successful login.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+    last_login_ip:
         description:
-            - Obj_key of jobentry.
-        required: true
-    owner:
+            - Ip of the machine the user was last logged in from.
+    last_login_timestamp:
         description:
-            - Enum options - job_owner_virtualservice, job_owner_ssl, job_owner_debug_virtualservice, job_owner_consistency_checker,
-            - job_owner_techsupport_uploader, job_owner_pki_profile, job_owner_networksecuritypolicy, job_owner_segroup, job_owner_postgres_status.
-        required: true
-    tenant_ref:
+            - Timestamp of last login.
+    last_password_update:
         description:
-            - It is a reference to an object of type tenant.
-    type:
+            - Timestamp of last password update.
+    logged_in:
         description:
-            - Enum options - job_type_vs_full_logs, job_type_vs_udf, job_type_vs_metrics_rt, job_type_ssl_cert, job_type_debugvs_pkt_capture,
-            - job_type_consistency_check, job_type_techsupport, job_type_pki_profile, job_type_nsp_rule, job_type_segroup_metrics_rt, job_type_postgres_status.
-        required: true
+            - Indicates whether the user is logged in or not.
+    name:
+        description:
+            - Name of the user this object refers to.
+    previous_password:
+        description:
+            - Stores the previous n passwords  where n is controllerproperties.max_password_history_count.
     url:
         description:
             - Avi controller URL of the object.
@@ -79,18 +86,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create JobEntry object
-  avi_jobentry:
+- name: Example to create UserActivity object
+  avi_useractivity:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_jobentry
+    name: sample_useractivity
 """
 
 RETURN = '''
 obj:
-    description: JobEntry (api/jobentry) object
+    description: UserActivity (api/useractivity) object
     returned: success, changed
     type: dict
 '''
@@ -115,12 +122,14 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        cookie=dict(type='str',),
-        expires_at=dict(type='str', required=True),
-        obj_key=dict(type='str', required=True),
-        owner=dict(type='str', required=True),
-        tenant_ref=dict(type='str',),
-        type=dict(type='str', required=True),
+        concurrent_sessions=dict(type='int',),
+        failed_login_attempts=dict(type='int',),
+        last_login_ip=dict(type='str',),
+        last_login_timestamp=dict(type='str',),
+        last_password_update=dict(type='str',),
+        logged_in=dict(type='bool',),
+        name=dict(type='str',),
+        previous_password=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -131,7 +140,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'jobentry',
+    return avi_ansible_api(module, 'useractivity',
                            set([]))
 
 if __name__ == '__main__':

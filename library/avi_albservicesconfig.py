@@ -102,6 +102,12 @@ options:
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    use_tls:
+        description:
+            - Secure the controller to pulse communication over tls.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     uuid:
         description:
             - Field introduced in 18.2.6.
@@ -156,6 +162,7 @@ def main():
         split_proxy_configuration=dict(type='dict',),
         url=dict(type='str',),
         use_split_proxy=dict(type='bool',),
+        use_tls=dict(type='bool',),
         uuid=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())

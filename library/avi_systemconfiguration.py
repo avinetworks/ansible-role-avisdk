@@ -77,6 +77,12 @@ options:
         description:
             - Emailconfiguration settings for systemconfiguration.
         type: dict
+    enable_cors:
+        description:
+            - Enable cors header.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     fips_mode:
         description:
             - Enable fips mode.
@@ -188,6 +194,7 @@ def main():
         dns_virtualservice_refs=dict(type='list',),
         docker_mode=dict(type='bool',),
         email_configuration=dict(type='dict',),
+        enable_cors=dict(type='bool',),
         fips_mode=dict(type='bool',),
         global_tenant_config=dict(type='dict',),
         linux_configuration=dict(type='dict',),

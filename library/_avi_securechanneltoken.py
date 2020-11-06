@@ -24,17 +24,22 @@
 #
 
 ANSIBLE_METADATA = {'metadata_version': '1.0',
-                    'status': ['preview'],
+                    'status': ['deprecated'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_debugcontroller
+module: avi_securechanneltoken
 author: Gaurav Rastogi (grastogi@avinetworks.com)
 
-short_description: Module for setup of DebugController Avi RESTful Object
+deprecated:
+    removed_in: '2.11'
+    why: Removed support for the module.
+    alternative: Use M(avi_api_session) instead.
+
+short_description: Module for setup of SecureChannelToken Avi RESTful Object
 description:
-    - This module is used to configure DebugController object
+    - This module is used to configure SecureChannelToken object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.3"
@@ -44,30 +49,19 @@ options:
             - The state that should be applied on the entity.
         default: present
         choices: ["absent","present"]
-    filters:
+    expiry_time:
         description:
-            - Debugfilterunion settings for debugcontroller.
-    log_level:
+            - Expiry time for secure channel.
+    metadata:
         description:
-            - Enum options - log_level_disabled, log_level_info, log_level_warning, log_level_error.
-        required: true
+            - List of securechannelmetadata.
     name:
         description:
             - Name of the object.
         required: true
-    sub_module:
+    node_uuid:
         description:
-            - Enum options - task_queue_debug, rpc_infra_debug, job_mgr_debug, transaction_debug, se_agent_debug, se_agent_metrics_debug, virtualservice_debug,
-            - res_mgr_debug, se_mgr_debug, vi_mgr_debug, metrics_manager_debug, metrics_mgr_debug, event_api_debug, hs_mgr_debug, alert_mgr_debug,
-            - autoscale_mgr_debug, apic_agent_debug, redis_infra_debug, cloud_connector_debug, mesos_metrics_debug, statecache_mgr_debug, nsx_agent_debug.
-        required: true
-    tenant_ref:
-        description:
-            - It is a reference to an object of type tenant.
-    trace_level:
-        description:
-            - Enum options - trace_level_disabled, trace_level_error, trace_level_debug, trace_level_debug_detail.
-        required: true
+            - Unique object identifier of node.
     url:
         description:
             - Avi controller URL of the object.
@@ -79,18 +73,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create DebugController object
-  avi_debugcontroller:
+- name: Example to create SecureChannelToken object
+  avi_securechanneltoken:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_debugcontroller
+    name: sample_securechanneltoken
 """
 
 RETURN = '''
 obj:
-    description: DebugController (api/debugcontroller) object
+    description: SecureChannelToken (api/securechanneltoken) object
     returned: success, changed
     type: dict
 '''
@@ -115,12 +109,10 @@ def main():
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
-        filters=dict(type='dict',),
-        log_level=dict(type='str', required=True),
+        expiry_time=dict(type='float',),
+        metadata=dict(type='list',),
         name=dict(type='str', required=True),
-        sub_module=dict(type='str', required=True),
-        tenant_ref=dict(type='str',),
-        trace_level=dict(type='str', required=True),
+        node_uuid=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -131,7 +123,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'debugcontroller',
+    return avi_ansible_api(module, 'securechanneltoken',
                            set([]))
 
 if __name__ == '__main__':

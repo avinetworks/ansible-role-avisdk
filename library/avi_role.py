@@ -50,7 +50,7 @@ options:
             - Filters for granular object access control based on object labels.
             - Multiple filters are merged using the and operator.
             - If empty, all objects according to the privileges will be accessible to the user.
-            - Field introduced in 20.1.2.
+            - Field introduced in 20.1.3.
         type: list
     name:
         description:

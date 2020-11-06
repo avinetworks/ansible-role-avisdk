@@ -16,15 +16,6 @@ HealthMonitor = {
 VirtualService = {
 	"name": "rtb-facebook_outside_p80",
 	"enabled": "False",
-	"vip": [
-		{
-			"ip_address": {
-				"type": "V4",
-				"addr": "172.82.206.52"
-			},
-			"vip_id": 0
-		}
-	],
 	"services": [
 		{
 			"enable_ssl": "False",
@@ -32,6 +23,7 @@ VirtualService = {
 		}
 	],
 	"type": "VS_TYPE_NORMAL",
+	"vsvip_ref": "/api/vsvip/?name=vsvip-Test-vs-Default-Cloud"
 }
 
 Tenant = {
@@ -593,7 +585,14 @@ PkiProfile = {
 	"tenant_ref": "/api/tenant?name=admin",
 	"is_federated": True,
 	"ignore_peer_chain": False,
-	"crl_check": True
+	"crl_check": False,
+
+	"ca_certs": [
+		{
+			"key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC8xLISe3OWnrzj\nlK16ZaEtuWxT48PkS9jaQGNQrwsqQz9LtzdJ1azESv3CrsW/WEExgyxlVt3Ka0r0\njeLFZ4tMoSS/G0SFhC/p8MhfTelmFZxjuQ8JMUv3wTmJqHFqdblkKajxd3FOc801\nUTQ/gmhyC6FxYHXy4KNEJQQrXw6CESFEYRMwx/0Ls6H+Jo0Mh+gC7A9//y1U6xHI\npE19D2dNKhP6UID/atEE0EZ6nCSHLVXCb8Wg2Hq2e5mLDp1bPIi1AdUeQIYTxfEd\nnkuDKwvMjtZtCd5h4iyF+byVlbVt2ivY6OiGFpwrLULGnVasWPIIik6GR8517XAv\nwJUBC6f7AgMBAAECggEAF6LRYTsP+BYcNKrTJfY/vkfvZnmod5d/qaRSSzH/xeTx\nsftY8ufMYC+7onrby9+zGg4Aqxe7YbMZiZGSiYEzkf7DaSJy6/znOvWpQTWyOdQO\n5vWvCkmf53/MQo5S1S+0bPRCcSmxiE87rKdkUWd0yILoThfz7Ntv1gKEiSG34VUo\njzi1Q0u0TXpY/i0MVG4683Ia5eRAXbicg++FuuMU2qkMqso7VaJ46LtcV49FEfOJ\n5xMqlSv3YBCxCzZ+WJuVhSNRGJRPvjRmN+dt8cjXamk8hggt900RAkjvIO34ThBY\nV600ACc4IXlXob0VfUKu3/7VB8hX/YJZ/YCBAWJUIQKBgQDsx7j+WONs8fa2gSNo\ntLFaQLGpgpUZkP+6yxCVW1C1zYdRy1PIpKGLdJBNw8HflH9wID8YLMbMue6cN3SR\nDHtP1gcCCCNqh6iwI2ZK57qg0eXCtJ2ekGzpXeI0PtlCuq5CKOiZfwfqy9OK4/yA\nTksy1VqxmwU3WI36/cXpZX12+QKBgQDMF0pKAJsDfcvxJli62ikOnHJ6tGDVv0WN\noUvKRogbc1jn38guWDvvDHd3197t3wGiKsxcFPblVBYocYCq8Ir/kkWwdhfbRBue\nTvW+zoPI54w43gYsfhF8VESpSWl9HlfTOae4Xh7YCOPCpUX0TjNNr2uad2pHkVn7\nmFnt33XPkwKBgH7zbopgmj9VVBPyFUwUZWqgeSELdGmqxpIeQhvyQ8nWEpGWVKul\nKUAeFSi8pnv7oIA7qdiKWWR25Co5yXPjn1HkzQkX1/VMGvOlZzkOGZAUOf403LWh\ndeOBhMDCWbZfZQLv8BYsd9A5zIgRSNZ6I/NzVRcYqKlN/4HtAmnrEmPxAoGAZYoY\n3eSbOwt1Ug9ACgbMcoaHtmDT5MR6+FINgR/CS9YBn6uIzvX7K53KOofeU/6ls2cT\nsaSEiehh9dEysNlobmr53SeECwVBsGucfEgG7Qe2jfx4md5HGNJcLtVldGiKTX7b\n4TCCq/0QRCEyQrA9eiMSqBFNgTnhyPktlNmepZ0CgYBlkM5NlfP3AQWHK8VzkORW\nqnpIJMfiOAkoSTbk85nOcEe3arJCQqKvP+MLUmfWBvMOBQv5CejbelBNWRESZIPu\nifL7gIx2L/zRpoYOLmRtCDctMaKjeYsEE94xmFKH5gEIYk0HwC8PDqeBaft6LaAr\npjtsLnpbGa+3rrFYZiq6uA==\n-----END PRIVATE KEY-----\n",
+			"certificate": "-----BEGIN CERTIFICATE-----\nMIIC4zCCAcsCAgPoMA0GCSqGSIb3DQEBCwUAMDcxCzAJBgNVBAYTAlVTMRUwEwYD\nVQQKDAxBdmkgTmV0d29ya3MxETAPBgNVBAMMCE9QTFBUMTA4MB4XDTIwMDcxNTA3\nMDQ0N1oXDTMwMDcxMzA3MDQ0N1owNzELMAkGA1UEBhMCVVMxFTATBgNVBAoMDEF2\naSBOZXR3b3JrczERMA8GA1UEAwwIT1BMUFQxMDgwggEiMA0GCSqGSIb3DQEBAQUA\nA4IBDwAwggEKAoIBAQC8xLISe3OWnrzjlK16ZaEtuWxT48PkS9jaQGNQrwsqQz9L\ntzdJ1azESv3CrsW/WEExgyxlVt3Ka0r0jeLFZ4tMoSS/G0SFhC/p8MhfTelmFZxj\nuQ8JMUv3wTmJqHFqdblkKajxd3FOc801UTQ/gmhyC6FxYHXy4KNEJQQrXw6CESFE\nYRMwx/0Ls6H+Jo0Mh+gC7A9//y1U6xHIpE19D2dNKhP6UID/atEE0EZ6nCSHLVXC\nb8Wg2Hq2e5mLDp1bPIi1AdUeQIYTxfEdnkuDKwvMjtZtCd5h4iyF+byVlbVt2ivY\n6OiGFpwrLULGnVasWPIIik6GR8517XAvwJUBC6f7AgMBAAEwDQYJKoZIhvcNAQEL\nBQADggEBAKKq+HHFA835Y0/8kzucH+B55uUUwM1Lwh4DTa9zNvS73C3SryYVW5j2\nrGvcKYJCH7Y8EFKMzr67zgnAoImkFt4D9M3GfXKp38H36h7pNoEiDUlfkUY3fHri\nVFt5xS22PdskVXGV3jv9iHOhIwF2f6hQR4+7jsm/IAeP8Ja+EErGxj/ZhZRYlTJy\nGL9f1BGhb+LC+X7ipKRUDnm7rkN4bCTZ6YKVWymHn0g2YlxSEkmP2FViZltVE1nk\nJrhGyoy4RdtxAXh01AcjBuVuD3W0R0KwwRrzzqyZ8QN4Tyl4PZQwYD1n4KDFNeqz\nT7kS58V2NyaGEjqWB1QnJ3HpJF9ZRnc=\n-----END CERTIFICATE-----\n"
+		}
+	]
 }
 
 AnalyticsProfile = {
@@ -602,7 +601,6 @@ AnalyticsProfile = {
 	"hs_event_throttle_window": 1209600,
 	"description": "Test System Analytics Profile",
 	"apdex_response_threshold": 500,
-	"disable_se_analytics": False,
 	"apdex_server_rtt_tolerated_factor": 4,
 	"hs_security_nonpfs_penalty": 1,
 	"hs_security_tls12_score": 5,
@@ -625,7 +623,6 @@ AnalyticsProfile = {
 	"hs_security_tls11_score": 5,
 	"exclude_gs_down_as_error": False,
 	"apdex_server_response_tolerated_factor": 4,
-	"disable_server_analytics": False,
 	"conn_server_lossy_timeo_rexmt_threshold": 20,
 	"exclude_client_close_before_request_as_error": True,
 	"hs_security_weak_signature_algo_penalty": 1,
@@ -726,7 +723,7 @@ CloudConnecTorUser = {
 CertificateManagementProfile = {
 	"name": "test",
 	"tenant_ref": "/api/tenant?name=admin",
-	"script_path": "path/to/script"
+	"run_script_ref": "/api/alertscriptconfig/?name=test"
 }
 
 
@@ -850,7 +847,6 @@ ServiceengineGroup = {
 	"cloud_ref": "/api/cloud/?name=Default-Cloud",
 	"archive_shm_limit": 8,
 	"udf_log_throttle": 100,
-	"se_ipc_udp_port": 1500,
 	"ingress_access_data": "SG_INGRESS_ACCESS_ALL",
 	"vcpus_per_se": 1,
 	"disable_tso": False,
@@ -873,7 +869,6 @@ ServiceengineGroup = {
 	"hm_on_standby": True,
 	"ha_mode": "HA_MODE_SHARED",
 	"se_sb_threads": 1,
-	"se_remote_punt_udp_port": 1501,
 	"se_udp_encap_ipc": 0,
 	"min_cpu_usage": 30,
 	"disk_per_se": 10,

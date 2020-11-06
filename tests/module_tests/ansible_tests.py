@@ -100,6 +100,15 @@ class test_ansible_modules(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+    def test_VsVip(self):
+        configure.VsVip.update(ControllerCredentials)
+        set_module_args(configure.VsVip)
+        with self.assertRaises(AnsibleExitJson) as result:
+            avi_vsvip.main()
+            self.assertTrue(result.exception.args[0]['changed'])
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
     def test_virtual_service(self):
         configure.VirtualService.update(ControllerCredentials)
         set_module_args(configure.VirtualService)
@@ -123,15 +132,6 @@ class test_ansible_modules(unittest.TestCase):
         set_module_args(configure.Pool)
         with self.assertRaises(AnsibleExitJson) as result:
             avi_pool.main()
-            self.assertTrue(result.exception.args[0]['changed'])
-
-    @pytest.mark.travis
-    @my_vcr.use_cassette()
-    def test_VsVip(self):
-        configure.VsVip.update(ControllerCredentials)
-        set_module_args(configure.VsVip)
-        with self.assertRaises(AnsibleExitJson) as result:
-            avi_vsvip.main()
             self.assertTrue(result.exception.args[0]['changed'])
 
     @pytest.mark.travis
