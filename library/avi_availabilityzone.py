@@ -76,6 +76,8 @@ options:
             - Group of vcenter list belong to availabilty zone.
             - It is a reference to an object of type vcenterserver.
             - Field introduced in 20.1.1.
+            - Minimum of 1 items required.
+        required: true
         type: list
 
 
@@ -122,7 +124,7 @@ def main():
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_refs=dict(type='list',),
+        vcenter_refs=dict(type='list', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(

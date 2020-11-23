@@ -100,6 +100,7 @@ options:
     capacity_estimation:
         description:
             - Inline estimation of capacity of servers.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     capacity_estimation_ttfb_thresh:
@@ -108,6 +109,7 @@ options:
             - Allowed values are 1-5000.
             - Special values are 0 - 'automatic'.
             - Unit is milliseconds.
+            - Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     cloud_config_cksum:
@@ -132,6 +134,8 @@ options:
             - Allowed values are 1-300.
             - Special values are 0 - 'immediate'.
             - Unit is min.
+            - Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
+            - Special default for basic edition is 0, essentials edition is 0, enterprise is 10.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
     created_by:
@@ -152,6 +156,7 @@ options:
             - These ips are deleted from the pool when this knob is set to true.
             - They are disabled, if the knob is set to false.
             - Field introduced in 18.2.3.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
@@ -172,6 +177,7 @@ options:
         description:
             - Enable http/2 for traffic from virtualservice to all backend servers in this pool.
             - Field introduced in 20.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     enabled:
@@ -211,6 +217,7 @@ options:
         description:
             - Indicates if the pool is a site-persistence pool.
             - Field introduced in 17.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.5"
         type: bool
     health_monitor_refs:
@@ -220,6 +227,7 @@ options:
             - The passive monitor listens only to client to server communication.
             - It raises or lowers the ratio of traffic destined to a server based on successful responses.
             - It is a reference to an object of type healthmonitor.
+            - Maximum of 50 items allowed.
         type: list
     host_check_enabled:
         description:
@@ -250,13 +258,17 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     lb_algorithm:
         description:
             - The load balancing algorithm will pick a server within the pool's list of available servers.
+            - Values lb_algorithm_nearest_server and lb_algorithm_topology are only allowed for gslb pool.
             - Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH,
             - LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER,
             - LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY.
+            - Allowed in basic(allowed values- lb_algorithm_least_connections,lb_algorithm_round_robin,lb_algorithm_consistent_hash) edition,
+            - essentials(allowed values- lb_algorithm_least_connections,lb_algorithm_round_robin,lb_algorithm_consistent_hash) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_LEAST_CONNECTIONS.
         type: str
     lb_algorithm_consistent_hash_hdr:
@@ -268,6 +280,7 @@ options:
             - Degree of non-affinity for core affinity based server selection.
             - Allowed values are 1-65535.
             - Field introduced in 17.1.3.
+            - Allowed in basic(allowed values- 2) edition, essentials(allowed values- 2) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         version_added: "2.4"
         type: int
@@ -277,12 +290,15 @@ options:
             - Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT,
             - LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING,
             - LB_ALGORITHM_CONSISTENT_HASH_CALLID.
+            - Allowed in basic(allowed values- lb_algorithm_consistent_hash_source_ip_address) edition, essentials(allowed values-
+            - lb_algorithm_consistent_hash_source_ip_address) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS.
         type: str
     lookup_server_by_name:
         description:
             - Allow server lookup by name.
             - Field introduced in 17.1.11,17.2.4.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
@@ -301,6 +317,7 @@ options:
         description:
             - Minimum number of health monitors in up state to mark server up.
             - Field introduced in 18.2.1, 17.2.12.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: int
     min_servers_up:
@@ -344,11 +361,13 @@ options:
     request_queue_depth:
         description:
             - Minimum number of requests to be queued when pool is full.
+            - Allowed in basic(allowed values- 128) edition, essentials(allowed values- 128) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 128.
         type: int
     request_queue_enabled:
         description:
             - Enable request queue when pool is full.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     resolve_pool_by_dns:
@@ -409,6 +428,7 @@ options:
         description:
             - The pool directs load balanced traffic to this list of destination servers.
             - The servers can be configured by ip address, name, network or via ip address group.
+            - Maximum of 5000 items allowed.
         type: list
     service_metadata:
         description:
@@ -452,6 +472,7 @@ options:
         description:
             - Do not translate the client's destination port when sending the connection to the server.
             - The pool or servers specified service port will still be used for health monitoring.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     uuid:

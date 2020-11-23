@@ -51,7 +51,9 @@ options:
         type: str
     nodes:
         description:
-            - List of clusternode.
+            - Minimum of 1 items required.
+            - Maximum of 7 items allowed.
+        required: true
         type: list
     rejoin_nodes_automatically:
         description:
@@ -116,7 +118,7 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         name=dict(type='str', required=True),
-        nodes=dict(type='list',),
+        nodes=dict(type='list', required=True),
         rejoin_nodes_automatically=dict(type='bool',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

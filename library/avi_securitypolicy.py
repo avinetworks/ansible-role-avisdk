@@ -61,13 +61,13 @@ options:
             - Index of the dns policy to use for the mitigation rules applied to the dns attacks.
             - Field introduced in 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
-        required: true
         type: int
     labels:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -80,7 +80,6 @@ options:
             - Index of the network security policy to use for the mitigation rules applied to the attacks.
             - Field introduced in 18.2.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
-        required: true
         type: int
     oper_mode:
         description:
@@ -156,10 +155,10 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         dns_attacks=dict(type='dict',),
-        dns_policy_index=dict(type='int', required=True),
+        dns_policy_index=dict(type='int',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),
-        network_security_policy_index=dict(type='int', required=True),
+        network_security_policy_index=dict(type='int',),
         oper_mode=dict(type='str',),
         tcp_attacks=dict(type='dict',),
         tenant_ref=dict(type='str',),

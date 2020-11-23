@@ -52,6 +52,7 @@ options:
     autoscale_trigger_notification:
         description:
             - Trigger notification to autoscale manager.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     description:
@@ -66,6 +67,7 @@ options:
     external_only:
         description:
             - Generate alert only to external destinations.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         required: true
         type: bool

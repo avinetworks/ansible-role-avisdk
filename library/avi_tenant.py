@@ -72,6 +72,7 @@ options:
             - Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
             - Every entry is unique in both key and value.
             - Field introduced in 20.1.2.
+            - Maximum of 256 items allowed.
         type: list
     url:
         description:

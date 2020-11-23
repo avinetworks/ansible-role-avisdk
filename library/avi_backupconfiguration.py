@@ -48,18 +48,21 @@ options:
         description:
             - Aws access key id.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: str
     aws_bucket_id:
         description:
             - Aws bucket.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: str
     aws_secret_access:
         description:
             - Aws secret access key.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: str
     backup_file_prefix:
@@ -111,6 +114,7 @@ options:
         description:
             - Cloud backup.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: bool
     url:
@@ -186,7 +190,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'backupconfiguration',
-                           {'backup_passphrase', 'aws_access_key', 'aws_secret_access'})
+                           {'aws_access_key', 'aws_secret_access', 'backup_passphrase'})
 
 
 if __name__ == '__main__':

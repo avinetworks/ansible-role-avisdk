@@ -66,6 +66,7 @@ options:
             - Mode helps log collection and upload.
             - Enum options - SALESFORCE, SYSTEST, MYVMWARE.
             - Field introduced in 20.1.2.
+            - Allowed in basic(allowed values- salesforce) edition, essentials(allowed values- salesforce) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as SALESFORCE.
         type: str
     polling_interval:

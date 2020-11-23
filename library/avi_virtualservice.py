@@ -62,6 +62,7 @@ options:
             - This setting takes effect for future virtual service flaps.
             - To advertise current vses that are down, please disable and re-enable the virtual service.
             - Field introduced in 20.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     allow_invalid_client_cert:
@@ -69,6 +70,7 @@ options:
             - Process request even if invalid client certificate is presented.
             - Datascript apis need to be used for processing of such requests.
             - Field introduced in 18.2.3.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
@@ -87,12 +89,14 @@ options:
             - Should be in the <contract name> <graph name> format.
             - This is applicable only for service integration mode with cisco apic controller.
             - Field introduced in 17.2.12,18.1.2.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: str
     application_profile_ref:
         description:
             - Enable application layer specific features for the virtual service.
             - It is a reference to an object of type applicationprofile.
+            - Special default for essentials edition is system-l4-application.
         type: str
     auto_allocate_floating_ip:
         description:
@@ -134,6 +138,7 @@ options:
             - For ex  ssl sessions are stored using vs's key-value cache.
             - When the vs is scaled out, the ssl session information is synced to the new se, allowing existing ssl sessions to be reused on the new se.
             - Field introduced in 17.2.7, 18.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.6"
         type: bool
@@ -145,6 +150,7 @@ options:
         description:
             - Close client connection on vs config update.
             - Field introduced in 17.2.4.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
@@ -161,6 +167,7 @@ options:
         description:
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
             - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
+            - Allowed in basic(allowed values- cloud_none,coud_nsxt) edition, essentials(allowed values- cloud_none,cloud_vcenter) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         type: str
     connections_rate_limit:
@@ -179,6 +186,7 @@ options:
         description:
             - Select the algorithm for qos fairness.
             - This determines how multiple virtual services sharing the same service engines will prioritize traffic over a congested network.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     description:
@@ -208,21 +216,26 @@ options:
         description:
             - Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
             - Note that only one of fqdn and dns_info setting is allowed.
+            - Maximum of 1000 items allowed.
         type: list
     dns_policies:
         description:
             - Dns policies applied on the dns traffic of the virtual service.
             - Field introduced in 17.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.4"
         type: list
     east_west_placement:
         description:
             - Force placement on all se's in service group (mesos mode only).
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     enable_autogw:
         description:
             - Response traffic to clients will be sent back to the source mac address of the connection, rather than statically sent to a default gateway.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+            - Special default for basic edition is false, essentials edition is false, enterprise is true.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     enable_rhi:
@@ -243,6 +256,7 @@ options:
             - Error page profile to be used for this virtualservice.this profile is used to send the custom error page to the client generated by the proxy.
             - It is a reference to an object of type errorpageprofile.
             - Field introduced in 17.2.4.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.5"
         type: str
     floating_ip:
@@ -261,6 +275,7 @@ options:
         description:
             - Criteria for flow distribution among ses.
             - Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT.
+            - Allowed in basic(allowed values- load_aware) edition, essentials(allowed values- load_aware) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as LOAD_AWARE.
         type: str
     flow_label_type:
@@ -288,6 +303,8 @@ options:
             - The config settings for the icap server when checking the http request.
             - It is a reference to an object of type icapprofile.
             - Field introduced in 20.1.1.
+            - Maximum of 1 items allowed.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: list
     ign_pool_net_reach:
         description:
@@ -304,6 +321,11 @@ options:
             - Subnet and/or network for allocating virtualservice ip by ipam provider module.
             - Field deprecated in 17.1.1.
         type: dict
+    jwt_config:
+        description:
+            - Application-specific config for jwt validation.
+            - Field introduced in 20.1.3.
+        type: dict
     l4_policies:
         description:
             - L4 policies applied to the data traffic of the virtual service.
@@ -315,6 +337,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     limit_doser:
         description:
@@ -348,6 +371,7 @@ options:
         description:
             - Determines network settings such as protocol, tcp or udp, and related options for the protocol.
             - It is a reference to an object of type networkprofile.
+            - Special default for essentials edition is system-tcp-fast-path.
         type: str
     network_ref:
         description:
@@ -398,6 +422,7 @@ options:
         description:
             - Application-specific saml config.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
     scaleout_ecmp:
@@ -418,6 +443,7 @@ options:
             - This policy is used to perform security actions such as distributed denial of service (ddos) attack mitigation, etc.
             - It is a reference to an object of type securitypolicy.
             - Field introduced in 18.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: str
     server_network_profile_ref:
@@ -440,6 +466,7 @@ options:
     services:
         description:
             - List of services defined for this virtual service.
+            - Maximum of 2048 items allowed.
         type: list
     sideband_profile:
         description:
@@ -449,6 +476,7 @@ options:
     snat_ip:
         description:
             - Nat'ted floating source ip address(es) for upstream connection to servers.
+            - Maximum of 32 items allowed.
         type: list
     sp_pool_refs:
         description:
@@ -473,6 +501,7 @@ options:
         description:
             - Select ssl profile based on client ip address match.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: list
     ssl_sess_cache_avg_size:
@@ -486,6 +515,7 @@ options:
             - Client authentication and authorization policy for the virtualservice.
             - Field deprecated in 18.2.3.
             - Field introduced in 18.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
     sso_policy_ref:
@@ -493,12 +523,14 @@ options:
             - The sso policy attached to the virtualservice.
             - It is a reference to an object of type ssopolicy.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: str
     static_dns_records:
         description:
             - List of static dns records applied to this virtual service.
             - These are static entries and no health monitoring is performed against the ip addresses.
+            - Maximum of 1000 items allowed.
         type: list
     subnet:
         description:
@@ -525,6 +557,7 @@ options:
         description:
             - Topology policies applied on the dns traffic of the virtual service based ongslb topology algorithm.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: list
     traffic_clone_profile_ref:
@@ -532,6 +565,7 @@ options:
             - Server network or list of servers for cloning traffic.
             - It is a reference to an object of type trafficcloneprofile.
             - Field introduced in 17.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.4"
         type: str
     traffic_enabled:
@@ -546,6 +580,7 @@ options:
         description:
             - Specify if this is a normal virtual service, or if it is the parent or child of an sni-enabled virtual hosted virtual service.
             - Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD.
+            - Allowed in basic(allowed values- vs_type_normal) edition, essentials(allowed values- vs_type_normal) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as VS_TYPE_NORMAL.
         type: str
     url:
@@ -555,6 +590,7 @@ options:
     use_bridge_ip_as_vip:
         description:
             - Use bridge ip as vip on each host in mesos deployments.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     use_vip_as_snat:
@@ -563,6 +599,7 @@ options:
             - The caveat of enabling this option is that the virtualservice cannot be configued in an active-active ha mode.
             - Dns based multi vip solution has to be used for ha & non-disruptive upgrade purposes.
             - Field introduced in 17.1.9,17.2.3.
+            - Allowed in essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
@@ -575,9 +612,21 @@ options:
             - The exact name requested from the client's sni-enabled tls hello domain name field.
             - If this is a match, the parent vs will forward the connection to this child vs.
         type: list
+    vh_matches:
+        description:
+            - Host and path match criteria to select this child vs.
+            - Field introduced in 20.1.3.
+        type: list
     vh_parent_vs_uuid:
         description:
             - Specifies the virtual service acting as virtual hosting (sni) parent.
+        type: str
+    vh_type:
+        description:
+            - Specify if the virtual hosting vs is of type sni or enhanced.
+            - Enum options - VS_TYPE_VH_SNI, VS_TYPE_VH_ENHANCED.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as VS_TYPE_VH_SNI.
         type: str
     vip:
         description:
@@ -615,6 +664,7 @@ options:
             - Waf policy for the virtual service.
             - It is a reference to an object of type wafpolicy.
             - Field introduced in 17.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.5"
         type: str
     weight:
@@ -622,6 +672,7 @@ options:
             - The quality of service weight to assign to traffic transmitted from this virtual service.
             - A higher weight will prioritize traffic versus other virtual services sharing the same service engines.
             - Allowed values are 1-128.
+            - Allowed in basic(allowed values- 1) edition, essentials(allowed values- 1) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
 
@@ -722,6 +773,7 @@ def main():
         ign_pool_net_reach=dict(type='bool',),
         ip_address=dict(type='dict',),
         ipam_network_subnet=dict(type='dict',),
+        jwt_config=dict(type='dict',),
         l4_policies=dict(type='list',),
         labels=dict(type='list',),
         limit_doser=dict(type='bool',),
@@ -770,7 +822,9 @@ def main():
         use_vip_as_snat=dict(type='bool',),
         uuid=dict(type='str',),
         vh_domain_name=dict(type='list',),
+        vh_matches=dict(type='list',),
         vh_parent_vs_uuid=dict(type='str',),
+        vh_type=dict(type='str',),
         vip=dict(type='list',),
         vrf_context_ref=dict(type='str',),
         vs_datascripts=dict(type='list',),

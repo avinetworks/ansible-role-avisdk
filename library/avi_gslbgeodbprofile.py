@@ -54,6 +54,8 @@ options:
             - List of geodb entries.
             - An entry can either be a geodb file or an ip address group with geo properties.
             - Field introduced in 17.1.1.
+            - Minimum of 1 items required.
+        required: true
         type: list
     is_federated:
         description:
@@ -66,6 +68,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -128,7 +131,7 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
-        entries=dict(type='list',),
+        entries=dict(type='list', required=True),
         is_federated=dict(type='bool',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),

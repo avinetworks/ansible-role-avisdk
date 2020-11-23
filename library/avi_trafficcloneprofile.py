@@ -47,6 +47,7 @@ options:
     clone_servers:
         description:
             - Field introduced in 17.1.1.
+            - Maximum of 10 items allowed.
         type: list
     cloud_ref:
         description:
@@ -58,6 +59,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:

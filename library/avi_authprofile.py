@@ -53,6 +53,12 @@ options:
         description:
             - Http user authentication params.
         type: dict
+    jwt_profile_ref:
+        description:
+            - Jwtserverprofile to be used for authentication.
+            - It is a reference to an object of type jwtserverprofile.
+            - Field introduced in 20.1.3.
+        type: str
     ldap:
         description:
             - Ldap server and directory settings.
@@ -67,6 +73,7 @@ options:
             - Pingaccessagent uuid.
             - It is a reference to an object of type pingaccessagent.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: str
     saml:
@@ -86,7 +93,7 @@ options:
     type:
         description:
             - Type of the auth profile.
-            - Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML, AUTH_PROFILE_PINGACCESS.
+            - Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML, AUTH_PROFILE_PINGACCESS, AUTH_PROFILE_JWT.
         required: true
         type: str
     url:
@@ -162,6 +169,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
         http=dict(type='dict',),
+        jwt_profile_ref=dict(type='str',),
         ldap=dict(type='dict',),
         name=dict(type='str', required=True),
         pa_agent_ref=dict(type='str',),

@@ -96,12 +96,14 @@ options:
         description:
             - Specifies if destination ip and port needs to be preserved for backend connection.
             - Field introduced in 20.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     sip_service_profile:
         description:
             - Specifies various sip service related controls for virtual service.
             - Field introduced in 17.2.8, 18.1.3, 18.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
     tcp_app_profile:
@@ -117,6 +119,8 @@ options:
             - Specifies which application layer proxy is enabled for the virtual service.
             - Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS,
             - APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP.
+            - Allowed in basic(allowed values- application_profile_type_l4,application_profile_type_http) edition, essentials(allowed values-
+            - application_profile_type_l4) edition, enterprise edition.
         required: true
         type: str
     url:

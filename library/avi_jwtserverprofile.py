@@ -14,15 +14,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_autoscalelaunchconfig
-author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
+module: avi_jwtserverprofile
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of AutoScaleLaunchConfig Avi RESTful Object
+short_description: Module for setup of JWTServerProfile Avi RESTful Object
 description:
-    - This module is used to configure AutoScaleLaunchConfig object
+    - This module is used to configure JWTServerProfile object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.6"
+version_added: "2.7"
 options:
     state:
         description:
@@ -44,52 +44,38 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    description:
+    issuer:
         description:
-            - User defined description for the object.
-        type: str
-    image_id:
-        description:
-            - Unique id of the amazon machine image (ami)  or openstack vm id.
-        type: str
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field introduced in 20.1.2.
-            - Maximum of 4 items allowed.
-        type: list
-    mesos:
-        description:
-            - Autoscalemesossettings settings for autoscalelaunchconfig.
-        type: dict
-    name:
-        description:
-            - Name of the object.
+            - Uniquely identifiable name of the token issuer.
+            - Field introduced in 20.1.3.
         required: true
         type: str
-    openstack:
+    jwks_keys:
         description:
-            - Autoscaleopenstacksettings settings for autoscalelaunchconfig.
-        type: dict
+            - Jwks key set used for validating the jwt.
+            - Field introduced in 20.1.3.
+        required: true
+        type: str
+    name:
+        description:
+            - Name of the jwt profile.
+            - Field introduced in 20.1.3.
+        required: true
+        type: str
     tenant_ref:
         description:
+            - Uuid of the tenant.
             - It is a reference to an object of type tenant.
+            - Field introduced in 20.1.3.
         type: str
     url:
         description:
             - Avi controller URL of the object.
         type: str
-    use_external_asg:
-        description:
-            - If set to true, serverautoscalepolicy will use the autoscaling group (external_autoscaling_groups) from pool to perform scale up and scale down.
-            - Pool should have single autoscaling group configured.
-            - Field introduced in 17.2.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid of the jwtprofile.
+            - Field introduced in 20.1.3.
         type: str
 
 
@@ -98,19 +84,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-  - name: Create an Autoscale Launch configuration.
-    avi_autoscalelaunchconfig:
-      controller: '{{ controller }}'
-      username: '{{ username }}'
-      password: '{{ password }}'
-      image_id: default
-      name: default-autoscalelaunchconfig
-      tenant_ref: /api/tenant?name=admin
+- name: Example to create JWTServerProfile object
+  avi_jwtserverprofile:
+    controller: 10.10.25.42
+    username: admin
+    password: something
+    state: present
+    name: sample_jwtserverprofile
 """
 
 RETURN = '''
 obj:
-    description: AutoScaleLaunchConfig (api/autoscalelaunchconfig) object
+    description: JWTServerProfile (api/jwtserverprofile) object
     returned: success, changed
     type: dict
 '''
@@ -132,15 +117,11 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        description=dict(type='str',),
-        image_id=dict(type='str',),
-        labels=dict(type='list',),
-        mesos=dict(type='dict',),
+        issuer=dict(type='str', required=True),
+        jwks_keys=dict(type='str', required=True),
         name=dict(type='str', required=True),
-        openstack=dict(type='dict',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
-        use_external_asg=dict(type='bool',),
         uuid=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
@@ -150,7 +131,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'autoscalelaunchconfig',
+    return avi_ansible_api(module, 'jwtserverprofile',
                            set())
 
 
