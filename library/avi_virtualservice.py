@@ -580,7 +580,7 @@ options:
         description:
             - Specify if this is a normal virtual service, or if it is the parent or child of an sni-enabled virtual hosted virtual service.
             - Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD.
-            - Allowed in basic(allowed values- vs_type_normal) edition, essentials(allowed values- vs_type_normal) edition, enterprise edition.
+            - Allowed in essentials(allowed values- vs_type_normal) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as VS_TYPE_NORMAL.
         type: str
     url:
