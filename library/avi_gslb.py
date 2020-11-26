@@ -142,6 +142,8 @@ options:
     sites:
         description:
             - Select avi site member belonging to this gslb.
+            - Minimum of 1 items required.
+        required: true
         type: list
     tenant_ref:
         description:
@@ -403,7 +405,7 @@ def main():
         replication_policy=dict(type='dict',),
         send_interval=dict(type='int',),
         send_interval_prior_to_maintenance_mode=dict(type='int',),
-        sites=dict(type='list',),
+        sites=dict(type='list', required=True),
         tenant_ref=dict(type='str',),
         third_party_sites=dict(type='list',),
         url=dict(type='str',),

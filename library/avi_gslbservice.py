@@ -71,6 +71,8 @@ options:
     domain_names:
         description:
             - Fully qualified domain name of the gslb service.
+            - Minimum of 1 items required.
+        required: true
         type: list
     down_response:
         description:
@@ -86,12 +88,15 @@ options:
     groups:
         description:
             - Select list of pools belonging to this gslb service.
+            - Minimum of 1 items required.
+        required: true
         type: list
     health_monitor_refs:
         description:
             - Verify vs health by applying one or more health monitors.
             - Active monitors generate synthetic traffic from dns service engine and to mark a vs up or down based on the response.
             - It is a reference to an object of type healthmonitor.
+            - Maximum of 6 items allowed.
         type: list
     health_monitor_scope:
         description:
@@ -118,6 +123,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     min_members:
         description:
@@ -239,10 +245,10 @@ def main():
         controller_health_status_enabled=dict(type='bool',),
         created_by=dict(type='str',),
         description=dict(type='str',),
-        domain_names=dict(type='list',),
+        domain_names=dict(type='list', required=True),
         down_response=dict(type='dict',),
         enabled=dict(type='bool',),
-        groups=dict(type='list',),
+        groups=dict(type='list', required=True),
         health_monitor_refs=dict(type='list',),
         health_monitor_scope=dict(type='str',),
         hm_off=dict(type='bool',),

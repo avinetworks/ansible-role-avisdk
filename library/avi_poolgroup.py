@@ -71,6 +71,7 @@ options:
         description:
             - Enable http/2 for traffic from virtualservice to all the backend servers in all the pools configured under this poolgroup.
             - Field introduced in 20.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     fail_action:
@@ -90,6 +91,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     members:
         description:
@@ -100,6 +102,7 @@ options:
             - The minimum number of servers to distribute traffic to.
             - Allowed values are 1-65535.
             - Special values are 0 - 'disable'.
+            - Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     name:

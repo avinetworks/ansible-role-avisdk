@@ -58,12 +58,14 @@ options:
         description:
             - List of data files used for waf rules.
             - Field introduced in 17.2.1.
+            - Maximum of 64 items allowed.
         type: list
     labels:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:

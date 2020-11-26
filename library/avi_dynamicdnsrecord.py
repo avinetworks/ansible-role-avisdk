@@ -84,11 +84,13 @@ options:
         description:
             - Ipv6 address in aaaa record.
             - Field introduced in 20.1.3.
+            - Maximum of 4 items allowed.
         type: list
     ip_address:
         description:
             - Ip address in a record.
             - Field introduced in 20.1.3.
+            - Maximum of 4 items allowed.
         type: list
     metadata:
         description:
@@ -99,6 +101,7 @@ options:
         description:
             - Mx record.
             - Field introduced in 20.1.3.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -109,6 +112,7 @@ options:
         description:
             - Name server information in ns record.
             - Field introduced in 20.1.3.
+            - Maximum of 13 items allowed.
         type: list
     num_records_in_response:
         description:
@@ -123,6 +127,7 @@ options:
         description:
             - Service locator info in srv record.
             - Field introduced in 20.1.3.
+            - Maximum of 4 items allowed.
         type: list
     tenant_ref:
         description:
@@ -139,6 +144,7 @@ options:
         description:
             - Text record.
             - Field introduced in 20.1.3.
+            - Maximum of 4 items allowed.
         type: list
     type:
         description:

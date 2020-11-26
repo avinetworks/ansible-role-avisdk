@@ -54,11 +54,14 @@ options:
         description:
             - Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
             - Field introduced in 17.1.1.
+            - Maximum of 1000 items allowed.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: list
     east_west_placement:
         description:
             - Force placement on all service engines in the service engine group (container clouds only).
             - Field introduced in 17.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     ipam_selector:
@@ -72,6 +75,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -99,6 +103,7 @@ options:
             - set.
             - This is only used when fip is used for vs on azure cloud.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: bool
     uuid:

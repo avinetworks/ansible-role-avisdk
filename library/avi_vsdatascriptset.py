@@ -75,6 +75,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -96,6 +97,7 @@ options:
             - List of protocol parsers that could be referred by vsdatascriptset objects.
             - It is a reference to an object of type protocolparser.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: list
     rate_limiters:
@@ -103,6 +105,7 @@ options:
             - The rate limit definitions needed for this datascript.
             - The name is composed of the virtual service name and the datascript name.
             - Field introduced in 18.2.9.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: list
     string_group_refs:
         description:

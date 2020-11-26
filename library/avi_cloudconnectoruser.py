@@ -48,17 +48,20 @@ options:
     azure_serviceprincipal:
         description:
             - Field introduced in 17.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.5"
         type: dict
     azure_userpass:
         description:
             - Field introduced in 17.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.5"
         type: dict
     gcp_credentials:
         description:
             - Credentials for google cloud platform.
             - Field introduced in 18.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
     name:
@@ -70,6 +73,7 @@ options:
         description:
             - Credentials to talk to nsx-t manager.
             - Field introduced in 20.1.1.
+            - Allowed in essentials edition, enterprise edition.
         type: dict
     obj_password:
         description:
@@ -80,6 +84,7 @@ options:
         description:
             - Credentials for oracle cloud infrastructure.
             - Field introduced in 18.2.1,18.1.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
     private_key:
@@ -98,6 +103,7 @@ options:
         description:
             - Credentials for tencent cloud.
             - Field introduced in 18.2.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
     url:
@@ -180,7 +186,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'cloudconnectoruser',
-                           {'password', 'private_key'})
+                           {'private_key', 'password'})
 
 
 if __name__ == '__main__':

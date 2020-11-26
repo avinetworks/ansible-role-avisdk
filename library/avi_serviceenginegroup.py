@@ -75,6 +75,7 @@ options:
     aggressive_failure_detection:
         description:
             - Enable aggressive failover configuration for ha.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     algo:
@@ -97,6 +98,8 @@ options:
             - Special values are 0- 'disable'.
             - Field introduced in 18.2.3.
             - Unit is percent.
+            - Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
+            - Special default for basic edition is 0, essentials edition is 0, enterprise is 10.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         version_added: "2.9"
         type: int
@@ -129,6 +132,7 @@ options:
     async_ssl:
         description:
             - Ssl handshakes will be handled by dedicated ssl threads.requires se reboot.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.4"
         type: bool
@@ -143,6 +147,7 @@ options:
         description:
             - If set, virtual services will be automatically migrated when load on an se is less than minimum or more than maximum thresholds.
             - Only alerts are generated when the auto_rebalance is not set.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     auto_rebalance_capacity_per_se:
@@ -168,6 +173,7 @@ options:
         description:
             - Redistribution of virtual services from the takeover se to the replacement se can cause momentary traffic loss.
             - If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to rest api.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     availability_zone_refs:
@@ -333,6 +339,7 @@ options:
     distribute_load_active_standby:
         description:
             - Use both the active and standby service engines for virtual service placement in the legacy active standby ha mode.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     distribute_queues:
@@ -341,6 +348,7 @@ options:
             - Requires se reboot.
             - Deprecated from 18.2.8, instead use max_queues_per_vnic.
             - Field introduced in 17.2.8.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
@@ -414,6 +422,7 @@ options:
         description:
             - Enable routing for this serviceenginegroup.
             - Field deprecated in 18.2.5.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
         type: bool
     enable_vip_on_all_interfaces:
         description:
@@ -456,6 +465,7 @@ options:
             - Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
             - Only active se hosting vs tagged with active standby se 1 tag will advertise this floating ip when manual load distribution is enabled.
             - Field deprecated in 18.2.5.
+            - Maximum of 32 items allowed.
         type: list
     floating_intf_ip_se_2:
         description:
@@ -463,6 +473,7 @@ options:
             - Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
             - Only active se hosting vs tagged with active standby se 2 tag will advertise this floating ip when manual load distribution is enabled.
             - Field deprecated in 18.2.5.
+            - Maximum of 32 items allowed.
         type: list
     flow_table_new_syn_max_entries:
         description:
@@ -496,8 +507,19 @@ options:
         description:
             - High availability mode for all the virtual services using this service engine group.
             - Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.
+            - Allowed in basic(allowed values- ha_mode_legacy_active_standby) edition, essentials(allowed values- ha_mode_legacy_active_standby) edition,
+            - enterprise edition.
+            - Special default for basic edition is ha_mode_legacy_active_standby, essentials edition is ha_mode_legacy_active_standby, enterprise is
+            - ha_mode_shared.
             - Default value when not specified in API or module is interpreted by Avi Controller as HA_MODE_SHARED.
         type: str
+    handle_per_pkt_attack:
+        description:
+            - Configuration to handle per packet attack handling.for example, dns reflection attack is a type of attack where a response packet is sent to the
+            - dns vs.this configuration tells if such packets should be dropped without further processing.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     hardwaresecuritymodulegroup_ref:
         description:
             - It is a reference to an object of type hardwaresecuritymodulegroup.
@@ -514,6 +536,8 @@ options:
     hm_on_standby:
         description:
             - Enable active health monitoring from the standby se for all placed virtual services.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+            - Special default for basic edition is false, essentials edition is false, enterprise is true.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     host_attribute_key:
@@ -581,11 +605,13 @@ options:
     iptables:
         description:
             - Iptable rules.
+            - Maximum of 128 items allowed.
         type: list
     labels:
         description:
             - Labels associated with this se group.
             - Field introduced in 20.1.1.
+            - Maximum of 1 items allowed.
         type: list
     least_load_core_selection:
         description:
@@ -618,6 +644,7 @@ options:
         description:
             - Se will log memory allocation related failure to the se_trace file, wherever available.
             - Field introduced in 20.1.2.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     max_concurrent_external_hm:
@@ -650,6 +677,7 @@ options:
             - This should only be used if user wants to limit the number of se_dps to less than the available cpus on the se.
             - Allowed values are 1-128.
             - Field introduced in 20.1.1.
+            - Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
         type: int
     max_public_ips_per_lb:
         description:
@@ -828,6 +856,23 @@ options:
             - Unit is seconds.
         version_added: "2.9"
         type: int
+    netlink_poller_threads:
+        description:
+            - Number of threads to poll for netlink messages excluding the thread for default namespace.
+            - Requires se reboot.
+            - Allowed values are 1-32.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+        type: int
+    netlink_sock_buf_size:
+        description:
+            - Socket buffer size for the netlink sockets.
+            - Requires se reboot.
+            - Allowed values are 1-128.
+            - Field introduced in 20.1.3.
+            - Unit is mega_bytes.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
+        type: int
     non_significant_log_throttle:
         description:
             - This setting limits the number of non-significant logs generated per second per core on this se.
@@ -858,6 +903,7 @@ options:
     openstack_availability_zones:
         description:
             - Field introduced in 17.1.1.
+            - Maximum of 5 items allowed.
         type: list
     openstack_mgmt_network_name:
         description:
@@ -896,6 +942,14 @@ options:
             - Per-app se mode is designed for deploying dedicated load balancers per app (vs).
             - In this mode, each se is limited to a max of 2 vss.
             - Vcpus in per-app ses count towards licensing usage at 25% rate.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    per_vs_admission_control:
+        description:
+            - Enable/disable per vs level admission control.enabling this feature will cause the connection and packet throttling on a particular vs that has
+            - high packet buffer consumption.
+            - Field introduced in 20.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     placement_mode:
@@ -934,6 +988,7 @@ options:
             - Select the se bandwidth for the bandwidth license.
             - Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M.
             - Field introduced in 17.2.5.
+            - Allowed in basic(allowed values- se_bandwidth_unlimited) edition, essentials(allowed values- se_bandwidth_unlimited) edition, enterprise edition.
         version_added: "2.5"
         type: str
     se_delayed_flow_delete:
@@ -941,6 +996,7 @@ options:
             - Delay the cleanup of flowtable entry.
             - To be used under surveillance of avi support.
             - Field introduced in 20.1.2.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     se_deprovision_delay:
@@ -967,7 +1023,7 @@ options:
         description:
             - The highest supported se-se heartbeat protocol version.
             - This version is reported by secondary se to primary se in heartbeat response messages.
-            - Allowed values are 1-2.
+            - Allowed values are 1-3.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         type: int
@@ -1099,6 +1155,7 @@ options:
             - The retry count for the multi-producer enqueue before yielding the cpu.
             - To be used under surveillance of avi support.
             - Field introduced in 20.1.3.
+            - Allowed in basic(allowed values- 500) edition, essentials(allowed values- 500) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 500.
         type: int
     se_mtu:
@@ -1240,6 +1297,7 @@ options:
         description:
             - Multiplier for se threads based on vcpu.
             - Allowed values are 1-10.
+            - Allowed in basic(allowed values- 1) edition, essentials(allowed values- 1) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     se_tracert_port_range:
@@ -1256,6 +1314,7 @@ options:
             - Tunnel mode can be enabled or disabled at run-time.
             - Allowed values are 0-2.
             - Field introduced in 17.1.1.
+            - Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     se_tunnel_udp_port:
@@ -1278,6 +1337,7 @@ options:
             - To be used under surveillance of avi support.
             - Allowed values are 512-32768.
             - Field introduced in 20.1.2.
+            - Allowed in basic(allowed values- 2048) edition, essentials(allowed values- 2048) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2048.
         type: int
     se_udp_encap_ipc:
@@ -1334,6 +1394,7 @@ options:
         description:
             - Enable ses to elect a primary amongst themselves in the absence of a connectivity to controller.
             - Field introduced in 18.1.2.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
@@ -1342,6 +1403,7 @@ options:
             - Ipv6 subnets assigned to the se group.
             - Required for vs group placement.
             - Field introduced in 18.1.1.
+            - Maximum of 128 items allowed.
         version_added: "2.9"
         type: list
     service_ip_subnets:
@@ -1349,6 +1411,7 @@ options:
             - Subnets assigned to the se group.
             - Required for vs group placement.
             - Field introduced in 17.1.1.
+            - Maximum of 128 items allowed.
         type: list
     shm_minimum_config_memory:
         description:
@@ -1473,6 +1536,8 @@ options:
     vs_host_redundancy:
         description:
             - Ensure primary and secondary service engines are deployed on different physical hosts.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
+            - Special default for basic edition is true, essentials edition is true, enterprise is true.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     vs_scalein_timeout:
@@ -1675,6 +1740,7 @@ def main():
         gcp_config=dict(type='dict',),
         gratarp_permanent_periodicity=dict(type='int',),
         ha_mode=dict(type='str',),
+        handle_per_pkt_attack=dict(type='bool',),
         hardwaresecuritymodulegroup_ref=dict(type='str',),
         heap_minimum_config_memory=dict(type='int',),
         hm_on_standby=dict(type='bool',),
@@ -1722,6 +1788,8 @@ def main():
         nat_flow_tcp_handshake_timeout=dict(type='int',),
         nat_flow_udp_noresponse_timeout=dict(type='int',),
         nat_flow_udp_response_timeout=dict(type='int',),
+        netlink_poller_threads=dict(type='int',),
+        netlink_sock_buf_size=dict(type='int',),
         non_significant_log_throttle=dict(type='int',),
         num_dispatcher_cores=dict(type='int',),
         num_flow_cores_sum_changes_to_ignore=dict(type='int',),
@@ -1733,6 +1801,7 @@ def main():
         pcap_tx_mode=dict(type='str',),
         pcap_tx_ring_rd_balancing_factor=dict(type='int',),
         per_app=dict(type='bool',),
+        per_vs_admission_control=dict(type='bool',),
         placement_mode=dict(type='str',),
         realtime_se_metrics=dict(type='dict',),
         reboot_on_panic=dict(type='bool',),

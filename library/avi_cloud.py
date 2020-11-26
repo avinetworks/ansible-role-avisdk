@@ -51,7 +51,7 @@ options:
         type: dict
     apic_mode:
         description:
-            - Boolean flag to set apic_mode.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     autoscale_polling_interval:
@@ -60,6 +60,7 @@ options:
             - Allowed values are 60-3600.
             - Field introduced in 18.2.2.
             - Unit is seconds.
+            - Allowed in basic(allowed values- 60) edition, essentials(allowed values- 60) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         version_added: "2.9"
         type: int
@@ -70,6 +71,7 @@ options:
     azure_configuration:
         description:
             - Field introduced in 17.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.5"
         type: dict
     cloudstack_configuration:
@@ -98,6 +100,7 @@ options:
             - When this is set, pool member fqdns are instead resolved on service engines in this cloud.
             - This is useful in scenarios where pool member fqdns can only be resolved from service engines and not from the controller.
             - Field introduced in 18.2.6.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     docker_configuration:
@@ -132,6 +135,7 @@ options:
         description:
             - Google cloud platform configuration.
             - Field introduced in 18.2.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
     ip6_autocfg_enabled:
@@ -188,6 +192,7 @@ options:
         description:
             - Nsx-t cloud platform configuration.
             - Field introduced in 20.1.1.
+            - Allowed in essentials edition, enterprise edition.
         type: dict
     obj_name_prefix:
         description:
@@ -226,6 +231,7 @@ options:
         description:
             - Dns records for vips are added/deleted based on the operational state of the vips.
             - Field introduced in 17.1.12.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.5"
         type: bool
@@ -254,6 +260,8 @@ options:
             - Cloud type.
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
             - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
+            - Allowed in basic(allowed values- cloud_none,cloud_nsxt) edition, essentials(allowed values- cloud_none,cloud_vcenter) edition, enterprise
+            - edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         required: true
         type: str

@@ -76,6 +76,7 @@ options:
         description:
             - Enables ocsp stapling.
             - Field introduced in 20.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     enckey_base64:
@@ -123,6 +124,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -133,6 +135,7 @@ options:
         description:
             - Configuration related to ocsp.
             - Field introduced in 20.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: dict
     ocsp_error_status:
         description:
@@ -143,17 +146,21 @@ options:
             - OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST,
             - OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP.
             - Field introduced in 20.1.1.
+            - Allowed in basic(allowed values- ocsp_err_certstatus_disabled) edition, essentials(allowed values- ocsp_err_certstatus_disabled) edition,
+            - enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as OCSP_ERR_CERTSTATUS_DISABLED.
         type: str
     ocsp_responder_url_list_from_certs:
         description:
             - This is an internal field to store the ocsp responder urls contained in the certificate.
             - Field introduced in 20.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: list
     ocsp_response_info:
         description:
             - Information related to ocsp response.
             - Field introduced in 20.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: dict
     status:
         description:

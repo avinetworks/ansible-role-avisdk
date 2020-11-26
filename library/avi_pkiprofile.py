@@ -66,6 +66,8 @@ options:
         description:
             - When enabled, avi will not trust intermediate and root certs presented by a client.
             - Instead, only the chain certs configured in the certificate authority section will be used to verify trust of the client's cert.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
+            - Special default for basic edition is true, essentials edition is true, enterprise is false.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     is_federated:
@@ -82,6 +84,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -104,6 +107,7 @@ options:
         description:
             - When enabled, avi will only validate the revocation status of the leaf certificate using crl.
             - To enable validation for the entire chain, disable this option and provide all the relevant crls.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
 

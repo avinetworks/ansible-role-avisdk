@@ -49,11 +49,13 @@ options:
         description:
             - Key/value vrfcontext attributes.
             - Field introduced in 20.1.2.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: list
     bfd_profile:
         description:
             - Bfd configuration profile.
             - Field introduced in 20.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
         type: dict
     bgp_profile:
         description:
@@ -75,6 +77,7 @@ options:
     gateway_mon:
         description:
             - Configure ping based heartbeat check for gateway in service engines of vrf.
+            - Maximum of 32 items allowed.
         type: list
     internal_gateway_monitor:
         description:
@@ -90,6 +93,7 @@ options:
         description:
             - Enable lldp.
             - Field introduced in 18.2.10, 20.1.1.
+            - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     name:

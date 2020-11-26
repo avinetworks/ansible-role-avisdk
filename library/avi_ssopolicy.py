@@ -60,6 +60,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
@@ -76,10 +77,9 @@ options:
     type:
         description:
             - Sso policy type.
-            - Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS.
+            - Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT.
             - Field introduced in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as SSO_TYPE_SAML.
-        required: true
         type: str
     url:
         description:
@@ -135,7 +135,7 @@ def main():
         labels=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
-        type=dict(type='str', required=True),
+        type=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )

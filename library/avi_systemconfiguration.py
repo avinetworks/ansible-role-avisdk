@@ -49,11 +49,21 @@ options:
         description:
             - Adminauthconfiguration settings for systemconfiguration.
         type: dict
+    common_criteria_mode:
+        description:
+            - Enable common criteria compliance mode (disabled by default).
+            - Warn  toggling this field is disruptive and will result in reduced behavior with ssh and tls protocols.
+            - Expect possible warm start of control and data planes.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     default_license_tier:
         description:
             - Specifies the default license tier which would be used by new clouds.
             - Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
             - Field introduced in 17.2.5.
+            - Allowed in basic edition, essentials edition, enterprise edition.
+            - Special default for basic edition is basic, essentials edition is essentials, enterprise is enterprise.
             - Default value when not specified in API or module is interpreted by Avi Controller as ENTERPRISE.
         version_added: "2.5"
         type: str
@@ -189,6 +199,7 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         admin_auth_configuration=dict(type='dict',),
+        common_criteria_mode=dict(type='bool',),
         default_license_tier=dict(type='str',),
         dns_configuration=dict(type='dict',),
         dns_virtualservice_refs=dict(type='list',),

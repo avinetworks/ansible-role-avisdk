@@ -49,6 +49,7 @@ options:
             - Ip reputation db base file.
             - It is a reference to an object of type fileobject.
             - Field introduced in 20.1.1.
+            - Maximum of 1 items allowed.
         type: list
     description:
         description:
@@ -66,6 +67,7 @@ options:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
             - Field introduced in 20.1.2.
+            - Maximum of 4 items allowed.
         type: list
     name:
         description:
