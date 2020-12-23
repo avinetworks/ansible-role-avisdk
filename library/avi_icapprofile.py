@@ -46,8 +46,8 @@ options:
         type: str
     allow_204:
         description:
-            - Allow icap server to send 204 response as described in rfc 3507 section 4.5.service engine will buffer the complete request if alllow_204 is
-            - enabled.
+            - Allow icap server to send 204 response as described in rfc 3507 section 4.5.
+            - Service engine will buffer the complete request if alllow_204 is enabled.
             - If disabled, preview_size request body will be buffered if enable_preview is set to true, and rest of the request body will be streamed to the
             - icap server.
             - Field introduced in 20.1.3.
@@ -94,7 +94,7 @@ options:
         description:
             - Decide what should happen if there is a problem with the icap server like communication timeout, protocol error, pool error, etc.
             - If this is set to fail open, the request will continue, but will create a significant log entry.
-            - If this is set to fail closed, the request will be rejected with a 503 status code.
+            - If this is set to fail closed, the request will be rejected with a 500 status code.
             - Enum options - ICAP_FAIL_OPEN, ICAP_FAIL_CLOSED.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as ICAP_FAIL_OPEN.

@@ -856,23 +856,6 @@ options:
             - Unit is seconds.
         version_added: "2.9"
         type: int
-    netlink_poller_threads:
-        description:
-            - Number of threads to poll for netlink messages excluding the thread for default namespace.
-            - Requires se reboot.
-            - Allowed values are 1-32.
-            - Field introduced in 20.1.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
-        type: int
-    netlink_sock_buf_size:
-        description:
-            - Socket buffer size for the netlink sockets.
-            - Requires se reboot.
-            - Allowed values are 1-128.
-            - Field introduced in 20.1.3.
-            - Unit is mega_bytes.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
-        type: int
     non_significant_log_throttle:
         description:
             - This setting limits the number of non-significant logs generated per second per core on this se.
@@ -895,6 +878,20 @@ options:
         description:
             - Number of changes in num flow cores sum to ignore.
             - Default value when not specified in API or module is interpreted by Avi Controller as 8.
+        type: int
+    objsync_config:
+        description:
+            - Configuration knobs for interse object distribution.
+            - Field introduced in 20.1.3.
+        type: dict
+    objsync_port:
+        description:
+            - Tcp port on se management interface for interse object distribution.
+            - Supported only for externally managed security groups.
+            - Not supported on full access deployments.
+            - Requires se reboot.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 9001.
         type: int
     openstack_availability_zone:
         description:
@@ -1128,9 +1125,11 @@ options:
         type: int
     se_kni_burst_factor:
         description:
-            - Knob to control burst size used in polling kni interfaces for traffic sent from kni towards dpdk application also controls burst size used by kni
-            - module to read pkts punted from dpdk application towards kni helps minimize drops in non-vip traffic in either pathfactor of (0-2)
-            - multiplies/divides burst size by 2^n.
+            - This knob controls the resource availability and burst size used between se datapath and kni.
+            - This helps in minimising packet drops when there is higher kni traffic (non-vip traffic from and to linux).
+            - The factor takes the following values      0-default.
+            - 1-doubles the burst size and kni resources.
+            - 2-quadruples the burst size and kni resources.
             - Allowed values are 0-2.
             - Field introduced in 18.2.6.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -1476,7 +1475,8 @@ options:
         description:
             - Enable interse objsyc distribution framework.
             - Field introduced in 20.1.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+            - Allowed in basic edition, essentials edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     use_standard_alb:
         description:
@@ -1788,11 +1788,11 @@ def main():
         nat_flow_tcp_handshake_timeout=dict(type='int',),
         nat_flow_udp_noresponse_timeout=dict(type='int',),
         nat_flow_udp_response_timeout=dict(type='int',),
-        netlink_poller_threads=dict(type='int',),
-        netlink_sock_buf_size=dict(type='int',),
         non_significant_log_throttle=dict(type='int',),
         num_dispatcher_cores=dict(type='int',),
         num_flow_cores_sum_changes_to_ignore=dict(type='int',),
+        objsync_config=dict(type='dict',),
+        objsync_port=dict(type='int',),
         openstack_availability_zone=dict(type='str',),
         openstack_availability_zones=dict(type='list',),
         openstack_mgmt_network_name=dict(type='str',),
