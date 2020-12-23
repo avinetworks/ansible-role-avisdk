@@ -44,6 +44,13 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    delay_for_server_garbage_collection:
+        description:
+            - Delay in minutes after which a down server will be removed from pool.
+            - Value 0 disables this functionality.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
     description:
         description:
             - User defined description for the object.
@@ -180,6 +187,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        delay_for_server_garbage_collection=dict(type='int',),
         description=dict(type='str',),
         intelligent_autoscale=dict(type='bool',),
         intelligent_scalein_margin=dict(type='int',),

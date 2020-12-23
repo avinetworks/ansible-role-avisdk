@@ -167,7 +167,8 @@ options:
         description:
             - Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
             - CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
-            - Allowed in basic(allowed values- cloud_none,coud_nsxt) edition, essentials(allowed values- cloud_none,cloud_vcenter) edition, enterprise edition.
+            - Allowed in basic(allowed values- cloud_none,cloud_nsxt) edition, essentials(allowed values- cloud_none,cloud_vcenter) edition, enterprise
+            - edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLOUD_NONE.
         type: str
     connections_rate_limit:
@@ -580,7 +581,8 @@ options:
         description:
             - Specify if this is a normal virtual service, or if it is the parent or child of an sni-enabled virtual hosted virtual service.
             - Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD.
-            - Allowed in essentials(allowed values- vs_type_normal) edition, enterprise edition.
+            - Allowed in basic(allowed values- vs_type_normal,vs_type_vh_parent) edition, essentials(allowed values- vs_type_normal) edition, enterprise
+            - edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as VS_TYPE_NORMAL.
         type: str
     url:
@@ -626,6 +628,8 @@ options:
             - Specify if the virtual hosting vs is of type sni or enhanced.
             - Enum options - VS_TYPE_VH_SNI, VS_TYPE_VH_ENHANCED.
             - Field introduced in 20.1.3.
+            - Allowed in basic(allowed values- vs_type_vh_enhanced) edition, enterprise edition.
+            - Special default for basic edition is vs_type_vh_enhanced, enterprise is vs_type_vh_sni.
             - Default value when not specified in API or module is interpreted by Avi Controller as VS_TYPE_VH_SNI.
         type: str
     vip:

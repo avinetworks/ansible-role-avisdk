@@ -91,6 +91,7 @@ options:
         description:
             - Enable cors header.
             - Field introduced in 20.1.3.
+            - Allowed in basic edition, essentials edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     fips_mode:
