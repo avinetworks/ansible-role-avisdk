@@ -23,18 +23,18 @@ env:
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - distribution: fedora
-    version: 24
-    init: /usr/lib/systemd/systemd
-    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - distribution: ubuntu
-    version: 16.04
-    init: /sbin/init
-    run_opts: ""
-  - distribution: ubuntu
-    version: 14.04
-    init: /sbin/init
-    run_opts: ""
+  # - distribution: fedora
+  #   version: 24
+  #   init: /usr/lib/systemd/systemd
+  #   run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  # - distribution: ubuntu
+  #   version: 16.04
+  #   init: /sbin/init
+  #   run_opts: ""
+  # - distribution: ubuntu
+  #   version: 14.04
+  #   init: /sbin/init
+  #   run_opts: ""
 
 services:
   - docker
@@ -70,9 +70,9 @@ notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
   email:
     recipients:
-      - rastogiga@vmware.com
-      - deshpandech@vmware.com
-      - pshrikan@vmware.com
-      - sabandi@vmware.com
-      - shounakj@vmware.com
+      # - rastogiga@vmware.com
+      # - deshpandech@vmware.com
+      # - pshrikan@vmware.com
+      # - sabandi@vmware.com
+      # - shounakj@vmware.com
     on_failure: always
