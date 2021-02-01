@@ -291,13 +291,13 @@ options:
         type: int
     portal_request_burst_limit:
         description:
-            - Burst limit on number of incoming requests0 to disable.
+            - Burst limit on number of incoming requests 0 to disable.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     portal_request_rate_limit:
         description:
-            - Maximum average number of requests allowed per second0 to disable.
+            - Maximum average number of requests allowed per second 0 to disable.
             - Field introduced in 20.1.1.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -371,6 +371,14 @@ options:
         description:
             - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 120.
+        type: int
+    se_vnic_gc_wait_time:
+        description:
+            - Duration to wait after last vnic addition before proceeding with vnic garbage collection.
+            - Used for testing purposes.
+            - Field introduced in 20.1.4.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
     secure_channel_cleanup_timeout:
         description:
@@ -632,6 +640,7 @@ def main():
         se_offline_del=dict(type='int',),
         se_spawn_retry_interval=dict(type='int',),
         se_vnic_cooldown=dict(type='int',),
+        se_vnic_gc_wait_time=dict(type='int',),
         secure_channel_cleanup_timeout=dict(type='int',),
         secure_channel_controller_token_timeout=dict(type='int',),
         secure_channel_se_token_timeout=dict(type='int',),

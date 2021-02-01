@@ -717,7 +717,6 @@ options:
     max_vs_per_se:
         description:
             - Maximum number of virtual services that can be placed on a single service engine.
-            - East west virtual services are excluded from this limit.
             - Allowed values are 1-1000.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
@@ -738,6 +737,7 @@ options:
     memory_per_se:
         description:
             - Amount of memory for each of the service engine virtual machines.
+            - Changes to this setting do not affect existing ses.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2048.
         type: int
     mgmt_network_ref:
@@ -1020,7 +1020,7 @@ options:
         description:
             - The highest supported se-se heartbeat protocol version.
             - This version is reported by secondary se to primary se in heartbeat response messages.
-            - Allowed values are 1-3.
+            - Allowed values are 1-2.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         type: int
@@ -1476,7 +1476,7 @@ options:
             - Enable interse objsyc distribution framework.
             - Field introduced in 20.1.3.
             - Allowed in basic edition, essentials edition, enterprise edition.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     use_standard_alb:
         description:
@@ -1525,6 +1525,7 @@ options:
     vcpus_per_se:
         description:
             - Number of vcpus for each of the service engine virtual machines.
+            - Changes to this setting do not affect existing ses.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     vip_asg:

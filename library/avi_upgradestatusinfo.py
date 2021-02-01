@@ -86,6 +86,11 @@ options:
             - Enqueue time of upgrade operation.
             - Field introduced in 18.2.6.
         type: str
+    history:
+        description:
+            - Record of past operations on this node.
+            - Field introduced in 20.1.4.
+        type: list
     image_path:
         description:
             - Image path of current base image.
@@ -332,6 +337,7 @@ def main():
         enable_rollback=dict(type='bool',),
         end_time=dict(type='str',),
         enqueue_time=dict(type='str',),
+        history=dict(type='list',),
         image_path=dict(type='str',),
         image_ref=dict(type='str',),
         name=dict(type='str',),
