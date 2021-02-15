@@ -149,6 +149,12 @@ options:
         description:
             - It is a reference to an object of type tenant.
         type: str
+    tenant_scoped:
+        description:
+            - This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
+            - Field introduced in 20.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
     third_party_sites:
         description:
             - Third party site member belonging to this gslb.
@@ -407,6 +413,7 @@ def main():
         send_interval_prior_to_maintenance_mode=dict(type='int',),
         sites=dict(type='list', required=True),
         tenant_ref=dict(type='str',),
+        tenant_scoped=dict(type='bool',),
         third_party_sites=dict(type='list',),
         url=dict(type='str',),
         uuid=dict(type='str',),
