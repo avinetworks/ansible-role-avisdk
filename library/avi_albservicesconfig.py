@@ -44,6 +44,13 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    app_signature_config:
+        description:
+            - Default values to be used for application signature sync.
+            - Field introduced in 20.1.4.
+            - Allowed in basic edition, essentials edition, enterprise edition.
+        required: true
+        type: dict
     asset_contact:
         description:
             - Information about the default contact for this controller cluster.
@@ -66,8 +73,9 @@ options:
             - Mode helps log collection and upload.
             - Enum options - SALESFORCE, SYSTEST, MYVMWARE.
             - Field introduced in 20.1.2.
-            - Allowed in basic(allowed values- salesforce) edition, essentials(allowed values- salesforce) edition, enterprise edition.
-            - Default value when not specified in API or module is interpreted by Avi Controller as SALESFORCE.
+            - Allowed in basic(allowed values- salesforce,myvmware,systest) edition, essentials(allowed values- salesforce,myvmware,systest) edition,
+            - enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as MYVMWARE.
         type: str
     polling_interval:
         description:
@@ -153,6 +161,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        app_signature_config=dict(type='dict', required=True),
         asset_contact=dict(type='dict',),
         feature_opt_in_status=dict(type='dict', required=True),
         ip_reputation_config=dict(type='dict', required=True),

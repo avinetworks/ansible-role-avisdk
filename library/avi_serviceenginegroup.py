@@ -717,7 +717,6 @@ options:
     max_vs_per_se:
         description:
             - Maximum number of virtual services that can be placed on a single service engine.
-            - East west virtual services are excluded from this limit.
             - Allowed values are 1-1000.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         type: int
@@ -738,6 +737,7 @@ options:
     memory_per_se:
         description:
             - Amount of memory for each of the service engine virtual machines.
+            - Changes to this setting do not affect existing ses.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2048.
         type: int
     mgmt_network_ref:
@@ -1016,11 +1016,30 @@ options:
             - Field introduced in 20.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
+    se_dp_isolation:
+        description:
+            - Toggle support to run se datapath instances in isolation on exclusive cpus.
+            - This improves latency and performance.
+            - However, this could reduce the total number of se_dp instances created on that se instance.
+            - Supported for >= 8 cpus.
+            - Requires se reboot.
+            - Field introduced in 20.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    se_dp_isolation_num_non_dp_cpus:
+        description:
+            - Number of cpus for non se-dp tasks in se datapath isolation mode.
+            - Translates total cpus minus 'num_non_dp_cpus' for datapath use.requires se reboot.
+            - Allowed values are 1-8.
+            - Special values are 0- 'auto'.
+            - Field introduced in 20.1.4.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
+        type: int
     se_dp_max_hb_version:
         description:
             - The highest supported se-se heartbeat protocol version.
             - This version is reported by secondary se to primary se in heartbeat response messages.
-            - Allowed values are 1-3.
+            - Allowed values are 1-2.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         type: int
@@ -1476,7 +1495,7 @@ options:
             - Enable interse objsyc distribution framework.
             - Field introduced in 20.1.3.
             - Allowed in basic edition, essentials edition, enterprise edition.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     use_standard_alb:
         description:
@@ -1525,6 +1544,7 @@ options:
     vcpus_per_se:
         description:
             - Number of vcpus for each of the service engine virtual machines.
+            - Changes to this setting do not affect existing ses.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     vip_asg:
@@ -1812,6 +1832,8 @@ def main():
         se_deprovision_delay=dict(type='int',),
         se_dos_profile=dict(type='dict',),
         se_dp_hm_drops=dict(type='int',),
+        se_dp_isolation=dict(type='bool',),
+        se_dp_isolation_num_non_dp_cpus=dict(type='int',),
         se_dp_max_hb_version=dict(type='int',),
         se_dp_vnic_queue_stall_event_sleep=dict(type='int',),
         se_dp_vnic_queue_stall_threshold=dict(type='int',),
