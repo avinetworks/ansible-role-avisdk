@@ -74,5 +74,5 @@ notifications:
       - deshpandech@vmware.com
       - pshrikan@vmware.com
       - sabandi@vmware.com
-      - shounakj@vmware.com
+      - samol@vmware.com
     on_failure: always
