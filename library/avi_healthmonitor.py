@@ -94,6 +94,16 @@ options:
         description:
             - Healthmonitorhttp settings for healthmonitor.
         type: dict
+    imap_monitor:
+        description:
+            - Health monitor for imap.
+            - Field introduced in 21.1.1.
+        type: dict
+    imaps_monitor:
+        description:
+            - Health monitor for imaps.
+            - Field introduced in 21.1.1.
+        type: dict
     is_federated:
         description:
             - This field describes the object's replication scope.
@@ -116,6 +126,16 @@ options:
             - A user friendly name for this health monitor.
         required: true
         type: str
+    pop3_monitor:
+        description:
+            - Health monitor for pop3.
+            - Field introduced in 21.1.1.
+        type: dict
+    pop3s_monitor:
+        description:
+            - Health monitor for pop3s.
+            - Field introduced in 21.1.1.
+        type: dict
     radius_monitor:
         description:
             - Health monitor for radius.
@@ -146,6 +166,16 @@ options:
             - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.9"
         type: dict
+    smtp_monitor:
+        description:
+            - Health monitor for smtp.
+            - Field introduced in 21.1.1.
+        type: dict
+    smtps_monitor:
+        description:
+            - Health monitor for smtps.
+            - Field introduced in 21.1.1.
+        type: dict
     successful_checks:
         description:
             - Number of continuous successful health checks before server is marked up.
@@ -164,7 +194,8 @@ options:
         description:
             - Type of the health monitor.
             - Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP,
-            - HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS.
+            - HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS, HEALTH_MONITOR_SMTP, HEALTH_MONITOR_SMTPS,
+            - HEALTH_MONITOR_POP3, HEALTH_MONITOR_POP3S, HEALTH_MONITOR_IMAP, HEALTH_MONITOR_IMAPS.
             - Allowed in basic(allowed values- health_monitor_ping,health_monitor_tcp,health_monitor_udp,health_monitor_http,health_monitor_https) edition,
             - essentials(allowed values- health_monitor_ping,health_monitor_tcp,health_monitor_udp) edition, enterprise edition.
         required: true
@@ -239,13 +270,19 @@ def main():
         failed_checks=dict(type='int',),
         http_monitor=dict(type='dict',),
         https_monitor=dict(type='dict',),
+        imap_monitor=dict(type='dict',),
+        imaps_monitor=dict(type='dict',),
         is_federated=dict(type='bool',),
         monitor_port=dict(type='int',),
         name=dict(type='str', required=True),
+        pop3_monitor=dict(type='dict',),
+        pop3s_monitor=dict(type='dict',),
         radius_monitor=dict(type='dict',),
         receive_timeout=dict(type='int',),
         send_interval=dict(type='int',),
         sip_monitor=dict(type='dict',),
+        smtp_monitor=dict(type='dict',),
+        smtps_monitor=dict(type='dict',),
         successful_checks=dict(type='int',),
         tcp_monitor=dict(type='dict',),
         tenant_ref=dict(type='str',),

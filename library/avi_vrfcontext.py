@@ -77,7 +77,6 @@ options:
     gateway_mon:
         description:
             - Configure ping based heartbeat check for gateway in service engines of vrf.
-            - Maximum of 32 items allowed.
         type: list
     internal_gateway_monitor:
         description:

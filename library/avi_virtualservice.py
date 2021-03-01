@@ -131,6 +131,12 @@ options:
             - Field introduced in 17.2.12, 18.1.2.
         version_added: "2.9"
         type: str
+    bot_policy_ref:
+        description:
+            - Bot detection policy for the virtual service.
+            - It is a reference to an object of type botdetectionpolicy.
+            - Field introduced in 21.1.1.
+        type: str
     bulk_sync_kvcache:
         description:
             - (this is a beta feature).
@@ -744,6 +750,7 @@ def main():
         avi_allocated_fip=dict(type='bool',),
         avi_allocated_vip=dict(type='bool',),
         azure_availability_set=dict(type='str',),
+        bot_policy_ref=dict(type='str',),
         bulk_sync_kvcache=dict(type='bool',),
         client_auth=dict(type='dict',),
         close_client_conn_on_config_update=dict(type='bool',),

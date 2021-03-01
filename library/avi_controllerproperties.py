@@ -291,13 +291,15 @@ options:
         type: int
     portal_request_burst_limit:
         description:
-            - Burst limit on number of incoming requests 0 to disable.
+            - Burst limit on number of incoming requests.
+            - 0 to disable.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     portal_request_rate_limit:
         description:
-            - Maximum average number of requests allowed per second 0 to disable.
+            - Maximum average number of requests allowed per second.
+            - 0 to disable.
             - Field introduced in 20.1.1.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -328,6 +330,14 @@ options:
         description:
             - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 180.
+        type: int
+    resmgr_log_caching_period:
+        description:
+            - Period for each cycle of log caching in resource manager.
+            - At the end of each cycle, the in memory cached log history will be cleared.
+            - Field introduced in 21.1.1.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 21600.
         type: int
     safenet_hsm_version:
         description:
@@ -633,6 +643,7 @@ def main():
         process_locked_useraccounts_timeout_period=dict(type='int',),
         process_pki_profile_timeout_period=dict(type='int',),
         query_host_fail=dict(type='int',),
+        resmgr_log_caching_period=dict(type='int',),
         safenet_hsm_version=dict(type='str',),
         se_create_timeout=dict(type='int',),
         se_failover_attempt_interval=dict(type='int',),

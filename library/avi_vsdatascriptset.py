@@ -59,6 +59,12 @@ options:
         description:
             - User defined description for the object.
         type: str
+    geo_db_ref:
+        description:
+            - Geo location mapping database used by this datascriptset.
+            - It is a reference to an object of type geodb.
+            - Field introduced in 21.1.1.
+        type: str
     ip_reputation_db_ref:
         description:
             - Ip reputation database that can be used by datascript functions.
@@ -167,6 +173,7 @@ def main():
         created_by=dict(type='str',),
         datascript=dict(type='list',),
         description=dict(type='str',),
+        geo_db_ref=dict(type='str',),
         ip_reputation_db_ref=dict(type='str',),
         ipgroup_refs=dict(type='list',),
         labels=dict(type='list',),

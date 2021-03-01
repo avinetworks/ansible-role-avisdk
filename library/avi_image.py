@@ -107,7 +107,7 @@ options:
     type:
         description:
             - Type of the image patch/system.
-            - Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM.
+            - Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM, IMAGE_TYPE_MUST_CHECK.
             - Field introduced in 18.2.6.
         type: str
     uber_bundle:

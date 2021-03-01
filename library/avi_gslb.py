@@ -152,7 +152,7 @@ options:
     tenant_scoped:
         description:
             - This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
-            - Field introduced in 20.1.4.
+            - Field introduced in 18.2.12,20.1.4.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     third_party_sites:
