@@ -89,6 +89,13 @@ options:
             - Dh parameters used in ssl.
             - At this time, it is not configurable and is set to 2048 bits.
         type: str
+    ec_named_curve:
+        description:
+            - Elliptic curve cryptography namedcurves (tls supported groups)represented as defined by rfc 8422-section 5.1.1 andhttps
+            - //www.openssl.org/docs/man1.1.0/man3/ssl_ctx_set1_curves.html.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as auto.
+        type: str
     enable_early_data:
         description:
             - Enable early data processing for tls1.3 connections.
@@ -123,6 +130,13 @@ options:
             - Send 'close notify' alert message for a clean shutdown of the ssl connection.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
+    signature_algorithm:
+        description:
+            - Signature algorithms represented as defined by rfc5246-section 7.4.1.4.1 andhttps
+            - //www.openssl.org/docs/man1.1.0/man3/ssl_ctx_set1_client_sigalgs_list.html.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as ECDSA+SHA256:RSA+SHA256.
+        type: str
     ssl_rating:
         description:
             - Sslrating settings for sslprofile.
@@ -238,12 +252,14 @@ def main():
         ciphersuites=dict(type='str',),
         description=dict(type='str',),
         dhparam=dict(type='str',),
+        ec_named_curve=dict(type='str',),
         enable_early_data=dict(type='bool',),
         enable_ssl_session_reuse=dict(type='bool',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),
         prefer_client_cipher_ordering=dict(type='bool',),
         send_close_notify=dict(type='bool',),
+        signature_algorithm=dict(type='str',),
         ssl_rating=dict(type='dict',),
         ssl_session_timeout=dict(type='int',),
         tags=dict(type='list',),

@@ -131,6 +131,12 @@ options:
             - Field introduced in 17.2.12, 18.1.2.
         version_added: "2.9"
         type: str
+    bot_policy_ref:
+        description:
+            - Bot detection policy for the virtual service.
+            - It is a reference to an object of type botdetectionpolicy.
+            - Field introduced in 21.1.1.
+        type: str
     bulk_sync_kvcache:
         description:
             - (this is a beta feature).
@@ -145,6 +151,7 @@ options:
     client_auth:
         description:
             - Http authentication configuration for protected resources.
+            - Field deprecated in 21.1.1.
         type: dict
     close_client_conn_on_config_update:
         description:
@@ -340,6 +347,11 @@ options:
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
         type: list
+    ldap_vs_config:
+        description:
+            - Application-specific ldap config.
+            - Field introduced in 21.1.1.
+        type: dict
     limit_doser:
         description:
             - Limit potential dos attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
@@ -688,9 +700,9 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Create SSL Virtual Service using Pool testpool2
   avi_virtualservice:
-    controller: 10.10.27.90
+    controller: 192.168.138.18
     username: admin
-    password: AviNetworks123!
+    password: password
     name: newtestvs
     state: present
     performance_limits:
@@ -744,6 +756,7 @@ def main():
         avi_allocated_fip=dict(type='bool',),
         avi_allocated_vip=dict(type='bool',),
         azure_availability_set=dict(type='str',),
+        bot_policy_ref=dict(type='str',),
         bulk_sync_kvcache=dict(type='bool',),
         client_auth=dict(type='dict',),
         close_client_conn_on_config_update=dict(type='bool',),
@@ -780,6 +793,7 @@ def main():
         jwt_config=dict(type='dict',),
         l4_policies=dict(type='list',),
         labels=dict(type='list',),
+        ldap_vs_config=dict(type='dict',),
         limit_doser=dict(type='bool',),
         max_cps_per_client=dict(type='int',),
         microservice_ref=dict(type='str',),

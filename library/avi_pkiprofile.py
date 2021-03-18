@@ -119,7 +119,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create PKIProfile object
   avi_pkiprofile:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present

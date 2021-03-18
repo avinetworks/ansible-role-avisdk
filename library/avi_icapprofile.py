@@ -165,7 +165,7 @@ options:
     vendor:
         description:
             - The vendor of the icap server.
-            - Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT.
+            - Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT, ICAP_VENDOR_LASTLINE.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as ICAP_VENDOR_OPSWAT.
         type: str
@@ -178,7 +178,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create IcapProfile object
   avi_icapprofile:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present

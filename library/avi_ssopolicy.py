@@ -77,7 +77,7 @@ options:
     type:
         description:
             - Sso policy type.
-            - Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT.
+            - Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT, SSO_TYPE_LDAP.
             - Field introduced in 18.2.5.
             - Default value when not specified in API or module is interpreted by Avi Controller as SSO_TYPE_SAML.
         type: str
@@ -99,7 +99,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create SSOPolicy object
   avi_ssopolicy:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present

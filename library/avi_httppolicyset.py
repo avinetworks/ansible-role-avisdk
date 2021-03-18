@@ -58,6 +58,12 @@ options:
         description:
             - User defined description for the object.
         type: str
+    geo_db_ref:
+        description:
+            - Geo database.
+            - It is a reference to an object of type geodb.
+            - Field introduced in 21.1.1.
+        type: str
     http_request_policy:
         description:
             - Http request policy for the virtual service.
@@ -114,9 +120,9 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Create a HTTP Policy set two switch between testpool1 and testpool2
   avi_httppolicyset:
-    controller: 10.10.27.90
+    controller: 192.168.138.18
     username: admin
-    password: AviNetworks123!
+    password: password
     name: test-HTTP-Policy-Set
     tenant_ref: /api/tenant?name=admin
     http_request_policy:
@@ -177,6 +183,7 @@ def main():
         cloud_config_cksum=dict(type='str',),
         created_by=dict(type='str',),
         description=dict(type='str',),
+        geo_db_ref=dict(type='str',),
         http_request_policy=dict(type='dict',),
         http_response_policy=dict(type='dict',),
         http_security_policy=dict(type='dict',),

@@ -58,6 +58,12 @@ options:
         description:
             - User defined description for the object.
         type: str
+    geo_db_ref:
+        description:
+            - Geo database.
+            - It is a reference to an object of type geodb.
+            - Field introduced in 21.1.1.
+        type: str
     ip_reputation_db_ref:
         description:
             - Ip reputation database.
@@ -147,6 +153,7 @@ def main():
         cloud_config_cksum=dict(type='str',),
         created_by=dict(type='str',),
         description=dict(type='str',),
+        geo_db_ref=dict(type='str',),
         ip_reputation_db_ref=dict(type='str',),
         labels=dict(type='list',),
         name=dict(type='str',),

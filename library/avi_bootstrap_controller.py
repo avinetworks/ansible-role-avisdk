@@ -23,6 +23,7 @@
 #
 """
 
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -30,7 +31,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = '''
 ---
 module: avi_bootstrap_controller
-author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
+author: Shrikant Chaudhari (@gitshrikant) <shrikant.chaudhari@avinetworks.com>
 short_description: avi bootstrap controller module.
 description:
     - This module can be used for initializing the password of a user.
@@ -53,6 +54,17 @@ options:
             - Avoid check for login with given password and re-initialise controller
               with given password even if controller password is initialised before
         type: bool
+        default: false
+    con_wait_time:
+        description:
+            - Wait for controller to come up for given con_wait_time.
+        default: 3600
+        type: int
+    round_wait:
+        description:
+            - Wait for controller to come up for given round_wait.
+        default: 10
+        type: int
 
 
 extends_documentation_fragment:
@@ -70,7 +82,6 @@ EXAMPLES = '''
       password: new_password
       con_wait_time: 3600
       round_wait: 10
-
 '''
 
 RETURN = '''
@@ -111,7 +122,7 @@ def controller_wait(controller_ip, port=None, round_wait=10, wait_time=3600):
     count = 0
     max_count = wait_time / round_wait
     ctrl_port = port if port else 80
-    path = "http://{}:{}{}".format(controller_ip, ctrl_port, "/api/cluster/runtime")
+    path = "http://{1}:{2}{3}".format(controller_ip, ctrl_port, "/api/cluster/runtime")
     ctrl_status = False
     while True:
         if count >= max_count:
@@ -145,7 +156,6 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk) is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     new_password = module.params.get('password')

@@ -21,7 +21,6 @@ DOCUMENTATION = '''
 ---
 module: avi_api_session
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Avi API Module
 description:
     - This module can be used for calling any resources defined in Avi REST API. U(https://avinetworks.com/)
@@ -60,7 +59,6 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
-
   - name: Get Pool Information using avi_api_session
     avi_api_session:
       controller: "{{ controller }}"
@@ -72,7 +70,6 @@ EXAMPLES = '''
         name: "{{ pool_name }}"
       api_version: 16.4
     register: pool_results
-
   - name: Patch Pool with list of servers
     avi_api_session:
       controller: "{{ controller }}"
@@ -91,7 +88,6 @@ EXAMPLES = '''
                 addr: 20.20.20.20
                 type: V4
     register: updated_pool
-
   - name: Fetch Pool metrics bandwidth and connections rate
     avi_api_session:
       controller: "{{ controller }}"
@@ -106,7 +102,6 @@ EXAMPLES = '''
         step: 300
         limit: 10
     register: pool_metrics
-
   - name: Wait for Controller upgrade to finish
     avi_api_session:
       controller: "{{ controller }}"
@@ -120,7 +115,6 @@ EXAMPLES = '''
     until: "'result' in upgrade_status.obj and upgrade_status.obj.result == 'SUCCESS'"
     retries: 120
     delay: 10
-
 '''
 
 
@@ -202,12 +196,12 @@ def main():
         try:
             using_collection = False
             if (not any(path.startswith(uri) for uri in api_get_not_allowed) and
-            not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
+                    not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
                 if 'name' in data:
                     gparams['name'] = data['name']
                 using_collection = True
             if (not any(path.startswith(uri) for uri in api_get_not_allowed) and
-            not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
+                    not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
                 rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
                               params=gparams, api_version=api_version)
                 existing_obj = rsp.json()
@@ -238,8 +232,7 @@ def main():
             if path.startswith('wafpolicy') and path.endswith('update-crs-rules'):
                 get_path = path.rstrip('/update-crs-rules')
                 data_for_cmp = deepcopy(data) if data else {}
-                _ = data_for_cmp.pop("commit", None)
-
+                data_for_cmp.pop("commit", None)
 
             rsp = api.get(get_path, tenant=tenant, tenant_uuid=tenant_uuid,
                           params=gparams, api_version=api_version)

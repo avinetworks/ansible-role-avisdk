@@ -107,7 +107,7 @@ options:
     type:
         description:
             - Type of the image patch/system.
-            - Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM.
+            - Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM, IMAGE_TYPE_MUST_CHECK.
             - Field introduced in 18.2.6.
         type: str
     uber_bundle:
@@ -134,7 +134,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create Image object
   avi_image:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present

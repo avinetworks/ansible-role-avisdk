@@ -185,6 +185,15 @@ options:
             - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         type: int
+    del_offline_se_after_reboot_delay:
+        description:
+            - The amount of time the controller will wait before deleting an offline se after it has been rebooted.
+            - For unresponsive ses, the total time will be  unresponsive_se_reboot + del_offline_se_after_reboot_delay.
+            - For crashed ses, the total time will be crashed_se_reboot + del_offline_se_after_reboot_delay.
+            - Field introduced in 20.1.5.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
+        type: int
     dns_refresh_period:
         description:
             - Period for refresh pool and gslb dns job.
@@ -291,13 +300,15 @@ options:
         type: int
     portal_request_burst_limit:
         description:
-            - Burst limit on number of incoming requests 0 to disable.
+            - Burst limit on number of incoming requests.
+            - 0 to disable.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     portal_request_rate_limit:
         description:
-            - Maximum average number of requests allowed per second 0 to disable.
+            - Maximum average number of requests allowed per second.
+            - 0 to disable.
             - Field introduced in 20.1.1.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -328,6 +339,14 @@ options:
         description:
             - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 180.
+        type: int
+    resmgr_log_caching_period:
+        description:
+            - Period for each cycle of log caching in resource manager.
+            - At the end of each cycle, the in memory cached log history will be cleared.
+            - Field introduced in 20.1.5.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 21600.
         type: int
     safenet_hsm_version:
         description:
@@ -468,6 +487,11 @@ options:
         description:
             - Avi controller URL of the object.
         type: str
+    user_agent_cache_config:
+        description:
+            - Configuration for user-agent cache used in bot management.
+            - Field introduced in 21.1.1.
+        type: dict
     uuid:
         description:
             - Unique object identifier of the object.
@@ -559,7 +583,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create ControllerProperties object
   avi_controllerproperties:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -611,6 +635,7 @@ def main():
         crashed_se_reboot=dict(type='int',),
         dead_se_detection_timer=dict(type='int',),
         default_minimum_api_timeout=dict(type='int',),
+        del_offline_se_after_reboot_delay=dict(type='int',),
         dns_refresh_period=dict(type='int',),
         dummy=dict(type='int',),
         edit_system_limits=dict(type='bool',),
@@ -633,6 +658,7 @@ def main():
         process_locked_useraccounts_timeout_period=dict(type='int',),
         process_pki_profile_timeout_period=dict(type='int',),
         query_host_fail=dict(type='int',),
+        resmgr_log_caching_period=dict(type='int',),
         safenet_hsm_version=dict(type='str',),
         se_create_timeout=dict(type='int',),
         se_failover_attempt_interval=dict(type='int',),
@@ -655,6 +681,7 @@ def main():
         upgrade_lease_time=dict(type='int',),
         upgrade_se_per_vs_scale_ops_txn_time=dict(type='int',),
         url=dict(type='str',),
+        user_agent_cache_config=dict(type='dict',),
         uuid=dict(type='str',),
         vnic_op_fail_time=dict(type='int',),
         vs_apic_scaleout_timeout=dict(type='int',),

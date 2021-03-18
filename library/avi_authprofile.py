@@ -125,7 +125,7 @@ EXAMPLES = """
         port: 389
         security_mode: AUTH_LDAP_SECURE_NONE
         server:
-        - 10.10.0.100
+        - 192.168.12.18
         settings:
           admin_bind_dn: user@avi.local
           group_filter: (objectClass=*)

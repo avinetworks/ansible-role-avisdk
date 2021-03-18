@@ -359,6 +359,29 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
+    downstream_send_timeout:
+        description:
+            - Timeout for downstream to become writable.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3600000.
+        type: int
+    dp_aggressive_deq_interval_msec:
+        description:
+            - Dequeue interval for receive queue from se_dp in aggressive mode.
+            - Allowed values are 1-1000.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
+        type: int
+    dp_aggressive_enq_interval_msec:
+        description:
+            - Enqueue interval for request queue to se_dp in aggressive mode.
+            - Allowed values are 1-1000.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1.
+        type: int
     dp_aggressive_hb_frequency:
         description:
             - Frequency of se - se hb messages when aggressive failure mode detection is enabled.
@@ -371,6 +394,22 @@ options:
             - Consecutive hb failures after which failure is reported to controller,when aggressive failure mode detection is enabled.
             - Field introduced in 20.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+        type: int
+    dp_deq_interval_msec:
+        description:
+            - Dequeue interval for receive queue from se_dp.
+            - Allowed values are 1-1000.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
+        type: int
+    dp_enq_interval_msec:
+        description:
+            - Enqueue interval for request queue to se_dp.
+            - Allowed values are 1-1000.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         type: int
     dp_hb_frequency:
         description:
@@ -391,6 +430,12 @@ options:
             - Field introduced in 18.2.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
+        type: bool
+    enable_hsm_log:
+        description:
+            - Enable hsm luna engine logs.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     enable_hsm_priming:
         description:
@@ -564,6 +609,20 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
+    http_rum_console_log:
+        description:
+            - Enable javascript console logs on the client browser when collecting client insights.
+            - Field introduced in 21.1.1.
+            - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    http_rum_min_content_length:
+        description:
+            - Minimum response size content length to sample for client insights.
+            - Field introduced in 21.1.1.
+            - Allowed in basic(allowed values- 64) edition, essentials(allowed values- 64) edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 64.
+        type: int
     hypervisor:
         description:
             - Override default hypervisor.
@@ -607,12 +666,37 @@ options:
             - Iptable rules.
             - Maximum of 128 items allowed.
         type: list
+    l7_conns_per_core:
+        description:
+            - Number of l7 connections that can be cached per core.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 16384.
+        type: int
+    l7_resvd_listen_conns_per_core:
+        description:
+            - Number of reserved l7 listener connections per core.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 256.
+        type: int
     labels:
         description:
             - Labels associated with this se group.
             - Field introduced in 20.1.1.
             - Maximum of 1 items allowed.
         type: list
+    lbaction_num_requests_to_dispatch:
+        description:
+            - Number of requests to dispatch from the request.
+            - Queue at a regular interval.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
+        type: int
+    lbaction_rq_per_request_max_retries:
+        description:
+            - Maximum retries per request in the request queue.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 22.
+        type: int
     least_load_core_selection:
         description:
             - Select core with least load for new flow.
@@ -856,6 +940,29 @@ options:
             - Unit is seconds.
         version_added: "2.9"
         type: int
+    netlink_poller_threads:
+        description:
+            - Number of threads to poll for netlink messages excluding the thread for default namespace.
+            - Requires se reboot.
+            - Allowed values are 1-32.
+            - Field introduced in 20.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+        type: int
+    netlink_sock_buf_size:
+        description:
+            - Socket buffer size for the netlink sockets.
+            - Requires se reboot.
+            - Allowed values are 1-128.
+            - Field introduced in 20.1.3.
+            - Unit is mega_bytes.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4.
+        type: int
+    ngx_free_connection_stack:
+        description:
+            - Free the connection stack.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     non_significant_log_throttle:
         description:
             - This setting limits the number of non-significant logs generated per second per core on this se.
@@ -864,6 +971,14 @@ options:
             - Field introduced in 17.1.3.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+        type: int
+    ns_helper_deq_interval_msec:
+        description:
+            - Dequeue interval for receive queue from ns helper.
+            - Allowed values are 1-1000.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         type: int
     num_dispatcher_cores:
         description:
@@ -980,6 +1095,31 @@ options:
             - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 65536.
         type: int
+    sdb_flush_interval:
+        description:
+            - Sdb pipeline flush interval.
+            - Allowed values are 1-10000.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Allowed in basic edition, essentials edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+        type: int
+    sdb_pipeline_size:
+        description:
+            - Sdb pipeline size.
+            - Allowed values are 1-10000.
+            - Field introduced in 21.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+        type: int
+    sdb_scan_count:
+        description:
+            - Sdb scan count.
+            - Allowed values are 1-1000.
+            - Field introduced in 21.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1000.
+        type: int
     se_bandwidth_type:
         description:
             - Select the se bandwidth for the bandwidth license.
@@ -1039,7 +1179,7 @@ options:
         description:
             - The highest supported se-se heartbeat protocol version.
             - This version is reported by secondary se to primary se in heartbeat response messages.
-            - Allowed values are 1-2.
+            - Allowed values are 1-3.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as 2.
         type: int
@@ -1416,6 +1556,14 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
+    send_se_ready_timeout:
+        description:
+            - Timeout for sending se_ready without ns helper registration completion.
+            - Allowed values are 10-600.
+            - Field introduced in 21.1.1.
+            - Unit is seconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 300.
+        type: int
     service_ip6_subnets:
         description:
             - Ipv6 subnets assigned to the se group.
@@ -1457,6 +1605,12 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
+    ssl_sess_cache_per_vs:
+        description:
+            - Number of ssl sessions that can be cached per vs.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 4096.
+        type: int
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -1478,6 +1632,34 @@ options:
             - Field introduced in 17.1.3.
             - Unit is per_second.
             - Default value when not specified in API or module is interpreted by Avi Controller as 100.
+        type: int
+    upstream_connect_timeout:
+        description:
+            - Timeout for backend connection.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3600000.
+        type: int
+    upstream_connpool_enable:
+        description:
+            - Enable upstream connection pool,.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as True.
+        type: bool
+    upstream_read_timeout:
+        description:
+            - Timeout for data to be received from backend.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3600000.
+        type: int
+    upstream_send_timeout:
+        description:
+            - Timeout for upstream to become writable.
+            - Field introduced in 21.1.1.
+            - Unit is milliseconds.
+            - Allowed in basic(allowed values- 3600000) edition, essentials(allowed values- 3600000) edition, enterprise edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3600000.
         type: int
     url:
         description:
@@ -1505,6 +1687,18 @@ options:
             - Field introduced in 18.2.3.
         version_added: "2.9"
         type: bool
+    user_agent_cache_config:
+        description:
+            - Configuration for user-agent cache used in bot management.
+            - Field introduced in 21.1.1.
+        type: dict
+    user_defined_metric_age:
+        description:
+            - Defines in seconds how long before an unused user-defined-metric is garbage collected.
+            - Field introduced in 21.1.1.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 60.
+        type: int
     uuid:
         description:
             - Unique object identifier of the object.
@@ -1553,6 +1747,48 @@ options:
             - Field introduced in 17.2.12, 18.1.2.
         version_added: "2.9"
         type: dict
+    vnic_dhcp_ip_check_interval:
+        description:
+            - Dhcp ip check interval.
+            - Allowed values are 1-1000.
+            - Field introduced in 21.1.1.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 6.
+        type: int
+    vnic_dhcp_ip_max_retries:
+        description:
+            - Dhcp ip max retries.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 10.
+        type: int
+    vnic_ip_delete_interval:
+        description:
+            - Wait interval before deleting ip.
+            - Field introduced in 21.1.1.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 5.
+        type: int
+    vnic_probe_interval:
+        description:
+            - Probe vnic interval.
+            - Field introduced in 21.1.1.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 5.
+        type: int
+    vnic_rpc_retry_interval:
+        description:
+            - Time interval for retrying the failed vnic rpc requests.
+            - Field introduced in 21.1.1.
+            - Unit is sec.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 5.
+        type: int
+    vnicdb_cmd_history_size:
+        description:
+            - Size of vnicdb command history.
+            - Allowed values are 0-65535.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 256.
+        type: int
     vs_host_redundancy:
         description:
             - Ensure primary and secondary service engines are deployed on different physical hosts.
@@ -1661,7 +1897,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create ServiceEngineGroup object
   avi_serviceenginegroup:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -1738,11 +1974,17 @@ def main():
         distribute_load_active_standby=dict(type='bool',),
         distribute_queues=dict(type='bool',),
         distribute_vnics=dict(type='bool',),
+        downstream_send_timeout=dict(type='int',),
+        dp_aggressive_deq_interval_msec=dict(type='int',),
+        dp_aggressive_enq_interval_msec=dict(type='int',),
         dp_aggressive_hb_frequency=dict(type='int',),
         dp_aggressive_hb_timeout_count=dict(type='int',),
+        dp_deq_interval_msec=dict(type='int',),
+        dp_enq_interval_msec=dict(type='int',),
         dp_hb_frequency=dict(type='int',),
         dp_hb_timeout_count=dict(type='int',),
         enable_gratarp_permanent=dict(type='bool',),
+        enable_hsm_log=dict(type='bool',),
         enable_hsm_priming=dict(type='bool',),
         enable_multi_lb=dict(type='bool',),
         enable_pcap_tx_ring=dict(type='bool',),
@@ -1767,6 +2009,8 @@ def main():
         host_attribute_key=dict(type='str',),
         host_attribute_value=dict(type='str',),
         host_gateway_monitor=dict(type='bool',),
+        http_rum_console_log=dict(type='bool',),
+        http_rum_min_content_length=dict(type='int',),
         hypervisor=dict(type='str',),
         ignore_rtt_threshold=dict(type='int',),
         ingress_access_data=dict(type='str',),
@@ -1774,7 +2018,11 @@ def main():
         instance_flavor=dict(type='str',),
         instance_flavor_info=dict(type='dict',),
         iptables=dict(type='list',),
+        l7_conns_per_core=dict(type='int',),
+        l7_resvd_listen_conns_per_core=dict(type='int',),
         labels=dict(type='list',),
+        lbaction_num_requests_to_dispatch=dict(type='int',),
+        lbaction_rq_per_request_max_retries=dict(type='int',),
         least_load_core_selection=dict(type='bool',),
         license_tier=dict(type='str',),
         license_type=dict(type='str',),
@@ -1808,7 +2056,11 @@ def main():
         nat_flow_tcp_handshake_timeout=dict(type='int',),
         nat_flow_udp_noresponse_timeout=dict(type='int',),
         nat_flow_udp_response_timeout=dict(type='int',),
+        netlink_poller_threads=dict(type='int',),
+        netlink_sock_buf_size=dict(type='int',),
+        ngx_free_connection_stack=dict(type='bool',),
         non_significant_log_throttle=dict(type='int',),
+        ns_helper_deq_interval_msec=dict(type='int',),
         num_dispatcher_cores=dict(type='int',),
         num_flow_cores_sum_changes_to_ignore=dict(type='int',),
         objsync_config=dict(type='dict',),
@@ -1827,6 +2079,9 @@ def main():
         reboot_on_panic=dict(type='bool',),
         reboot_on_stop=dict(type='bool',),
         resync_time_interval=dict(type='int',),
+        sdb_flush_interval=dict(type='int',),
+        sdb_pipeline_size=dict(type='int',),
+        sdb_scan_count=dict(type='int',),
         se_bandwidth_type=dict(type='str',),
         se_delayed_flow_delete=dict(type='bool',),
         se_deprovision_delay=dict(type='int',),
@@ -1883,18 +2138,26 @@ def main():
         se_vs_hb_max_pkts_in_batch=dict(type='int',),
         se_vs_hb_max_vs_in_pkt=dict(type='int',),
         self_se_election=dict(type='bool',),
+        send_se_ready_timeout=dict(type='int',),
         service_ip6_subnets=dict(type='list',),
         service_ip_subnets=dict(type='list',),
         shm_minimum_config_memory=dict(type='int',),
         significant_log_throttle=dict(type='int',),
         ssl_preprocess_sni_hostname=dict(type='bool',),
+        ssl_sess_cache_per_vs=dict(type='int',),
         tenant_ref=dict(type='str',),
         transient_shared_memory_max=dict(type='int',),
         udf_log_throttle=dict(type='int',),
+        upstream_connect_timeout=dict(type='int',),
+        upstream_connpool_enable=dict(type='bool',),
+        upstream_read_timeout=dict(type='int',),
+        upstream_send_timeout=dict(type='int',),
         url=dict(type='str',),
         use_hyperthreaded_cores=dict(type='bool',),
         use_objsync=dict(type='bool',),
         use_standard_alb=dict(type='bool',),
+        user_agent_cache_config=dict(type='dict',),
+        user_defined_metric_age=dict(type='int',),
         uuid=dict(type='str',),
         vcenter_clusters=dict(type='dict',),
         vcenter_datastore_mode=dict(type='str',),
@@ -1905,6 +2168,12 @@ def main():
         vcenters=dict(type='list',),
         vcpus_per_se=dict(type='int',),
         vip_asg=dict(type='dict',),
+        vnic_dhcp_ip_check_interval=dict(type='int',),
+        vnic_dhcp_ip_max_retries=dict(type='int',),
+        vnic_ip_delete_interval=dict(type='int',),
+        vnic_probe_interval=dict(type='int',),
+        vnic_rpc_retry_interval=dict(type='int',),
+        vnicdb_cmd_history_size=dict(type='int',),
         vs_host_redundancy=dict(type='bool',),
         vs_scalein_timeout=dict(type='int',),
         vs_scalein_timeout_for_upgrade=dict(type='int',),

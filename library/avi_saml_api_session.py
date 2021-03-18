@@ -11,6 +11,88 @@
 #
 """
 
+
+ANSIBLE_METADATA = {'metadata_version': '1.1',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
+
+
+DOCUMENTATION = '''
+---
+module: avi_saml_api_session
+author: Shrikant Chaudhari (@gitshrikant) <shrikant.chaudhari@avinetworks.com>
+short_description: Avi API Module
+description:
+    - This module is useful to get SAML session after successful SAML authentication from a given IDP.
+    - This module return api_context and token after successful authentication from IDP.
+version_added: 2.9
+requirements: [ avisdk ]
+options:
+    idp_class:
+        description:
+            - IDP class which will be used to authenticate session with that corresponding IDP such as Okta,
+            - Onelogin and Pingfederate. Currently, we support two idp classes OktaSAMLApiSession, OneloginSAMLApiSession.
+        required: true
+        type: str
+
+
+extends_documentation_fragment:
+    - avi
+'''
+
+EXAMPLES = '''
+  - name: Get SAML Session
+    avi_saml_api_session:
+      idp_class: "{{ avi_credentials.idp_class }}"
+      username: "{{ avi_credentials.username }}"
+      password: "{{ avi_credentials.password }}"
+      controller: "{{ avi_credentials.controller }}"
+      api_version: "{{ avi_credentials.api_version }}"
+    register: saml_api_session
+  - set_fact:
+      saml_api_context: "{{ saml_api_session.ansible_facts.avi_api_context }}"
+  - name: Create Pool
+    avi_pool:
+      api_context: "{{ saml_api_context | default(omit) }}"
+      avi_credentials: "{{ avi_credentials }}"
+      state: "{{ state | default(present) }}"
+      name: vs-simple-pool
+      lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
+      servers:
+      - ip:
+          addr: 10.90.64.12
+          type: 'V4'
+      - ip:
+          addr: 10.90.64.11
+          type: 'V4'
+      - ip:
+          addr: 10.90.64.13
+          type: 'V4'
+  - name: Create Virtual Service
+    avi_virtualservice:
+      api_context: "{{ saml_api_context | default(omit) }}"
+      avi_credentials: "{{ avi_credentials }}"
+      state: "{{ state | default(present) }}"
+      name: vs-simple
+      services:
+      - port: 80
+      pool_ref: '/api/pool?name=vs-simple-pool'
+      vip:
+      - ip_address:
+          addr: 10.90.64.244
+          type: 'V4'
+        vip_id: '1'
+'''
+
+
+RETURN = '''
+obj:
+    description: Avi REST resource
+    returned: success, changed
+    type: dict
+'''
+
+
 from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
@@ -32,93 +114,6 @@ try:
     HAS_AVI = True
 except ImportError:
     HAS_AVI = False
-
-
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
-
-
-DOCUMENTATION = '''
----
-module: avi_saml_api_session
-author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com)
-
-short_description: Avi API Module
-description:
-    - This module is useful to get SAML session after successful SAML authentication from a given IDP.
-    - This module return api_context and token after successful authentication from IDP.
-version_added: 2.9
-requirements: [ avisdk ]
-options:
-    idp_class:
-        description:
-            - IDP class which will be used to authenticate session with that corresponding IDP such as Okta,
-            Onelogin and Pingfederate. Currently, we support two idp classes OktaSAMLApiSession, OneloginSAMLApiSession.
-        required: true
-        type: str
-
-
-extends_documentation_fragment:
-    - avi
-'''
-
-EXAMPLES = '''
-
-  - name: Get SAML Session
-    avi_saml_api_session:
-      idp_class: "{{ avi_credentials.idp_class }}"
-      username: "{{ avi_credentials.username }}"
-      password: "{{ avi_credentials.password }}"
-      controller: "{{ avi_credentials.controller }}"
-      api_version: "{{ avi_credentials.api_version }}"
-    register: saml_api_session
-
-  - set_fact:
-      saml_api_context: "{{ saml_api_session.ansible_facts.avi_api_context }}"
-
-  - name: Create Pool
-    avi_pool:
-      api_context: "{{ saml_api_context | default(omit) }}"
-      avi_credentials: "{{ avi_credentials }}"
-      state: "{{ state | default(present) }}"
-      name: vs-simple-pool
-      lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
-      servers:
-      - ip:
-          addr: 10.90.64.12
-          type: 'V4'
-      - ip:
-          addr: 10.90.64.11
-          type: 'V4'
-      - ip:
-          addr: 10.90.64.13
-          type: 'V4'
-
-  - name: Create Virtual Service
-    avi_virtualservice:
-      api_context: "{{ saml_api_context | default(omit) }}"
-      avi_credentials: "{{ avi_credentials }}"
-      state: "{{ state | default(present) }}"
-      name: vs-simple
-      services:
-      - port: 80
-      pool_ref: '/api/pool?name=vs-simple-pool'
-      vip:
-      - ip_address:
-          addr: 10.90.64.244
-          type: 'V4'
-        vip_id: '1'
-
-'''
-
-
-RETURN = '''
-obj:
-    description: Avi REST resource
-    returned: success, changed
-    type: dict
-'''
 
 
 def get_idp_class(idp):
@@ -151,7 +146,7 @@ def main():
     idp_class = module.params.get("idp_class", None)
     idp = get_idp_class(idp_class)
     if not idp:
-        msg = "IDP {} not supported yet.".format(idp_class)
+        msg = "IDP {1} not supported yet.".format(idp_class)
         return module.fail_json(msg=msg)
     avi_credentials = AviCredentials()
     avi_credentials.update_from_ansible_module(module)
@@ -162,7 +157,7 @@ def main():
             tenant_uuid=avi_credentials.tenant_uuid, port=avi_credentials.port, idp_class=idp)
         changed = True
     except (ConnectionError, SSLError, ChunkedEncodingError) as e:
-        msg = "Error during get session {}".format(e.message)
+        msg = "Error during get session {1}".format(e.message)
         return module.fail_json(msg=msg)
     return ansible_return(module, None, changed, None, api_context=api.get_context())
 

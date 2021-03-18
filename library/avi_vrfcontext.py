@@ -77,7 +77,6 @@ options:
     gateway_mon:
         description:
             - Configure ping based heartbeat check for gateway in service engines of vrf.
-            - Maximum of 32 items allowed.
         type: list
     internal_gateway_monitor:
         description:
@@ -131,7 +130,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create VrfContext object
   avi_vrfcontext:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present

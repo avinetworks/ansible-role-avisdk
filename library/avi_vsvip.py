@@ -83,6 +83,12 @@ options:
             - Field introduced in 17.1.1.
         required: true
         type: str
+    peer_labels:
+        description:
+            - Select bgp peers, using peer label, for vsvip advertisement.
+            - Field introduced in 20.1.5.
+            - Maximum of 128 items allowed.
+        type: list
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -140,7 +146,7 @@ EXAMPLES = """
 - name: Create vsvip for virtualservice for newtestvs
   avi_vsvip:
     name: vsvip-newtestvs-Default-Cloud
-    avi_credentials: '{{ avi_credentials }}' 
+    avi_credentials: '{{ avi_credentials }}'
     api_context: '{{avi_api_context | default(omit)}}'
     vrf_context_ref: /api/vrfcontext/?name=global
     tenant_ref: /api/tenant/?name=admin
@@ -155,7 +161,7 @@ EXAMPLES = """
       auto_allocate_ip_type: V4_ONLY
       ip_address:
         type: V4
-        addr: 198.51.100.101
+        addr: 192.168.138.18
 """
 
 RETURN = '''
@@ -188,6 +194,7 @@ def main():
         ipam_selector=dict(type='dict',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),
+        peer_labels=dict(type='list',),
         tenant_ref=dict(type='str',),
         tier1_lr=dict(type='str',),
         url=dict(type='str',),

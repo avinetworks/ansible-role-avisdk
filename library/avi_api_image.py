@@ -22,7 +22,6 @@ DOCUMENTATION = '''
 ---
 module: avi_api_image
 author: Sandeep Bandi (@sabandi) <sabandi@vmware.com>
-
 short_description: Avi API Module for image
 description:
     - This module can be used for calling image resources to upload upgrade/patch files
@@ -50,7 +49,6 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
-
   - name: Upload se patch image to controller
     avi_api_image:
       controller: ""
@@ -58,7 +56,6 @@ EXAMPLES = '''
       password: ""
       file_path: ./se_patch.pkg
       api_version: 20.1.1
-
 '''
 
 
@@ -128,8 +125,7 @@ def main():
         f_data = {"file": (file_name, f, "application/octet-stream")}
         m = MultipartEncoder(fields=f_data)
         headers = {'Content-Type': m.content_type}
-        rsp = api.post("image", data=m, headers=headers,
-                        verify=False)
+        rsp = api.post("image", data=m, headers=headers, verify=False)
         if rsp.status_code > 300:
             return module.fail_json(msg='Fail to upload file: %s' %
                                     rsp.text)

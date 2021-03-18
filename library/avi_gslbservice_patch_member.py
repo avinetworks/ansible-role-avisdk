@@ -11,6 +11,7 @@
 #
 """
 
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -20,7 +21,6 @@ DOCUMENTATION = '''
 ---
 module: avi_gslbservice_patch_member
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Avi API Module
 description:
     - This module can be used for calling any resources defined in Avi REST API. U(https://avinetworks.com/)
@@ -121,7 +121,6 @@ try:
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
         ansible_return, AviCheckModeResponse)
-    HAS_AVI = True
 except ImportError:
     HAS_AVI = False
 
@@ -213,7 +212,7 @@ def add_member(module, check_mode, api, tenant, tenant_uuid,
                     if 'fqdn' in patch_member and m.get('fqdn', '') == patch_member['fqdn']:
                         found = True
                         break
-                    elif m['ip']['addr'] == patch_member['ip']['addr']:
+                    if m['ip']['addr'] == patch_member['ip']['addr']:
                         found = True
                         break
                 if not found:

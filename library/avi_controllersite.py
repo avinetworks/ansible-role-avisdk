@@ -87,7 +87,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create ControllerSite object
   avi_controllersite:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present

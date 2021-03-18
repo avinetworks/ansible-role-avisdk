@@ -23,8 +23,6 @@
 #
 """
 
-from __future__ import absolute_import, division, print_function
-__metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -88,6 +86,7 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         choices: ["add", "replace", "delete"]
+        type: str
     user_profile_ref:
         description:
             - Refer user profile.
@@ -123,7 +122,7 @@ EXAMPLES = '''
       is_active: true
       is_superuser: true
       default_tenant_ref: "/api/tenant?name=admin"
-      
+
   - name: user creation
     avi_user:
       controller: "192.0.2.10"
@@ -152,8 +151,6 @@ obj:
 
 
 from ansible.module_utils.basic import AnsibleModule
-
-
 try:
     from avi.sdk.utils.ansible_utils import (
         avi_common_argument_spec, ansible_return)

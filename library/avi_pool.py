@@ -78,6 +78,16 @@ options:
         description:
             - Synchronize cisco apic epg members with pool servers.
         type: str
+    append_port:
+        description:
+            - Allows the option to append port to hostname in the host header while sending a request to the server.
+            - By default, port is appended for non-default ports.
+            - This setting will apply for pool's 'rewrite host header to server name', 'rewrite host header to sni' features and server's 'rewrite host header'
+            - settings as well as http healthmonitors attached to pools.
+            - Enum options - NON_DEFAULT_80_443, NEVER, ALWAYS.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as NON_DEFAULT_80_443.
+        type: str
     application_persistence_profile_ref:
         description:
             - Persistence will ensure the same user sticks to the same server for a desired duration of time.
@@ -495,7 +505,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Create a Pool with two servers and HTTP monitor
   avi_pool:
-    controller: 10.10.1.20
+    controller: 192.168.138.18
     username: avi_user
     password: avi_password
     name: testpool1
@@ -505,10 +515,10 @@ EXAMPLES = """
         - '/api/healthmonitor?name=System-HTTP'
     servers:
         - ip:
-            addr: 10.10.2.20
+            addr: 192.168.138.11
             type: V4
         - ip:
-            addr: 10.10.2.21
+            addr: 192.168.138.12
             type: V4
 
 - name: Patch pool with a single server using patch op and avi_credentials
@@ -519,7 +529,7 @@ EXAMPLES = """
     name: test-pool
     servers:
       - ip:
-        addr: 10.90.64.13
+        addr: 192.168.138.13
         type: 'V4'
   register: pool
   when:
@@ -556,6 +566,7 @@ def main():
         analytics_policy=dict(type='dict',),
         analytics_profile_ref=dict(type='str',),
         apic_epg_name=dict(type='str',),
+        append_port=dict(type='str',),
         application_persistence_profile_ref=dict(type='str',),
         autoscale_launch_config_ref=dict(type='str',),
         autoscale_networks=dict(type='list',),

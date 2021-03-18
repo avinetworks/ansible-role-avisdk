@@ -99,7 +99,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create L4PolicySet object
   avi_l4policyset:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present

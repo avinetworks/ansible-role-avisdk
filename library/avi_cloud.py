@@ -255,6 +255,12 @@ options:
         description:
             - Vcenterconfiguration settings for cloud.
         type: dict
+    vmc_deployment:
+        description:
+            - This deployment is vmware on aws cloud.
+            - Field introduced in 20.1.5, 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     vtype:
         description:
             - Cloud type.
@@ -291,7 +297,7 @@ EXAMPLES = """
         password: password
         privilege: WRITE_ACCESS
         username: user
-        vcenter_url: 10.10.20.100
+        vcenter_url: 192.168.15.18
       vtype: CLOUD_VCENTER
 """
 
@@ -358,6 +364,7 @@ def main():
         uuid=dict(type='str',),
         vca_configuration=dict(type='dict',),
         vcenter_configuration=dict(type='dict',),
+        vmc_deployment=dict(type='bool',),
         vtype=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())

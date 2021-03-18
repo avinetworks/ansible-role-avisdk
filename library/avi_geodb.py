@@ -14,12 +14,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_albservicesfileupload
+module: avi_geodb
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of ALBServicesFileUpload Avi RESTful Object
+short_description: Module for setup of GeoDB Avi RESTful Object
 description:
-    - This module is used to configure ALBServicesFileUpload object
+    - This module is used to configure GeoDB object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -44,44 +44,40 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    case_id:
+    description:
         description:
-            - Salesforce alphanumeric caseid to attach uploaded file to.
-            - Field introduced in 18.2.6.
+            - Description.
+            - Field introduced in 21.1.1.
         type: str
-    error:
+    files:
         description:
-            - Error reported during file upload.
-            - Field introduced in 18.2.6.
-        type: str
-    file_path:
-        description:
-            - Stores output file path, for upload to aws s3.
-            - Field introduced in 18.2.6.
+            - Geo database files.
+            - Field introduced in 21.1.1.
         required: true
-        type: str
+        type: list
+    is_federated:
+        description:
+            - This field indicates that this object is replicated across gslb federation.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    mappings:
+        description:
+            - Custom mappings of geo values.
+            - All mappings which start with the prefix 'system-' (any case) are reserved for system default objects and may be overwritten.
+            - Field introduced in 21.1.1.
+        type: list
     name:
         description:
-            - Field introduced in 18.2.6.
+            - Geo database name.
+            - Field introduced in 21.1.1.
         required: true
-        type: str
-    s3_directory:
-        description:
-            - Custom aws s3 directory path to upload file.
-            - Field introduced in 18.2.6.
-        type: str
-    status:
-        description:
-            - Captures status for file upload.
-            - Enum options - SYSERR_SUCCESS, SYSERR_FAILURE, SYSERR_OUT_OF_MEMORY, SYSERR_NO_ENT, SYSERR_INVAL, SYSERR_ACCESS, SYSERR_FAULT, SYSERR_IO,
-            - SYSERR_TIMEOUT, SYSERR_NOT_SUPPORTED, SYSERR_NOT_READY, SYSERR_UPGRADE_IN_PROGRESS, SYSERR_WARM_START_IN_PROGRESS, SYSERR_TRY_AGAIN,
-            - SYSERR_NOT_UPGRADING, SYSERR_PENDING, SYSERR_EVENT_GEN_FAILURE, SYSERR_CONFIG_PARAM_MISSING, SYSERR_RANGE, SYSERR_BAD_REQUEST...
-            - Field introduced in 18.2.6.
         type: str
     tenant_ref:
         description:
+            - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
-            - Field introduced in 18.2.6.
+            - Field introduced in 21.1.1.
         type: str
     url:
         description:
@@ -89,7 +85,8 @@ options:
         type: str
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid of this object.
+            - Field introduced in 21.1.1.
         type: str
 
 
@@ -98,18 +95,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create ALBServicesFileUpload object
-  avi_albservicesfileupload:
+- name: Example to create GeoDB object
+  avi_geodb:
     controller: 192.168.15.18
     username: admin
     password: something
     state: present
-    name: sample_albservicesfileupload
+    name: sample_geodb
 """
 
 RETURN = '''
 obj:
-    description: ALBServicesFileUpload (api/albservicesfileupload) object
+    description: GeoDB (api/geodb) object
     returned: success, changed
     type: dict
 '''
@@ -131,12 +128,11 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        case_id=dict(type='str',),
-        error=dict(type='str',),
-        file_path=dict(type='str', required=True),
+        description=dict(type='str',),
+        files=dict(type='list', required=True),
+        is_federated=dict(type='bool',),
+        mappings=dict(type='list',),
         name=dict(type='str', required=True),
-        s3_directory=dict(type='str',),
-        status=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -148,7 +144,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'albservicesfileupload',
+    return avi_ansible_api(module, 'geodb',
                            set())
 
 

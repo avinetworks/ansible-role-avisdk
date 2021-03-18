@@ -45,6 +45,12 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    patch_level:
+        description:
+            - Patch level to use when using patch.
+        choices: ["/site/dns_vses", "/site"]
+        default: "/site/dns_vses"
+        type: str
     async_interval:
         description:
             - Frequency with which messages are propagated to vs mgr.
@@ -152,7 +158,7 @@ options:
     tenant_scoped:
         description:
             - This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
-            - Field introduced in 20.1.4.
+            - Field introduced in 18.2.12,20.1.4.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     third_party_sites:
@@ -194,7 +200,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.28.83"
+            addr: "192.168.138.18"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 443
@@ -204,7 +210,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.28.86"
+            addr: "192.168.138.19"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 443
@@ -233,7 +239,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.21.13"
+            addr: "192.168.138.20"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 283
@@ -259,7 +265,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.11.24"
+            addr: "192.168.138.21"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 283
@@ -278,8 +284,8 @@ EXAMPLES = """
     avi_api_patch_op: delete
     dns_configs:
     sites:
-      - ip_addresses: "10.10.28.83"
-      - ip_addresses: "10.10.28.86"
+      - ip_addresses: "192.168.138.22"
+      - ip_addresses: "192.168.138.23"
 
 - name: Delete Gslb complete site's configurations (Patch Delete(site) Operation)
   avi_gslb:
@@ -292,7 +298,7 @@ EXAMPLES = """
     leader_cluster_uuid: "cluster-84aa795f-8f09-42bb-97a4-5103f4a53da9"
     dns_configs:
     sites:
-      - ip_addresses: 10.10.28.83
+      - ip_addresses: 192.168.138.24
 """
 
 RETURN = '''
@@ -312,12 +318,13 @@ try:
 except ImportError:
     HAS_AVI = False
 
+
 def patch_add_gslb(module, gslb_obj):
     sites = module.params['sites']
     dns_configs = module.params.get("dns_configs", None)
     if 'dns_configs' in gslb_obj:
         gslb_obj['dns_configs'].extend(dns_configs)
-        gslb_obj['dns_configs'] = list({v['domain_name'] : v for v in
+        gslb_obj['dns_configs'] = list({v['domain_name']: v for v in
                                         gslb_obj['dns_configs']}.values())
     else:
         gslb_obj['dns_configs'] = dns_configs
@@ -325,10 +332,9 @@ def patch_add_gslb(module, gslb_obj):
         for site in sites:
             site_ips = site.get('ip_addresses', None)
             if not site_ips:
-                return module.fail_json(msg=(
-                        "ip_addr of site %s in a configuration is mandatory. "
-                        "Please provide ip_addresses i.e. gslb site's ip." %
-                        module.params['name']))
+                return module.fail_json(msg=("ip_addr of site %s in a configuration is mandatory. "
+                                             "Please provide ip_addresses i.e. gslb site's ip." %
+                                             module.params['name']))
             current_gslb_sites = gslb_obj.get('sites', [])
             for current_gslb_site in current_gslb_sites:
                 if current_gslb_site['name'] == site['name']:
@@ -356,10 +362,9 @@ def patch_replace_gslb(module, gslb_obj):
         for site in sites:
             site_ips = site.get('ip_addresses', None)
             if not site_ips:
-                return module.fail_json(msg=(
-                        "ip_addr of site %s in a configuration is mandatory. "
-                        "Please provide ip_addresses i.e. gslb site's ip." %
-                        module.params['name']))
+                return module.fail_json(msg=("ip_addr of site %s in a configuration is mandatory. "
+                                             "Please provide ip_addresses i.e. gslb site's ip." %
+                                             module.params['name']))
             current_gslb_sites = gslb_obj.get('sites', [])
             for current_gslb_site in current_gslb_sites:
                 if current_gslb_site['name'] == site['name']:
@@ -375,10 +380,9 @@ def patch_delete_gslb(module, gslb_obj):
         for site in sites:
             site_ips = site.get('ip_addresses', None)
             if not site_ips:
-                return module.fail_json(msg=(
-                        "ip_addr of site %s in a configuration is mandatory. "
-                        "Please provide ip_addresses i.e. gslb site's ip." %
-                        module.params['name']))
+                return module.fail_json(msg=("ip_addr of site %s in a configuration is mandatory. "
+                                             "Please provide ip_addresses i.e. gslb site's ip." %
+                                             module.params['name']))
             current_gslb_sites = gslb_obj.get('sites', [])
             for current_gslb_site in current_gslb_sites:
                 if site_ips == current_gslb_site['ip_addresses'][0]['addr']:

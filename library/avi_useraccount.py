@@ -58,6 +58,7 @@ options:
               tried. If not specified this flag then the new password is tried first.
         version_added: "2.9"
         type: bool
+        default: false
 
 
 extends_documentation_fragment:
@@ -75,7 +76,6 @@ EXAMPLES = '''
       old_password: ""
       api_version: ""
       force_change: false
-
   - name: Update user password using avi_credentials
     avi_useraccount:
       avi_credentials: ""

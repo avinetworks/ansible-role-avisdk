@@ -86,6 +86,11 @@ options:
             - Enqueue time of upgrade operation.
             - Field introduced in 18.2.6.
         type: str
+    fips_mode:
+        description:
+            - Fips mode for the entire system.
+            - Field introduced in 20.1.5.
+        type: bool
     history:
         description:
             - Record of past operations on this node.
@@ -298,7 +303,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create UpgradeStatusInfo object
   avi_upgradestatusinfo:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -337,6 +342,7 @@ def main():
         enable_rollback=dict(type='bool',),
         end_time=dict(type='str',),
         enqueue_time=dict(type='str',),
+        fips_mode=dict(type='bool',),
         history=dict(type='list',),
         image_path=dict(type='str',),
         image_ref=dict(type='str',),

@@ -48,6 +48,7 @@ options:
         description:
             - Error page body sent to client when match.
             - Field introduced in 17.2.4.
+        required: true
         type: str
     format:
         description:
@@ -91,7 +92,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create ErrorPageBody object
   avi_errorpagebody:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -122,7 +123,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        error_page_body=dict(type='str',),
+        error_page_body=dict(type='str', required=True),
         format=dict(type='str',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),

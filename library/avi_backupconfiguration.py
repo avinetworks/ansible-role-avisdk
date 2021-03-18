@@ -134,7 +134,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create BackupConfiguration object
   avi_backupconfiguration:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -190,7 +190,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'backupconfiguration',
-                           {'backup_passphrase', 'aws_access_key', 'aws_secret_access'})
+                           {'aws_access_key', 'aws_secret_access', 'backup_passphrase'})
 
 
 if __name__ == '__main__':

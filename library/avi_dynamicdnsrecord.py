@@ -121,7 +121,6 @@ options:
             - Allowed values are 0-20.
             - Special values are 0- 'return all records'.
             - Field introduced in 20.1.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     service_locators:
         description:
@@ -180,7 +179,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create DynamicDnsRecord object
   avi_dynamicdnsrecord:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
