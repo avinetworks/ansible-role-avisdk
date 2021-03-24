@@ -149,8 +149,8 @@ options:
     patch_list:
         description:
             - List of patches applied to this node.
-            - Example  base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'},
-            - {'6p5', '6p5_image_uuid'}] value.
+            - Example  base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied.
+            - This field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value.
             - Field introduced in 18.2.8, 20.1.1.
         type: list
     patch_reboot:
