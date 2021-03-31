@@ -120,7 +120,8 @@ try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
         avi_obj_cmp, cleanup_absent_fields, avi_common_argument_spec,
-        ansible_return, AviCheckModeResponse, HAS_AVI)
+        ansible_return, AviCheckModeResponse)
+    HAS_AVI = True
 except ImportError:
     HAS_AVI = False
 

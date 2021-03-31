@@ -45,6 +45,12 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    bgp_peer_labels:
+        description:
+            - Select bgp peers, using peer label, for vsvip advertisement.
+            - Field introduced in 20.1.5.
+            - Maximum of 128 items allowed.
+        type: list
     cloud_ref:
         description:
             - It is a reference to an object of type cloud.
@@ -83,12 +89,6 @@ options:
             - Field introduced in 17.1.1.
         required: true
         type: str
-    peer_labels:
-        description:
-            - Select bgp peers, using peer label, for vsvip advertisement.
-            - Field introduced in 20.1.5.
-            - Maximum of 128 items allowed.
-        type: list
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -188,13 +188,13 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        bgp_peer_labels=dict(type='list',),
         cloud_ref=dict(type='str',),
         dns_info=dict(type='list',),
         east_west_placement=dict(type='bool',),
         ipam_selector=dict(type='dict',),
         labels=dict(type='list',),
         name=dict(type='str', required=True),
-        peer_labels=dict(type='list',),
         tenant_ref=dict(type='str',),
         tier1_lr=dict(type='str',),
         url=dict(type='str',),

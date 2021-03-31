@@ -190,7 +190,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'backupconfiguration',
-                           {'aws_secret_access', 'aws_access_key', 'backup_passphrase'})
+                           {'backup_passphrase', 'aws_secret_access', 'aws_access_key'})
 
 
 if __name__ == '__main__':

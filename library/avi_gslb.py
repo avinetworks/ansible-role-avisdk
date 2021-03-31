@@ -83,6 +83,12 @@ options:
             - Sub domain configuration for the gslb.
             - Gslb service's fqdn must be a match one of these subdomains.
         type: list
+    enable_config_by_members:
+        description:
+            - Allows enable/disable of gslbservice pool groups and pool members from the gslb follower members.
+            - Field introduced in 20.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     error_resync_interval:
         description:
             - Frequency with which errored messages are resynced to follower sites.
@@ -407,6 +413,7 @@ def main():
         client_ip_addr_group=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
+        enable_config_by_members=dict(type='bool',),
         error_resync_interval=dict(type='int',),
         is_federated=dict(type='bool',),
         leader_cluster_uuid=dict(type='str', required=True),

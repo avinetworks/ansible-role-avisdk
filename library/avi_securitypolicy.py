@@ -51,6 +51,11 @@ options:
             - mitigation.
             - Field introduced in 18.2.1.
         type: str
+    dns_amplification_denyports:
+        description:
+            - Source ports and port ranges to deny in dns amplification attacks.
+            - Field introduced in 21.1.1.
+        type: dict
     dns_attacks:
         description:
             - Attacks utilizing the dns protocol operations.
@@ -154,6 +159,7 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         description=dict(type='str',),
+        dns_amplification_denyports=dict(type='dict',),
         dns_attacks=dict(type='dict',),
         dns_policy_index=dict(type='int',),
         labels=dict(type='list',),
