@@ -69,6 +69,7 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
         type: list
@@ -82,6 +83,11 @@ options:
             - If marathon app has multiple service ports, this is required.
             - Else, the first task port is used.
         type: int
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
+        type: list
     name:
         description:
             - Name of the ip address group.
@@ -167,6 +173,7 @@ def main():
         labels=dict(type='list',),
         marathon_app_name=dict(type='str',),
         marathon_service_port=dict(type='int',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         prefixes=dict(type='list',),
         ranges=dict(type='list',),

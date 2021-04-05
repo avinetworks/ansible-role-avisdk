@@ -103,6 +103,12 @@ options:
             - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    dns_resolvers:
+        description:
+            - Dns resolver for the cloud.
+            - Field introduced in 20.1.5.
+            - Maximum of 1 items allowed.
+        type: list
     docker_configuration:
         description:
             - Dockerconfiguration settings for cloud.
@@ -255,6 +261,12 @@ options:
         description:
             - Vcenterconfiguration settings for cloud.
         type: dict
+    vmc_deployment:
+        description:
+            - This deployment is vmware on aws cloud.
+            - Field introduced in 20.1.5.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     vtype:
         description:
             - Cloud type.
@@ -329,6 +341,7 @@ def main():
         dhcp_enabled=dict(type='bool',),
         dns_provider_ref=dict(type='str',),
         dns_resolution_on_se=dict(type='bool',),
+        dns_resolvers=dict(type='list',),
         docker_configuration=dict(type='dict',),
         east_west_dns_provider_ref=dict(type='str',),
         east_west_ipam_provider_ref=dict(type='str',),
@@ -358,6 +371,7 @@ def main():
         uuid=dict(type='str',),
         vca_configuration=dict(type='dict',),
         vcenter_configuration=dict(type='dict',),
+        vmc_deployment=dict(type='bool',),
         vtype=dict(type='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())

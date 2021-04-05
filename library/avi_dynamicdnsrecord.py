@@ -121,7 +121,6 @@ options:
             - Allowed values are 0-20.
             - Special values are 0- 'return all records'.
             - Field introduced in 20.1.3.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
     service_locators:
         description:

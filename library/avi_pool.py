@@ -257,6 +257,7 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
         type: list
@@ -302,6 +303,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.5"
         type: bool
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
+        type: list
     max_concurrent_connections_per_server:
         description:
             - The maximum number of concurrent connections allowed to each server within the pool.
@@ -590,6 +596,7 @@ def main():
         lb_algorithm_core_nonaffinity=dict(type='int',),
         lb_algorithm_hash=dict(type='str',),
         lookup_server_by_name=dict(type='bool',),
+        markers=dict(type='list',),
         max_concurrent_connections_per_server=dict(type='int',),
         max_conn_rate_per_server=dict(type='dict',),
         min_health_monitors_up=dict(type='int',),

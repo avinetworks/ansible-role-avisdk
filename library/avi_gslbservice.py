@@ -122,8 +122,14 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
+        type: list
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
         type: list
     min_members:
         description:
@@ -254,6 +260,7 @@ def main():
         hm_off=dict(type='bool',),
         is_federated=dict(type='bool',),
         labels=dict(type='list',),
+        markers=dict(type='list',),
         min_members=dict(type='int',),
         name=dict(type='str', required=True),
         num_dns_ip=dict(type='int',),
