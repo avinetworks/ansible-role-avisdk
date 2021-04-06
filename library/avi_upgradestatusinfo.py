@@ -86,6 +86,11 @@ options:
             - Enqueue time of upgrade operation.
             - Field introduced in 18.2.6.
         type: str
+    fips_mode:
+        description:
+            - Fips-mode for the entire system.
+            - Field introduced in 20.1.5.
+        type: bool
     history:
         description:
             - Record of past operations on this node.
@@ -337,6 +342,7 @@ def main():
         enable_rollback=dict(type='bool',),
         end_time=dict(type='str',),
         enqueue_time=dict(type='str',),
+        fips_mode=dict(type='bool',),
         history=dict(type='list',),
         image_path=dict(type='str',),
         image_ref=dict(type='str',),

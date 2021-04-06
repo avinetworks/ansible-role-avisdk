@@ -137,6 +137,11 @@ options:
             - Uuid.
             - Field introduced in 20.1.1.
         type: str
+    vlan_ids:
+        description:
+            - Segment vlan ids.
+            - Field introduced in 20.1.5.
+        type: list
     vrf_context_ref:
         description:
             - Corresponding vrf context object in avi.
@@ -201,6 +206,7 @@ def main():
         tier1_id=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        vlan_ids=dict(type='list',),
         vrf_context_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())

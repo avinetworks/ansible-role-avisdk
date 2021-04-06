@@ -14,15 +14,15 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_natpolicy
-author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
+module: avi_labelgroup
+author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of NatPolicy Avi RESTful Object
+short_description: Module for setup of LabelGroup Avi RESTful Object
 description:
-    - This module is used to configure NatPolicy object
+    - This module is used to configure LabelGroup object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.9"
+version_added: "2.7"
 options:
     state:
         description:
@@ -44,42 +44,16 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    created_by:
-        description:
-            - Creator name.
-            - Field introduced in 18.2.3.
-        type: str
-    description:
-        description:
-            - Field introduced in 18.2.3.
-        type: str
     labels:
         description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field deprecated in 20.1.5.
-            - Field introduced in 20.1.2.
-            - Maximum of 4 items allowed.
-        type: list
-    markers:
-        description:
-            - List of labels to be used for granular rbac.
+            - List of allowed or suggested labels for the label group.
             - Field introduced in 20.1.5.
         type: list
     name:
         description:
-            - Name of the nat policy.
-            - Field introduced in 18.2.3.
-        type: str
-    rules:
-        description:
-            - Nat policy rules.
-            - Field introduced in 18.2.3.
-        type: list
-    tenant_ref:
-        description:
-            - It is a reference to an object of type tenant.
-            - Field introduced in 18.2.3.
+            - Name of the label group.
+            - Field introduced in 20.1.5.
+        required: true
         type: str
     url:
         description:
@@ -87,8 +61,8 @@ options:
         type: str
     uuid:
         description:
-            - Uuid of the nat policy.
-            - Field introduced in 18.2.3.
+            - Uuid of the label group.
+            - Field introduced in 20.1.5.
         type: str
 
 
@@ -97,18 +71,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create NatPolicy object
-  avi_natpolicy:
+- name: Example to create LabelGroup object
+  avi_labelgroup:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_natpolicy
+    name: sample_labelgroup
 """
 
 RETURN = '''
 obj:
-    description: NatPolicy (api/natpolicy) object
+    description: LabelGroup (api/labelgroup) object
     returned: success, changed
     type: dict
 '''
@@ -130,13 +104,8 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        created_by=dict(type='str',),
-        description=dict(type='str',),
         labels=dict(type='list',),
-        markers=dict(type='list',),
-        name=dict(type='str',),
-        rules=dict(type='list',),
-        tenant_ref=dict(type='str',),
+        name=dict(type='str', required=True),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -147,7 +116,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'natpolicy',
+    return avi_ansible_api(module, 'labelgroup',
                            set())
 
 

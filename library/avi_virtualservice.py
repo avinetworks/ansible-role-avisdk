@@ -131,6 +131,12 @@ options:
             - Field introduced in 17.2.12, 18.1.2.
         version_added: "2.9"
         type: str
+    bgp_peer_labels:
+        description:
+            - Select bgp peers, using peer label, for vsvip advertisement.
+            - Field introduced in 20.1.5.
+            - Maximum of 128 items allowed.
+        type: list
     bulk_sync_kvcache:
         description:
             - (this is a beta feature).
@@ -337,6 +343,7 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
         type: list
@@ -345,6 +352,11 @@ options:
             - Limit potential dos attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
+        type: list
     max_cps_per_client:
         description:
             - Maximum connections per second per client ip.
@@ -744,6 +756,7 @@ def main():
         avi_allocated_fip=dict(type='bool',),
         avi_allocated_vip=dict(type='bool',),
         azure_availability_set=dict(type='str',),
+        bgp_peer_labels=dict(type='list',),
         bulk_sync_kvcache=dict(type='bool',),
         client_auth=dict(type='dict',),
         close_client_conn_on_config_update=dict(type='bool',),
@@ -781,6 +794,7 @@ def main():
         l4_policies=dict(type='list',),
         labels=dict(type='list',),
         limit_doser=dict(type='bool',),
+        markers=dict(type='list',),
         max_cps_per_client=dict(type='int',),
         microservice_ref=dict(type='str',),
         min_pools_up=dict(type='int',),

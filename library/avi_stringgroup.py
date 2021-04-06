@@ -57,6 +57,7 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
         type: list
@@ -66,6 +67,11 @@ options:
             - Field introduced in 18.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
+        type: list
     name:
         description:
             - Name of the string group.
@@ -145,6 +151,7 @@ def main():
         kv=dict(type='list',),
         labels=dict(type='list',),
         longest_match=dict(type='bool',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         type=dict(type='str', required=True),
