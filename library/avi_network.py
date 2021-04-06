@@ -78,7 +78,13 @@ options:
     labels:
         description:
             - Key/value labels which can be used for object access policy permission scoping.
+            - Field deprecated in 20.1.5.
             - Field introduced in 18.2.7, 20.1.1.
+        type: list
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
         type: list
     name:
         description:
@@ -162,6 +168,7 @@ def main():
         exclude_discovered_subnets=dict(type='bool',),
         ip6_autocfg_enabled=dict(type='bool',),
         labels=dict(type='list',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         synced_from_se=dict(type='bool',),
         tenant_ref=dict(type='str',),

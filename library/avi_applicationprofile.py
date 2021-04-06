@@ -74,6 +74,11 @@ options:
         description:
             - Specifies the http application proxy profile parameters.
         type: dict
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
+        type: list
     name:
         description:
             - The name of the application profile.
@@ -229,6 +234,7 @@ def main():
         dns_service_profile=dict(type='dict',),
         dos_rl_profile=dict(type='dict',),
         http_profile=dict(type='dict',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         preserve_client_ip=dict(type='bool',),
         preserve_client_port=dict(type='bool',),

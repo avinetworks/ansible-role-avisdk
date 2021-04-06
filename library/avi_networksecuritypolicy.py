@@ -69,8 +69,14 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
+        type: list
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
         type: list
     name:
         description:
@@ -149,6 +155,7 @@ def main():
         description=dict(type='str',),
         ip_reputation_db_ref=dict(type='str',),
         labels=dict(type='list',),
+        markers=dict(type='list',),
         name=dict(type='str',),
         rules=dict(type='list',),
         tenant_ref=dict(type='str',),

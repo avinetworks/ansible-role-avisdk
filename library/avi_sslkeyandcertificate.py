@@ -123,8 +123,14 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
+        type: list
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
         type: list
     name:
         description:
@@ -249,6 +255,7 @@ def main():
         key_params=dict(type='dict',),
         key_passphrase=dict(type='str', no_log=True,),
         labels=dict(type='list',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         ocsp_config=dict(type='dict',),
         ocsp_error_status=dict(type='str',),
@@ -268,7 +275,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'sslkeyandcertificate',
-                           {'key', 'key_passphrase'})
+                           {'key_passphrase', 'key'})
 
 
 if __name__ == '__main__':

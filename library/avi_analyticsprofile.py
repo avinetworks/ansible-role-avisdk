@@ -614,8 +614,14 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.2.
             - Maximum of 4 items allowed.
+        type: list
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
         type: list
     name:
         description:
@@ -840,6 +846,7 @@ def main():
         hs_security_tls13_score=dict(type='float',),
         hs_security_weak_signature_algo_penalty=dict(type='float',),
         labels=dict(type='list',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         ondemand_metrics_idle_timeout=dict(type='int',),
         ranges=dict(type='list',),

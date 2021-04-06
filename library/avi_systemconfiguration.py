@@ -51,9 +51,7 @@ options:
         type: dict
     common_criteria_mode:
         description:
-            - Enable common criteria compliance mode (disabled by default).
-            - Warn  toggling this field is disruptive and will result in reduced behavior with ssh and tls protocols.
-            - Expect possible warm start of control and data planes.
+            - Common criteria mode's current state.
             - Field introduced in 20.1.3.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
@@ -96,7 +94,7 @@ options:
         type: bool
     fips_mode:
         description:
-            - Enable fips mode.
+            - Fips mode current state.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool

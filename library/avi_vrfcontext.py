@@ -87,6 +87,7 @@ options:
     labels:
         description:
             - Key/value labels which can be used for object access policy permission scoping.
+            - Field deprecated in 20.1.5.
             - Field introduced in 18.2.7, 20.1.1.
         type: list
     lldp_enable:
@@ -96,6 +97,11 @@ options:
             - Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
+        type: list
     name:
         description:
             - Name of the object.
@@ -172,6 +178,7 @@ def main():
         internal_gateway_monitor=dict(type='dict',),
         labels=dict(type='list',),
         lldp_enable=dict(type='bool',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         static_routes=dict(type='list',),
         system_default=dict(type='bool',),

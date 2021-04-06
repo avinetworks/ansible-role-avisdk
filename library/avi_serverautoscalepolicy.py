@@ -78,8 +78,14 @@ options:
         description:
             - Key value pairs for granular object access control.
             - Also allows for classification and tagging of similar objects.
+            - Field deprecated in 20.1.5.
             - Field introduced in 20.1.3.
             - Maximum of 4 items allowed.
+        type: list
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.5.
         type: list
     max_scalein_adjustment_step:
         description:
@@ -193,6 +199,7 @@ def main():
         intelligent_scalein_margin=dict(type='int',),
         intelligent_scaleout_margin=dict(type='int',),
         labels=dict(type='list',),
+        markers=dict(type='list',),
         max_scalein_adjustment_step=dict(type='int',),
         max_scaleout_adjustment_step=dict(type='int',),
         max_size=dict(type='int',),
