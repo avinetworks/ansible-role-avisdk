@@ -1,13 +1,8 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -1186,7 +1181,7 @@ options:
             - This version is reported by secondary se to primary se in heartbeat response messages.
             - Allowed values are 1-3.
             - Field introduced in 20.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 2.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 3.
         type: int
     se_dp_vnic_queue_stall_event_sleep:
         description:

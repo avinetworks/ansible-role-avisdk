@@ -1,15 +1,9 @@
 #!/usr/bin/python3
 
 """
-# Created on April 25, 2018
-#
-# @author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com) GitHub ID: chaitanyaavi
-#
 # module_check: not supported
-#
-# Copyright: (c) 2017 Chaitanya Deshpande, <chaitanya.deshpande@avinetworks.com>
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
 """
 
 

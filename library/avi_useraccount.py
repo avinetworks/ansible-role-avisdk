@@ -1,9 +1,5 @@
 #!/usr/bin/python3
 """
-# Created on Aug 12, 2016
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com) GitHub ID: grastogi23
-#
 # module_check: not supported
 #
 # This file is part of Ansible
@@ -20,6 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
 #
 """
 

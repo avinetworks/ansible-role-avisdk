@@ -1,9 +1,5 @@
 #!/usr/bin/python3
 """
-# Created on Aug 2, 2018
-#
-# @author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com) GitHub ID: chaitanyaavi
-#
 # module_check: supported
 #
 # This file is part of Ansible
@@ -20,6 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
 #
 """
 from __future__ import (absolute_import, division, print_function)

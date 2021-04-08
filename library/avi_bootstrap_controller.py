@@ -1,8 +1,5 @@
 #!/usr/bin/python3
 """
-# Created on 5 April, 2019
-#
-# @author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com) GitHub ID: gitshrikant
 #
 # module_check: not supported
 #
@@ -20,6 +17,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
 #
 """
 

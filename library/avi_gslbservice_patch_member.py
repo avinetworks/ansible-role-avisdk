@@ -1,12 +1,8 @@
 #!/usr/bin/python3
 """
-# Created on Aug 12, 2016
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com) GitHub ID: grastogi23
 #
 # module_check: supported
-#
-# Copyright: (c) 2016 Gaurav Rastogi, <grastogi@avinetworks.com>
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 """

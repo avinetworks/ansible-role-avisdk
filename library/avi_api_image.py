@@ -1,15 +1,9 @@
 #!/usr/bin/python3
 
 """
-# Created on Jul 14, 2020
-#
-# @author: Sandeep Bandi (sabandi@vmware.com) GitHub ID: sabandi
-#
 # module_check: not supported
-#
-# Copyright: (c) 2020 Sandeep Bandi, <sabandi@vmware.com>
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
 """
 
 
