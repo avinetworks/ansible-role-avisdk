@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.2
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -43,7 +40,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     allow_admin_network_updates:
         description:
@@ -151,6 +156,11 @@ options:
             - Unit is min.
             - Default value when not specified in API or module is interpreted by Avi Controller as 60.
         type: int
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     consistency_check_timeout_period:
         description:
             - Period for consistency check job.
@@ -227,6 +237,20 @@ options:
             - Field introduced in 17.2.8.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.6"
+        type: bool
+    enable_per_process_stop:
+        description:
+            - Enable stopping of individual processes if process cross the given threshold limit, even when the total controller memory usage is belowits
+            - threshold limit.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    enable_resmgr_log_cache_print:
+        description:
+            - Enable printing of cached logs inside resource manager.
+            - Used for debugging purposes only.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     fatal_error_lease_time:
         description:
@@ -487,6 +511,11 @@ options:
         description:
             - Avi controller URL of the object.
         type: str
+    user_agent_cache_config:
+        description:
+            - Configuration for user-agent cache used in bot management.
+            - Field introduced in 21.1.1.
+        type: dict
     uuid:
         description:
             - Unique object identifier of the object.
@@ -499,8 +528,8 @@ options:
     vs_apic_scaleout_timeout:
         description:
             - Time to wait for the scaled out se to become ready before marking the scaleout done, applies to apic configuration only.
+            - Field deprecated in 21.1.1.
             - Unit is sec.
-            - Default value when not specified in API or module is interpreted by Avi Controller as 360.
         type: int
     vs_awaiting_se_timeout:
         description:
@@ -578,7 +607,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create ControllerProperties object
   avi_controllerproperties:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -608,7 +637,9 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         allow_admin_network_updates=dict(type='bool',),
         allow_ip_forwarding=dict(type='bool',),
         allow_unauthenticated_apis=dict(type='bool',),
@@ -625,6 +656,7 @@ def main():
         cleanup_sessions_timeout_period=dict(type='int',),
         cloud_reconcile=dict(type='bool',),
         cluster_ip_gratuitous_arp_period=dict(type='int',),
+        configpb_attributes=dict(type='dict',),
         consistency_check_timeout_period=dict(type='int',),
         controller_resource_info_collection_period=dict(type='int',),
         crashed_se_reboot=dict(type='int',),
@@ -636,6 +668,8 @@ def main():
         edit_system_limits=dict(type='bool',),
         enable_api_sharding=dict(type='bool',),
         enable_memory_balancer=dict(type='bool',),
+        enable_per_process_stop=dict(type='bool',),
+        enable_resmgr_log_cache_print=dict(type='bool',),
         fatal_error_lease_time=dict(type='int',),
         federated_datastore_cleanup_duration=dict(type='int',),
         file_object_cleanup_period=dict(type='int',),
@@ -676,6 +710,7 @@ def main():
         upgrade_lease_time=dict(type='int',),
         upgrade_se_per_vs_scale_ops_txn_time=dict(type='int',),
         url=dict(type='str',),
+        user_agent_cache_config=dict(type='dict',),
         uuid=dict(type='str',),
         vnic_op_fail_time=dict(type='int',),
         vs_apic_scaleout_timeout=dict(type='int',),
@@ -697,7 +732,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'controllerproperties',
                            {'portal_token'})
 

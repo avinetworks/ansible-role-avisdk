@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -43,7 +40,21 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
+        type: str
+    patch_level:
+        description:
+            - Patch level to use when using patch.
+        choices: ["/site/dns_vses", "/site"]
+        default: "/site/dns_vses"
         type: str
     async_interval:
         description:
@@ -67,6 +78,11 @@ options:
             - Group to specify if the client ip addresses are public or private.
             - Field introduced in 17.1.2.
         version_added: "2.4"
+        type: dict
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
         type: dict
     description:
         description:
@@ -158,7 +174,7 @@ options:
     tenant_scoped:
         description:
             - This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
-            - Field introduced in 20.1.4.
+            - Field introduced in 18.2.12,20.1.4.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
     third_party_sites:
@@ -200,7 +216,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.28.83"
+            addr: "192.168.138.18"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 443
@@ -210,7 +226,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.28.86"
+            addr: "192.168.138.19"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 443
@@ -239,7 +255,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.21.13"
+            addr: "192.168.138.20"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 283
@@ -265,7 +281,7 @@ EXAMPLES = """
         password: "gslb_password"
         ip_addresses:
           - type: "V4"
-            addr: "10.10.11.24"
+            addr: "192.168.138.21"
         enabled: True
         member_type: "GSLB_ACTIVE_MEMBER"
         port: 283
@@ -284,8 +300,8 @@ EXAMPLES = """
     avi_api_patch_op: delete
     dns_configs:
     sites:
-      - ip_addresses: "10.10.28.83"
-      - ip_addresses: "10.10.28.86"
+      - ip_addresses: "192.168.138.22"
+      - ip_addresses: "192.168.138.23"
 
 - name: Delete Gslb complete site's configurations (Patch Delete(site) Operation)
   avi_gslb:
@@ -298,7 +314,7 @@ EXAMPLES = """
     leader_cluster_uuid: "cluster-84aa795f-8f09-42bb-97a4-5103f4a53da9"
     dns_configs:
     sites:
-      - ip_addresses: 10.10.28.83
+      - ip_addresses: 192.168.138.24
 """
 
 RETURN = '''
@@ -318,12 +334,13 @@ try:
 except ImportError:
     HAS_AVI = False
 
+
 def patch_add_gslb(module, gslb_obj):
     sites = module.params['sites']
     dns_configs = module.params.get("dns_configs", None)
     if 'dns_configs' in gslb_obj:
         gslb_obj['dns_configs'].extend(dns_configs)
-        gslb_obj['dns_configs'] = list({v['domain_name'] : v for v in
+        gslb_obj['dns_configs'] = list({v['domain_name']: v for v in
                                         gslb_obj['dns_configs']}.values())
     else:
         gslb_obj['dns_configs'] = dns_configs
@@ -331,10 +348,9 @@ def patch_add_gslb(module, gslb_obj):
         for site in sites:
             site_ips = site.get('ip_addresses', None)
             if not site_ips:
-                return module.fail_json(msg=(
-                        "ip_addr of site %s in a configuration is mandatory. "
-                        "Please provide ip_addresses i.e. gslb site's ip." %
-                        module.params['name']))
+                return module.fail_json(msg=("ip_addr of site %s in a configuration is mandatory. "
+                                             "Please provide ip_addresses i.e. gslb site's ip." %
+                                             module.params['name']))
             current_gslb_sites = gslb_obj.get('sites', [])
             for current_gslb_site in current_gslb_sites:
                 if current_gslb_site['name'] == site['name']:
@@ -362,10 +378,9 @@ def patch_replace_gslb(module, gslb_obj):
         for site in sites:
             site_ips = site.get('ip_addresses', None)
             if not site_ips:
-                return module.fail_json(msg=(
-                        "ip_addr of site %s in a configuration is mandatory. "
-                        "Please provide ip_addresses i.e. gslb site's ip." %
-                        module.params['name']))
+                return module.fail_json(msg=("ip_addr of site %s in a configuration is mandatory. "
+                                             "Please provide ip_addresses i.e. gslb site's ip." %
+                                             module.params['name']))
             current_gslb_sites = gslb_obj.get('sites', [])
             for current_gslb_site in current_gslb_sites:
                 if current_gslb_site['name'] == site['name']:
@@ -381,10 +396,9 @@ def patch_delete_gslb(module, gslb_obj):
         for site in sites:
             site_ips = site.get('ip_addresses', None)
             if not site_ips:
-                return module.fail_json(msg=(
-                        "ip_addr of site %s in a configuration is mandatory. "
-                        "Please provide ip_addresses i.e. gslb site's ip." %
-                        module.params['name']))
+                return module.fail_json(msg=("ip_addr of site %s in a configuration is mandatory. "
+                                             "Please provide ip_addresses i.e. gslb site's ip." %
+                                             module.params['name']))
             current_gslb_sites = gslb_obj.get('sites', [])
             for current_gslb_site in current_gslb_sites:
                 if site_ips == current_gslb_site['ip_addresses'][0]['addr']:
@@ -401,12 +415,15 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         patch_level=dict(type='str', default='/site/dns_vses',
                          choices=['/site/dns_vses', '/site']),
         async_interval=dict(type='int',),
         clear_on_max_retries=dict(type='int',),
         client_ip_addr_group=dict(type='dict',),
+        configpb_attributes=dict(type='dict',),
         description=dict(type='str',),
         dns_configs=dict(type='list',),
         enable_config_by_members=dict(type='bool',),
@@ -432,7 +449,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     api_method = module.params['avi_api_update_method']
     if str(api_method).lower() == 'patch':
         patch_op = module.params['avi_api_patch_op']

@@ -11,12 +11,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_availabilityzone
+module: avi_inventoryfaultconfig
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of AvailabilityZone Avi RESTful Object
+short_description: Module for setup of InventoryFaultConfig Avi RESTful Object
 description:
-    - This module is used to configure AvailabilityZone object
+    - This module is used to configure InventoryFaultConfig object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -49,28 +49,31 @@ options:
         description:
             - Patch value to use when using avi_api_update_method as patch.
         type: str
-    cloud_ref:
-        description:
-            - Availability zone belongs to cloud.
-            - It is a reference to an object of type cloud.
-            - Field introduced in 20.1.1.
-        type: str
     configpb_attributes:
         description:
             - Protobuf versioning for config pbs.
             - Field introduced in 21.1.1.
         type: dict
+    controller_faults:
+        description:
+            - Configure controller faults.
+            - Field introduced in 21.1.1.
+        type: dict
     name:
         description:
-            - Availabilty zone where vcenter list belongs to.
-            - Field introduced in 20.1.1.
-        required: true
+            - Name.
+            - Field introduced in 21.1.1.
         type: str
+    serviceengine_faults:
+        description:
+            - Configure serviceengine faults.
+            - Field introduced in 21.1.1.
+        type: dict
     tenant_ref:
         description:
-            - Availabilityzone belongs to tenant.
+            - Tenant.
             - It is a reference to an object of type tenant.
-            - Field introduced in 20.1.1.
+            - Field introduced in 21.1.1.
         type: str
     url:
         description:
@@ -78,17 +81,14 @@ options:
         type: str
     uuid:
         description:
-            - Availability zone config uuid.
-            - Field introduced in 20.1.1.
+            - Uuid auto generated.
+            - Field introduced in 21.1.1.
         type: str
-    vcenter_refs:
+    virtualservice_faults:
         description:
-            - Group of vcenter list belong to availabilty zone.
-            - It is a reference to an object of type vcenterserver.
-            - Field introduced in 20.1.1.
-            - Minimum of 1 items required.
-        required: true
-        type: list
+            - Configure virtualservice faults.
+            - Field introduced in 21.1.1.
+        type: dict
 
 
 extends_documentation_fragment:
@@ -96,18 +96,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create AvailabilityZone object
-  avi_availabilityzone:
+- name: Example to create InventoryFaultConfig object
+  avi_inventoryfaultconfig:
     controller: 192.168.15.18
     username: admin
     password: something
     state: present
-    name: sample_availabilityzone
+    name: sample_inventoryfaultconfig
 """
 
 RETURN = '''
 obj:
-    description: AvailabilityZone (api/availabilityzone) object
+    description: InventoryFaultConfig (api/inventoryfaultconfig) object
     returned: success, changed
     type: dict
 '''
@@ -131,13 +131,14 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
         avi_patch_path=dict(type='str',),
         avi_patch_value=dict(type='str',),
-        cloud_ref=dict(type='str',),
         configpb_attributes=dict(type='dict',),
-        name=dict(type='str', required=True),
+        controller_faults=dict(type='dict',),
+        name=dict(type='str',),
+        serviceengine_faults=dict(type='dict',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_refs=dict(type='list', required=True),
+        virtualservice_faults=dict(type='dict',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -146,7 +147,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
-    return avi_ansible_api(module, 'availabilityzone',
+    return avi_ansible_api(module, 'inventoryfaultconfig',
                            set())
 
 

@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -43,7 +40,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     accepted_ciphers:
         description:
@@ -80,6 +85,11 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as
             - TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256.
         type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     description:
         description:
             - User defined description for the object.
@@ -88,6 +98,13 @@ options:
         description:
             - Dh parameters used in ssl.
             - At this time, it is not configurable and is set to 2048 bits.
+        type: str
+    ec_named_curve:
+        description:
+            - Elliptic curve cryptography namedcurves (tls supported groups)represented as defined by rfc 8422-section 5.1.1 andhttps
+            - //www.openssl.org/docs/man1.1.0/man3/ssl_ctx_set1_curves.html.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as auto.
         type: str
     enable_early_data:
         description:
@@ -129,6 +146,13 @@ options:
             - Send 'close notify' alert message for a clean shutdown of the ssl connection.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
+    signature_algorithm:
+        description:
+            - Signature algorithms represented as defined by rfc5246-section 7.4.1.4.1 andhttps
+            - //www.openssl.org/docs/man1.1.0/man3/ssl_ctx_set1_client_sigalgs_list.html.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as ECDSA+SHA256:RSA+SHA256.
+        type: str
     ssl_rating:
         description:
             - Sslrating settings for sslprofile.
@@ -237,13 +261,17 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         accepted_ciphers=dict(type='str',),
         accepted_versions=dict(type='list', required=True),
         cipher_enums=dict(type='list',),
         ciphersuites=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
         description=dict(type='str',),
         dhparam=dict(type='str',),
+        ec_named_curve=dict(type='str',),
         enable_early_data=dict(type='bool',),
         enable_ssl_session_reuse=dict(type='bool',),
         labels=dict(type='list',),
@@ -251,6 +279,7 @@ def main():
         name=dict(type='str', required=True),
         prefer_client_cipher_ordering=dict(type='bool',),
         send_close_notify=dict(type='bool',),
+        signature_algorithm=dict(type='str',),
         ssl_rating=dict(type='dict',),
         ssl_session_timeout=dict(type='int',),
         tags=dict(type='list',),
@@ -265,7 +294,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'sslprofile',
                            set())
 

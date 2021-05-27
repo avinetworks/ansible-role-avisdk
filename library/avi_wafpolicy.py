@@ -1,29 +1,11 @@
 #!/usr/bin/python3
-"""
-# Created on Aug 2, 2018
-#
-# @author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com) GitHub ID: chaitanyaavi
-#
 # module_check: supported
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
-#
-"""
 
-from __future__ import absolute_import, division, print_function
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
+
+from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -45,6 +27,18 @@ options:
         default: present
         choices: ["absent", "present"]
         type: str
+    avi_api_update_method:
+        description:
+            - Default method for object update is HTTP PUT.
+            - Setting to patch will override that behavior to use HTTP PATCH.
+        default: put
+        choices: ["put", "patch"]
+        type: str
+    avi_api_patch_op:
+        description:
+            - Patch operation to use when using avi_api_update_method as patch.
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
     name:
         description:
             - Name of Waf policy.
@@ -56,9 +50,97 @@ options:
         required: true
         type: str
     patch_file:
-        description
+        description:
             - File path of json patch file
         required: true
+        type: str
+    tenant_ref:
+        description:
+            - It is a reference to an object of type tenant.
+        type: str
+    url:
+        description:
+            - Avi controller URL of the object.
+        type: str
+    uuid:
+        description:
+            - Unique object identifier of the object.
+        type: str
+    allow_mode_delegation:
+        description:
+            - Allow Rules to overwrite the policy mode.
+            - This must be set if the policy mode is set to enforcement.
+        type: bool
+    created_by:
+        description:
+            - Creator name.
+        type: str
+    crs_groups:
+        description:
+            - WAF Rules are categorized in to groups based on their characterization.
+            - These groups are system created with CRS groups.
+        type: list
+    description:
+        description:
+            - Free-text comment about this exclusion.
+        type: str
+    enable_app_learning:
+        description:
+            - Enable Application Learning for this WAF policy.
+        type: bool
+    failure_mode:
+        description:
+            - WAF Policy failure mode. This can be 'Open' or 'Closed'.
+        type: str
+    learning:
+        description:
+            - Configure parameters for WAF learning.
+        type: dict
+    mode:
+        description:
+            - WAF Rule mode. This can be detection or enforcement.
+            - If this is not set, the Policy mode is used.
+            - This only takes effect if the policy allows delegation.
+        type: str
+    paranoia_level:
+        description:
+            - WAF Ruleset paranoia mode. This is used to select Rules based on the paranoia-level.
+        type: str
+    positive_security_model:
+        description:
+            - The Positive Security Model.
+            - This is used to describe how the request or parts of the request should look like.
+            - It is executed in the Request Body Phase of Avi WAF.",
+        type: dict
+    post_crs_groups:
+        description:
+            - WAF Rules are categorized in to groups based on their characterization.
+            - These groups are created by the user and will be enforced after the CRS groups.
+        type: list
+    pre_crs_groups:
+        description:
+            - WAF Rules are categorized in to groups based on their characterization.
+            - These groups are created by the user and will be enforced before the CRS groups.
+        type: list
+    waf_crs_ref:
+        description:
+            - It is a reference to an object of type waf crs.
+        type: str
+    waf_profile_ref:
+        description:
+            - It is a reference to an object of type waf profile.
+        type: str
+    whitelist:
+        description:
+            - Rules to bypass WAF.
+        type: dict
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
 
 
@@ -67,9 +149,9 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
-  - name: Create WAF Policy Example using System-Waf-Policy as base policy 
+  - name: Create WAF Policy Example using System-Waf-Policy as base policy
     avi_wafpolicy:
-      avi_credentials: '' 
+      avi_credentials: ''
       patch_file: ./vs-1-waf-policy-patches.json
       base_waf_policy: System-WAF-Policy
       name: vs1-waf-policy
@@ -143,14 +225,14 @@ def update_patch(base_policy, patch):
 
 
 def main():
-
-
     argument_specs = dict(
         state=dict(default='present',
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         allow_mode_delegation=dict(type='bool',),
         created_by=dict(type='str',),
         crs_groups=dict(type='list',),
@@ -179,7 +261,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     api = ApiSession.get_session(
@@ -214,7 +296,7 @@ def main():
 
     with open(module.params.get('patch_file'), "r+") as f:
         waf_patch = json.loads(f.read())
-        waf_patch.update((k,v) for k,v in module.params.items()
+        waf_patch.update((k, v) for k, v in module.params.items()
                          if v and k not in waf_patch)
         new_obj = deepcopy(existing_obj)
         update_patch(new_obj, waf_patch)

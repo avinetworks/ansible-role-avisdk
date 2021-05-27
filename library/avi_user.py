@@ -1,29 +1,10 @@
 #!/usr/bin/python3
-"""
-# Created on Aug 2, 2018
-#
-# @author: Shrikant Chaudhari (shrikant.chaudhari@avinetworks.com) GitHub ID: gitshrikant
-#
 # module_check: supported
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
-#
-"""
 
-from __future__ import absolute_import, division, print_function
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
+from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -87,7 +68,16 @@ options:
     avi_api_patch_op:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
+        type: str
     user_profile_ref:
         description:
             - Refer user profile.
@@ -123,7 +113,7 @@ EXAMPLES = '''
       is_active: true
       is_superuser: true
       default_tenant_ref: "/api/tenant?name=admin"
-      
+
   - name: user creation
     avi_user:
       controller: "192.0.2.10"
@@ -150,10 +140,7 @@ obj:
     type: dict
 '''
 
-
 from ansible.module_utils.basic import AnsibleModule
-
-
 try:
     from avi.sdk.utils.ansible_utils import (
         avi_common_argument_spec, ansible_return)
@@ -176,7 +163,9 @@ def main():
         is_active=dict(type='bool',),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         user_profile_ref=dict(type='str'),
         default_tenant_ref=dict(type='str', default='/api/tenant?name=admin'),
     )
@@ -185,7 +174,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'user',
                            set([]))
 

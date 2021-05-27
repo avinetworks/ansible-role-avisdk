@@ -1,15 +1,9 @@
 #!/usr/bin/python3
-"""
-# Created on Aug 12, 2016
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com) GitHub ID: grastogi23
-#
 # module_check: not supported
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
-"""
+
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -21,7 +15,6 @@ DOCUMENTATION = '''
 ---
 module: avi_api_session
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Avi API Module
 description:
     - This module can be used for calling any resources defined in Avi REST API. U(https://avinetworks.com/)
@@ -60,7 +53,6 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
-
   - name: Get Pool Information using avi_api_session
     avi_api_session:
       controller: "{{ controller }}"
@@ -72,7 +64,6 @@ EXAMPLES = '''
         name: "{{ pool_name }}"
       api_version: 16.4
     register: pool_results
-
   - name: Patch Pool with list of servers
     avi_api_session:
       controller: "{{ controller }}"
@@ -91,7 +82,6 @@ EXAMPLES = '''
                 addr: 20.20.20.20
                 type: V4
     register: updated_pool
-
   - name: Fetch Pool metrics bandwidth and connections rate
     avi_api_session:
       controller: "{{ controller }}"
@@ -106,7 +96,6 @@ EXAMPLES = '''
         step: 300
         limit: 10
     register: pool_metrics
-
   - name: Wait for Controller upgrade to finish
     avi_api_session:
       controller: "{{ controller }}"
@@ -120,7 +109,6 @@ EXAMPLES = '''
     until: "'result' in upgrade_status.obj and upgrade_status.obj.result == 'SUCCESS'"
     retries: 120
     delay: 10
-
 '''
 
 
@@ -130,7 +118,6 @@ obj:
     returned: success, changed
     type: dict
 '''
-
 
 import json
 import time
@@ -162,7 +149,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     api = ApiSession.get_session(
@@ -202,12 +189,12 @@ def main():
         try:
             using_collection = False
             if (not any(path.startswith(uri) for uri in api_get_not_allowed) and
-            not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
+                    not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
                 if 'name' in data:
                     gparams['name'] = data['name']
                 using_collection = True
             if (not any(path.startswith(uri) for uri in api_get_not_allowed) and
-            not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
+                    not any(path.endswith(uri) for uri in sub_api_get_not_allowed)):
                 rsp = api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
                               params=gparams, api_version=api_version)
                 existing_obj = rsp.json()
@@ -238,8 +225,7 @@ def main():
             if path.startswith('wafpolicy') and path.endswith('update-crs-rules'):
                 get_path = path.rstrip('/update-crs-rules')
                 data_for_cmp = deepcopy(data) if data else {}
-                _ = data_for_cmp.pop("commit", None)
-
+                data_for_cmp.pop("commit", None)
 
             rsp = api.get(get_path, tenant=tenant, tenant_uuid=tenant_uuid,
                           params=gparams, api_version=api_version)

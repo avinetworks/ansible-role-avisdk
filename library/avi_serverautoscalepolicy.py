@@ -1,12 +1,9 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -42,8 +39,21 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
         type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
+        type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     delay_for_server_garbage_collection:
         description:
             - Delay in minutes after which a down server will be removed from pool.
@@ -63,14 +73,14 @@ options:
     intelligent_scalein_margin:
         description:
             - Maximum extra capacity as percentage of load used by the intelligent scheme.
-            - Scalein is triggered when available capacity is more than this margin.
+            - Scale-in is triggered when available capacity is more than this margin.
             - Allowed values are 1-99.
             - Default value when not specified in API or module is interpreted by Avi Controller as 40.
         type: int
     intelligent_scaleout_margin:
         description:
             - Minimum extra capacity as percentage of load used by the intelligent scheme.
-            - Scaleout is triggered when available capacity is less than this margin.
+            - Scale-out is triggered when available capacity is less than this margin.
             - Allowed values are 1-99.
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         type: int
@@ -89,19 +99,19 @@ options:
         type: list
     max_scalein_adjustment_step:
         description:
-            - Maximum number of servers to scalein simultaneously.
-            - The actual number of servers to scalein is chosen such that target number of servers is always more than or equal to the min_size.
+            - Maximum number of servers to scale-in simultaneously.
+            - The actual number of servers to scale-in is chosen such that target number of servers is always more than or equal to the min_size.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     max_scaleout_adjustment_step:
         description:
-            - Maximum number of servers to scaleout simultaneously.
-            - The actual number of servers to scaleout is chosen such that target number of servers is always less than or equal to the max_size.
+            - Maximum number of servers to scale-out simultaneously.
+            - The actual number of servers to scale-out is chosen such that target number of servers is always less than or equal to the max_size.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
         type: int
     max_size:
         description:
-            - Maximum number of servers after scaleout.
+            - Maximum number of servers after scale-out.
             - Allowed values are 0-400.
         type: int
     min_size:
@@ -116,26 +126,33 @@ options:
         type: str
     scalein_alertconfig_refs:
         description:
-            - Trigger scalein when alerts due to any of these alert configurations are raised.
+            - Trigger scale-in when alerts due to any of these alert configurations are raised.
             - It is a reference to an object of type alertconfig.
         type: list
     scalein_cooldown:
         description:
-            - Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete.
+            - Cooldown period during which no new scale-in is triggered to allow previous scale-in to successfully complete.
             - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
     scaleout_alertconfig_refs:
         description:
-            - Trigger scaleout when alerts due to any of these alert configurations are raised.
+            - Trigger scale-out when alerts due to any of these alert configurations are raised.
             - It is a reference to an object of type alertconfig.
         type: list
     scaleout_cooldown:
         description:
-            - Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete.
+            - Cooldown period during which no new scale-out is triggered to allow previous scale-out to successfully complete.
             - Unit is sec.
             - Default value when not specified in API or module is interpreted by Avi Controller as 300.
         type: int
+    scheduled_scalings:
+        description:
+            - Schedule-based scale-in/out policy.
+            - During schedule intervals, metrics based autoscale is not enabled and number of servers will be solely derived from schedulescale policy.
+            - Field introduced in 21.1.1.
+            - Maximum of 1 items allowed.
+        type: list
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
@@ -162,7 +179,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create ServerAutoScalePolicy object
   avi_serverautoscalepolicy:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -192,7 +209,10 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
         delay_for_server_garbage_collection=dict(type='int',),
         description=dict(type='str',),
         intelligent_autoscale=dict(type='bool',),
@@ -209,6 +229,7 @@ def main():
         scalein_cooldown=dict(type='int',),
         scaleout_alertconfig_refs=dict(type='list',),
         scaleout_cooldown=dict(type='int',),
+        scheduled_scalings=dict(type='list',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         use_predicted_load=dict(type='bool',),
@@ -220,7 +241,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'serverautoscalepolicy',
                            set())
 

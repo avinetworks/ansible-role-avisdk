@@ -1,12 +1,9 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -42,7 +39,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     allow_204:
         description:
@@ -79,6 +84,11 @@ options:
             - It is a reference to an object of type cloud.
             - Field introduced in 20.1.1.
         type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     description:
         description:
             - A description for this icap profile.
@@ -105,6 +115,11 @@ options:
             - Field introduced in 20.1.1.
         required: true
         type: str
+    nsx_defender_config:
+        description:
+            - Nsxdefender specific icap configurations.
+            - Field introduced in 21.1.1.
+        type: dict
     pool_group_ref:
         description:
             - The pool group which is used to connect to icap servers.
@@ -165,7 +180,7 @@ options:
     vendor:
         description:
             - The vendor of the icap server.
-            - Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT.
+            - Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT, ICAP_VENDOR_LASTLINE.
             - Field introduced in 20.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as ICAP_VENDOR_OPSWAT.
         type: str
@@ -178,7 +193,7 @@ extends_documentation_fragment:
 EXAMPLES = """
 - name: Example to create IcapProfile object
   avi_icapprofile:
-    controller: 10.10.25.42
+    controller: 192.168.15.18
     username: admin
     password: something
     state: present
@@ -208,15 +223,19 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         allow_204=dict(type='bool',),
         buffer_size=dict(type='int',),
         buffer_size_exceed_action=dict(type='str',),
         cloud_ref=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
         description=dict(type='str',),
         enable_preview=dict(type='bool',),
         fail_action=dict(type='str',),
         name=dict(type='str', required=True),
+        nsx_defender_config=dict(type='dict',),
         pool_group_ref=dict(type='str', required=True),
         preview_size=dict(type='int',),
         response_timeout=dict(type='int',),
@@ -233,7 +252,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'icapprofile',
                            set())
 

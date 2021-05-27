@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -43,7 +40,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     addrs:
         description:
@@ -52,7 +57,13 @@ options:
     apic_epg_name:
         description:
             - Populate ip addresses from members of this cisco apic epg.
+            - Field deprecated in 21.1.1.
         type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     country_codes:
         description:
             - Populate the ip address ranges from the geo database for this country.
@@ -128,15 +139,15 @@ EXAMPLES = """
       name: Client-Source-Block
       prefixes:
       - ip_addr:
-          addr: 10.0.0.0
+          addr: 192.168.138.18
           type: V4
         mask: 8
       - ip_addr:
-          addr: 172.16.0.0
+          addr: 192.168.20.11
           type: V4
         mask: 12
       - ip_addr:
-          addr: 192.168.0.0
+          addr: 192.168.20.12
           type: V4
         mask: 16
 """
@@ -164,9 +175,12 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         addrs=dict(type='list',),
         apic_epg_name=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
         country_codes=dict(type='list',),
         description=dict(type='str',),
         ip_ports=dict(type='list',),
@@ -187,7 +201,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'ipaddrgroup',
                            set())
 

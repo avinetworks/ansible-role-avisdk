@@ -11,12 +11,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_availabilityzone
+module: avi_botconfigconsolidator
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of AvailabilityZone Avi RESTful Object
+short_description: Module for setup of BotConfigConsolidator Avi RESTful Object
 description:
-    - This module is used to configure AvailabilityZone object
+    - This module is used to configure BotConfigConsolidator object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -49,28 +49,27 @@ options:
         description:
             - Patch value to use when using avi_api_update_method as patch.
         type: str
-    cloud_ref:
+    description:
         description:
-            - Availability zone belongs to cloud.
-            - It is a reference to an object of type cloud.
-            - Field introduced in 20.1.1.
-        type: str
-    configpb_attributes:
-        description:
-            - Protobuf versioning for config pbs.
+            - Human-readable description of this consolidator.
             - Field introduced in 21.1.1.
-        type: dict
+        type: str
     name:
         description:
-            - Availabilty zone where vcenter list belongs to.
-            - Field introduced in 20.1.1.
+            - The name of this consolidator.
+            - Field introduced in 21.1.1.
         required: true
+        type: str
+    script:
+        description:
+            - Script that consolidates results from all bot decision components.
+            - Field introduced in 21.1.1.
         type: str
     tenant_ref:
         description:
-            - Availabilityzone belongs to tenant.
+            - The unique identifier of the tenant to which this consolidator belongs.
             - It is a reference to an object of type tenant.
-            - Field introduced in 20.1.1.
+            - Field introduced in 21.1.1.
         type: str
     url:
         description:
@@ -78,17 +77,9 @@ options:
         type: str
     uuid:
         description:
-            - Availability zone config uuid.
-            - Field introduced in 20.1.1.
+            - A unique identifier for this consolidator.
+            - Field introduced in 21.1.1.
         type: str
-    vcenter_refs:
-        description:
-            - Group of vcenter list belong to availabilty zone.
-            - It is a reference to an object of type vcenterserver.
-            - Field introduced in 20.1.1.
-            - Minimum of 1 items required.
-        required: true
-        type: list
 
 
 extends_documentation_fragment:
@@ -96,18 +87,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create AvailabilityZone object
-  avi_availabilityzone:
+- name: Example to create BotConfigConsolidator object
+  avi_botconfigconsolidator:
     controller: 192.168.15.18
     username: admin
     password: something
     state: present
-    name: sample_availabilityzone
+    name: sample_botconfigconsolidator
 """
 
 RETURN = '''
 obj:
-    description: AvailabilityZone (api/availabilityzone) object
+    description: BotConfigConsolidator (api/botconfigconsolidator) object
     returned: success, changed
     type: dict
 '''
@@ -131,13 +122,12 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
         avi_patch_path=dict(type='str',),
         avi_patch_value=dict(type='str',),
-        cloud_ref=dict(type='str',),
-        configpb_attributes=dict(type='dict',),
+        description=dict(type='str',),
         name=dict(type='str', required=True),
+        script=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_refs=dict(type='list', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -146,7 +136,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
-    return avi_ansible_api(module, 'availabilityzone',
+    return avi_ansible_api(module, 'botconfigconsolidator',
                            set())
 
 

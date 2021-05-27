@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.2
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -43,7 +40,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     bgp_peer_labels:
         description:
@@ -56,6 +61,11 @@ options:
             - It is a reference to an object of type cloud.
             - Field introduced in 17.1.1.
         type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     dns_info:
         description:
             - Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
@@ -152,7 +162,7 @@ EXAMPLES = """
 - name: Create vsvip for virtualservice for newtestvs
   avi_vsvip:
     name: vsvip-newtestvs-Default-Cloud
-    avi_credentials: '{{ avi_credentials }}' 
+    avi_credentials: '{{ avi_credentials }}'
     api_context: '{{avi_api_context | default(omit)}}'
     vrf_context_ref: /api/vrfcontext/?name=global
     tenant_ref: /api/tenant/?name=admin
@@ -167,7 +177,7 @@ EXAMPLES = """
       auto_allocate_ip_type: V4_ONLY
       ip_address:
         type: V4
-        addr: 198.51.100.101
+        addr: 192.168.138.18
 """
 
 RETURN = '''
@@ -193,9 +203,12 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         bgp_peer_labels=dict(type='list',),
         cloud_ref=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
         dns_info=dict(type='list',),
         east_west_placement=dict(type='bool',),
         ipam_selector=dict(type='dict',),
@@ -217,7 +230,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'vsvip',
                            set())
 

@@ -1,15 +1,10 @@
 #!/usr/bin/python3
-"""
-# Created on Aug 12, 2016
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com) GitHub ID: grastogi23
-#
 # module_check: supported
-#
-# Copyright: (c) 2016 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
-"""
+
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -20,7 +15,6 @@ DOCUMENTATION = '''
 ---
 module: avi_gslbservice_patch_member
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Avi API Module
 description:
     - This module can be used for calling any resources defined in Avi REST API. U(https://avinetworks.com/)
@@ -213,7 +207,7 @@ def add_member(module, check_mode, api, tenant, tenant_uuid,
                     if 'fqdn' in patch_member and m.get('fqdn', '') == patch_member['fqdn']:
                         found = True
                         break
-                    elif m['ip']['addr'] == patch_member['ip']['addr']:
+                    if m['ip']['addr'] == patch_member['ip']['addr']:
                         found = True
                         break
                 if not found:
@@ -245,7 +239,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or ansible>=2.8 is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     api = ApiSession.get_session(

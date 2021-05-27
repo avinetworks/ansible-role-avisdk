@@ -11,12 +11,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_availabilityzone
+module: avi_geodb
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of AvailabilityZone Avi RESTful Object
+short_description: Module for setup of GeoDB Avi RESTful Object
 description:
-    - This module is used to configure AvailabilityZone object
+    - This module is used to configure GeoDB object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -49,28 +49,40 @@ options:
         description:
             - Patch value to use when using avi_api_update_method as patch.
         type: str
-    cloud_ref:
+    description:
         description:
-            - Availability zone belongs to cloud.
-            - It is a reference to an object of type cloud.
-            - Field introduced in 20.1.1.
-        type: str
-    configpb_attributes:
-        description:
-            - Protobuf versioning for config pbs.
+            - Description.
             - Field introduced in 21.1.1.
-        type: dict
+        type: str
+    files:
+        description:
+            - Geo database files.
+            - Field introduced in 21.1.1.
+        required: true
+        type: list
+    is_federated:
+        description:
+            - This field indicates that this object is replicated across gslb federation.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
+    mappings:
+        description:
+            - Custom mappings of geo values.
+            - All mappings which start with the prefix 'system-' (any case) are reserved for system default objects and may be overwritten.
+            - Field introduced in 21.1.1.
+        type: list
     name:
         description:
-            - Availabilty zone where vcenter list belongs to.
-            - Field introduced in 20.1.1.
+            - Geo database name.
+            - Field introduced in 21.1.1.
         required: true
         type: str
     tenant_ref:
         description:
-            - Availabilityzone belongs to tenant.
+            - Tenant that this object belongs to.
             - It is a reference to an object of type tenant.
-            - Field introduced in 20.1.1.
+            - Field introduced in 21.1.1.
         type: str
     url:
         description:
@@ -78,17 +90,9 @@ options:
         type: str
     uuid:
         description:
-            - Availability zone config uuid.
-            - Field introduced in 20.1.1.
+            - Uuid of this object.
+            - Field introduced in 21.1.1.
         type: str
-    vcenter_refs:
-        description:
-            - Group of vcenter list belong to availabilty zone.
-            - It is a reference to an object of type vcenterserver.
-            - Field introduced in 20.1.1.
-            - Minimum of 1 items required.
-        required: true
-        type: list
 
 
 extends_documentation_fragment:
@@ -96,18 +100,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create AvailabilityZone object
-  avi_availabilityzone:
+- name: Example to create GeoDB object
+  avi_geodb:
     controller: 192.168.15.18
     username: admin
     password: something
     state: present
-    name: sample_availabilityzone
+    name: sample_geodb
 """
 
 RETURN = '''
 obj:
-    description: AvailabilityZone (api/availabilityzone) object
+    description: GeoDB (api/geodb) object
     returned: success, changed
     type: dict
 '''
@@ -131,13 +135,14 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
         avi_patch_path=dict(type='str',),
         avi_patch_value=dict(type='str',),
-        cloud_ref=dict(type='str',),
-        configpb_attributes=dict(type='dict',),
+        description=dict(type='str',),
+        files=dict(type='list', required=True),
+        is_federated=dict(type='bool',),
+        mappings=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_refs=dict(type='list', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -146,7 +151,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
-    return avi_ansible_api(module, 'availabilityzone',
+    return avi_ansible_api(module, 'geodb',
                            set())
 
 
