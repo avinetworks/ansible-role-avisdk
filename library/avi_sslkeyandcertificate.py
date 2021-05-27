@@ -275,7 +275,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
     return avi_ansible_api(module, 'sslkeyandcertificate',
-                           {'key_passphrase', 'key'})
+                           {'key', 'key_passphrase'})
 
 
 if __name__ == '__main__':
