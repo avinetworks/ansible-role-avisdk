@@ -13,7 +13,6 @@ DOCUMENTATION = '''
 ---
 module: avi_dynamicdnsrecord
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of DynamicDnsRecord Avi RESTful Object
 description:
     - This module is used to configure DynamicDnsRecord object

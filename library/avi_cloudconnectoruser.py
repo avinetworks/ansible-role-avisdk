@@ -14,7 +14,6 @@ DOCUMENTATION = '''
 ---
 module: avi_cloudconnectoruser
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of CloudConnectorUser Avi RESTful Object
 description:
     - This module is used to configure CloudConnectorUser object
@@ -199,7 +198,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'cloudconnectoruser',
-                           {'private_key', 'password'})
+                           ['password', 'private_key'])
 
 
 if __name__ == '__main__':

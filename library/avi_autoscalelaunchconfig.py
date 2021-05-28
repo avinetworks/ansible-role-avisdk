@@ -13,7 +13,6 @@ DOCUMENTATION = '''
 ---
 module: avi_autoscalelaunchconfig
 author: Chaitanya Deshpande (@chaitanyaavi) <chaitanya.deshpande@avinetworks.com>
-
 short_description: Module for setup of AutoScaleLaunchConfig Avi RESTful Object
 description:
     - This module is used to configure AutoScaleLaunchConfig object

@@ -14,7 +14,6 @@ DOCUMENTATION = '''
 ---
 module: avi_httppolicyset
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of HTTPPolicySet Avi RESTful Object
 description:
     - This module is used to configure HTTPPolicySet object
