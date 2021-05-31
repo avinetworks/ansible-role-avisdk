@@ -14,12 +14,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_jwtserverprofile
+module: avi_inventoryfaultconfig
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of JWTServerProfile Avi RESTful Object
+short_description: Module for setup of InventoryFaultConfig Avi RESTful Object
 description:
-    - This module is used to configure JWTServerProfile object
+    - This module is used to configure InventoryFaultConfig object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -44,37 +44,26 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
-    is_federated:
+    controller_faults:
         description:
-            - This field describes the object's replication scope.
-            - If the field is set to false, then the object is visible within the controller-cluster.
-            - If the field is set to true, then the object is replicated across the federation.
+            - Configure controller faults.
             - Field introduced in 20.1.6.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
-    issuer:
-        description:
-            - Uniquely identifiable name of the token issuer.
-            - Field introduced in 20.1.3.
-        required: true
-        type: str
-    jwks_keys:
-        description:
-            - Jwks key set used for validating the jwt.
-            - Field introduced in 20.1.3.
-        required: true
-        type: str
+        type: dict
     name:
         description:
-            - Name of the jwt profile.
-            - Field introduced in 20.1.3.
-        required: true
+            - Name.
+            - Field introduced in 20.1.6.
         type: str
+    serviceengine_faults:
+        description:
+            - Configure serviceengine faults.
+            - Field introduced in 20.1.6.
+        type: dict
     tenant_ref:
         description:
-            - Uuid of the tenant.
+            - Tenant.
             - It is a reference to an object of type tenant.
-            - Field introduced in 20.1.3.
+            - Field introduced in 20.1.6.
         type: str
     url:
         description:
@@ -82,9 +71,14 @@ options:
         type: str
     uuid:
         description:
-            - Uuid of the jwtprofile.
-            - Field introduced in 20.1.3.
+            - Uuid auto generated.
+            - Field introduced in 20.1.6.
         type: str
+    virtualservice_faults:
+        description:
+            - Configure virtualservice faults.
+            - Field introduced in 20.1.6.
+        type: dict
 
 
 extends_documentation_fragment:
@@ -92,18 +86,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create JWTServerProfile object
-  avi_jwtserverprofile:
+- name: Example to create InventoryFaultConfig object
+  avi_inventoryfaultconfig:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_jwtserverprofile
+    name: sample_inventoryfaultconfig
 """
 
 RETURN = '''
 obj:
-    description: JWTServerProfile (api/jwtserverprofile) object
+    description: InventoryFaultConfig (api/inventoryfaultconfig) object
     returned: success, changed
     type: dict
 '''
@@ -125,13 +119,13 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        is_federated=dict(type='bool',),
-        issuer=dict(type='str', required=True),
-        jwks_keys=dict(type='str', required=True),
-        name=dict(type='str', required=True),
+        controller_faults=dict(type='dict',),
+        name=dict(type='str',),
+        serviceengine_faults=dict(type='dict',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        virtualservice_faults=dict(type='dict',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -140,7 +134,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'jwtserverprofile',
+    return avi_ansible_api(module, 'inventoryfaultconfig',
                            set())
 
 
