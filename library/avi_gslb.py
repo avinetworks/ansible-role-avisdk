@@ -432,7 +432,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     api_method = module.params['avi_api_update_method']
     if str(api_method).lower() == 'patch':
         patch_op = module.params['avi_api_patch_op']

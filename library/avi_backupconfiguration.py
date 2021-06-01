@@ -188,9 +188,9 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'backupconfiguration',
-                           {'aws_access_key', 'aws_secret_access', 'backup_passphrase'})
+                           {'aws_access_key', 'backup_passphrase', 'aws_secret_access'})
 
 
 if __name__ == '__main__':

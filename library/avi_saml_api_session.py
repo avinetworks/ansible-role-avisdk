@@ -147,7 +147,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk) is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     idp_class = module.params.get("idp_class", None)
     idp = get_idp_class(idp_class)
     if not idp:
