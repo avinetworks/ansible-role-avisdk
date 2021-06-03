@@ -49,11 +49,17 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
+  - hosts: all
+    vars:
+      avi_credentials:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        controller: "{{ controller }}"
+        api_version: "{{ api_version }}"
+
   - name: Patch GSLB Service to add a new member and group
     avi_gslbservice_patch_member:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      avi_credentials: "{{ avi_credentials }}"
       name: gs-3
       api_version: 17.2.1
       data:
@@ -66,11 +72,10 @@ EXAMPLES = '''
                 addr:  10.30.10.66
                 type: V4
               ratio: 3
+
   - name: Patch GSLB Service to delete an existing member
     avi_gslbservice_patch_member:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      avi_credentials: "{{ avi_credentials }}"
       name: gs-3
       state: absent
       api_version: 17.2.1
@@ -83,11 +88,10 @@ EXAMPLES = '''
                 addr:  10.30.10.68
                 type: V4
               ratio: 3
+
   - name: Update priority of GSLB Service Pool
     avi_gslbservice_patch_member:
-      controller: ""
-      username: ""
-      password: ""
+      avi_credentials: "{{ avi_credentials }}"
       name: gs-3
       state: present
       api_version: 17.2.1

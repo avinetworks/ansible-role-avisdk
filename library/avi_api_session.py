@@ -53,22 +53,27 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
+  - hosts: all
+    vars:
+      avi_credentials:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        controller: "{{ controller }}"
+        api_version: "{{ api_version }}"
+
   - name: Get Pool Information using avi_api_session
     avi_api_session:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      avi_credentials: "{{ avi_credentials }}"
       http_method: get
       path: pool
       params:
         name: "{{ pool_name }}"
       api_version: 16.4
     register: pool_results
+
   - name: Patch Pool with list of servers
     avi_api_session:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      avi_credentials: "{{ avi_credentials }}"
       http_method: patch
       path: "{{ pool_path }}"
       api_version: 16.4
@@ -82,11 +87,10 @@ EXAMPLES = '''
                 addr: 20.20.20.20
                 type: V4
     register: updated_pool
+
   - name: Fetch Pool metrics bandwidth and connections rate
     avi_api_session:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      avi_credentials: "{{ avi_credentials }}"
       http_method: get
       path: analytics/metrics/pool
       api_version: 16.4
@@ -98,9 +102,7 @@ EXAMPLES = '''
     register: pool_metrics
   - name: Wait for Controller upgrade to finish
     avi_api_session:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      avi_credentials: "{{ avi_credentials }}"
       http_method: get
       timeout: 300
       path: cluster/upgrade/status

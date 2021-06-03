@@ -96,12 +96,17 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
+  - hosts: all
+    vars:
+      avi_credentials:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        controller: "{{ controller }}"
+        api_version: "{{ api_version }}"
+
   - name: user creation
     avi_user:
-      controller: ""
-      username: ""
-      password: ""
-      api_version: ""
+      avi_credentials: "{{ avi_credentials }}"
       name: "testuser"
       obj_username: "testuser"
       obj_password: "test123"
@@ -116,10 +121,7 @@ EXAMPLES = '''
 
   - name: user creation
     avi_user:
-      controller: "192.0.2.10"
-      username: ""
-      password: ""
-      api_version: ""
+      avi_credentials: "{{ avi_credentials }}"
       name: "testuser"
       obj_username: "testuser2"
       obj_password: "password"

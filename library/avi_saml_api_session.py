@@ -35,16 +35,24 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
+  - hosts: all
+    vars:
+      avi_credentials:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        controller: "{{ controller }}"
+        api_version: "{{ api_version }}"
+      idp_class: "{{ idp_class }}"
+
   - name: Get SAML Session
     avi_saml_api_session:
-      idp_class: "{{ avi_credentials.idp_class }}"
-      username: "{{ avi_credentials.username }}"
-      password: "{{ avi_credentials.password }}"
-      controller: "{{ avi_credentials.controller }}"
-      api_version: "{{ avi_credentials.api_version }}"
+      idp_class: "{{ idp_class }}"
+      avi_credentials: "{{ avi_credentials }}"
     register: saml_api_session
+
   - set_fact:
       saml_api_context: "{{ saml_api_session.ansible_facts.avi_api_context }}"
+
   - name: Create Pool
     avi_pool:
       api_context: "{{ saml_api_context | default(omit) }}"
@@ -62,6 +70,7 @@ EXAMPLES = '''
       - ip:
           addr: 10.90.64.13
           type: 'V4'
+
   - name: Create Virtual Service
     avi_virtualservice:
       api_context: "{{ saml_api_context | default(omit) }}"
