@@ -54,16 +54,26 @@ options:
         type: bool
     issuer:
         description:
-            - Uniquely identifiable name of the token issuer.
+            - Uniquely identifiable name of the token issuer, only allowed with profile_type client_auth.
             - Field introduced in 20.1.3.
-        required: true
         type: str
     jwks_keys:
         description:
-            - Jwks key set used for validating the jwt.
+            - Jwks key set used for validating the jwt, only allowed with profile_type client_auth.
             - Field introduced in 20.1.3.
-        required: true
         type: str
+    jwt_profile_type:
+        description:
+            - Type of jwt server profile which defines the usage type.
+            - Enum options - CLIENT_AUTH, CONTROLLER_INTERNAL_AUTH.
+            - Field introduced in 20.1.6.
+            - Default value when not specified in API or module is interpreted by Avi Controller as CLIENT_AUTH.
+        type: str
+    jwt_server_profile_config:
+        description:
+            - This is the union of all supported jwt auth profiles.
+            - Field introduced in 20.1.6.
+        type: dict
     name:
         description:
             - Name of the jwt profile.
@@ -126,8 +136,10 @@ def main():
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         is_federated=dict(type='bool',),
-        issuer=dict(type='str', required=True),
-        jwks_keys=dict(type='str', required=True),
+        issuer=dict(type='str',),
+        jwks_keys=dict(type='str',),
+        jwt_profile_type=dict(type='str',),
+        jwt_server_profile_config=dict(type='dict',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
