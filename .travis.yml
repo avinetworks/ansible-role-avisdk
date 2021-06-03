@@ -31,16 +31,13 @@ env:
     version: 16.04
     init: /sbin/init
     run_opts: ""
-  - distribution: ubuntu
-    version: 14.04
-    init: /sbin/init
-    run_opts: ""
 
 services:
   - docker
 
 before_install:
   # - sudo apt-get update
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # Pull container
   - 'sudo docker pull ${distribution}:${version}'
   # Customize container
