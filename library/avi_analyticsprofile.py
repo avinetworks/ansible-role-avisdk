@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -17,7 +14,6 @@ DOCUMENTATION = '''
 ---
 module: avi_analyticsprofile
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of AnalyticsProfile Avi RESTful Object
 description:
     - This module is used to configure AnalyticsProfile object
@@ -43,7 +39,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     apdex_response_threshold:
         description:
@@ -141,6 +145,11 @@ options:
             - Field introduced in 17.1.1.
             - Allowed in basic edition, essentials edition, enterprise edition.
         version_added: "2.4"
+        type: dict
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
         type: dict
     conn_lossy_ooo_threshold:
         description:
@@ -682,64 +691,70 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-  - name: Create a custom Analytics profile object
-    avi_analyticsprofile:
-      controller: '{{ controller }}'
-      username: '{{ username }}'
-      password: '{{ password }}'
-      apdex_response_threshold: 500
-      apdex_response_tolerated_factor: 4.0
-      apdex_rtt_threshold: 250
-      apdex_rtt_tolerated_factor: 4.0
-      apdex_rum_threshold: 5000
-      apdex_rum_tolerated_factor: 4.0
-      apdex_server_response_threshold: 400
-      apdex_server_response_tolerated_factor: 4.0
-      apdex_server_rtt_threshold: 125
-      apdex_server_rtt_tolerated_factor: 4.0
-      conn_lossy_ooo_threshold: 50
-      conn_lossy_timeo_rexmt_threshold: 20
-      conn_lossy_total_rexmt_threshold: 50
-      conn_lossy_zero_win_size_event_threshold: 2
-      conn_server_lossy_ooo_threshold: 50
-      conn_server_lossy_timeo_rexmt_threshold: 20
-      conn_server_lossy_total_rexmt_threshold: 50
-      conn_server_lossy_zero_win_size_event_threshold: 2
-      enable_se_analytics: true
-      enable_server_analytics: true
-      exclude_client_close_before_request_as_error: false
-      exclude_persistence_change_as_error: false
-      exclude_server_tcp_reset_as_error: false
-      exclude_syn_retransmit_as_error: false
-      exclude_tcp_reset_as_error: false
-      hs_event_throttle_window: 1209600
-      hs_max_anomaly_penalty: 10
-      hs_max_resources_penalty: 25
-      hs_max_security_penalty: 100
-      hs_min_dos_rate: 1000
-      hs_performance_boost: 20
-      hs_pscore_traffic_threshold_l4_client: 10.0
-      hs_pscore_traffic_threshold_l4_server: 10.0
-      hs_security_certscore_expired: 0.0
-      hs_security_certscore_gt30d: 5.0
-      hs_security_certscore_le07d: 2.0
-      hs_security_certscore_le30d: 4.0
-      hs_security_chain_invalidity_penalty: 1.0
-      hs_security_cipherscore_eq000b: 0.0
-      hs_security_cipherscore_ge128b: 5.0
-      hs_security_cipherscore_lt128b: 3.5
-      hs_security_encalgo_score_none: 0.0
-      hs_security_encalgo_score_rc4: 2.5
-      hs_security_hsts_penalty: 0.0
-      hs_security_nonpfs_penalty: 1.0
-      hs_security_selfsignedcert_penalty: 1.0
-      hs_security_ssl30_score: 3.5
-      hs_security_tls10_score: 5.0
-      hs_security_tls11_score: 5.0
-      hs_security_tls12_score: 5.0
-      hs_security_weak_signature_algo_penalty: 1.0
-      name: jason-analytics-profile
-      tenant_ref: /api/tenant?name=Demo
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
+- name: Create a custom Analytics profile object
+  avi_analyticsprofile:
+    avi_credentials: "{{ avi_credentials }}"
+    apdex_response_threshold: 500
+    apdex_response_tolerated_factor: 4.0
+    apdex_rtt_threshold: 250
+    apdex_rtt_tolerated_factor: 4.0
+    apdex_rum_threshold: 5000
+    apdex_rum_tolerated_factor: 4.0
+    apdex_server_response_threshold: 400
+    apdex_server_response_tolerated_factor: 4.0
+    apdex_server_rtt_threshold: 125
+    apdex_server_rtt_tolerated_factor: 4.0
+    conn_lossy_ooo_threshold: 50
+    conn_lossy_timeo_rexmt_threshold: 20
+    conn_lossy_total_rexmt_threshold: 50
+    conn_lossy_zero_win_size_event_threshold: 2
+    conn_server_lossy_ooo_threshold: 50
+    conn_server_lossy_timeo_rexmt_threshold: 20
+    conn_server_lossy_total_rexmt_threshold: 50
+    conn_server_lossy_zero_win_size_event_threshold: 2
+    enable_se_analytics: true
+    enable_server_analytics: true
+    exclude_client_close_before_request_as_error: false
+    exclude_persistence_change_as_error: false
+    exclude_server_tcp_reset_as_error: false
+    exclude_syn_retransmit_as_error: false
+    exclude_tcp_reset_as_error: false
+    hs_event_throttle_window: 1209600
+    hs_max_anomaly_penalty: 10
+    hs_max_resources_penalty: 25
+    hs_max_security_penalty: 100
+    hs_min_dos_rate: 1000
+    hs_performance_boost: 20
+    hs_pscore_traffic_threshold_l4_client: 10.0
+    hs_pscore_traffic_threshold_l4_server: 10.0
+    hs_security_certscore_expired: 0.0
+    hs_security_certscore_gt30d: 5.0
+    hs_security_certscore_le07d: 2.0
+    hs_security_certscore_le30d: 4.0
+    hs_security_chain_invalidity_penalty: 1.0
+    hs_security_cipherscore_eq000b: 0.0
+    hs_security_cipherscore_ge128b: 5.0
+    hs_security_cipherscore_lt128b: 3.5
+    hs_security_encalgo_score_none: 0.0
+    hs_security_encalgo_score_rc4: 2.5
+    hs_security_hsts_penalty: 0.0
+    hs_security_nonpfs_penalty: 1.0
+    hs_security_selfsignedcert_penalty: 1.0
+    hs_security_ssl30_score: 3.5
+    hs_security_tls10_score: 5.0
+    hs_security_tls11_score: 5.0
+    hs_security_tls12_score: 5.0
+    hs_security_weak_signature_algo_penalty: 1.0
+    name: jason-analytics-profile
+    tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''
@@ -765,7 +780,9 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         apdex_response_threshold=dict(type='int',),
         apdex_response_tolerated_factor=dict(type='float',),
         apdex_rtt_threshold=dict(type='int',),
@@ -778,6 +795,7 @@ def main():
         apdex_server_rtt_tolerated_factor=dict(type='float',),
         client_log_config=dict(type='dict',),
         client_log_streaming_config=dict(type='dict',),
+        configpb_attributes=dict(type='dict',),
         conn_lossy_ooo_threshold=dict(type='int',),
         conn_lossy_timeo_rexmt_threshold=dict(type='int',),
         conn_lossy_total_rexmt_threshold=dict(type='int',),
@@ -863,7 +881,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'analyticsprofile',
                            set())
 

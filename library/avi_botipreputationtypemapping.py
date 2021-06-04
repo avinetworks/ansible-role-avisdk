@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # module_check: supported
 
-# Avi Version: 17.1.1
 # Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
 # SPDX-License-Identifier: Apache License 2.0
 
@@ -12,14 +11,14 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_network
+module: avi_botipreputationtypemapping
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-short_description: Module for setup of Network Avi RESTful Object
+short_description: Module for setup of BotIPReputationTypeMapping Avi RESTful Object
 description:
-    - This module is used to configure Network object
+    - This module is used to configure BotIPReputationTypeMapping object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.7"
 options:
     state:
         description:
@@ -49,65 +48,22 @@ options:
         description:
             - Patch value to use when using avi_api_update_method as patch.
         type: str
-    attrs:
+    ip_reputation_mappings:
         description:
-            - Key/value network attributes.
-            - Field introduced in 20.1.1.
-        type: list
-    cloud_ref:
-        description:
-            - It is a reference to an object of type cloud.
-        type: str
-    configpb_attributes:
-        description:
-            - Protobuf versioning for config pbs.
+            - Map every ipreputationtype to a bot type (can be unknown).
             - Field introduced in 21.1.1.
-        type: dict
-    configured_subnets:
-        description:
-            - List of subnet.
-        type: list
-    dhcp_enabled:
-        description:
-            - Select the ip address management scheme for this network.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
-    exclude_discovered_subnets:
-        description:
-            - When selected, excludes all discovered subnets in this network from consideration for virtual service placement.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
-    ip6_autocfg_enabled:
-        description:
-            - Enable ipv6 auto configuration.
-            - Field introduced in 18.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        version_added: "2.9"
-        type: bool
-    labels:
-        description:
-            - Key/value labels which can be used for object access policy permission scoping.
-            - Field deprecated in 20.1.5.
-            - Field introduced in 18.2.7, 20.1.1.
-        type: list
-    markers:
-        description:
-            - List of labels to be used for granular rbac.
-            - Field introduced in 20.1.5.
         type: list
     name:
         description:
-            - Name of the object.
+            - The name of this mapping.
+            - Field introduced in 21.1.1.
         required: true
         type: str
-    synced_from_se:
-        description:
-            - Boolean flag to set synced_from_se.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     tenant_ref:
         description:
+            - The unique identifier of the tenant to which this mapping belongs.
             - It is a reference to an object of type tenant.
+            - Field introduced in 21.1.1.
         type: str
     url:
         description:
@@ -115,20 +71,8 @@ options:
         type: str
     uuid:
         description:
-            - Unique object identifier of the object.
-        type: str
-    vcenter_dvs:
-        description:
-            - Boolean flag to set vcenter_dvs.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
-    vimgrnw_ref:
-        description:
-            - It is a reference to an object of type vimgrnwruntime.
-        type: str
-    vrf_context_ref:
-        description:
-            - It is a reference to an object of type vrfcontext.
+            - A unique identifier of this mapping.
+            - Field introduced in 21.1.1.
         type: str
 
 
@@ -145,16 +89,16 @@ EXAMPLES = """
       controller: "192.168.15.18"
       api_version: "21.1.1"
 
-- name: Example to create Network object
-  avi_network:
+- name: Example to create BotIPReputationTypeMapping object
+  avi_botipreputationtypemapping:
     avi_credentials: "{{ avi_credentials }}"
     state: present
-    name: sample_network
+    name: sample_botipreputationtypemapping
 """
 
 RETURN = '''
 obj:
-    description: Network (api/network) object
+    description: BotIPReputationTypeMapping (api/botipreputationtypemapping) object
     returned: success, changed
     type: dict
 '''
@@ -178,23 +122,11 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
         avi_patch_path=dict(type='str',),
         avi_patch_value=dict(type='str',),
-        attrs=dict(type='list',),
-        cloud_ref=dict(type='str',),
-        configpb_attributes=dict(type='dict',),
-        configured_subnets=dict(type='list',),
-        dhcp_enabled=dict(type='bool',),
-        exclude_discovered_subnets=dict(type='bool',),
-        ip6_autocfg_enabled=dict(type='bool',),
-        labels=dict(type='list',),
-        markers=dict(type='list',),
+        ip_reputation_mappings=dict(type='list',),
         name=dict(type='str', required=True),
-        synced_from_se=dict(type='bool',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_dvs=dict(type='bool',),
-        vimgrnw_ref=dict(type='str',),
-        vrf_context_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -203,7 +135,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
-    return avi_ansible_api(module, 'network',
+    return avi_ansible_api(module, 'botipreputationtypemapping',
                            set())
 
 

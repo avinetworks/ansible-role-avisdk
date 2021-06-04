@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -17,7 +14,6 @@ DOCUMENTATION = '''
 ---
 module: avi_pool
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of Pool Avi RESTful Object
 description:
     - This module is used to configure Pool object
@@ -43,7 +39,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     a_pool:
         description:
@@ -77,6 +81,17 @@ options:
     apic_epg_name:
         description:
             - Synchronize cisco apic epg members with pool servers.
+            - Field deprecated in 21.1.1.
+        type: str
+    append_port:
+        description:
+            - Allows the option to append port to hostname in the host header while sending a request to the server.
+            - By default, port is appended for non-default ports.
+            - This setting will apply for pool's 'rewrite host header to server name', 'rewrite host header to sni' features and server's 'rewrite host header'
+            - settings as well as http healthmonitors attached to pools.
+            - Enum options - NON_DEFAULT_80_443, NEVER, ALWAYS.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as NON_DEFAULT_80_443.
         type: str
     application_persistence_profile_ref:
         description:
@@ -121,6 +136,11 @@ options:
         description:
             - It is a reference to an object of type cloud.
         type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     conn_pool_properties:
         description:
             - Connnection pool properties.
@@ -235,6 +255,12 @@ options:
             - If enabled and no explicit domain name is specified, avi will use the incoming host header to do the match.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
+    http2_properties:
+        description:
+            - Http2 pool properties.
+            - Field introduced in 21.1.1.
+            - Allowed in basic edition, essentials edition, enterprise edition.
+        type: dict
     ignore_server_port:
         description:
             - Ignore the server port in building the load balancing state.applicable only for consistent hash load balancing algorithm or disable port
@@ -410,6 +436,13 @@ options:
         description:
             - Field deprecated in 18.2.1.
         type: int
+    server_disable_type:
+        description:
+            - Server graceful disable timeout behaviour.
+            - Enum options - DISALLOW_NEW_CONNECTION, ALLOW_NEW_CONNECTION_IF_PERSISTENCE_PRESENT.
+            - Field introduced in 21.1.1.
+            - Default value when not specified in API or module is interpreted by Avi Controller as DISALLOW_NEW_CONNECTION.
+        type: str
     server_name:
         description:
             - Fully qualified dns hostname which will be used in the tls sni extension in server connections if sni is enabled.
@@ -424,7 +457,7 @@ options:
             - Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes
             - between avi and the server.
             - Value of 0 results in using default timeout of 60 minutes.
-            - Allowed values are 0-3600000.
+            - Allowed values are 0-21600000.
             - Field introduced in 18.1.5,18.2.1.
             - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -499,11 +532,17 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
 - name: Create a Pool with two servers and HTTP monitor
   avi_pool:
-    controller: 10.10.1.20
-    username: avi_user
-    password: avi_password
+    avi_credentials: "{{ avi_credentials }}"
     name: testpool1
     description: testpool1
     state: present
@@ -511,21 +550,21 @@ EXAMPLES = """
         - '/api/healthmonitor?name=System-HTTP'
     servers:
         - ip:
-            addr: 10.10.2.20
+            addr: 192.168.138.11
             type: V4
         - ip:
-            addr: 10.10.2.21
+            addr: 192.168.138.12
             type: V4
 
 - name: Patch pool with a single server using patch op and avi_credentials
   avi_pool:
+    avi_credentials: "{{ avi_credentials }}"
     avi_api_update_method: patch
     avi_api_patch_op: delete
-    avi_credentials: "{{avi_credentials}}"
     name: test-pool
     servers:
       - ip:
-        addr: 10.90.64.13
+        addr: 192.168.138.13
         type: 'V4'
   register: pool
   when:
@@ -555,13 +594,16 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         a_pool=dict(type='str',),
         ab_pool=dict(type='dict',),
         ab_priority=dict(type='int',),
         analytics_policy=dict(type='dict',),
         analytics_profile_ref=dict(type='str',),
         apic_epg_name=dict(type='str',),
+        append_port=dict(type='str',),
         application_persistence_profile_ref=dict(type='str',),
         autoscale_launch_config_ref=dict(type='str',),
         autoscale_networks=dict(type='list',),
@@ -570,6 +612,7 @@ def main():
         capacity_estimation_ttfb_thresh=dict(type='int',),
         cloud_config_cksum=dict(type='str',),
         cloud_ref=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
         conn_pool_properties=dict(type='dict',),
         connection_ramp_duration=dict(type='int',),
         created_by=dict(type='str',),
@@ -587,6 +630,7 @@ def main():
         gslb_sp_enabled=dict(type='bool',),
         health_monitor_refs=dict(type='list',),
         host_check_enabled=dict(type='bool',),
+        http2_properties=dict(type='dict',),
         ignore_server_port=dict(type='bool',),
         inline_health_monitor=dict(type='bool',),
         ipaddrgroup_ref=dict(type='str',),
@@ -615,6 +659,7 @@ def main():
         routing_pool=dict(type='bool',),
         server_auto_scale=dict(type='bool',),
         server_count=dict(type='int',),
+        server_disable_type=dict(type='str',),
         server_name=dict(type='str',),
         server_reselect=dict(type='dict',),
         server_timeout=dict(type='int',),
@@ -636,7 +681,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'pool',
                            set())
 

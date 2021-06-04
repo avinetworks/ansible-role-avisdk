@@ -1,16 +1,9 @@
 #!/usr/bin/python3
-
-"""
-# Created on April 25, 2018
-#
-# @author: Chaitanya Deshpande (chaitanya.deshpande@avinetworks.com) GitHub ID: chaitanyaavi
-#
 # module_check: not supported
-#
-# Copyright: (c) 2017 Chaitanya Deshpande, <chaitanya.deshpande@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
-"""
+
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -65,12 +58,17 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
+  - hosts: all
+    vars:
+      avi_credentials:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        controller: "{{ controller }}"
+        api_version: "{{ api_version }}"
 
   - name: Download se image from controller
     avi_api_fileservice:
-      controller: ""
-      username: ""
-      password: ""
+      avi_credentials: "{{ avi_credentials }}"
       upload: false
       path: seova
       file_path: ./se.ova
@@ -78,9 +76,7 @@ EXAMPLES = '''
 
   - name: Upload HSM package to controller
     avi_api_fileservice:
-      controller: ""
-      username: ""
-      password: ""
+      avi_credentials: "{{ avi_credentials }}"
       upload: true
       path: hsmpackages?hsmtype=safenet
       file_path: ./safenet.tar
@@ -95,7 +91,6 @@ obj:
     returned: success, changed
     type: dict
 '''
-
 
 import json
 import os
@@ -132,7 +127,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     if not HAS_LIB:
         return module.fail_json(
             msg='avi_api_fileservice, requests_toolbelt is required for this module')

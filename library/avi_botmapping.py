@@ -1,30 +1,21 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['deprecated'],
+                    'status': ['preview'],
                     'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
-module: avi_objectaccesspolicy
+module: avi_botmapping
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
-deprecated:
-    removed_in: '2.11'
-    why: Removed support for the module.
-    alternative: Use M(avi_api_session) instead.
-
-short_description: Module for setup of ObjectAccessPolicy Avi RESTful Object
+short_description: Module for setup of BotMapping Avi RESTful Object
 description:
-    - This module is used to configure ObjectAccessPolicy object
+    - This module is used to configure BotMapping object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -47,25 +38,34 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
         type: str
-    name:
+    avi_patch_path:
         description:
-            - Name of the object access policy.
-            - Field introduced in 18.2.7, 20.1.1.
-        required: true
+            - Patch path to use when using avi_api_update_method as patch.
         type: str
-    rules:
+    avi_patch_value:
         description:
-            - Rules which grant access to specific objects.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Patch value to use when using avi_api_update_method as patch.
+        type: str
+    mapping_rules:
+        description:
+            - Rules for bot classification.
+            - Field introduced in 21.1.1.
+            - Minimum of 1 items required.
         required: true
         type: list
+    name:
+        description:
+            - The name of this mapping.
+            - Field introduced in 21.1.1.
+        required: true
+        type: str
     tenant_ref:
         description:
-            - Tenant that this object belongs to.
+            - The unique identifier of the tenant to which this mapping belongs.
             - It is a reference to an object of type tenant.
-            - Field introduced in 18.2.7, 20.1.1.
+            - Field introduced in 21.1.1.
         type: str
     url:
         description:
@@ -73,8 +73,8 @@ options:
         type: str
     uuid:
         description:
-            - Uuid of the object access policy.
-            - Field introduced in 18.2.7, 20.1.1.
+            - A unique identifier for this mapping.
+            - Field introduced in 21.1.1.
         type: str
 
 
@@ -83,18 +83,24 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create ObjectAccessPolicy object
-  avi_objectaccesspolicy:
-    controller: 10.10.25.42
-    username: admin
-    password: something
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
+- name: Example to create BotMapping object
+  avi_botmapping:
+    avi_credentials: "{{ avi_credentials }}"
     state: present
-    name: sample_objectaccesspolicy
+    name: sample_botmapping
 """
 
 RETURN = '''
 obj:
-    description: ObjectAccessPolicy (api/objectaccesspolicy) object
+    description: BotMapping (api/botmapping) object
     returned: success, changed
     type: dict
 '''
@@ -115,9 +121,11 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
+        mapping_rules=dict(type='list', required=True),
         name=dict(type='str', required=True),
-        rules=dict(type='list', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
@@ -128,8 +136,8 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
-    return avi_ansible_api(module, 'objectaccesspolicy',
+            'For more details visit https://github.com/vmware/alb-sdk.'))
+    return avi_ansible_api(module, 'botmapping',
                            set())
 
 

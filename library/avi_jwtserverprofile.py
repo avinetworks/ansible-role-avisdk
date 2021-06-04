@@ -1,12 +1,9 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -16,7 +13,6 @@ DOCUMENTATION = '''
 ---
 module: avi_jwtserverprofile
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of JWTServerProfile Avi RESTful Object
 description:
     - This module is used to configure JWTServerProfile object
@@ -42,19 +38,50 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
         type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
+        type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
+    controller_internal_auth:
+        description:
+            - Jwt auth configuration for profile_type controller_internal_auth.
+            - Field introduced in 20.1.6.
+        type: dict
+    is_federated:
+        description:
+            - This field describes the object's replication scope.
+            - If the field is set to false, then the object is visible within the controller-cluster.
+            - If the field is set to true, then the object is replicated across the federation.
+            - Field introduced in 20.1.6.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     issuer:
         description:
-            - Uniquely identifiable name of the token issuer.
+            - Uniquely identifiable name of the token issuer, only allowed with profile_type client_auth.
             - Field introduced in 20.1.3.
-        required: true
         type: str
     jwks_keys:
         description:
-            - Jwks key set used for validating the jwt.
+            - Jwks key set used for validating the jwt, only allowed with profile_type client_auth.
             - Field introduced in 20.1.3.
-        required: true
+        type: str
+    jwt_profile_type:
+        description:
+            - Type of jwt server profile which defines the usage type.
+            - Enum options - CLIENT_AUTH, CONTROLLER_INTERNAL_AUTH.
+            - Field introduced in 20.1.6.
+            - Default value when not specified in API or module is interpreted by Avi Controller as CLIENT_AUTH.
         type: str
     name:
         description:
@@ -84,11 +111,17 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
 - name: Example to create JWTServerProfile object
   avi_jwtserverprofile:
-    controller: 10.10.25.42
-    username: admin
-    password: something
+    avi_credentials: "{{ avi_credentials }}"
     state: present
     name: sample_jwtserverprofile
 """
@@ -116,9 +149,15 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        issuer=dict(type='str', required=True),
-        jwks_keys=dict(type='str', required=True),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
+        controller_internal_auth=dict(type='dict',),
+        is_federated=dict(type='bool',),
+        issuer=dict(type='str',),
+        jwks_keys=dict(type='str',),
+        jwt_profile_type=dict(type='str',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
@@ -130,7 +169,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'jwtserverprofile',
                            set())
 

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # module_check: supported
 
-# Avi Version: 17.1.1
 # Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
 # SPDX-License-Identifier: Apache License 2.0
 
@@ -12,14 +11,14 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_network
+module: avi_botdetectionpolicy
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-short_description: Module for setup of Network Avi RESTful Object
+short_description: Module for setup of BotDetectionPolicy Avi RESTful Object
 description:
-    - This module is used to configure Network object
+    - This module is used to configure BotDetectionPolicy object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
-version_added: "2.4"
+version_added: "2.7"
 options:
     state:
         description:
@@ -49,86 +48,82 @@ options:
         description:
             - Patch value to use when using avi_api_update_method as patch.
         type: str
-    attrs:
+    allow_list:
         description:
-            - Key/value network attributes.
-            - Field introduced in 20.1.1.
-        type: list
-    cloud_ref:
-        description:
-            - It is a reference to an object of type cloud.
-        type: str
-    configpb_attributes:
-        description:
-            - Protobuf versioning for config pbs.
+            - Allow the user to skip botmanagement for selected requests.
             - Field introduced in 21.1.1.
         type: dict
-    configured_subnets:
+    description:
         description:
-            - List of subnet.
-        type: list
-    dhcp_enabled:
+            - Human-readable description of this bot detection policy.
+            - Field introduced in 21.1.1.
+        type: str
+    ip_location_detector:
         description:
-            - Select the ip address management scheme for this network.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
-    exclude_discovered_subnets:
+            - The ip location configuration used in this policy.
+            - Field introduced in 21.1.1.
+        required: true
+        type: dict
+    ip_reputation_detector:
         description:
-            - When selected, excludes all discovered subnets in this network from consideration for virtual service placement.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
-    ip6_autocfg_enabled:
-        description:
-            - Enable ipv6 auto configuration.
-            - Field introduced in 18.1.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        version_added: "2.9"
-        type: bool
-    labels:
-        description:
-            - Key/value labels which can be used for object access policy permission scoping.
-            - Field deprecated in 20.1.5.
-            - Field introduced in 18.2.7, 20.1.1.
-        type: list
-    markers:
-        description:
-            - List of labels to be used for granular rbac.
-            - Field introduced in 20.1.5.
-        type: list
+            - The ip reputation configuration used in this policy.
+            - Field introduced in 21.1.1.
+        required: true
+        type: dict
     name:
         description:
-            - Name of the object.
+            - The name of this bot detection policy.
+            - Field introduced in 21.1.1.
         required: true
         type: str
-    synced_from_se:
+    system_bot_mapping_ref:
         description:
-            - Boolean flag to set synced_from_se.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
+            - System-defined rules for classification.
+            - It is a reference to an object of type botmapping.
+            - Field introduced in 21.1.1.
+        type: str
+    system_consolidator_ref:
+        description:
+            - The installation provides an updated ruleset for consolidating the results of different decider phases.
+            - It is a reference to an object of type botconfigconsolidator.
+            - Field introduced in 21.1.1.
+        type: str
     tenant_ref:
         description:
+            - The unique identifier of the tenant to which this policy belongs.
             - It is a reference to an object of type tenant.
+            - Field introduced in 21.1.1.
         type: str
     url:
         description:
             - Avi controller URL of the object.
         type: str
+    user_agent_detector:
+        description:
+            - The user-agent configuration used in this policy.
+            - Field introduced in 21.1.1.
+        required: true
+        type: dict
+    user_bot_mapping_ref:
+        description:
+            - User-defined rules for classification.
+            - These are applied before the system classification rules.
+            - If a rule matches, processing terminates and the system-defined rules will not run.
+            - It is a reference to an object of type botmapping.
+            - Field introduced in 21.1.1.
+        type: str
+    user_consolidator_ref:
+        description:
+            - The user-provided ruleset for consolidating the results of different decider phases.
+            - This runs before the system consolidator.
+            - If it successfully sets a consolidation, the system consolidator will not change it.
+            - It is a reference to an object of type botconfigconsolidator.
+            - Field introduced in 21.1.1.
+        type: str
     uuid:
         description:
-            - Unique object identifier of the object.
-        type: str
-    vcenter_dvs:
-        description:
-            - Boolean flag to set vcenter_dvs.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        type: bool
-    vimgrnw_ref:
-        description:
-            - It is a reference to an object of type vimgrnwruntime.
-        type: str
-    vrf_context_ref:
-        description:
-            - It is a reference to an object of type vrfcontext.
+            - A unique identifier to this bot detection policy.
+            - Field introduced in 21.1.1.
         type: str
 
 
@@ -145,16 +140,16 @@ EXAMPLES = """
       controller: "192.168.15.18"
       api_version: "21.1.1"
 
-- name: Example to create Network object
-  avi_network:
+- name: Example to create BotDetectionPolicy object
+  avi_botdetectionpolicy:
     avi_credentials: "{{ avi_credentials }}"
     state: present
-    name: sample_network
+    name: sample_botdetectionpolicy
 """
 
 RETURN = '''
 obj:
-    description: Network (api/network) object
+    description: BotDetectionPolicy (api/botdetectionpolicy) object
     returned: success, changed
     type: dict
 '''
@@ -178,23 +173,19 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
         avi_patch_path=dict(type='str',),
         avi_patch_value=dict(type='str',),
-        attrs=dict(type='list',),
-        cloud_ref=dict(type='str',),
-        configpb_attributes=dict(type='dict',),
-        configured_subnets=dict(type='list',),
-        dhcp_enabled=dict(type='bool',),
-        exclude_discovered_subnets=dict(type='bool',),
-        ip6_autocfg_enabled=dict(type='bool',),
-        labels=dict(type='list',),
-        markers=dict(type='list',),
+        allow_list=dict(type='dict',),
+        description=dict(type='str',),
+        ip_location_detector=dict(type='dict', required=True),
+        ip_reputation_detector=dict(type='dict', required=True),
         name=dict(type='str', required=True),
-        synced_from_se=dict(type='bool',),
+        system_bot_mapping_ref=dict(type='str',),
+        system_consolidator_ref=dict(type='str',),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
+        user_agent_detector=dict(type='dict', required=True),
+        user_bot_mapping_ref=dict(type='str',),
+        user_consolidator_ref=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_dvs=dict(type='bool',),
-        vimgrnw_ref=dict(type='str',),
-        vrf_context_ref=dict(type='str',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -203,7 +194,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
-    return avi_ansible_api(module, 'network',
+    return avi_ansible_api(module, 'botdetectionpolicy',
                            set())
 
 
