@@ -53,6 +53,11 @@ options:
         description:
             - Field introduced in 17.1.1.
         type: str
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.6.
+        type: list
     name:
         description:
             - The name of the webhook profile.
@@ -120,6 +125,7 @@ def main():
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
         callback_url=dict(type='str',),
         description=dict(type='str',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
@@ -132,7 +138,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'webhook',
                            set())
 

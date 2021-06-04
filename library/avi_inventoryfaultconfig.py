@@ -14,12 +14,12 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_testsedatastorelevel1
+module: avi_inventoryfaultconfig
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
 
-short_description: Module for setup of TestSeDatastoreLevel1 Avi RESTful Object
+short_description: Module for setup of InventoryFaultConfig Avi RESTful Object
 description:
-    - This module is used to configure TestSeDatastoreLevel1 object
+    - This module is used to configure InventoryFaultConfig object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -44,20 +44,26 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    controller_faults:
+        description:
+            - Configure controller faults.
+            - Field introduced in 20.1.6.
+        type: dict
     name:
         description:
-            - Name of the object.
-        required: true
+            - Name.
+            - Field introduced in 20.1.6.
         type: str
+    serviceengine_faults:
+        description:
+            - Configure serviceengine faults.
+            - Field introduced in 20.1.6.
+        type: dict
     tenant_ref:
         description:
+            - Tenant.
             - It is a reference to an object of type tenant.
-            - Field introduced in 18.2.6.
-        type: str
-    test_se_datastore_level_2_ref:
-        description:
-            - It is a reference to an object of type testsedatastorelevel2.
-            - Field introduced in 18.2.6.
+            - Field introduced in 20.1.6.
         type: str
     url:
         description:
@@ -65,8 +71,14 @@ options:
         type: str
     uuid:
         description:
-            - Unique object identifier of the object.
+            - Uuid auto generated.
+            - Field introduced in 20.1.6.
         type: str
+    virtualservice_faults:
+        description:
+            - Configure virtualservice faults.
+            - Field introduced in 20.1.6.
+        type: dict
 
 
 extends_documentation_fragment:
@@ -74,18 +86,18 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-- name: Example to create TestSeDatastoreLevel1 object
-  avi_testsedatastorelevel1:
+- name: Example to create InventoryFaultConfig object
+  avi_inventoryfaultconfig:
     controller: 10.10.25.42
     username: admin
     password: something
     state: present
-    name: sample_testsedatastorelevel1
+    name: sample_inventoryfaultconfig
 """
 
 RETURN = '''
 obj:
-    description: TestSeDatastoreLevel1 (api/testsedatastorelevel1) object
+    description: InventoryFaultConfig (api/inventoryfaultconfig) object
     returned: success, changed
     type: dict
 '''
@@ -107,11 +119,13 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
-        name=dict(type='str', required=True),
+        controller_faults=dict(type='dict',),
+        name=dict(type='str',),
+        serviceengine_faults=dict(type='dict',),
         tenant_ref=dict(type='str',),
-        test_se_datastore_level_2_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
+        virtualservice_faults=dict(type='dict',),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(
@@ -120,7 +134,7 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
-    return avi_ansible_api(module, 'testsedatastorelevel1',
+    return avi_ansible_api(module, 'inventoryfaultconfig',
                            set())
 
 

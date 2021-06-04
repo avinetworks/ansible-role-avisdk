@@ -63,6 +63,11 @@ options:
         description:
             - Ldap server and directory settings.
         type: dict
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.6.
+        type: list
     name:
         description:
             - Name of the auth profile.
@@ -171,6 +176,7 @@ def main():
         http=dict(type='dict',),
         jwt_profile_ref=dict(type='str',),
         ldap=dict(type='dict',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         pa_agent_ref=dict(type='str',),
         saml=dict(type='dict',),
@@ -186,7 +192,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'authprofile',
                            set())
 

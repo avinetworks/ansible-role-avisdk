@@ -132,7 +132,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     if not HAS_LIB:
         return module.fail_json(
             msg='avi_api_fileservice, requests_toolbelt is required for this module')

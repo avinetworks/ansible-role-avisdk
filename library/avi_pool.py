@@ -424,7 +424,7 @@ options:
             - Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes
             - between avi and the server.
             - Value of 0 results in using default timeout of 60 minutes.
-            - Allowed values are 0-3600000.
+            - Allowed values are 0-21600000.
             - Field introduced in 18.1.5,18.2.1.
             - Unit is milliseconds.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -636,7 +636,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'pool',
                            set())
 

@@ -45,6 +45,11 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.6.
+        type: list
     name:
         description:
             - Name of the pki profile.
@@ -117,6 +122,7 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         run_script_ref=dict(type='str', required=True),
         script_params=dict(type='list',),
@@ -131,7 +137,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'certificatemanagementprofile',
                            set())
 
