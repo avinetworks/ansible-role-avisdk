@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -17,7 +14,6 @@ DOCUMENTATION = '''
 ---
 module: avi_applicationpersistenceprofile
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of ApplicationPersistenceProfile Avi RESTful Object
 description:
     - This module is used to configure ApplicationPersistenceProfile object
@@ -43,11 +39,24 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     app_cookie_persistence_profile:
         description:
             - Specifies the application cookie persistence profile parameters.
+        type: dict
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
         type: dict
     description:
         description:
@@ -129,26 +138,32 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-  - name: Create an Application Persistence setting using http cookie.
-    avi_applicationpersistenceprofile:
-      controller: '{{ controller }}'
-      username: '{{ username }}'
-      password: '{{ password }}'
-      http_cookie_persistence_profile:
-        always_send_cookie: false
-        cookie_name: My-HTTP
-        key:
-        - aes_key: ShYGZdMks8j6Bpvm2sCvaXWzvXms2Z9ob+TTjRy46lQ=
-          name: c1276819-550c-4adf-912d-59efa5fd7269
-        - aes_key: OGsyVk84VCtyMENFOW0rMnRXVnNrb0RzdG5mT29oamJRb0dlbHZVSjR1az0=
-          name: a080de57-77c3-4580-a3ea-e7a6493c14fd
-        - aes_key: UVN0cU9HWmFUM2xOUzBVcmVXaHFXbnBLVUUxMU1VSktSVU5HWjJOWmVFMTBUMUV4UmxsNk4xQmFZejA9
-          name: 60478846-33c6-484d-868d-bbc324fce4a5
-        timeout: 15
-      name: My-HTTP-Cookie
-      persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
-      server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
-      tenant_ref: /api/tenant?name=Demo
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
+- name: Create an Application Persistence setting using http cookie.
+  avi_applicationpersistenceprofile:
+    avi_credentials: "{{ avi_credentials }}"
+    http_cookie_persistence_profile:
+      always_send_cookie: false
+      cookie_name: My-HTTP
+      key:
+      - aes_key: ShYGZdMks8j6Bpvm2sCvaXWzvXms2Z9ob+TTjRy46lQ=
+        name: c1276819-550c-4adf-912d-59efa5fd7269
+      - aes_key: OGsyVk84VCtyMENFOW0rMnRXVnNrb0RzdG5mT29oamJRb0dlbHZVSjR1az0=
+        name: a080de57-77c3-4580-a3ea-e7a6493c14fd
+      - aes_key: UVN0cU9HWmFUM2xOUzBVcmVXaHFXbnBLVUUxMU1VSktSVU5HWjJOWmVFMTBUMUV4UmxsNk4xQmFZejA9
+        name: 60478846-33c6-484d-868d-bbc324fce4a5
+      timeout: 15
+    name: My-HTTP-Cookie
+    persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
+    server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
+    tenant_ref: /api/tenant?name=Demo
 """
 
 RETURN = '''
@@ -174,8 +189,11 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         app_cookie_persistence_profile=dict(type='dict',),
+        configpb_attributes=dict(type='dict',),
         description=dict(type='str',),
         hdr_persistence_profile=dict(type='dict',),
         http_cookie_persistence_profile=dict(type='dict',),
@@ -196,7 +214,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'applicationpersistenceprofile',
                            set())
 

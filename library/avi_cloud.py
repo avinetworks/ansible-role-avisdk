@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -17,7 +14,6 @@ DOCUMENTATION = '''
 ---
 module: avi_cloud
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of Cloud Avi RESTful Object
 description:
     - This module is used to configure Cloud object
@@ -43,16 +39,24 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     apic_configuration:
         description:
-            - Apicconfiguration settings for cloud.
+            - Field deprecated in 21.1.1.
         type: dict
     apic_mode:
         description:
+            - Field deprecated in 21.1.1.
             - Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     autoscale_polling_interval:
         description:
@@ -77,6 +81,11 @@ options:
     cloudstack_configuration:
         description:
             - Cloudstackconfiguration settings for cloud.
+        type: dict
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
         type: dict
     custom_tags:
         description:
@@ -192,6 +201,7 @@ options:
     nsx_configuration:
         description:
             - Configuration parameters for nsx manager.
+            - Field deprecated in 21.1.1.
             - Field introduced in 17.1.1.
         type: dict
     nsxt_configuration:
@@ -264,7 +274,7 @@ options:
     vmc_deployment:
         description:
             - This deployment is vmware on aws cloud.
-            - Field introduced in 20.1.5.
+            - Field introduced in 20.1.5, 21.1.1.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
     vtype:
@@ -284,27 +294,33 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-  - name: Create a VMWare cloud with write access mode
-    avi_cloud:
-      username: '{{ username }}'
-      controller: '{{ controller }}'
-      password: '{{ password }}'
-      apic_mode: false
-      dhcp_enabled: true
-      enable_vip_static_routes: false
-      license_type: LIC_CORES
-      mtu: 1500
-      name: VCenter Cloud
-      prefer_static_routes: false
-      tenant_ref: /api/tenant?name=admin
-      vcenter_configuration:
-        datacenter_ref: /api/vimgrdcruntime/datacenter-2-10.10.20.100
-        management_network: /api/vimgrnwruntime/dvportgroup-103-10.10.20.100
-        password: password
-        privilege: WRITE_ACCESS
-        username: user
-        vcenter_url: 10.10.20.100
-      vtype: CLOUD_VCENTER
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
+- name: Create a VMWare cloud with write access mode
+  avi_cloud:
+    avi_credentials: "{{ avi_credentials }}"
+    apic_mode: false
+    dhcp_enabled: true
+    enable_vip_static_routes: false
+    license_type: LIC_CORES
+    mtu: 1500
+    name: VCenter Cloud
+    prefer_static_routes: false
+    tenant_ref: /api/tenant?name=admin
+    vcenter_configuration:
+      datacenter_ref: /api/vimgrdcruntime/datacenter-2-10.10.20.100
+      management_network: /api/vimgrnwruntime/dvportgroup-103-10.10.20.100
+      password: password
+      privilege: WRITE_ACCESS
+      username: user
+      vcenter_url: 192.168.15.18
+    vtype: CLOUD_VCENTER
 """
 
 RETURN = '''
@@ -330,13 +346,16 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         apic_configuration=dict(type='dict',),
         apic_mode=dict(type='bool',),
         autoscale_polling_interval=dict(type='int',),
         aws_configuration=dict(type='dict',),
         azure_configuration=dict(type='dict',),
         cloudstack_configuration=dict(type='dict',),
+        configpb_attributes=dict(type='dict',),
         custom_tags=dict(type='list',),
         dhcp_enabled=dict(type='bool',),
         dns_provider_ref=dict(type='str',),
@@ -380,7 +399,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'cloud',
                            set())
 

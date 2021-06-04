@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
+
 # Avi Version: 17.1.1
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -17,7 +14,6 @@ DOCUMENTATION = '''
 ---
 module: avi_applicationprofile
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of ApplicationProfile Avi RESTful Object
 description:
     - This module is used to configure ApplicationProfile object
@@ -43,7 +39,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     cloud_config_cksum:
         description:
@@ -52,6 +56,11 @@ options:
             - Field introduced in 17.2.14, 18.1.5, 18.2.1.
         version_added: "2.9"
         type: str
+    configpb_attributes:
+        description:
+            - Protobuf versioning for config pbs.
+            - Field introduced in 21.1.1.
+        type: dict
     created_by:
         description:
             - Name of the application profile creator.
@@ -143,65 +152,71 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
-  - name: Create an Application Profile for HTTP application enabled for SSL traffic
-    avi_applicationprofile:
-      controller: '{{ controller }}'
-      username: '{{ username }}'
-      password: '{{ password }}'
-      http_profile:
-        cache_config:
-          age_header: true
-          aggressive: false
-          date_header: true
-          default_expire: 600
-          enabled: false
-          heuristic_expire: false
-          max_cache_size: 0
-          max_object_size: 4194304
-          mime_types_group_refs:
-          - admin:System-Cacheable-Resource-Types
-          min_object_size: 100
-          query_cacheable: false
-          xcache_header: true
-        client_body_timeout: 0
-        client_header_timeout: 10000
-        client_max_body_size: 0
-        client_max_header_size: 12
-        client_max_request_size: 48
-        compression_profile:
-          compressible_content_ref: admin:System-Compressible-Content-Types
-          compression: false
-          remove_accept_encoding_header: true
-          type: AUTO_COMPRESSION
-        connection_multiplexing_enabled: true
-        hsts_enabled: false
-        hsts_max_age: 365
-        http_to_https: false
-        httponly_enabled: false
-        keepalive_header: false
-        keepalive_timeout: 30000
-        max_bad_rps_cip: 0
-        max_bad_rps_cip_uri: 0
-        max_bad_rps_uri: 0
-        max_rps_cip: 0
-        max_rps_cip_uri: 0
-        max_rps_unknown_cip: 0
-        max_rps_unknown_uri: 0
-        max_rps_uri: 0
-        post_accept_timeout: 30000
-        secure_cookie_enabled: false
-        server_side_redirect_to_https: false
-        spdy_enabled: false
-        spdy_fwd_proxy_mode: false
-        ssl_client_certificate_mode: SSL_CLIENT_CERTIFICATE_NONE
-        ssl_everywhere_enabled: false
-        websockets_enabled: true
-        x_forwarded_proto_enabled: false
-        xff_alternate_name: X-Forwarded-For
-        xff_enabled: true
-      name: System-HTTP
-      tenant_ref: /api/tenant?name=admin
-      type: APPLICATION_PROFILE_TYPE_HTTP
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
+- name: Create an Application Profile for HTTP application enabled for SSL traffic
+  avi_applicationprofile:
+    avi_credentials: "{{ avi_credentials }}"
+    http_profile:
+      cache_config:
+        age_header: true
+        aggressive: false
+        date_header: true
+        default_expire: 600
+        enabled: false
+        heuristic_expire: false
+        max_cache_size: 0
+        max_object_size: 4194304
+        mime_types_group_refs:
+        - admin:System-Cacheable-Resource-Types
+        min_object_size: 100
+        query_cacheable: false
+        xcache_header: true
+      client_body_timeout: 0
+      client_header_timeout: 10000
+      client_max_body_size: 0
+      client_max_header_size: 12
+      client_max_request_size: 48
+      compression_profile:
+        compressible_content_ref: admin:System-Compressible-Content-Types
+        compression: false
+        remove_accept_encoding_header: true
+        type: AUTO_COMPRESSION
+      connection_multiplexing_enabled: true
+      hsts_enabled: false
+      hsts_max_age: 365
+      http_to_https: false
+      httponly_enabled: false
+      keepalive_header: false
+      keepalive_timeout: 30000
+      max_bad_rps_cip: 0
+      max_bad_rps_cip_uri: 0
+      max_bad_rps_uri: 0
+      max_rps_cip: 0
+      max_rps_cip_uri: 0
+      max_rps_unknown_cip: 0
+      max_rps_unknown_uri: 0
+      max_rps_uri: 0
+      post_accept_timeout: 30000
+      secure_cookie_enabled: false
+      server_side_redirect_to_https: false
+      spdy_enabled: false
+      spdy_fwd_proxy_mode: false
+      ssl_client_certificate_mode: SSL_CLIENT_CERTIFICATE_NONE
+      ssl_everywhere_enabled: false
+      websockets_enabled: true
+      x_forwarded_proto_enabled: false
+      xff_alternate_name: X-Forwarded-For
+      xff_enabled: true
+    name: System-HTTP
+    tenant_ref: /api/tenant?name=admin
+    type: APPLICATION_PROFILE_TYPE_HTTP
 """
 
 RETURN = '''
@@ -227,8 +242,11 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         cloud_config_cksum=dict(type='str',),
+        configpb_attributes=dict(type='dict',),
         created_by=dict(type='str',),
         description=dict(type='str',),
         dns_service_profile=dict(type='dict',),
@@ -252,7 +270,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'applicationprofile',
                            set())
 
