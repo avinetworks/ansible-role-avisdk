@@ -1,27 +1,9 @@
 #!/usr/bin/python3
-"""
-# Created on Aug 12, 2016
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com) GitHub ID: grastogi23
-#
 # module_check: not supported
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
-#
-"""
+
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -58,6 +40,7 @@ options:
               tried. If not specified this flag then the new password is tried first.
         version_added: "2.9"
         type: bool
+        default: false
 
 
 extends_documentation_fragment:
@@ -65,21 +48,26 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = '''
+  - hosts: all
+    vars:
+      avi_credentials:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        controller: "{{ controller }}"
+        api_version: "{{ api_version }}"
+
   - name: Update user password
     avi_useraccount:
-      controller: ""
-      username: ""
-      password: ""
+      avi_credentials: "{{ avi_credentials }}"
       full_name: "abc xyz"
       email: "abc@xyz.com"
-      old_password: ""
-      api_version: ""
+      old_password: "{{ avi_credentials.password }}"
       force_change: false
 
   - name: Update user password using avi_credentials
     avi_useraccount:
-      avi_credentials: ""
-      old_password: ""
+      avi_credentials: "{{ avi_credentials }}"
+      old_password: "{{ avi_credentials.password }}"
       force_change: false
 '''
 
@@ -119,7 +107,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     full_name = module.params.get('full_name')

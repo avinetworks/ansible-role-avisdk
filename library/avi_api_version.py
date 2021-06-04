@@ -1,16 +1,9 @@
 #!/usr/bin/python3
-"""
-# Created on July 24, 2017
-#
-# @author: Vilian Atmadzhov (vilian.atmadzhov@paddypowerbetfair.com) GitHub ID: vivobg
-#
 # module_check: not supported
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-#                     Vilian Atmadzhov, <vilian.atmadzhov@paddypowerbetfair.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
-"""
+
+# Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -22,15 +15,12 @@ DOCUMENTATION = '''
 ---
 module: avi_api_version
 author: Vilian Atmadzhov (@vivobg) <vilian.atmadzhov@paddypowerbetfair.com>
-
 short_description: Avi API Version Module
 description:
     - This module can be used to obtain the version of the Avi REST API. U(https://avinetworks.com/)
 version_added: 2.5
 requirements: [ avisdk ]
 options: {}
-
-
 extends_documentation_fragment:
     - avi
 '''
@@ -38,9 +28,11 @@ extends_documentation_fragment:
 EXAMPLES = '''
   - name: Get AVI API version
     avi_api_version:
-      controller: ""
-      username: ""
-      password: ""
+      avi_credentials:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        controller: "{{ controller }}"
+        api_version: "{{ api_version }}"
       tenant: ""
     register: avi_controller_version
 '''
@@ -71,7 +63,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     try:
         api_creds = AviCredentials()
         api_creds.update_from_ansible_module(module)

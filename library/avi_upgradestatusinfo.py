@@ -1,12 +1,9 @@
 #!/usr/bin/python3
-#
-# @author: Gaurav Rastogi (grastogi@avinetworks.com)
-#          Eric Anderson (eanderson@avinetworks.com)
 # module_check: supported
-#
-# Copyright: (c) 2017 Gaurav Rastogi, <grastogi@avinetworks.com>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
+
+# Copyright 2021 VMware, Inc.  All rights reserved. VMware Confidential
+# SPDX-License-Identifier: Apache License 2.0
+
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -16,7 +13,6 @@ DOCUMENTATION = '''
 ---
 module: avi_upgradestatusinfo
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-
 short_description: Module for setup of UpgradeStatusInfo Avi RESTful Object
 description:
     - This module is used to configure UpgradeStatusInfo object
@@ -42,7 +38,15 @@ options:
         description:
             - Patch operation to use when using avi_api_update_method as patch.
         version_added: "2.5"
-        choices: ["add", "replace", "delete"]
+        choices: ["add", "replace", "delete", "remove"]
+        type: str
+    avi_patch_path:
+        description:
+            - Patch path to use when using avi_api_update_method as patch.
+        type: str
+    avi_patch_value:
+        description:
+            - Patch value to use when using avi_api_update_method as patch.
         type: str
     after_reboot_rollback_fnc:
         description:
@@ -88,7 +92,7 @@ options:
         type: str
     fips_mode:
         description:
-            - Fips-mode for the entire system.
+            - Fips mode for the entire system.
             - Field introduced in 20.1.5.
         type: bool
     history:
@@ -149,8 +153,8 @@ options:
     patch_list:
         description:
             - List of patches applied to this node.
-            - Example  base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'},
-            - {'6p5', '6p5_image_uuid'}] value.
+            - Example  base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied.
+            - This field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value.
             - Field introduced in 18.2.8, 20.1.1.
         type: list
     patch_reboot:
@@ -301,11 +305,17 @@ extends_documentation_fragment:
 '''
 
 EXAMPLES = """
+- hosts: all
+  vars:
+    avi_credentials:
+      username: "admin"
+      password: "something"
+      controller: "192.168.15.18"
+      api_version: "21.1.1"
+
 - name: Example to create UpgradeStatusInfo object
   avi_upgradestatusinfo:
-    controller: 10.10.25.42
-    username: admin
-    password: something
+    avi_credentials: "{{ avi_credentials }}"
     state: present
     name: sample_upgradestatusinfo
 """
@@ -333,7 +343,9 @@ def main():
                    choices=['absent', 'present']),
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
-        avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        avi_api_patch_op=dict(choices=['add', 'replace', 'delete', 'remove']),
+        avi_patch_path=dict(type='str',),
+        avi_patch_value=dict(type='str',),
         after_reboot_rollback_fnc=dict(type='str',),
         after_reboot_task_name=dict(type='str',),
         clean=dict(type='bool',),
@@ -386,7 +398,7 @@ def main():
     if not HAS_AVI:
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
-            'For more details visit https://github.com/avinetworks/sdk.'))
+            'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'upgradestatusinfo',
                            set())
 
