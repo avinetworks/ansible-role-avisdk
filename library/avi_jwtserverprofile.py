@@ -44,6 +44,11 @@ options:
         version_added: "2.5"
         choices: ["add", "replace", "delete"]
         type: str
+    controller_internal_auth:
+        description:
+            - Jwt auth configuration for profile_type controller_internal_auth.
+            - Field introduced in 20.1.6.
+        type: dict
     is_federated:
         description:
             - This field describes the object's replication scope.
@@ -69,11 +74,6 @@ options:
             - Field introduced in 20.1.6.
             - Default value when not specified in API or module is interpreted by Avi Controller as CLIENT_AUTH.
         type: str
-    jwt_server_profile_config:
-        description:
-            - This is the union of all supported jwt auth profiles.
-            - Field introduced in 20.1.6.
-        type: dict
     name:
         description:
             - Name of the jwt profile.
@@ -135,11 +135,11 @@ def main():
         avi_api_update_method=dict(default='put',
                                    choices=['put', 'patch']),
         avi_api_patch_op=dict(choices=['add', 'replace', 'delete']),
+        controller_internal_auth=dict(type='dict',),
         is_federated=dict(type='bool',),
         issuer=dict(type='str',),
         jwks_keys=dict(type='str',),
         jwt_profile_type=dict(type='str',),
-        jwt_server_profile_config=dict(type='dict',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

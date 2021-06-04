@@ -714,7 +714,7 @@ def main():
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
     return avi_ansible_api(module, 'controllerproperties',
-                           {'portal_token'})
+                           ['portal_token'])
 
 
 if __name__ == '__main__':
