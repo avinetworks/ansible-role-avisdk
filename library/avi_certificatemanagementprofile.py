@@ -54,6 +54,11 @@ options:
             - Protobuf versioning for config pbs.
             - Field introduced in 21.1.1.
         type: dict
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.6.
+        type: list
     name:
         description:
             - Name of the pki profile.
@@ -135,6 +140,7 @@ def main():
         avi_patch_path=dict(type='str',),
         avi_patch_value=dict(type='str',),
         configpb_attributes=dict(type='dict',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         run_script_ref=dict(type='str', required=True),
         script_params=dict(type='list',),

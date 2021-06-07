@@ -62,6 +62,11 @@ options:
         description:
             - Field introduced in 17.1.1.
         type: str
+    markers:
+        description:
+            - List of labels to be used for granular rbac.
+            - Field introduced in 20.1.6.
+        type: list
     name:
         description:
             - The name of the webhook profile.
@@ -138,6 +143,7 @@ def main():
         callback_url=dict(type='str',),
         configpb_attributes=dict(type='dict',),
         description=dict(type='str',),
+        markers=dict(type='list',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
