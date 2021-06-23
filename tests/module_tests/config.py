@@ -82,9 +82,32 @@ UserAccountProfile = {
 }
 
 WafPolicy = {
-	"patch_file": "./vs-1-waf-policy-patches.json",
-	"base_waf_policy": "System-WAF-Policy",
-	"name": "vs1-waf-policy"
+	"name": "vs1-waf-policy",
+	"tenant_ref": "/api/tenant?name=admin",
+	"mode": "WAF_MODE_DETECTION_ONLY",
+	"paranoia_level": "WAF_PARANOIA_LEVEL_LOW",
+	"failure_mode": "WAF_FAILURE_MODE_OPEN",
+	"allow_mode_delegation": "true",
+	"enable_app_learning": "false",
+	"crs_overrides": [
+		{
+			"name": "CRS_901_Initialization",
+			"enable": "true"
+		}
+	],
+	"learning_params": {
+		"sampling_percent": "1",
+		"update_interval": "30",
+		"max_uris": "500",
+		"max_params": "100",
+		"enable_per_uri_learning": "true",
+		"min_hits_to_learn": "10000"
+	},
+	"min_confidence": "CONFIDENCE_VERY_HIGH",
+	"enable_auto_rule_updates": "true",
+	"enable_regex_learning": "false",
+	"waf_profile_ref": "/api/wafprofile?name=System-WAF-Profile",
+	"waf_crs_ref": "/api/wafcrs?name=CRS-2017-1"
 }
 
 Applicationpersisteceprofile = {
@@ -476,7 +499,6 @@ Ipamdnsproviderprofile = {
 		"dns_service_domain": [
 			{
 				"record_ttl": 150,
-				"num_dns_ip": 1,
 				"domain_name": "rohan",
 				"pass_through": True
 			}

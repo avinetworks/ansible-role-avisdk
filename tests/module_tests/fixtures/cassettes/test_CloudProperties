@@ -5,35 +5,35 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: GET
     uri: https://10.79.171.103/api/cloudproperties/?include_refs=&include_name=
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/cloudproperties",
-        "uuid": "global", "_last_modified": "1604640849024599", "cc_vtypes": ["CLOUD_OPENSTACK",
-        "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER",
-        "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER", "CLOUD_AZURE", "CLOUD_GCP", "CLOUD_NSXT"],
-        "hyp_props": [{"htype": "VMWARE_ESX", "max_nics": 10}, {"htype": "VMWARE_VSAN",
-        "max_nics": 10}, {"htype": "KVM", "max_nics": 24}, {"htype": "XEN"}], "info":
-        [{"vtype": "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK",
-        "htypes": ["KVM", "VMWARE_ESX", "VMWARE_VSAN"], "flavor_props": [{"id": "all",
-        "name": "all", "public": true, "max_ips_per_nic": 11}]}, {"vtype": "CLOUD_AWS",
-        "htypes": ["XEN"], "flavor_regex_filter": "[ctmr][0-9]+[n]?\\..*", "flavor_props":
-        [{"id": "t3.micro", "name": "t3.micro", "ram_mb": 1024, "disk_gb": 0, "vcpus":
-        2, "public": true, "max_nics": 2, "max_ips_per_nic": 2, "cost": "{''ondemand'':
+      string: '{"url": "https://10.79.171.103/api/cloudproperties", "uuid": "global",
+        "_last_modified": "1624449370669247", "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS",
+        "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S",
+        "CLOUD_LINUXSERVER", "CLOUD_AZURE", "CLOUD_GCP", "CLOUD_NSXT"], "hyp_props":
+        [{"htype": "VMWARE_ESX", "max_nics": 10}, {"htype": "VMWARE_VSAN", "max_nics":
+        10}, {"htype": "KVM", "max_nics": 24}, {"htype": "XEN"}], "info": [{"vtype":
+        "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK", "htypes":
+        ["KVM", "VMWARE_ESX", "VMWARE_VSAN"], "flavor_props": [{"id": "all", "name":
+        "all", "public": true, "max_ips_per_nic": 11}]}, {"vtype": "CLOUD_AWS", "htypes":
+        ["XEN"], "flavor_regex_filter": "[ctmr][0-9]+[n]?\\..*", "flavor_props": [{"id":
+        "t3.micro", "name": "t3.micro", "ram_mb": 1024, "disk_gb": 0, "vcpus": 2,
+        "public": true, "max_nics": 2, "max_ips_per_nic": 2, "cost": "{''ondemand'':
         ''0.0104'', ''reserved'': {''yrTerm1Convertible.allUpfront'': ''0.006963'',
         ''yrTerm1Convertible.noUpfront'': ''0.0075'', ''yrTerm1Convertible.partialUpfront'':
         ''0.007139'', ''yrTerm1Standard.allUpfront'': ''0.00605'', ''yrTerm1Standard.noUpfront'':
@@ -489,178 +489,179 @@ interactions:
         "all", "name": "all", "public": true, "max_nics": 1, "max_ips_per_nic": 150}]},
         {"vtype": "CLOUD_GCP"}, {"vtype": "CLOUD_NSXT", "htypes": ["VMWARE_ESX"]}]}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - PUT, GET, HEAD, PATCH, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, PATCH, GET, OPTIONS, PUT
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:05 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:01 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:05
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:05
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200
       message: OK
 - request:
-    body: !!python/unicode '{"info": [{"vtype": "CLOUD_VCENTER", "htypes": ["VMWARE_ESX"]},
-      {"flavor_props": [{"max_ips_per_nic": 11, "id": "all", "name": "all", "public":
-      true}], "vtype": "CLOUD_OPENSTACK", "htypes": ["KVM", "VMWARE_ESX", "VMWARE_VSAN"]},
-      {"flavor_props": [{"max_nics": 2, "name": "t2.micro", "disk_gb": 0, "max_ips_per_nic":
-      2, "ram_mb": 1024, "public": true, "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-      u''0.008'', u''yrTerm3Convertible.allUpfront'': u''0.005'', u''yrTerm3Convertible.partialUpfront'':
-      u''0.005'', u''yrTerm1Convertible.partialUpfront'': u''0.008'', u''yrTerm1Standard.partialUpfront'':
-      u''0.007'', u''yrTerm3Standard.noUpfront'': u''0.005'', u''yrTerm3Convertible.noUpfront'':
-      u''0.006'', u''yrTerm3Standard.allUpfront'': u''0.004'', u''yrTerm1Convertible.allUpfront'':
-      u''0.008'', u''yrTerm1Standard.allUpfront'': u''0.007'', u''yrTerm3Standard.partialUpfront'':
-      u''0.005'', u''yrTerm1Standard.noUpfront'': u''0.007''}, u''ondemand'': u''0.0116''}",
-      "id": "t2.micro"}, {"max_nics": 2, "name": "t2.small", "disk_gb": 0, "max_ips_per_nic":
-      4, "ram_mb": 2048, "public": true, "vcpus": 1, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'':
-      u''0.017'', u''yrTerm3Convertible.allUpfront'': u''0.011'', u''yrTerm3Convertible.partialUpfront'':
+    body: '{"cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS",
+      "CLOUD_DOCKER_UCP", "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER",
+      "CLOUD_AZURE"], "hyp_props": [{"htype": "VMWARE_ESX", "max_nics": 10}, {"htype":
+      "VMWARE_VSAN", "max_nics": 10}, {"htype": "KVM", "max_nics": 24}, {"htype":
+      "XEN"}], "info": [{"htypes": ["VMWARE_ESX"], "vtype": "CLOUD_VCENTER"}, {"flavor_props":
+      [{"id": "all", "max_ips_per_nic": 11, "name": "all", "public": true}], "htypes":
+      ["KVM", "VMWARE_ESX", "VMWARE_VSAN"], "vtype": "CLOUD_OPENSTACK"}, {"flavor_props":
+      [{"cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.008'', u''yrTerm3Convertible.allUpfront'':
+      u''0.005'', u''yrTerm3Convertible.partialUpfront'': u''0.005'', u''yrTerm1Convertible.partialUpfront'':
+      u''0.008'', u''yrTerm1Standard.partialUpfront'': u''0.007'', u''yrTerm3Standard.noUpfront'':
+      u''0.005'', u''yrTerm3Convertible.noUpfront'': u''0.006'', u''yrTerm3Standard.allUpfront'':
+      u''0.004'', u''yrTerm1Convertible.allUpfront'': u''0.008'', u''yrTerm1Standard.allUpfront'':
+      u''0.007'', u''yrTerm3Standard.partialUpfront'': u''0.005'', u''yrTerm1Standard.noUpfront'':
+      u''0.007''}, u''ondemand'': u''0.0116''}", "disk_gb": 0, "id": "t2.micro", "max_ips_per_nic":
+      2, "max_nics": 2, "name": "t2.micro", "public": true, "ram_mb": 1024, "vcpus":
+      1}, {"cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.017'',
+      u''yrTerm3Convertible.allUpfront'': u''0.011'', u''yrTerm3Convertible.partialUpfront'':
       u''0.011'', u''yrTerm1Convertible.partialUpfront'': u''0.016'', u''yrTerm1Standard.partialUpfront'':
       u''0.014'', u''yrTerm3Standard.noUpfront'': u''0.010'', u''yrTerm3Convertible.noUpfront'':
       u''0.012'', u''yrTerm3Standard.allUpfront'': u''0.009'', u''yrTerm1Convertible.allUpfront'':
       u''0.015'', u''yrTerm1Standard.allUpfront'': u''0.013'', u''yrTerm3Standard.partialUpfront'':
       u''0.009'', u''yrTerm1Standard.noUpfront'': u''0.014''}, u''ondemand'': u''0.023''}",
-      "id": "t2.small"}], "flavor_regex_filter": "[ctmr][0-9]+\\..*", "vtype": "CLOUD_AWS",
-      "htypes": ["XEN"]}, {"vtype": "CLOUD_MESOS"}, {"vtype": "CLOUD_DOCKER_UCP"},
-      {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"}, {"vtype": "CLOUD_LINUXSERVER"},
-      {"vtype": "CLOUD_VCA", "htypes": ["VMWARE_ESX"]}, {"flavor_props": [{"max_nics":
-      1, "max_ips_per_nic": 150, "id": "all", "name": "all", "public": true}], "vtype":
-      "CLOUD_AZURE"}], "hyp_props": [{"max_nics": 10, "htype": "VMWARE_ESX"}, {"max_nics":
-      10, "htype": "VMWARE_VSAN"}, {"max_nics": 24, "htype": "KVM"}, {"htype": "XEN"}],
-      "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP",
-      "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER", "CLOUD_AZURE"]}'
+      "disk_gb": 0, "id": "t2.small", "max_ips_per_nic": 4, "max_nics": 2, "name":
+      "t2.small", "public": true, "ram_mb": 2048, "vcpus": 1}], "flavor_regex_filter":
+      "[ctmr][0-9]+\\..*", "htypes": ["XEN"], "vtype": "CLOUD_AWS"}, {"vtype": "CLOUD_MESOS"},
+      {"vtype": "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"},
+      {"vtype": "CLOUD_LINUXSERVER"}, {"htypes": ["VMWARE_ESX"], "vtype": "CLOUD_VCA"},
+      {"flavor_props": [{"id": "all", "max_ips_per_nic": 150, "max_nics": 1, "name":
+      "all", "public": true}], "vtype": "CLOUD_AZURE"}]}'
     headers:
       Content-Length:
       - '2394'
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: PUT
     uri: https://10.79.171.103/api/cloudproperties/
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/cloudproperties",
-        "uuid": "global", "_last_modified": "1604641926463632", "cc_vtypes": ["CLOUD_OPENSTACK",
-        "CLOUD_AWS", "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER",
-        "CLOUD_OSHIFT_K8S", "CLOUD_LINUXSERVER", "CLOUD_AZURE"], "hyp_props": [{"htype":
-        "VMWARE_ESX", "max_nics": 10}, {"htype": "VMWARE_VSAN", "max_nics": 10}, {"htype":
-        "KVM", "max_nics": 24}, {"htype": "XEN"}], "info": [{"vtype": "CLOUD_VCENTER",
-        "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK", "htypes": ["KVM",
-        "VMWARE_ESX", "VMWARE_VSAN"], "flavor_props": [{"id": "all", "name": "all",
-        "public": true, "max_ips_per_nic": 11}]}, {"vtype": "CLOUD_AWS", "htypes":
-        ["XEN"], "flavor_regex_filter": "[ctmr][0-9]+\\..*", "flavor_props": [{"id":
-        "t2.micro", "name": "t2.micro", "ram_mb": 1024, "disk_gb": 0, "vcpus": 1,
-        "public": true, "max_nics": 2, "max_ips_per_nic": 2, "cost": "{u''reserved'':
-        {u''yrTerm1Convertible.noUpfront'': u''0.008'', u''yrTerm3Convertible.allUpfront'':
-        u''0.005'', u''yrTerm3Convertible.partialUpfront'': u''0.005'', u''yrTerm1Convertible.partialUpfront'':
-        u''0.008'', u''yrTerm1Standard.partialUpfront'': u''0.007'', u''yrTerm3Standard.noUpfront'':
-        u''0.005'', u''yrTerm3Convertible.noUpfront'': u''0.006'', u''yrTerm3Standard.allUpfront'':
-        u''0.004'', u''yrTerm1Convertible.allUpfront'': u''0.008'', u''yrTerm1Standard.allUpfront'':
-        u''0.007'', u''yrTerm3Standard.partialUpfront'': u''0.005'', u''yrTerm1Standard.noUpfront'':
-        u''0.007''}, u''ondemand'': u''0.0116''}"}, {"id": "t2.small", "name": "t2.small",
-        "ram_mb": 2048, "disk_gb": 0, "vcpus": 1, "public": true, "max_nics": 2, "max_ips_per_nic":
-        4, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.017'',
-        u''yrTerm3Convertible.allUpfront'': u''0.011'', u''yrTerm3Convertible.partialUpfront'':
-        u''0.011'', u''yrTerm1Convertible.partialUpfront'': u''0.016'', u''yrTerm1Standard.partialUpfront'':
-        u''0.014'', u''yrTerm3Standard.noUpfront'': u''0.010'', u''yrTerm3Convertible.noUpfront'':
-        u''0.012'', u''yrTerm3Standard.allUpfront'': u''0.009'', u''yrTerm1Convertible.allUpfront'':
-        u''0.015'', u''yrTerm1Standard.allUpfront'': u''0.013'', u''yrTerm3Standard.partialUpfront'':
-        u''0.009'', u''yrTerm1Standard.noUpfront'': u''0.014''}, u''ondemand'': u''0.023''}"}]},
-        {"vtype": "CLOUD_MESOS"}, {"vtype": "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"},
-        {"vtype": "CLOUD_OSHIFT_K8S"}, {"vtype": "CLOUD_LINUXSERVER"}, {"vtype": "CLOUD_VCA",
-        "htypes": ["VMWARE_ESX"]}, {"vtype": "CLOUD_AZURE", "flavor_props": [{"id":
-        "all", "name": "all", "public": true, "max_nics": 1, "max_ips_per_nic": 150}]}]}'
+      string: '{"url": "https://10.79.171.103/api/cloudproperties", "uuid": "global",
+        "_last_modified": "1624450501325921", "cc_vtypes": ["CLOUD_OPENSTACK", "CLOUD_AWS",
+        "CLOUD_VCA", "CLOUD_MESOS", "CLOUD_DOCKER_UCP", "CLOUD_RANCHER", "CLOUD_OSHIFT_K8S",
+        "CLOUD_LINUXSERVER", "CLOUD_AZURE"], "hyp_props": [{"htype": "VMWARE_ESX",
+        "max_nics": 10}, {"htype": "VMWARE_VSAN", "max_nics": 10}, {"htype": "KVM",
+        "max_nics": 24}, {"htype": "XEN"}], "info": [{"vtype": "CLOUD_VCENTER", "htypes":
+        ["VMWARE_ESX"]}, {"vtype": "CLOUD_OPENSTACK", "htypes": ["KVM", "VMWARE_ESX",
+        "VMWARE_VSAN"], "flavor_props": [{"id": "all", "name": "all", "public": true,
+        "max_ips_per_nic": 11}]}, {"vtype": "CLOUD_AWS", "htypes": ["XEN"], "flavor_regex_filter":
+        "[ctmr][0-9]+\\..*", "flavor_props": [{"id": "t2.micro", "name": "t2.micro",
+        "ram_mb": 1024, "disk_gb": 0, "vcpus": 1, "public": true, "max_nics": 2, "max_ips_per_nic":
+        2, "cost": "{u''reserved'': {u''yrTerm1Convertible.noUpfront'': u''0.008'',
+        u''yrTerm3Convertible.allUpfront'': u''0.005'', u''yrTerm3Convertible.partialUpfront'':
+        u''0.005'', u''yrTerm1Convertible.partialUpfront'': u''0.008'', u''yrTerm1Standard.partialUpfront'':
+        u''0.007'', u''yrTerm3Standard.noUpfront'': u''0.005'', u''yrTerm3Convertible.noUpfront'':
+        u''0.006'', u''yrTerm3Standard.allUpfront'': u''0.004'', u''yrTerm1Convertible.allUpfront'':
+        u''0.008'', u''yrTerm1Standard.allUpfront'': u''0.007'', u''yrTerm3Standard.partialUpfront'':
+        u''0.005'', u''yrTerm1Standard.noUpfront'': u''0.007''}, u''ondemand'': u''0.0116''}"},
+        {"id": "t2.small", "name": "t2.small", "ram_mb": 2048, "disk_gb": 0, "vcpus":
+        1, "public": true, "max_nics": 2, "max_ips_per_nic": 4, "cost": "{u''reserved'':
+        {u''yrTerm1Convertible.noUpfront'': u''0.017'', u''yrTerm3Convertible.allUpfront'':
+        u''0.011'', u''yrTerm3Convertible.partialUpfront'': u''0.011'', u''yrTerm1Convertible.partialUpfront'':
+        u''0.016'', u''yrTerm1Standard.partialUpfront'': u''0.014'', u''yrTerm3Standard.noUpfront'':
+        u''0.010'', u''yrTerm3Convertible.noUpfront'': u''0.012'', u''yrTerm3Standard.allUpfront'':
+        u''0.009'', u''yrTerm1Convertible.allUpfront'': u''0.015'', u''yrTerm1Standard.allUpfront'':
+        u''0.013'', u''yrTerm3Standard.partialUpfront'': u''0.009'', u''yrTerm1Standard.noUpfront'':
+        u''0.014''}, u''ondemand'': u''0.023''}"}]}, {"vtype": "CLOUD_MESOS"}, {"vtype":
+        "CLOUD_DOCKER_UCP"}, {"vtype": "CLOUD_RANCHER"}, {"vtype": "CLOUD_OSHIFT_K8S"},
+        {"vtype": "CLOUD_LINUXSERVER"}, {"vtype": "CLOUD_VCA", "htypes": ["VMWARE_ESX"]},
+        {"vtype": "CLOUD_AZURE", "flavor_props": [{"id": "all", "name": "all", "public":
+        true, "max_nics": 1, "max_ips_per_nic": 150}]}]}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - PUT, GET, HEAD, PATCH, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, PATCH, GET, OPTIONS, PUT
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:06 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:01 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:06
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:06
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200

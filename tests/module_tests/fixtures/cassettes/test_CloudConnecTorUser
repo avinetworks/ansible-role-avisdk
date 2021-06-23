@@ -5,147 +5,148 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: GET
     uri: https://10.79.171.103/api/cloudconnectoruser?include_refs=&include_name=&name=Test-User
   response:
     body:
-      string: !!python/unicode '{"count": 0, "results": []}'
+      string: '{"count": 0, "results": []}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - POST, GET, HEAD, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, POST, GET, OPTIONS
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:03 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:01 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:03
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:03
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200
       message: OK
 - request:
-    body: !!python/unicode '{"private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDA7Lri81+WxnMx\nzg+b8Mw3tH6ls0WIdT90cZlgnb/0YBDzeft2etemC50cHVbqLYZ+UkYMQJjk0Zk9\nF1ANPcY6KhRM0oDh1tb2YdemO19lqy/pXub46rrFI4EutgvG4hMgQm6uBBOEZTxl\nntGzUeh6pLQpUcPvcjCKjDn0j/SMtjMo6q5/q+af0X4+CoASE84mv+VLWnhlF5gr\nZyW7OfkcPUqRcGnt/VplGJHvugcoNmrEuKi8fzK0WRsEYUwAWgQ3DDMuJSgrPSRc\nWanOV5BES8Wtv0CnicXa8wo05Rfnof1p6oOdhjAgN5OhD6Keq98UpgNkSDvZgW5R\nGJpeYqhrAgMBAAECggEBAKhhNQ+FWEVw+PNcJJV2ydZIi0y1tZdOtc48o6AGrpVs\nDv9h1I5o0rRSaJI0LTp/92VjC04ARzFWmgcOxMh5xPvY5BTUmLYDW2R4qs2j/jPv\nAAcP1EkmHVKYFVSegJLZl9XNBWqNljc0YE1VGzMF5wC7pZ52hasDn8gccSy5Q7hW\ne9Kiek3C02vDdlCEs5EK0O7+KBZb75YsOSEjaoDJGAPH3Iw3Y8FTDChpA5zv94PC\nY4XFxmxZ5hj3WJoKcf0MYTbUP31sjnWYPfckr8F6xic/AHO8e009bjRCSLeOrut7\n3pC1F+8ekuvdTtiQKMYWjZDKOIx65ClJP+8nC/VXG1ECgYEA8nxUSl2f3JOB/RmM\nuEXgmeY0iQqXmOH1WesRofCNXQA4ENzwl5ADrZ+rFJ9B9fjkT5+Q+QP7CClW6AhC\neBtHDxr6rUcZsKrZdZJrdOk6Wxw8+Ql3wGnd81frrhTSOStUm5X5ztBVtvdfDPhj\nmcJpRIbUtb8XZJWRMfz6gtxZIFkCgYEAy61J7iMbbzv+gTEd719A0ITGSAQ3FRWw\nL4Co0PtEhq0lmJHRcYVTX20fj2n0eTL23FRPAz1K48+pj9DpqXIsuzU0sgUe4erQ\n6pJ5kFy0TRisqgh2JBpYsMNAX+q1lTtjUR0IaSCIILXydX20yZHdgFx4dgjR+R9d\nzm7OPx/PlmMCgYARiMIDmp+LsLLunWFaldr25fmYi0aJDJXUSbY9sopWVkS3m3Je\nU1CgxnH1jMqVQckopM4z44DMh0i8gJRl4PsTcYz86K5H4yLUaKESlCbfHbye+XtK\nU510EkB9lw3YinSUx5SHyvLXxy19X5y8Kp24EdPhzI6hfFtCdRucSNi9CQKBgF7c\nH3GcwjtFStxqvtFsoKg9HogOBoV4a21EU9u5GwpKfBcZ2t0vRkxMa4WEyIrmFJk7\nXu1YT5fYcNV9bEYx2el690buIZsAnTqS67Ezq/m4QzqR5EweRS5WUZYan2WYmkH9\n7pvfvebWNs1Htbqnh+0vpB79LqYDWNI7Qy2dKDaXAoGBAKrS+3RKLBspcKtxh42u\nMDNgFykpHExlT09qqBmmD52+k7lGKeciwRiBPO2wckuTJHOsxOFt0IRCVtzrKzgL\nrz+GlYExiuvr08DvHabTwE0+ASTOlOfS1/XPO7OA2fbQTg/mUiSvqDPS225Ah6Gx\nCpfvapb71uWuMinrDbEhTEc5\n-----END
-      PRIVATE KEY-----\n", "name": "Test-User", "tenant_ref": "/api/tenant?name=admin"}'
+    body: '{"name": "Test-User", "tenant_ref": "/api/tenant?name=admin", "private_key":
+      "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDA7Lri81+WxnMx\nzg+b8Mw3tH6ls0WIdT90cZlgnb/0YBDzeft2etemC50cHVbqLYZ+UkYMQJjk0Zk9\nF1ANPcY6KhRM0oDh1tb2YdemO19lqy/pXub46rrFI4EutgvG4hMgQm6uBBOEZTxl\nntGzUeh6pLQpUcPvcjCKjDn0j/SMtjMo6q5/q+af0X4+CoASE84mv+VLWnhlF5gr\nZyW7OfkcPUqRcGnt/VplGJHvugcoNmrEuKi8fzK0WRsEYUwAWgQ3DDMuJSgrPSRc\nWanOV5BES8Wtv0CnicXa8wo05Rfnof1p6oOdhjAgN5OhD6Keq98UpgNkSDvZgW5R\nGJpeYqhrAgMBAAECggEBAKhhNQ+FWEVw+PNcJJV2ydZIi0y1tZdOtc48o6AGrpVs\nDv9h1I5o0rRSaJI0LTp/92VjC04ARzFWmgcOxMh5xPvY5BTUmLYDW2R4qs2j/jPv\nAAcP1EkmHVKYFVSegJLZl9XNBWqNljc0YE1VGzMF5wC7pZ52hasDn8gccSy5Q7hW\ne9Kiek3C02vDdlCEs5EK0O7+KBZb75YsOSEjaoDJGAPH3Iw3Y8FTDChpA5zv94PC\nY4XFxmxZ5hj3WJoKcf0MYTbUP31sjnWYPfckr8F6xic/AHO8e009bjRCSLeOrut7\n3pC1F+8ekuvdTtiQKMYWjZDKOIx65ClJP+8nC/VXG1ECgYEA8nxUSl2f3JOB/RmM\nuEXgmeY0iQqXmOH1WesRofCNXQA4ENzwl5ADrZ+rFJ9B9fjkT5+Q+QP7CClW6AhC\neBtHDxr6rUcZsKrZdZJrdOk6Wxw8+Ql3wGnd81frrhTSOStUm5X5ztBVtvdfDPhj\nmcJpRIbUtb8XZJWRMfz6gtxZIFkCgYEAy61J7iMbbzv+gTEd719A0ITGSAQ3FRWw\nL4Co0PtEhq0lmJHRcYVTX20fj2n0eTL23FRPAz1K48+pj9DpqXIsuzU0sgUe4erQ\n6pJ5kFy0TRisqgh2JBpYsMNAX+q1lTtjUR0IaSCIILXydX20yZHdgFx4dgjR+R9d\nzm7OPx/PlmMCgYARiMIDmp+LsLLunWFaldr25fmYi0aJDJXUSbY9sopWVkS3m3Je\nU1CgxnH1jMqVQckopM4z44DMh0i8gJRl4PsTcYz86K5H4yLUaKESlCbfHbye+XtK\nU510EkB9lw3YinSUx5SHyvLXxy19X5y8Kp24EdPhzI6hfFtCdRucSNi9CQKBgF7c\nH3GcwjtFStxqvtFsoKg9HogOBoV4a21EU9u5GwpKfBcZ2t0vRkxMa4WEyIrmFJk7\nXu1YT5fYcNV9bEYx2el690buIZsAnTqS67Ezq/m4QzqR5EweRS5WUZYan2WYmkH9\n7pvfvebWNs1Htbqnh+0vpB79LqYDWNI7Qy2dKDaXAoGBAKrS+3RKLBspcKtxh42u\nMDNgFykpHExlT09qqBmmD52+k7lGKeciwRiBPO2wckuTJHOsxOFt0IRCVtzrKzgL\nrz+GlYExiuvr08DvHabTwE0+ASTOlOfS1/XPO7OA2fbQTg/mUiSvqDPS225Ah6Gx\nCpfvapb71uWuMinrDbEhTEc5\n-----END
+      PRIVATE KEY-----\n"}'
     headers:
       Content-Length:
       - '1812'
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: POST
     uri: https://10.79.171.103/api/cloudconnectoruser
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/cloudconnectoruser/cloudconnectoruser-b04f967c-581a-4d10-b758-75ddd58759d8#Test-User",
-        "uuid": "cloudconnectoruser-b04f967c-581a-4d10-b758-75ddd58759d8", "name":
+      string: '{"url": "https://10.79.171.103/api/cloudconnectoruser/cloudconnectoruser-5c9ad628-c56d-463c-8ffd-b3cd0f3de775#Test-User",
+        "uuid": "cloudconnectoruser-5c9ad628-c56d-463c-8ffd-b3cd0f3de775", "name":
         "Test-User", "tenant_ref": "https://10.79.171.103/api/tenant/admin#admin",
-        "_last_modified": "1604641924271588", "private_key": "<sensitive>", "public_key":
+        "_last_modified": "1624450501163013", "private_key": "<sensitive>", "public_key":
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDA7Lri81+WxnMxzg+b8Mw3tH6ls0WIdT90cZlgnb/0YBDzeft2etemC50cHVbqLYZ+UkYMQJjk0Zk9F1ANPcY6KhRM0oDh1tb2YdemO19lqy/pXub46rrFI4EutgvG4hMgQm6uBBOEZTxlntGzUeh6pLQpUcPvcjCKjDn0j/SMtjMo6q5/q+af0X4+CoASE84mv+VLWnhlF5grZyW7OfkcPUqRcGnt/VplGJHvugcoNmrEuKi8fzK0WRsEYUwAWgQ3DDMuJSgrPSRcWanOV5BES8Wtv0CnicXa8wo05Rfnof1p6oOdhjAgN5OhD6Keq98UpgNkSDvZgW5RGJpeYqhr\n"}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - POST, GET, HEAD, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, POST, GET, OPTIONS
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:04 GMT
-      location:
-      - https://10.79.171.103/api/cloudconnectoruser/cloudconnectoruser-b04f967c-581a-4d10-b758-75ddd58759d8#Test-User
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:01 GMT
+      Location:
+      - https://10.79.171.103/api/cloudconnectoruser/cloudconnectoruser-5c9ad628-c56d-463c-8ffd-b3cd0f3de775#Test-User
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:04
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:04
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 201
