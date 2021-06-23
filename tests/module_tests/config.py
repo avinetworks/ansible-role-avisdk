@@ -82,9 +82,32 @@ UserAccountProfile = {
 }
 
 WafPolicy = {
-	"patch_file": "./vs-1-waf-policy-patches.json",
-	"base_waf_policy": "System-WAF-Policy",
-	"name": "vs1-waf-policy"
+	"name": "vs1-waf-policy",
+	"tenant_ref": "/api/tenant/?name=admin",
+	"mode": "WAF_MODE_DETECTION_ONLY",
+	"paranoia_level": "WAF_PARANOIA_LEVEL_LOW",
+	"failure_mode": "WAF_FAILURE_MODE_OPEN",
+	"allow_mode_delegation": "true",
+	"enable_app_learning": "false",
+	"crs_overrides": [
+		{
+			"name": "CRS_901_Initialization",
+			"enable": "true"
+		}
+	],
+	"learning_params": {
+		"sampling_percent": "1",
+		"update_interval": "30",
+		"max_uris": "500",
+		"max_params": "100",
+		"enable_per_uri_learning": "true",
+		"min_hits_to_learn": "10000"
+	},
+	"min_confidence": "CONFIDENCE_VERY_HIGH",
+	"enable_auto_rule_updates": "true",
+	"enable_regex_learning": "false",
+	"waf_profile_ref": "/api/wafprofile/?name=System-WAF-Profile",
+	"waf_crs_ref": "/api/wafcrs?name=CRS-2017-1"
 }
 
 Applicationpersisteceprofile = {
@@ -476,7 +499,6 @@ Ipamdnsproviderprofile = {
 		"dns_service_domain": [
 			{
 				"record_ttl": 150,
-				"num_dns_ip": 1,
 				"domain_name": "rohan",
 				"pass_through": True
 			}
@@ -582,7 +604,7 @@ AlertSyslogConfig = {
 
 PkiProfile = {
 	"name": "test-pkiprofile",
-	"tenant_ref": "/api/tenant?name=admin",
+	"tenant_ref": "/api/tenant/?name=admin",
 	"is_federated": True,
 	"ignore_peer_chain": False,
 	"crl_check": False,
@@ -1028,11 +1050,9 @@ SeProperties = {
 		"vnic_dhcp_ip_check_interval": 6
 	},
 	"se_runtime_properties": {
-		"log_agent_max_active_adf_files_per_vs": 100,
 		"se_auth_ldap_conns_per_server": 1,
 		"log_agent_file_sz_appl": 4,
 		"se_packet_buffer_max": 0,
-		"log_agent_max_logmessage_proto_sz": 65536,
 		"se_hb_persist_fudge_bits": 3,
 		"dp_aggressive_hb_timeout_count": 10,
 		"se_metrics_rt_interval": 1000,
@@ -1049,7 +1069,6 @@ SeProperties = {
 		"upstream_connpool_cache_thresh": -1,
 		"connections_lossy_log_rate_limiter_threshold": 1000,
 		"log_agent_unknown_vs_timer": 1800,
-		"upstream_connpool_strategy": -1,
 		"upstream_connpool_conn_idle_thresh_tmo": -1,
 		"log_agent_min_storage_per_vs": 10,
 		"feproxy_vips_enable_proxy_arp": True,
@@ -1123,7 +1142,6 @@ ControllerProperties = {
 	"upgrade_lease_time": 360,
 	"se_create_timeout": 900,
 	"query_host_fail": 180,
-	"vs_apic_scaleout_timeout": 360,
 	"se_offline_del": 172000,
 	"max_dead_se_in_grp": 1,
 	"upgrade_dns_ttl": 5,
