@@ -5,108 +5,108 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; csrftoken=Mkdb9XUu7O8dys4ajj74SiNomKvFSazh;
+        sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; avi-sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b;
+        csrftoken=Mkdb9XUu7O8dys4ajj74SiNomKvFSazh; sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 21.1.1
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - Mkdb9XUu7O8dys4ajj74SiNomKvFSazh
       timeout:
-      - '300'
+      - None
     method: GET
     uri: https://10.79.171.103/api/gslbservice?include_refs=&include_name=&name=Test-gslb
   response:
     body:
-      string: !!python/unicode '{"count": 0, "results": []}'
+      string: '{"count": 0, "results": []}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 21.1.1
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - POST, GET, HEAD, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - GET, POST, OPTIONS, HEAD
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:19 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 10:58:19 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:19
+      Set-Cookie:
+      - avi-sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; expires=Thu, 24-Jun-2021 10:58:19
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:19
+      - sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; expires=Thu, 24-Jun-2021 10:58:19
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200
       message: OK
 - request:
-    body: !!python/unicode '{"enabled": true, "domain_names": ["test-application.com"],
-      "is_federated": true, "health_monitor_scope": "GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS",
-      "down_response": {"type": "GSLB_SERVICE_DOWN_RESPONSE_NONE"}, "site_persistence_enabled":
-      false, "wildcard_match": false, "groups": [{"priority": 10, "members": [{"public_ip":
-      {"ip": {"type": "V4", "addr": "10.10.2.4"}}, "ip": {"type": "V4", "addr": "10.10.0.3"},
-      "ratio": 1, "location": {"source": "GSLB_LOCATION_SRC_FROM_GEODB"}, "enabled":
-      true}], "name": "gslb-pool", "algorithm": "GSLB_ALGORITHM_ROUND_ROBIN"}], "controller_health_status_enabled":
-      true, "name": "Test-gslb", "use_edns_client_subnet": true, "pool_algorithm":
-      "GSLB_SERVICE_ALGORITHM_PRIORITY", "min_members": 0}'
+    body: '{"controller_health_status_enabled": true, "wildcard_match": false, "down_response":
+      {"type": "GSLB_SERVICE_DOWN_RESPONSE_NONE"}, "enabled": true, "domain_names":
+      ["test-application.com"], "is_federated": true, "use_edns_client_subnet": true,
+      "groups": [{"priority": 10, "members": [{"public_ip": {"ip": {"type": "V4",
+      "addr": "10.10.2.4"}}, "ip": {"type": "V4", "addr": "10.10.0.3"}, "ratio": 1,
+      "location": {"source": "GSLB_LOCATION_SRC_FROM_GEODB"}, "enabled": true}], "name":
+      "gslb-pool", "algorithm": "GSLB_ALGORITHM_ROUND_ROBIN"}], "site_persistence_enabled":
+      false, "min_members": 0, "health_monitor_scope": "GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS",
+      "pool_algorithm": "GSLB_SERVICE_ALGORITHM_PRIORITY", "name": "Test-gslb"}'
     headers:
       Content-Length:
       - '731'
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; csrftoken=Mkdb9XUu7O8dys4ajj74SiNomKvFSazh;
+        sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; avi-sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b;
+        csrftoken=Mkdb9XUu7O8dys4ajj74SiNomKvFSazh; sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 21.1.1
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - Mkdb9XUu7O8dys4ajj74SiNomKvFSazh
       timeout:
-      - '300'
+      - None
     method: POST
     uri: https://10.79.171.103/api/gslbservice
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/gslbservice/gslbservice-edeb2272-8c4e-45ce-b18f-c0560b9055f7#Test-gslb",
-        "uuid": "gslbservice-edeb2272-8c4e-45ce-b18f-c0560b9055f7", "name": "Test-gslb",
+      string: '{"url": "https://10.79.171.103/api/gslbservice/gslbservice-2d4b0ad2-19ca-4f41-a59e-4a1d3381ab60#Test-gslb",
+        "uuid": "gslbservice-2d4b0ad2-19ca-4f41-a59e-4a1d3381ab60", "name": "Test-gslb",
         "domain_names": ["test-application.com"], "is_federated": true, "tenant_ref":
-        "https://10.79.171.103/api/tenant/admin#admin", "_last_modified": "1604641939712118",
+        "https://10.79.171.103/api/tenant/admin#admin", "_last_modified": "1624445899615128",
         "groups": [{"name": "gslb-pool", "priority": 10, "algorithm": "GSLB_ALGORITHM_ROUND_ROBIN",
         "members": [{"ip": {"addr": "10.10.0.3", "type": "V4"}, "ratio": 1, "enabled":
         true, "location": {"source": "GSLB_LOCATION_SRC_FROM_GEODB"}, "public_ip":
@@ -117,50 +117,50 @@ interactions:
         "site_persistence_enabled": false, "pool_algorithm": "GSLB_SERVICE_ALGORITHM_PRIORITY",
         "min_members": 0, "resolve_cname": false}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 21.1.1
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - POST, GET, HEAD, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - GET, POST, OPTIONS, HEAD
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:19 GMT
-      location:
-      - https://10.79.171.103/api/gslbservice/gslbservice-edeb2272-8c4e-45ce-b18f-c0560b9055f7#Test-gslb
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 10:58:19 GMT
+      Location:
+      - https://10.79.171.103/api/gslbservice/gslbservice-2d4b0ad2-19ca-4f41-a59e-4a1d3381ab60#Test-gslb
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:19
+      Set-Cookie:
+      - avi-sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; expires=Thu, 24-Jun-2021 10:58:19
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:19
+      - sessionid=yc456wh3uax7krsqxywa9qr2yeusvy4b; expires=Thu, 24-Jun-2021 10:58:19
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 201
