@@ -5,150 +5,149 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: GET
     uri: https://10.79.171.103/api/applicationpersistenceprofile?include_refs=&include_name=&name=Test-persistance-profile
   response:
     body:
-      string: !!python/unicode '{"count": 0, "results": []}'
+      string: '{"count": 0, "results": []}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - POST, GET, HEAD, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, POST, GET, OPTIONS
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:53:03 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:09 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:53:03
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:09
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:53:03
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:09
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200
       message: OK
 - request:
-    body: !!python/unicode '{"server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-      "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS", "ip_persistence_profile":
-      {"ip_persistent_timeout": 24}, "name": "Test-persistance-profile", "tenant_ref":
-      "/api/tenant/?name=admin"}'
+    body: '{"name": "Test-persistance-profile", "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+      "ip_persistence_profile": {"ip_persistent_timeout": 24}, "tenant_ref": "/api/tenant/?name=admin",
+      "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER"}'
     headers:
       Content-Length:
       - '246'
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: POST
     uri: https://10.79.171.103/api/applicationpersistenceprofile
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/applicationpersistenceprofile/applicationpersistenceprofile-2cc7b09d-b86a-475b-8ff8-84d27225acd1#Test-persistance-profile",
-        "uuid": "applicationpersistenceprofile-2cc7b09d-b86a-475b-8ff8-84d27225acd1",
+      string: '{"url": "https://10.79.171.103/api/applicationpersistenceprofile/applicationpersistenceprofile-8636eefd-ec8b-4077-ba85-16a2aa96e1d9#Test-persistance-profile",
+        "uuid": "applicationpersistenceprofile-8636eefd-ec8b-4077-ba85-16a2aa96e1d9",
         "name": "Test-persistance-profile", "is_federated": false, "tenant_ref": "https://10.79.171.103/api/tenant/admin#admin",
-        "_last_modified": "1604641983626524", "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+        "_last_modified": "1624450509513067", "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
         "ip_persistence_profile": {"ip_persistent_timeout": 24}, "server_hm_down_recovery":
         "HM_DOWN_PICK_NEW_SERVER"}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - POST, GET, HEAD, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, POST, GET, OPTIONS
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:53:03 GMT
-      location:
-      - https://10.79.171.103/api/applicationpersistenceprofile/applicationpersistenceprofile-2cc7b09d-b86a-475b-8ff8-84d27225acd1#Test-persistance-profile
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:09 GMT
+      Location:
+      - https://10.79.171.103/api/applicationpersistenceprofile/applicationpersistenceprofile-8636eefd-ec8b-4077-ba85-16a2aa96e1d9#Test-persistance-profile
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:53:03
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:09
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:53:03
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:09
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 201

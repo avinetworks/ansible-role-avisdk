@@ -5,31 +5,31 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: GET
     uri: https://10.79.171.103/api/controllerproperties/?include_refs=&include_name=
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/controllerproperties",
-        "uuid": "global", "_last_modified": "1604640848408226", "unresponsive_se_reboot":
-        300, "crashed_se_reboot": 900, "se_offline_del": 172000, "vs_se_create_fail":
-        1500, "vs_se_vnic_fail": 300, "vs_se_bootup_fail": 480, "se_vnic_cooldown":
-        120, "vs_se_vnic_ip_fail": 120, "fatal_error_lease_time": 120, "upgrade_lease_time":
-        600, "query_host_fail": 180, "vnic_op_fail_time": 180, "dns_refresh_period":
-        60, "se_create_timeout": 900, "max_dead_se_in_grp": 1, "dead_se_detection_timer":
-        360, "api_idle_timeout": 15, "allow_unauthenticated_nodes": false, "cluster_ip_gratuitous_arp_period":
+      string: '{"url": "https://10.79.171.103/api/controllerproperties", "uuid": "global",
+        "_last_modified": "1624449369921029", "unresponsive_se_reboot": 300, "crashed_se_reboot":
+        900, "se_offline_del": 172000, "vs_se_create_fail": 1500, "vs_se_vnic_fail":
+        300, "vs_se_bootup_fail": 480, "se_vnic_cooldown": 120, "vs_se_vnic_ip_fail":
+        120, "fatal_error_lease_time": 120, "upgrade_lease_time": 600, "query_host_fail":
+        180, "vnic_op_fail_time": 180, "dns_refresh_period": 60, "se_create_timeout":
+        900, "max_dead_se_in_grp": 1, "dead_se_detection_timer": 360, "api_idle_timeout":
+        15, "allow_unauthenticated_nodes": false, "cluster_ip_gratuitous_arp_period":
         60, "vs_key_rotate_period": 360, "secure_channel_controller_token_timeout":
         60, "secure_channel_se_token_timeout": 60, "max_seq_vnic_failures": 3, "vs_awaiting_se_timeout":
         60, "vs_apic_scaleout_timeout": 360, "secure_channel_cleanup_timeout": 60,
@@ -52,101 +52,103 @@ interactions:
         120, "edit_system_limits": false, "file_object_cleanup_period": 1440, "upgrade_fat_se_lease_time":
         1200, "upgrade_se_per_vs_scale_ops_txn_time": 3, "max_threads_cc_vip_bg_worker":
         20, "async_patch_merge_period": 0, "async_patch_request_cleanup_duration":
-        60}'
+        60, "controller_resource_info_collection_period": 30, "se_vnic_gc_wait_time":
+        300, "resmgr_log_caching_period": 21600, "del_offline_se_after_reboot_delay":
+        300, "enable_resmgr_log_cache_print": false, "check_vsvip_fqdn_syntax": true}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - PUT, GET, HEAD, PATCH, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, PATCH, GET, OPTIONS, PUT
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:07 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:01 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:07
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:07
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200
       message: OK
 - request:
-    body: !!python/unicode '{"persistence_key_rotate_period": 60, "unresponsive_se_reboot":
-      300, "vs_se_vnic_fail": 300, "attach_ip_retry_limit": 4, "vs_key_rotate_period":
-      60, "dns_refresh_period": 60, "upgrade_lease_time": 360, "se_create_timeout":
-      900, "se_offline_del": 172000, "fatal_error_lease_time": 120, "secure_channel_controller_token_timeout":
-      60, "crashed_se_reboot": 900, "attach_ip_retry_interval": 360, "se_vnic_cooldown":
-      120, "seupgrade_fabric_pool_size": 20, "vs_se_bootup_fail": 300, "max_seq_vnic_failures":
-      3, "allow_unauthenticated_apis": false, "secure_channel_cleanup_timeout": 60,
-      "vs_se_vnic_ip_fail": 120, "secure_channel_se_token_timeout": 60, "vs_se_ping_fail":
-      60, "allow_ip_forwarding": false, "seupgrade_segroup_min_dead_timeout": 360,
-      "vs_apic_scaleout_timeout": 360, "vs_awaiting_se_timeout": 60, "cluster_ip_gratuitous_arp_period":
-      60, "api_idle_timeout": 15, "dead_se_detection_timer": 360, "vnic_op_fail_time":
-      180, "max_pcap_per_tenant": 4, "max_dead_se_in_grp": 1, "query_host_fail": 180,
-      "upgrade_dns_ttl": 5, "allow_unauthenticated_nodes": false, "warmstart_se_reconnect_wait_time":
-      300, "ssl_certificate_expiry_warning_days": [30, 7, 2], "vs_se_create_fail":
-      1500, "appviewx_compat_mode": false, "se_failover_attempt_interval": 300}'
+    body: '{"vs_se_ping_fail": 60, "vs_se_create_fail": 1500, "cluster_ip_gratuitous_arp_period":
+      60, "persistence_key_rotate_period": 60, "unresponsive_se_reboot": 300, "attach_ip_retry_interval":
+      360, "vs_se_vnic_fail": 300, "attach_ip_retry_limit": 4, "se_vnic_cooldown":
+      120, "vnic_op_fail_time": 180, "max_pcap_per_tenant": 4, "vs_se_bootup_fail":
+      300, "seupgrade_fabric_pool_size": 20, "vs_key_rotate_period": 60, "seupgrade_segroup_min_dead_timeout":
+      360, "upgrade_lease_time": 360, "se_create_timeout": 900, "query_host_fail":
+      180, "vs_apic_scaleout_timeout": 360, "se_offline_del": 172000, "max_dead_se_in_grp":
+      1, "upgrade_dns_ttl": 5, "fatal_error_lease_time": 120, "allow_ip_forwarding":
+      false, "max_seq_vnic_failures": 3, "allow_unauthenticated_nodes": false, "allow_unauthenticated_apis":
+      false, "vs_awaiting_se_timeout": 60, "warmstart_se_reconnect_wait_time": 300,
+      "dns_refresh_period": 60, "secure_channel_cleanup_timeout": 60, "vs_se_vnic_ip_fail":
+      120, "ssl_certificate_expiry_warning_days": [30, 7, 2], "secure_channel_se_token_timeout":
+      60, "secure_channel_controller_token_timeout": 60, "api_idle_timeout": 15, "crashed_se_reboot":
+      900, "appviewx_compat_mode": false, "se_failover_attempt_interval": 300, "dead_se_detection_timer":
+      360}'
     headers:
       Content-Length:
       - '1247'
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: PUT
     uri: https://10.79.171.103/api/controllerproperties/
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/controllerproperties",
-        "uuid": "global", "_last_modified": "1604641927932239", "unresponsive_se_reboot":
-        300, "crashed_se_reboot": 900, "se_offline_del": 172000, "vs_se_create_fail":
-        1500, "vs_se_vnic_fail": 300, "vs_se_bootup_fail": 300, "se_vnic_cooldown":
-        120, "vs_se_vnic_ip_fail": 120, "fatal_error_lease_time": 120, "upgrade_lease_time":
-        360, "query_host_fail": 180, "vnic_op_fail_time": 180, "dns_refresh_period":
-        60, "se_create_timeout": 900, "max_dead_se_in_grp": 1, "dead_se_detection_timer":
-        360, "api_idle_timeout": 15, "allow_unauthenticated_nodes": false, "cluster_ip_gratuitous_arp_period":
+      string: '{"url": "https://10.79.171.103/api/controllerproperties", "uuid": "global",
+        "_last_modified": "1624450501473492", "unresponsive_se_reboot": 300, "crashed_se_reboot":
+        900, "se_offline_del": 172000, "vs_se_create_fail": 1500, "vs_se_vnic_fail":
+        300, "vs_se_bootup_fail": 300, "se_vnic_cooldown": 120, "vs_se_vnic_ip_fail":
+        120, "fatal_error_lease_time": 120, "upgrade_lease_time": 360, "query_host_fail":
+        180, "vnic_op_fail_time": 180, "dns_refresh_period": 60, "se_create_timeout":
+        900, "max_dead_se_in_grp": 1, "dead_se_detection_timer": 360, "api_idle_timeout":
+        15, "allow_unauthenticated_nodes": false, "cluster_ip_gratuitous_arp_period":
         60, "vs_key_rotate_period": 60, "secure_channel_controller_token_timeout":
         60, "secure_channel_se_token_timeout": 60, "max_seq_vnic_failures": 3, "vs_awaiting_se_timeout":
         60, "vs_apic_scaleout_timeout": 360, "secure_channel_cleanup_timeout": 60,
@@ -169,50 +171,52 @@ interactions:
         120, "edit_system_limits": false, "file_object_cleanup_period": 1440, "upgrade_fat_se_lease_time":
         1200, "upgrade_se_per_vs_scale_ops_txn_time": 3, "max_threads_cc_vip_bg_worker":
         20, "async_patch_merge_period": 0, "async_patch_request_cleanup_duration":
-        60}'
+        60, "controller_resource_info_collection_period": 30, "se_vnic_gc_wait_time":
+        300, "resmgr_log_caching_period": 21600, "del_offline_se_after_reboot_delay":
+        300, "enable_resmgr_log_cache_print": false, "check_vsvip_fqdn_syntax": true}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - PUT, GET, HEAD, PATCH, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, PATCH, GET, OPTIONS, PUT
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:07 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:01 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:07
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:07
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:01
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200

@@ -5,39 +5,38 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: GET
     uri: https://10.79.171.103/api/seproperties/?include_refs=&include_name=
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/seproperties",
-        "uuid": "global", "_last_modified": "1604640848371995", "se_bootup_properties":
-        {"tcp_syncache_hashsize": 8192, "log_agent_trace_enabled": true, "log_agent_debug_enabled":
-        false, "se_emulated_cores": 0, "l7_conns_per_core": 16384, "ssl_sess_cache_per_vs":
-        4096, "l7_resvd_listen_conns_per_core": 256, "ssl_sess_cache_timeout": 86400,
-        "se_dp_compression": {"buf_num": 128, "buf_size": 4096, "level_normal": 1,
-        "level_aggressive": 5, "window_size": 4096, "hash_size": 16384}, "se_log_buffer_chunk_count":
-        1024, "se_log_buffer_applog_size": 4096, "se_log_buffer_connlog_size": 1024,
-        "se_log_buffer_events_size": 512, "se_ip_encap_ipc": 0, "se_log_buffer_app_blocking_dequeue":
-        false, "se_log_buffer_conn_blocking_dequeue": false, "se_log_buffer_events_blocking_dequeue":
-        true, "fair_queueing_enabled": false, "docker_backend_portstart": 20480, "docker_backend_portend":
-        30720, "se_l3_encap_ipc": 0, "geo_db_granularity": 1}, "se_runtime_properties":
-        {"persistence_mem_max": 0, "upstream_keepalive": false, "se_packet_buffer_max":
-        0, "tcp_syncache_max_retransmit_default": 4, "log_agent_file_sz_debug": 4,
-        "log_agent_file_sz_conn": 4, "log_agent_file_sz_appl": 4, "log_agent_file_sz_event":
-        4, "log_agent_min_storage_per_vs": 10, "log_agent_max_storage_ignore_percent":
+      string: '{"url": "https://10.79.171.103/api/seproperties", "uuid": "global",
+        "_last_modified": "1624449369884527", "se_bootup_properties": {"tcp_syncache_hashsize":
+        8192, "log_agent_trace_enabled": true, "log_agent_debug_enabled": false, "se_emulated_cores":
+        0, "l7_conns_per_core": 16384, "ssl_sess_cache_per_vs": 4096, "l7_resvd_listen_conns_per_core":
+        256, "ssl_sess_cache_timeout": 86400, "se_dp_compression": {"buf_num": 128,
+        "buf_size": 4096, "level_normal": 1, "level_aggressive": 5, "window_size":
+        4096, "hash_size": 16384}, "se_log_buffer_chunk_count": 1024, "se_log_buffer_applog_size":
+        4096, "se_log_buffer_connlog_size": 1024, "se_log_buffer_events_size": 512,
+        "se_ip_encap_ipc": 0, "se_log_buffer_app_blocking_dequeue": false, "se_log_buffer_conn_blocking_dequeue":
+        false, "se_log_buffer_events_blocking_dequeue": true, "fair_queueing_enabled":
+        false, "docker_backend_portstart": 20480, "docker_backend_portend": 30720,
+        "se_l3_encap_ipc": 0, "geo_db_granularity": 1}, "se_runtime_properties": {"persistence_mem_max":
+        0, "upstream_keepalive": false, "se_packet_buffer_max": 0, "tcp_syncache_max_retransmit_default":
+        4, "log_agent_file_sz_debug": 4, "log_agent_file_sz_conn": 4, "log_agent_file_sz_appl":
+        4, "log_agent_file_sz_event": 4, "log_agent_min_storage_per_vs": 10, "log_agent_max_storage_ignore_percent":
         20.0, "log_agent_max_storage_excess_percent": 110, "se_random_tcp_drops":
         false, "log_agent_max_active_adf_files_per_vs": 100, "log_agent_max_logmessage_proto_sz":
         65536, "se_dp_log_nf_enqueue_percent": 70, "se_dp_log_udf_enqueue_percent":
@@ -86,54 +85,54 @@ interactions:
         100, "vnicdb_cmd_history_size": 256, "se_grp_change_disruptive": true, "vnic_rpc_retry_interval":
         5}}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - PUT, GET, HEAD, PATCH, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, PATCH, GET, OPTIONS, PUT
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:43 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:06 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:43
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:06
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:43
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:06
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200
       message: OK
 - request:
-    body: !!python/unicode '{"se_agent_properties": {"dp_enq_interval_msec": 10, "sdb_scan_count":
+    body: '{"se_agent_properties": {"dp_enq_interval_msec": 10, "sdb_scan_count":
       600, "dp_reg_pending_max_wait_time": 75, "controller_echo_rpc_aggressive_timeout":
       2000, "dp_aggressive_enq_interval_msec": 1, "vnic_ip_delete_interval": 5, "dp_max_wait_rsp_time_sec":
       60, "controller_rpc_timeout": 10, "controller_heartbeat_miss_limit": 6, "dp_aggressive_deq_interval_msec":
@@ -143,49 +142,49 @@ interactions:
       20, "ctrl_reg_pending_max_wait_time": 150, "headless_timeout_sec": 0, "sdb_flush_interval":
       100, "controller_echo_miss_aggressive_limit": 2, "controller_heartbeat_timeout_sec":
       12, "controller_registration_timeout_sec": 10, "controller_echo_miss_limit":
-      4, "vnic_dhcp_ip_check_interval": 6}, "se_runtime_properties": {"log_agent_unknown_vs_timer":
-      1800, "upstream_connpool_strategy": -1, "upstream_connpool_conn_idle_thresh_tmo":
-      -1, "log_agent_min_storage_per_vs": 10, "feproxy_vips_enable_proxy_arp": true,
-      "log_agent_max_active_adf_files_per_vs": 100, "se_auth_ldap_conns_per_server":
-      1, "scaleout_udp_per_pkt": true, "log_agent_file_sz_appl": 4, "se_dp_log_nf_enqueue_percent":
-      70, "se_packet_buffer_max": 0, "http_rum_min_content_length": 64, "log_agent_max_logmessage_proto_sz":
-      65536, "se_hb_persist_fudge_bits": 3, "log_agent_file_sz_conn": 4, "dp_aggressive_hb_timeout_count":
-      10, "se_metrics_rt_interval": 1000, "persistence_mem_max": 0, "upstream_connpool_core_max_cache":
-      -1, "log_agent_log_storage_min_sz": 1024, "se_random_tcp_drops": false, "se_dp_if_state_poll_interval":
-      10, "se_auth_ldap_cache_size": 100000, "log_message_max_file_list_size": 64,
-      "flow_table_batch_push_frequency": 5, "services_accessible_all_interfaces":
+      4, "vnic_dhcp_ip_check_interval": 6}, "se_runtime_properties": {"log_agent_max_active_adf_files_per_vs":
+      100, "se_auth_ldap_conns_per_server": 1, "log_agent_file_sz_appl": 4, "se_packet_buffer_max":
+      0, "log_agent_max_logmessage_proto_sz": 65536, "se_hb_persist_fudge_bits": 3,
+      "dp_aggressive_hb_timeout_count": 10, "se_metrics_rt_interval": 1000, "persistence_mem_max":
+      0, "upstream_connpool_core_max_cache": -1, "log_agent_log_storage_min_sz": 1024,
+      "se_random_tcp_drops": false, "se_dp_if_state_poll_interval": 10, "se_auth_ldap_cache_size":
+      100000, "log_message_max_file_list_size": 64, "services_accessible_all_interfaces":
       false, "dupip_timeout_count": 5, "baremetal_dispatcher_handles_flows": false,
       "upstream_connpool_cache_thresh": -1, "connections_lossy_log_rate_limiter_threshold":
-      1000, "service_port_ranges": [{"start": 4000, "end": 9000}]}}'
+      1000, "log_agent_unknown_vs_timer": 1800, "upstream_connpool_strategy": -1,
+      "upstream_connpool_conn_idle_thresh_tmo": -1, "log_agent_min_storage_per_vs":
+      10, "feproxy_vips_enable_proxy_arp": true, "service_port_ranges": [{"start":
+      4000, "end": 9000}], "scaleout_udp_per_pkt": true, "se_dp_log_nf_enqueue_percent":
+      70, "http_rum_min_content_length": 64, "flow_table_batch_push_frequency": 5,
+      "log_agent_file_sz_conn": 4}}'
     headers:
       Content-Length:
       - '2078'
       Content-Type:
       - application/json
       Cookie:
-      - csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH; sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t;
-        avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; csrftoken=iiibRDfsThxU8As64IUDpWRUudnGdiNH;
-        sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN;
+        sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i;
+        csrftoken=mHTj4vTxftMEIw3KWjw4v7bB10LBzScN; sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i
       Referer:
       - https://10.79.171.103
       X-Avi-Tenant:
       - admin
       X-Avi-Version:
-      - 20.1.3
+      - 20.1.7
       X-CSRFToken:
-      - iiibRDfsThxU8As64IUDpWRUudnGdiNH
+      - mHTj4vTxftMEIw3KWjw4v7bB10LBzScN
       timeout:
-      - '300'
+      - None
     method: PUT
     uri: https://10.79.171.103/api/seproperties/
   response:
     body:
-      string: !!python/unicode '{"url": "https://10.79.171.103/api/seproperties",
-        "uuid": "global", "_last_modified": "1604641963516690", "se_runtime_properties":
-        {"persistence_mem_max": 0, "upstream_keepalive": false, "se_packet_buffer_max":
-        0, "tcp_syncache_max_retransmit_default": 4, "log_agent_file_sz_debug": 4,
-        "log_agent_file_sz_conn": 4, "log_agent_file_sz_appl": 4, "log_agent_file_sz_event":
-        4, "log_agent_min_storage_per_vs": 10, "log_agent_max_storage_ignore_percent":
+      string: '{"url": "https://10.79.171.103/api/seproperties", "uuid": "global",
+        "_last_modified": "1624450506848499", "se_runtime_properties": {"persistence_mem_max":
+        0, "upstream_keepalive": false, "se_packet_buffer_max": 0, "tcp_syncache_max_retransmit_default":
+        4, "log_agent_file_sz_debug": 4, "log_agent_file_sz_conn": 4, "log_agent_file_sz_appl":
+        4, "log_agent_file_sz_event": 4, "log_agent_min_storage_per_vs": 10, "log_agent_max_storage_ignore_percent":
         20.0, "log_agent_max_storage_excess_percent": 110, "se_random_tcp_drops":
         false, "log_agent_max_active_adf_files_per_vs": 100, "log_agent_max_logmessage_proto_sz":
         65536, "se_dp_log_nf_enqueue_percent": 70, "se_dp_log_udf_enqueue_percent":
@@ -229,48 +228,48 @@ interactions:
         100, "vnicdb_cmd_history_size": 256, "se_grp_change_disruptive": true, "vnic_rpc_retry_interval":
         5}}'
     headers:
-      access-control-allow-credentials:
+      AVI_API_VERSION:
+      - 20.1.7
+      Access-Control-Allow-Credentials:
       - 'true'
-      access-control-allow-headers:
+      Access-Control-Allow-Headers:
       - Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN
-      access-control-allow-methods:
+      Access-Control-Allow-Methods:
       - GET
-      access-control-expose-headers:
+      Access-Control-Expose-Headers:
       - X-NEXT-CALL
-      allow:
-      - PUT, GET, HEAD, PATCH, OPTIONS
-      avi_api_version:
-      - 20.1.3
-      cache-control:
+      Allow:
+      - HEAD, PATCH, GET, OPTIONS, PUT
+      Cache-Control:
       - private, no-cache, must-revalidate
-      connection:
+      Connection:
       - keep-alive
-      content-security-policy:
+      Content-Security-Policy:
       - default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;
         img-src 'self' data:;
-      content-type:
+      Content-Type:
       - application/json
-      date:
-      - Fri, 06 Nov 2020 05:52:43 GMT
-      referrer-policy:
+      Date:
+      - Wed, 23 Jun 2021 12:15:06 GMT
+      Referrer-Policy:
       - strict-origin
-      set-cookie:
-      - avi-sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:43
+      Set-Cookie:
+      - avi-sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:06
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      - sessionid=5o2g8h130heco3j9ffscv59tfp8gn51t; expires=Sat, 07-Nov-2020 05:52:43
+      - sessionid=h28xh7q1kkt9xna7vgsls91u7nyzsv4i; expires=Thu, 24-Jun-2021 12:15:06
         GMT; HttpOnly; Max-Age=86400; Path=/; SameSite=None; Secure
-      strict-transport-security:
+      Strict-Transport-Security:
       - max-age=31536000; includeSubdomains
-      transfer-encoding:
+      Transfer-Encoding:
       - chunked
-      vary:
+      Vary:
       - Accept, Cookie
       - Origin
-      x-content-type-options:
+      X-Content-Type-Options:
       - nosniff
-      x-frame-options:
+      X-Frame-Options:
       - SAMEORIGIN
-      x-xss-protection:
+      X-XSS-Protection:
       - 1; mode=block
     status:
       code: 200
