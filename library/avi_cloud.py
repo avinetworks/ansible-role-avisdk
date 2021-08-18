@@ -183,6 +183,12 @@ options:
         description:
             - Linuxserverconfiguration settings for cloud.
         type: dict
+    maintenance_mode:
+        description:
+            - Cloud is in maintenance mode.
+            - Field introduced in 20.1.7,21.1.3.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     mesos_configuration:
         description:
             - Field deprecated in 18.2.2.
@@ -302,7 +308,7 @@ EXAMPLES = """
       controller: "192.168.15.18"
       api_version: "21.1.1"
 
-- name: Create a VMWare cloud with write access mode
+- name: Create a VMware cloud with write access mode
   avi_cloud:
     avi_credentials: "{{ avi_credentials }}"
     apic_mode: false
@@ -372,6 +378,7 @@ def main():
         license_tier=dict(type='str',),
         license_type=dict(type='str',),
         linuxserver_configuration=dict(type='dict',),
+        maintenance_mode=dict(type='bool',),
         mesos_configuration=dict(type='dict',),
         mtu=dict(type='int',),
         name=dict(type='str', required=True),
