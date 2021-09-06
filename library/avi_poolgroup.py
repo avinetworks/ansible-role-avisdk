@@ -58,6 +58,12 @@ options:
         description:
             - Name of the user who created the object.
         type: str
+    deactivate_primary_pool_on_down:
+        description:
+            - Deactivate primary pool for selection when down until it is activated by user via clear poolgroup command.
+            - Field introduced in 20.1.7.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     deployment_policy_ref:
         description:
             - When setup autoscale manager will automatically promote new pools into production when deployment goals are met.
@@ -67,12 +73,6 @@ options:
         description:
             - Description of pool group.
         type: str
-    disable_primary_pool_on_down:
-        description:
-            - Disable primary pool for selection when down until it is enabled by user via clear poolgroup command.
-            - Field introduced in 20.1.7.
-            - Default value when not specified in API or module is interpreted by Avi Controller as False.
-        type: bool
     enable_http2:
         description:
             - Enable http/2 for traffic from virtualservice to all the backend servers in all the pools configured under this poolgroup.
@@ -192,9 +192,9 @@ def main():
         cloud_config_cksum=dict(type='str',),
         cloud_ref=dict(type='str',),
         created_by=dict(type='str',),
+        deactivate_primary_pool_on_down=dict(type='bool',),
         deployment_policy_ref=dict(type='str',),
         description=dict(type='str',),
-        disable_primary_pool_on_down=dict(type='bool',),
         enable_http2=dict(type='bool',),
         fail_action=dict(type='dict',),
         implicit_priority_labels=dict(type='bool',),
