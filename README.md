@@ -1,6 +1,5 @@
 # avinetworks.avisdk
 
-[![Build Status](https://travis-ci.org/avinetworks/ansible-role-avisdk.svg?branch=master)](https://travis-ci.org/avinetworks/ansible-role-avisdk)
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-avinetworks.avisdk-blue.svg)](https://galaxy.ansible.com/avinetworks/avisdk/)
 
 
