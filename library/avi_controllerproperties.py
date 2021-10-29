@@ -383,9 +383,9 @@ options:
         description:
             - This setting decides whether se is to be deployed from the cloud marketplace or to be created by the controller.
             - The setting is applicable only when byol license is selected.
-            - Enum options - MARKETPLACE, IMAGE.
+            - Enum options - MARKETPLACE, IMAGE_SE.
             - Field introduced in 18.1.4, 18.2.1.
-            - Default value when not specified in API or module is interpreted by Avi Controller as IMAGE.
+            - Default value when not specified in API or module is interpreted by Avi Controller as IMAGE_SE.
         version_added: "2.9"
         type: str
     se_offline_del:
