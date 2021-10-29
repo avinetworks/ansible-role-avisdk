@@ -425,6 +425,11 @@ options:
             - Field introduced in 17.1.1.
         version_added: "2.4"
         type: list
+    oauth_vs_config:
+        description:
+            - Virtualservice specific oauth config.
+            - Field introduced in 21.1.3.
+        type: dict
     performance_limits:
         description:
             - Optional settings that determine performance limits like max connections or bandwdith etc.
@@ -836,6 +841,7 @@ def main():
         network_ref=dict(type='str',),
         network_security_policy_ref=dict(type='str',),
         nsx_securitygroup=dict(type='list',),
+        oauth_vs_config=dict(type='dict',),
         performance_limits=dict(type='dict',),
         pool_group_ref=dict(type='str',),
         pool_ref=dict(type='str',),
