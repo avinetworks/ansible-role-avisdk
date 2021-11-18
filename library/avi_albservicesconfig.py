@@ -76,6 +76,7 @@ options:
         description:
             - Information about the portal features opted in for controller.
             - Field introduced in 20.1.1.
+            - Allowed in enterprise edition, enterprise edition.
         required: true
         type: dict
     ip_reputation_config:
