@@ -53,39 +53,39 @@ options:
         description:
             - Backupconfiguration information.
             - It is a reference to an object of type backupconfiguration.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     file_name:
         description:
             - The file name of backup.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         required: true
         type: str
     local_file_url:
         description:
             - Url to download the backup file.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     remote_file_url:
         description:
             - Url to download the backup file.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     scheduler_ref:
         description:
             - Scheduler information.
             - It is a reference to an object of type scheduler.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     timestamp:
         description:
             - Unix timestamp of when the backup file is created.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     url:
         description:
@@ -93,7 +93,7 @@ options:
         type: str
     uuid:
         description:
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
 
 

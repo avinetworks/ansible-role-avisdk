@@ -51,24 +51,24 @@ options:
     asset:
         description:
             - Field introduced in 18.2.6.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: dict
     name:
         description:
             - Field introduced in 18.2.6.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         required: true
         type: str
     portal_auth:
         description:
             - Field introduced in 18.2.6.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: dict
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
             - Field introduced in 18.2.6.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     url:
         description:
@@ -77,7 +77,7 @@ options:
     uuid:
         description:
             - Field introduced in 18.2.6.
-            - Allowed in enterprise with any value edition, essentials edition, basic edition, enterprise with cloud services edition.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
 
 
