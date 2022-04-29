@@ -52,19 +52,24 @@ options:
         description:
             - Protobuf versioning for config pbs.
             - Field introduced in 21.1.1.
+            - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
+            - edition.
         type: dict
     name:
         description:
             - A user-friendly name of the snmp trap configuration.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         required: true
         type: str
     tenant_ref:
         description:
             - It is a reference to an object of type tenant.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
     trap_servers:
         description:
             - The ip address or hostname of the snmp trap destination server.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: list
     url:
         description:
@@ -73,6 +78,7 @@ options:
     uuid:
         description:
             - Uuid of the snmp trap profile object.
+            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: str
 
 

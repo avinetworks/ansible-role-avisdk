@@ -52,16 +52,20 @@ options:
         description:
             - Protobuf versioning for config pbs.
             - Field introduced in 21.1.1.
+            - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
+            - edition.
         type: dict
     labels:
         description:
             - List of allowed or suggested labels for the label group.
             - Field introduced in 20.1.5.
+            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
     name:
         description:
             - Name of the label group.
             - Field introduced in 20.1.5.
+            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         required: true
         type: str
     url:
@@ -72,6 +76,7 @@ options:
         description:
             - Uuid of the label group.
             - Field introduced in 20.1.5.
+            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: str
 
 
