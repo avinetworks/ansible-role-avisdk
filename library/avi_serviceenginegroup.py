@@ -64,22 +64,6 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         type: bool
-    additional_config_memory:
-        description:
-            - Indicates the percent of config memory used for config updates.
-            - Allowed values are 0-90.
-            - Field deprecated in 18.1.2.
-            - Field introduced in 18.1.1.
-            - Unit is percent.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
-    advertise_backend_networks:
-        description:
-            - Advertise reach-ability of backend server networks via adc through bgp for default gateway feature.
-            - Field deprecated in 18.2.5.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        type: bool
     aggressive_failure_detection:
         description:
             - Enable aggressive failover configuration for ha.
@@ -565,26 +549,6 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         version_added: "2.9"
         type: bool
-    enable_routing:
-        description:
-            - Enable routing for this serviceenginegroup.
-            - Field deprecated in 18.2.5.
-            - Allowed in enterprise edition with any value, essentials edition(allowed values- false), basic edition(allowed values- false), enterprise with
-            - cloud services edition.
-        type: bool
-    enable_vip_on_all_interfaces:
-        description:
-            - Enable vip on all interfaces of se.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 17.1.1.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        type: bool
-    enable_vmac:
-        description:
-            - Use virtual mac address for interfaces on which floating interface ips are placed.
-            - Field deprecated in 18.2.5.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        type: bool
     ephemeral_portrange_end:
         description:
             - End local ephemeral port number for outbound connections.
@@ -613,24 +577,6 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
         type: int
-    floating_intf_ip:
-        description:
-            - If serviceenginegroup is configured for legacy 1+1 active standby ha mode, floating ip's will be advertised only by the active se in the pair.
-            - Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
-            - Only active se hosting vs tagged with active standby se 1 tag will advertise this floating ip when manual load distribution is enabled.
-            - Field deprecated in 18.2.5.
-            - Maximum of 32 items allowed.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        type: list
-    floating_intf_ip_se_2:
-        description:
-            - If serviceenginegroup is configured for legacy 1+1 active standby ha mode, floating ip's will be advertised only by the active se in the pair.
-            - Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
-            - Only active se hosting vs tagged with active standby se 2 tag will advertise this floating ip when manual load distribution is enabled.
-            - Field deprecated in 18.2.5.
-            - Maximum of 32 items allowed.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: list
     flow_table_new_syn_max_entries:
         description:
             - Maximum number of flow table entries that have not completed tcp three-way handshake yet.
@@ -1176,16 +1122,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 20.
         version_added: "2.9"
         type: int
-    minimum_required_config_memory:
-        description:
-            - Required available config memory to apply any configuration.
-            - Allowed values are 0-90.
-            - Field deprecated in 18.1.2.
-            - Field introduced in 18.1.1.
-            - Unit is percent.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
     n_log_streaming_threads:
         description:
             - Number of threads to use for log streaming.
@@ -1200,66 +1136,6 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         required: true
         type: str
-    nat_flow_tcp_closed_timeout:
-        description:
-            - Idle timeout in seconds for nat tcp flows in closed state.
-            - Allowed values are 1-3600.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.2.5.
-            - Unit is seconds.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
-    nat_flow_tcp_established_timeout:
-        description:
-            - Idle timeout in seconds for nat tcp flows in established state.
-            - Allowed values are 1-3600.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.2.5.
-            - Unit is seconds.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
-    nat_flow_tcp_half_closed_timeout:
-        description:
-            - Idle timeout in seconds for nat tcp flows in half closed state.
-            - Allowed values are 1-3600.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.2.5.
-            - Unit is seconds.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
-    nat_flow_tcp_handshake_timeout:
-        description:
-            - Idle timeout in seconds for nat tcp flows in handshake state.
-            - Allowed values are 1-3600.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.2.5.
-            - Unit is seconds.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
-    nat_flow_udp_noresponse_timeout:
-        description:
-            - Idle timeout in seconds for nat udp flows in noresponse state.
-            - Allowed values are 1-3600.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.2.5.
-            - Unit is seconds.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
-    nat_flow_udp_response_timeout:
-        description:
-            - Idle timeout in seconds for nat udp flows in response state.
-            - Allowed values are 1-3600.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.2.5.
-            - Unit is seconds.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
     netlink_poller_threads:
         description:
             - Number of threads to poll for netlink messages excluding the thread for default namespace.
@@ -1348,11 +1224,6 @@ options:
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 9001.
         type: int
-    openstack_availability_zone:
-        description:
-            - Field deprecated in 17.1.1.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        type: str
     openstack_availability_zones:
         description:
             - Field introduced in 17.1.1.
@@ -1431,13 +1302,6 @@ options:
             - Field introduced in 18.2.5.
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
-        version_added: "2.9"
-        type: bool
-    reboot_on_stop:
-        description:
-            - Reboot the system if the se is stopped.
-            - Field deprecated in 18.2.5.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         version_added: "2.9"
         type: bool
     resync_time_interval:
@@ -1657,16 +1521,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 40.
         version_added: "2.9"
         type: int
-    se_flow_probe_timer:
-        description:
-            - Timeout in milliseconds for flow probe entries.
-            - Allowed values are 10-200.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.1.4, 18.2.1.
-            - Unit is milliseconds.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
     se_group_analytics_policy:
         description:
             - Analytics policy for serviceenginegroup.
@@ -1691,14 +1545,6 @@ options:
             - Field introduced in 20.1.3.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 0.
-        type: int
-    se_ipc_udp_port:
-        description:
-            - Udp port for se_dp ipc in docker bridge mode.
-            - Field deprecated in 20.1.1.
-            - Field introduced in 17.1.2.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.4"
         type: int
     se_kni_burst_factor:
         description:
@@ -1850,30 +1696,12 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as 7.
         version_added: "2.5"
         type: int
-    se_remote_punt_udp_port:
-        description:
-            - Udp port for punted packets in docker bridge mode.
-            - Field deprecated in 20.1.1.
-            - Field introduced in 17.1.2.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.4"
-        type: int
     se_rl_prop:
         description:
             - Rate limiter properties.
             - Field introduced in 20.1.1.
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: dict
-    se_routing:
-        description:
-            - Enable routing via service engine datapath.
-            - When disabled, routing is done by the linux kernel.
-            - Ip routing needs to be enabled in service engine group for se routing to be effective.
-            - Field deprecated in 18.2.5.
-            - Field introduced in 18.2.3.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: bool
     se_rum_sampling_nav_interval:
         description:
             - Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client.
@@ -2397,26 +2225,6 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as False.
         version_added: "2.9"
         type: bool
-    waf_learning_interval:
-        description:
-            - Frequency with which se publishes waf learning.
-            - Allowed values are 1-43200.
-            - Field deprecated in 18.2.3.
-            - Field introduced in 18.1.2.
-            - Unit is min.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
-    waf_learning_memory:
-        description:
-            - Amount of memory reserved on se for waf learning.
-            - This can be atmost 5% of se memory.
-            - Field deprecated in 18.2.3.
-            - Field introduced in 18.1.2.
-            - Unit is mb.
-            - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-        version_added: "2.9"
-        type: int
     waf_mempool:
         description:
             - Enable memory pool for waf.requires se reboot.
@@ -2484,8 +2292,6 @@ def main():
         avi_patch_value=dict(type='str',),
         accelerated_networking=dict(type='bool',),
         active_standby=dict(type='bool',),
-        additional_config_memory=dict(type='int',),
-        advertise_backend_networks=dict(type='bool',),
         aggressive_failure_detection=dict(type='bool',),
         algo=dict(type='str',),
         allow_burst=dict(type='bool',),
@@ -2547,15 +2353,10 @@ def main():
         enable_hsm_priming=dict(type='bool',),
         enable_multi_lb=dict(type='bool',),
         enable_pcap_tx_ring=dict(type='bool',),
-        enable_routing=dict(type='bool',),
-        enable_vip_on_all_interfaces=dict(type='bool',),
-        enable_vmac=dict(type='bool',),
         ephemeral_portrange_end=dict(type='int',),
         ephemeral_portrange_start=dict(type='int',),
         extra_config_multiplier=dict(type='float',),
         extra_shared_config_memory=dict(type='int',),
-        floating_intf_ip=dict(type='list',),
-        floating_intf_ip_se_2=dict(type='list',),
         flow_table_new_syn_max_entries=dict(type='int',),
         free_list_size=dict(type='int',),
         gcp_config=dict(type='dict',),
@@ -2626,15 +2427,8 @@ def main():
         min_scaleout_per_vs=dict(type='int',),
         min_se=dict(type='int',),
         minimum_connection_memory=dict(type='int',),
-        minimum_required_config_memory=dict(type='int',),
         n_log_streaming_threads=dict(type='int',),
         name=dict(type='str', required=True),
-        nat_flow_tcp_closed_timeout=dict(type='int',),
-        nat_flow_tcp_established_timeout=dict(type='int',),
-        nat_flow_tcp_half_closed_timeout=dict(type='int',),
-        nat_flow_tcp_handshake_timeout=dict(type='int',),
-        nat_flow_udp_noresponse_timeout=dict(type='int',),
-        nat_flow_udp_response_timeout=dict(type='int',),
         netlink_poller_threads=dict(type='int',),
         netlink_sock_buf_size=dict(type='int',),
         ngx_free_connection_stack=dict(type='bool',),
@@ -2645,7 +2439,6 @@ def main():
         num_flow_cores_sum_changes_to_ignore=dict(type='int',),
         objsync_config=dict(type='dict',),
         objsync_port=dict(type='int',),
-        openstack_availability_zone=dict(type='str',),
         openstack_availability_zones=dict(type='list',),
         openstack_mgmt_network_name=dict(type='str',),
         openstack_mgmt_network_uuid=dict(type='str',),
@@ -2657,7 +2450,6 @@ def main():
         placement_mode=dict(type='str',),
         realtime_se_metrics=dict(type='dict',),
         reboot_on_panic=dict(type='bool',),
-        reboot_on_stop=dict(type='bool',),
         resync_time_interval=dict(type='int',),
         sdb_flush_interval=dict(type='int',),
         sdb_pipeline_size=dict(type='int',),
@@ -2683,11 +2475,9 @@ def main():
         se_emulated_cores=dict(type='int',),
         se_flow_probe_retries=dict(type='int',),
         se_flow_probe_retry_timer=dict(type='int',),
-        se_flow_probe_timer=dict(type='int',),
         se_group_analytics_policy=dict(type='dict',),
         se_hyperthreaded_mode=dict(type='str',),
         se_ip_encap_ipc=dict(type='int',),
-        se_ipc_udp_port=dict(type='int',),
         se_kni_burst_factor=dict(type='int',),
         se_l3_encap_ipc=dict(type='int',),
         se_log_buffer_app_blocking_dequeue=dict(type='bool',),
@@ -2705,9 +2495,7 @@ def main():
         se_pcap_reinit_frequency=dict(type='int',),
         se_pcap_reinit_threshold=dict(type='int',),
         se_probe_port=dict(type='int',),
-        se_remote_punt_udp_port=dict(type='int',),
         se_rl_prop=dict(type='dict',),
-        se_routing=dict(type='bool',),
         se_rum_sampling_nav_interval=dict(type='int',),
         se_rum_sampling_nav_percent=dict(type='int',),
         se_rum_sampling_res_interval=dict(type='int',),
@@ -2774,8 +2562,6 @@ def main():
         vs_switchover_timeout=dict(type='int',),
         vss_placement=dict(type='dict',),
         vss_placement_enabled=dict(type='bool',),
-        waf_learning_interval=dict(type='int',),
-        waf_learning_memory=dict(type='int',),
         waf_mempool=dict(type='bool',),
         waf_mempool_size=dict(type='int',),
     )
