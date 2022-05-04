@@ -141,15 +141,6 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         type: bool
-    labels:
-        description:
-            - Key value pairs for granular object access control.
-            - Also allows for classification and tagging of similar objects.
-            - Field deprecated in 20.1.5.
-            - Field introduced in 20.1.2.
-            - Maximum of 4 items allowed.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: list
     markers:
         description:
             - List of labels to be used for granular rbac.
@@ -305,7 +296,6 @@ def main():
         health_monitor_scope=dict(type='str',),
         hm_off=dict(type='bool',),
         is_federated=dict(type='bool',),
-        labels=dict(type='list',),
         markers=dict(type='list',),
         min_members=dict(type='int',),
         name=dict(type='str', required=True),
