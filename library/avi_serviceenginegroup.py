@@ -373,7 +373,6 @@ options:
             - Gro is on by default on nics that do not support lro (large receive offload) or do not gain performance boost from lro.
             - Field introduced in 17.2.5, 18.1.1.
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.5"
         type: bool
     disable_se_memory_check:
@@ -618,6 +617,14 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 10.
         version_added: "2.9"
+        type: int
+    grpc_channel_connect_timeout:
+        description:
+            - Timeout in seconds that se waits for a grpc channel to connect to server, before it retries.
+            - Allowed values are 5-45.
+            - Field introduced in 22.1.1.
+            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 15.
         type: int
     ha_mode:
         description:
@@ -1206,8 +1213,7 @@ options:
     num_dispatcher_queues:
         description:
             - Number of queues to each dispatcher.
-            - Allowed values are 2-8.
-            - Special values are 0 - auto-compute, 1 - single-queue.
+            - Allowed values are 1-2.
             - Field introduced in 21.1.3.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
             - Default value when not specified in API or module is interpreted by Avi Controller as 1.
@@ -2379,6 +2385,7 @@ def main():
         free_list_size=dict(type='int',),
         gcp_config=dict(type='dict',),
         gratarp_permanent_periodicity=dict(type='int',),
+        grpc_channel_connect_timeout=dict(type='int',),
         ha_mode=dict(type='str',),
         handle_per_pkt_attack=dict(type='bool',),
         hardwaresecuritymodulegroup_ref=dict(type='str',),
