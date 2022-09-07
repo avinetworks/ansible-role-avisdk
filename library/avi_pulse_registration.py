@@ -5,8 +5,6 @@
 # Copyright 2021 VMware, Inc. All rights reserved. VMware Confidential
 # SPDX-License-Identifier: Apache License 2.0
 
-import time
-from ansible.module_utils.basic import AnsibleModule
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -190,6 +188,10 @@ obj:
     returned: success, changed
     type: dict
 '''
+
+
+import time
+from ansible.module_utils.basic import AnsibleModule
 try:
     from avi.sdk.avi_api import ApiSession, AviCredentials
     from avi.sdk.utils.ansible_utils import (
