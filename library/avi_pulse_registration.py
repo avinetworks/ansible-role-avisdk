@@ -267,10 +267,18 @@ def main():
     use_tls = module.params.get('use_tls', None)
     waf_config = module.params.get('waf_config', None)
     case_config = module.params.get('case_config', None)
-    enable_auto_download_waf_signatures = module.params.get('waf_config')['enable_auto_download_waf_signatures']
-    enable_waf_signatures_notifications = module.params.get('waf_config')['enable_waf_signatures_notifications']
-    enable_auto_case_creation_on_controller_failure = module.params.get('case_config')['enable_auto_case_creation_on_controller_failure']
-    enable_auto_case_creation_on_se_failure = module.params.get('case_config')['enable_auto_case_creation_on_se_failure']
+    if waf_config:
+        enable_auto_download_waf_signatures = module.params.get('waf_config', dict()).get('enable_auto_download_waf_signatures', None)
+        enable_waf_signatures_notifications = module.params.get('waf_config', dict()).get('enable_waf_signatures_notifications', None)
+    else:
+        enable_auto_download_waf_signatures = False
+        enable_waf_signatures_notifications = False
+    if case_config:
+        enable_auto_case_creation_on_controller_failure = module.params.get('case_config', dict()).get('enable_auto_case_creation_on_controller_failure', None)
+        enable_auto_case_creation_on_se_failure = module.params.get('case_config', dict()).get('enable_auto_case_creation_on_se_failure', None)
+    else:
+        enable_auto_case_creation_on_controller_failure = False
+        enable_auto_case_creation_on_se_failure = False
     reg = True
 
     if state == 'present':
