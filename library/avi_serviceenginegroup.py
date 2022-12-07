@@ -1340,6 +1340,16 @@ options:
             - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
+    replay_vrf_routes_interval:
+        description:
+            - Routes in vrf are replayed at the specified interval.
+            - This should be increased if there are large number of routes.
+            - Allowed values are 0-3000.
+            - Field introduced in 22.1.3.
+            - Unit is milliseconds.
+            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as 1000.
+        type: int
     resync_time_interval:
         description:
             - Time interval to re-sync se's time with wall clock time.
@@ -1625,11 +1635,9 @@ options:
         type: bool
     se_lro:
         description:
-            - Enable or disable large receive optimization for vnics.
-            - Requires se reboot.
+            - Enable or disable large receive optimization for vnics.supported on vmxnet3.requires se reboot.
             - Field introduced in 18.2.5.
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
-            - Default value when not specified in API or module is interpreted by Avi Controller as True.
         version_added: "2.9"
         type: bool
     se_mp_ring_retry_count:
@@ -2034,6 +2042,14 @@ options:
         description:
             - Avi controller URL of the object.
         type: str
+    use_dp_util_for_scaleout:
+        description:
+            - If enabled, the datapath cpu utilization is consulted by the auto scale-out logic.
+            - Field introduced in 22.1.3.
+            - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
+            - edition.
+            - Default value when not specified in API or module is interpreted by Avi Controller as False.
+        type: bool
     use_hyperthreaded_cores:
         description:
             - Enables the use of hyper-threaded cores on se.
@@ -2497,6 +2513,7 @@ def main():
         placement_mode=dict(type='str',),
         realtime_se_metrics=dict(type='dict',),
         reboot_on_panic=dict(type='bool',),
+        replay_vrf_routes_interval=dict(type='int',),
         resync_time_interval=dict(type='int',),
         sdb_flush_interval=dict(type='int',),
         sdb_pipeline_size=dict(type='int',),
@@ -2578,6 +2595,7 @@ def main():
         upstream_read_timeout=dict(type='int',),
         upstream_send_timeout=dict(type='int',),
         url=dict(type='str',),
+        use_dp_util_for_scaleout=dict(type='bool',),
         use_hyperthreaded_cores=dict(type='bool',),
         use_legacy_netlink=dict(type='bool',),
         use_objsync=dict(type='bool',),
