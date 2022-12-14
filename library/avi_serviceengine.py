@@ -81,6 +81,7 @@ options:
         description:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: list
+        elements: dict
     enable_state:
         description:
             - Inorder to disable se set this field appropriately.
@@ -187,7 +188,7 @@ def main():
         container_type=dict(type='str',),
         controller_created=dict(type='bool',),
         controller_ip=dict(type='str',),
-        data_vnics=dict(type='list',),
+        data_vnics=dict(type='list', elements='dict',),
         enable_state=dict(type='str',),
         flavor=dict(type='str',),
         host_ref=dict(type='str',),

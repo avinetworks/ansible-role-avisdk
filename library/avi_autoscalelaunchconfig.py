@@ -71,6 +71,7 @@ options:
             - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
             - edition.
         type: list
+        elements: dict
     mesos:
         description:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
@@ -157,7 +158,7 @@ def main():
         configpb_attributes=dict(type='dict',),
         description=dict(type='str',),
         image_id=dict(type='str',),
-        markers=dict(type='list',),
+        markers=dict(type='list', elements='dict',),
         mesos=dict(type='dict',),
         name=dict(type='str', required=True),
         openstack=dict(type='dict',),

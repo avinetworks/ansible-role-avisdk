@@ -97,6 +97,7 @@ options:
             - Maximum of 4 items allowed.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
+        elements: dict
     ip_address:
         description:
             - Ip address in a record.
@@ -104,6 +105,7 @@ options:
             - Maximum of 4 items allowed.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
+        elements: dict
     metadata:
         description:
             - Internal metadata for the dns record.
@@ -117,6 +119,7 @@ options:
             - Maximum of 4 items allowed.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
+        elements: dict
     name:
         description:
             - Dynamicdnsrecord name, needed for a top level uuid protobuf, for display in shell.
@@ -130,6 +133,7 @@ options:
             - Maximum of 13 items allowed.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
+        elements: dict
     num_records_in_response:
         description:
             - Specifies the number of records returned by the dns service.enter 0 to return all records.
@@ -146,6 +150,7 @@ options:
             - Maximum of 4 items allowed.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
+        elements: dict
     tenant_ref:
         description:
             - Tenant_uuid from dns vs's tenant_uuid.
@@ -166,6 +171,7 @@ options:
             - Maximum of 4 items allowed.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
+        elements: dict
     type:
         description:
             - Dns record type.
@@ -248,17 +254,17 @@ def main():
         description=dict(type='str',),
         dns_vs_uuid=dict(type='str',),
         fqdn=dict(type='str',),
-        ip6_address=dict(type='list',),
-        ip_address=dict(type='list',),
+        ip6_address=dict(type='list', elements='dict',),
+        ip_address=dict(type='list', elements='dict',),
         metadata=dict(type='str',),
-        mx_records=dict(type='list',),
+        mx_records=dict(type='list', elements='dict',),
         name=dict(type='str',),
-        ns=dict(type='list',),
+        ns=dict(type='list', elements='dict',),
         num_records_in_response=dict(type='int',),
-        service_locators=dict(type='list',),
+        service_locators=dict(type='list', elements='dict',),
         tenant_ref=dict(type='str',),
         ttl=dict(type='int',),
-        txt_records=dict(type='list',),
+        txt_records=dict(type='list', elements='dict',),
         type=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),

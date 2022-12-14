@@ -76,6 +76,7 @@ options:
             - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
             - edition.
         type: list
+        elements: dict
     name:
         description:
             - The name of the network profile.
@@ -158,7 +159,7 @@ def main():
         configpb_attributes=dict(type='dict',),
         connection_mirror=dict(type='bool',),
         description=dict(type='str',),
-        markers=dict(type='list',),
+        markers=dict(type='list', elements='dict',),
         name=dict(type='str', required=True),
         profile=dict(type='dict', required=True),
         tenant_ref=dict(type='str',),
