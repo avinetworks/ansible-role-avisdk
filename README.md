@@ -1,7 +1,9 @@
-# avinetworks.avisdk
+# DEPRECATED
 
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-avinetworks.avisdk-blue.svg)](https://galaxy.ansible.com/avinetworks/avisdk/)
 
+**⛔️ DEPRECATED: This repo is no longer supported, please consider using** https://github.com/vmware/ansible-collection-alb **instead since**
+ **this role is migrated to ansible collections.**
 
 Using this role, you will be able to use the latest version, and version specific Avi Ansible Modules.
 
