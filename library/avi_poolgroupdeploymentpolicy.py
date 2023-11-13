@@ -80,6 +80,7 @@ options:
             - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
             - edition.
         type: list
+        elements: dict
     name:
         description:
             - The name of the pool group deployment policy.
@@ -90,6 +91,7 @@ options:
         description:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         type: list
+        elements: dict
     scheme:
         description:
             - Deployment scheme.
@@ -187,9 +189,9 @@ def main():
         configpb_attributes=dict(type='dict',),
         description=dict(type='str',),
         evaluation_duration=dict(type='int',),
-        markers=dict(type='list',),
+        markers=dict(type='list', elements='dict',),
         name=dict(type='str', required=True),
-        rules=dict(type='list',),
+        rules=dict(type='list', elements='dict',),
         scheme=dict(type='str',),
         target_test_traffic_ratio=dict(type='int',),
         tenant_ref=dict(type='str',),

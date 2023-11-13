@@ -112,6 +112,7 @@ options:
             - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
             - edition.
         type: list
+        elements: dict
     name:
         description:
             - Name of the http policy set.
@@ -219,7 +220,7 @@ def main():
         http_security_policy=dict(type='dict',),
         ip_reputation_db_ref=dict(type='str',),
         is_internal_policy=dict(type='bool',),
-        markers=dict(type='list',),
+        markers=dict(type='list', elements='dict',),
         name=dict(type='str', required=True),
         tenant_ref=dict(type='str',),
         url=dict(type='str',),

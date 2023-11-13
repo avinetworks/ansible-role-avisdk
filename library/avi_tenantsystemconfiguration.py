@@ -11,11 +11,11 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: avi_webapput
+module: avi_tenantsystemconfiguration
 author: Gaurav Rastogi (@grastogi23) <grastogi@avinetworks.com>
-short_description: Module for setup of WebappUT Avi RESTful Object
+short_description: Module for setup of TenantSystemConfiguration Avi RESTful Object
 description:
-    - This module is used to configure WebappUT object
+    - This module is used to configure TenantSystemConfiguration object
     - more examples at U(https://github.com/avinetworks/devops)
 requirements: [ avisdk ]
 version_added: "2.7"
@@ -51,74 +51,30 @@ options:
     configpb_attributes:
         description:
             - Protobuf versioning for config pbs.
-            - Field introduced in 21.1.5, 22.1.1.
+            - Field introduced in 23.1.1.
             - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
             - edition.
         type: dict
-    mandatory_test:
+    dns_virtualservice_refs:
         description:
-            - Optional message for nested f_mandatory test cases defined at level1.
-            - Field introduced in 21.1.5, 22.1.1.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: dict
-    mandatory_tests:
-        description:
-            - Repeated message for nested f_mandatory test cases-level1.
-            - Field introduced in 21.1.5, 22.1.1.
+            - Dns virtual services hosting fqdn records for applications configured within this tenant.
+            - It is a reference to an object of type virtualservice.
+            - Field introduced in 23.1.1.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
-        elements: dict
+        elements: str
     name:
         description:
-            - Name of the webapput object-level0.
-            - Field introduced in 21.1.5, 22.1.1.
+            - Name of the tenant system configuration object.
+            - Field introduced in 23.1.1.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         required: true
         type: str
-    sensitive_test:
-        description:
-            - Optional message for nested f_sensitive test cases defined at level1.
-            - Field introduced in 22.1.3.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: dict
-    sensitive_tests:
-        description:
-            - Repeated message for nested f_sensitive test cases-level1.
-            - Field introduced in 22.1.3.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: list
-        elements: dict
-    string_length_test:
-        description:
-            - Optional message for nested  max string length test cases.
-            - Field introduced in 21.1.5, 22.1.1.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: dict
-    string_length_tests:
-        description:
-            - Repeated message for nested  max string length test cases.
-            - Field introduced in 21.1.5, 22.1.1.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: list
-        elements: dict
     tenant_ref:
         description:
-            - Tenant of the webapput object-level0.
+            - Unique identifier of the tenant that this object belongs to.
             - It is a reference to an object of type tenant.
-            - Field introduced in 21.1.5, 22.1.1.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: str
-    test_sensitive_string:
-        description:
-            - The string for sensitive (secret) field.
-            - Object-level0.
-            - Field introduced in 22.1.3.
-            - Allowed in enterprise edition with any value, enterprise with cloud services edition.
-        type: str
-    test_string:
-        description:
-            - The maximum string length.
-            - Field introduced in 21.1.5, 22.1.1.
+            - Field introduced in 23.1.1.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: str
     url:
@@ -127,8 +83,8 @@ options:
         type: str
     uuid:
         description:
-            - Uuid of the webapput object-level0.
-            - Field introduced in 21.1.5, 22.1.1.
+            - Tenant system configuration uuid.
+            - Field introduced in 23.1.1.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: str
 
@@ -146,16 +102,16 @@ EXAMPLES = """
       controller: "192.168.15.18"
       api_version: "21.1.1"
 
-- name: Example to create WebappUT object
-  avi_webapput:
+- name: Example to create TenantSystemConfiguration object
+  avi_tenantsystemconfiguration:
     avi_credentials: "{{ avi_credentials }}"
     state: present
-    name: sample_webapput
+    name: sample_tenantsystemconfiguration
 """
 
 RETURN = '''
 obj:
-    description: WebappUT (api/webapput) object
+    description: TenantSystemConfiguration (api/tenantsystemconfiguration) object
     returned: success, changed
     type: dict
 '''
@@ -180,16 +136,9 @@ def main():
         avi_patch_path=dict(type='str',),
         avi_patch_value=dict(type='str',),
         configpb_attributes=dict(type='dict',),
-        mandatory_test=dict(type='dict',),
-        mandatory_tests=dict(type='list', elements='dict',),
+        dns_virtualservice_refs=dict(type='list', elements='str',),
         name=dict(type='str', required=True),
-        sensitive_test=dict(type='dict',),
-        sensitive_tests=dict(type='list', elements='dict',),
-        string_length_test=dict(type='dict',),
-        string_length_tests=dict(type='list', elements='dict',),
         tenant_ref=dict(type='str',),
-        test_sensitive_string=dict(type='str', no_log=True,),
-        test_string=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
     )
@@ -200,8 +149,8 @@ def main():
         return module.fail_json(msg=(
             'Avi python API SDK (avisdk>=17.1) or requests is not installed. '
             'For more details visit https://github.com/vmware/alb-sdk.'))
-    return avi_ansible_api(module, 'webapput',
-                           ['test_sensitive_string'])
+    return avi_ansible_api(module, 'tenantsystemconfiguration',
+                           set())
 
 
 if __name__ == '__main__':

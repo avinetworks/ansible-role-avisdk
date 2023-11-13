@@ -95,6 +95,7 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         required: true
         type: list
+        elements: str
 
 
 extends_documentation_fragment:
@@ -149,7 +150,7 @@ def main():
         tenant_ref=dict(type='str',),
         url=dict(type='str',),
         uuid=dict(type='str',),
-        vcenter_refs=dict(type='list', required=True),
+        vcenter_refs=dict(type='list', elements='str', required=True),
     )
     argument_specs.update(avi_common_argument_spec())
     module = AnsibleModule(

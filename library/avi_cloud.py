@@ -88,6 +88,7 @@ options:
             - Allowed in enterprise edition with any value, essentials, basic, enterprise with cloud services edition.
         version_added: "2.5"
         type: list
+        elements: dict
     dhcp_enabled:
         description:
             - Select the ip address management scheme.
@@ -117,6 +118,7 @@ options:
             - Maximum of 1 items allowed.
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
         type: list
+        elements: dict
     docker_configuration:
         description:
             - Allowed in enterprise edition with any value, enterprise with cloud services edition.
@@ -204,6 +206,7 @@ options:
             - Allowed in enterprise edition with any value, essentials edition with any value, basic edition with any value, enterprise with cloud services
             - edition.
         type: list
+        elements: dict
     metrics_polling_interval:
         description:
             - Cloud metrics collector polling interval in seconds.
@@ -383,11 +386,11 @@ def main():
         azure_configuration=dict(type='dict',),
         cloudstack_configuration=dict(type='dict',),
         configpb_attributes=dict(type='dict',),
-        custom_tags=dict(type='list',),
+        custom_tags=dict(type='list', elements='dict',),
         dhcp_enabled=dict(type='bool',),
         dns_provider_ref=dict(type='str',),
         dns_resolution_on_se=dict(type='bool',),
-        dns_resolvers=dict(type='list',),
+        dns_resolvers=dict(type='list', elements='dict',),
         docker_configuration=dict(type='dict',),
         east_west_dns_provider_ref=dict(type='str',),
         east_west_ipam_provider_ref=dict(type='str',),
@@ -400,7 +403,7 @@ def main():
         license_type=dict(type='str',),
         linuxserver_configuration=dict(type='dict',),
         maintenance_mode=dict(type='bool',),
-        markers=dict(type='list',),
+        markers=dict(type='list', elements='dict',),
         metrics_polling_interval=dict(type='int',),
         mtu=dict(type='int',),
         name=dict(type='str', required=True),
